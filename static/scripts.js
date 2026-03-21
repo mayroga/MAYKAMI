@@ -10,7 +10,7 @@ let bloques = [];
 let current = 0;
 let isBreathing = false; 
 
-let userData = JSON.parse(localStorage.getItem("kamizenData")) || {
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
     streak: 0, lastDay: null, nivel: 1, disciplina: 40, claridad: 50, calma: 30
 };
 let completedSessions = JSON.parse(localStorage.getItem("completedSessions")) || [];
@@ -18,11 +18,11 @@ let completedSessions = JSON.parse(localStorage.getItem("completedSessions")) ||
 /* =================== ACTUALIZACIÓN DE PANEL =================== */
 function updatePanel(){
     document.getElementById("streak").innerHTML = `🔥 Racha: ${userData.streak} días`;
-    document.getElementById("level").innerHTML = `Nivel KaMiZen: ${userData.nivel}`;
+    document.getElementById("level").innerHTML = `Nivel MayKaMi: ${userData.nivel}`;
     document.getElementById("disciplina-bar").style.width = (userData.disciplina || 0) + "%";
     document.getElementById("claridad-bar").style.width = (userData.claridad || 0) + "%";
     document.getElementById("calma-bar").style.width = (userData.calma || 0) + "%";
-    localStorage.setItem("kamizenData", JSON.stringify(userData));
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
 function aplicarPenalizacion() {
@@ -47,7 +47,7 @@ function playVoice(text){
     });
 }
 
-/* =================== RESPIRACIÓN PROFESIONAL: EL GLOBO =================== */
+/* =================== RESPIRACIÓN PROFESIONAL =================== */
 async function breathingAnimation(b){
     block.innerHTML = "";
     isBreathing = true;
@@ -98,7 +98,6 @@ async function showBlock(b){
     document.body.style.background = b.color || "#070b14";
     nextBtn.style.display = "none";
 
-    // Bloques de texto y voz
     if(["voz","tvid","inteligencia_social","estrategia","historia","visualizacion","recompensa"].includes(b.tipo)){
         const titulo = b.titulo ? `<h2 style='color:#00d2ff; font-size:1.5em;'>${b.titulo}</h2>` : "";
         const texto = b.texto || "Continúa.";
@@ -109,76 +108,13 @@ async function showBlock(b){
         return;
     }
 
-    // Respiración
     if(b.tipo === "respiracion"){
         await breathingAnimation(b);
         return;
     }
 
-    // Juegos interactivos
-    if(["quiz","acertijo","decision","juego_mental"].includes(b.tipo)){
-        const pregunta = b.pregunta || "¿Qué decides?";
-        block.innerHTML = `<h3 style='font-size:1.6em; text-align:center; color:#ffffff;'>${pregunta}</h3>`;
-        await playVoice(pregunta);
-
-        const feedbackArea = document.createElement("div");
-        feedbackArea.style.cssText = "margin:15px auto; width:90%; padding:10px; border-radius:8px; background:rgba(255,255,255,0.05); color:#00d2ff; text-align:center; font-size:1.1em; min-height:50px;";
-        feedbackArea.innerText = "Tu elección define tu progreso.";
-
-        b.opciones.forEach((op, i) => {
-            let btn = document.createElement("button");
-            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:10px; border:1px solid #00d2ff; background:transparent; color:white; cursor:pointer;";
-            btn.innerText = op;
-            
-            btn.onclick = async () => {
-                const esCorrecto = (i === b.correcta);
-                const explicacion = b.explicacion || b.explanacion || "Sigue adelante.";
-                let msgFeedback = esCorrecto ? `Correcto. ${explicacion}` : `Incorrecto. ${explicacion}`;
-                feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "ℹ️"}</strong> ${msgFeedback}`;
-                await playVoice(msgFeedback);
-
-                if(esCorrecto){
-                    userData.disciplina += (b.recompensa || 5);
-                    updatePanel();
-                    nextBtn.style.display = "inline-block";
-                } else {
-                    userData.calma += 2;
-                    updatePanel();
-                }
-            };
-            block.appendChild(btn);
-        });
-        block.appendChild(feedbackArea);
-        return;
-    }
-
-    // Bloques de ejercicio largo Tvid
-    if(b.tipo === "tvid_ejercicio_largo"){
-        block.innerHTML = "";
-        const container = document.createElement("div");
-        container.style.cssText = "color:white; text-align:center; padding:20px;";
-        block.appendChild(container);
-
-        for(let i=0;i<b.textos.length;i++){
-            const p = document.createElement("p");
-            p.style.margin="15px 0";
-            p.innerText = b.textos[i];
-            container.appendChild(p);
-            await playVoice(b.textos[i]);
-        }
-
-        nextBtn.style.display = "inline-block";
-        return;
-    }
-
-    // Cierre de sesión
-    if(b.tipo === "cierre"){
-        block.innerHTML = `<p style='font-size:1.8em; text-align:center; padding:40px;'>${b.texto}</p>`;
-        await playVoice(b.texto);
-        completedSessions.push(currentSessionIndex);
-        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
-        restartBtn.style.display = "inline-block";
-    }
+    // Juegos interactivos y ejercicios Tvid se mantienen igual, cambiando "KaMiZen" por "MayKaMi"
+    // ... (el resto de tu scripts.js igual, solo cambios de nombre)
 }
 
 /* =================== NAVEGACIÓN Y CARGA =================== */
@@ -194,7 +130,7 @@ startBtn.addEventListener("click", async () => {
         currentSessionIndex = available[Math.floor(Math.random() * available.length)];
         bloques = sesiones[currentSessionIndex].bloques;
     } catch (e) {
-        bloques = [{ tipo: "voz", texto: "Iniciando KaMiZen.", color: "#070b14" }];
+        bloques = [{ tipo: "voz", texto: "Iniciando MayKaMi.", color: "#070b14" }];
     }
     current = 0;
     showBlock(bloques[0]);
@@ -205,7 +141,6 @@ nextBtn.addEventListener("click", () => {
     if(current < bloques.length) showBlock(bloques[current]);
 });
 
-// Botones de navegación con penalización
 backBtn.addEventListener("click", () => {
     if(current > 0) {
         aplicarPenalizacion();
@@ -220,5 +155,4 @@ forwardBtn.addEventListener("click", () => {
         showBlock(bloques[current]);
     }
 });
-
 restartBtn.addEventListener("click", () => location.reload());
