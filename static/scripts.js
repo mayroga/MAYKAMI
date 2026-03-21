@@ -8,7 +8,7 @@ const block = document.getElementById("block");
 let bloques = [];
 let current = 0;
 let sesiones = [];
-let currentSessionIndex = 0;
+let lastSessionId = 0; // Última sesión leída
 
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
     streak: 0, lastDay: null, nivel: 1, disciplina: 40, claridad: 50, calma: 30
@@ -74,16 +74,17 @@ async function breathingAnimation(b){
     const duracion = b.duracion || 6;
     const esExpansion = (instruccion.toLowerCase().includes("inhala") || instruccion.toLowerCase().includes("mantén"));
     
-    // Forzar que el globo termine el ciclo antes de habilitar siguiente
+    // Transformación del globo azul
     circle.style.transition = `transform ${duracion}s cubic-bezier(0.42, 0, 0.58, 1)`;
     circle.style.transform = esExpansion ? "scale(2.5)" : "scale(0.8)";
 
+    // Temporizador de respiración
     for(let s = duracion; s > 0; s--){
         uiTimer.innerText = `${s}s`;
         await new Promise(r => setTimeout(r, 1000));
     }
 
-    uiLabel.innerText = "Ciclo integrado. Presiona siguiente.";
+    uiLabel.innerText = "Ciclo completado. Presiona siguiente.";
     nextBtn.style.display = "inline-block";
 }
 
@@ -94,7 +95,6 @@ async function showBlock(b){
     nextBtn.style.display = "none";
     restartBtn.style.display = "none";
 
-    // Bloques tipo texto
     if(["voz","tvid","inteligencia_social","estrategia","historia","visualizacion"].includes(b.tipo)){
         const titulo = b.titulo ? `<h2 style='color:#00d2ff; font-size:1.5em;'>${b.titulo}</h2>` : "";
         const texto = b.texto || "Continúa.";
@@ -104,7 +104,6 @@ async function showBlock(b){
         return;
     }
 
-    // Recompensas
     if(b.tipo === "recompensa"){
         userData.disciplina += (b.puntos || 10);
         updatePanel();
@@ -114,13 +113,11 @@ async function showBlock(b){
         return;
     }
 
-    // Respiración
     if(b.tipo === "respiracion"){
         await breathingAnimation(b);
         return;
     }
 
-    // Ejercicios tipo selección
     if(["quiz","acertijo","decision","juego_mental"].includes(b.tipo)){
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
@@ -135,8 +132,8 @@ async function showBlock(b){
             btn.innerText = op;
             btn.style.cssText = "margin:5px; padding:10px 20px; font-size:1.2em;";
             btn.onclick = async () => {
-                // Siempre explicar
-                await playVoice(b.explicacion || "Esta es la opción que elegiste.");
+                // Mostrar explicación aunque sea incorrecta
+                await playVoice(b.explicacion || "Has seleccionado: " + op);
                 if(idx === b.correcta) userData.disciplina += (b.recompensa || 5);
                 updatePanel();
                 nextBtn.style.display = "inline-block";
@@ -149,7 +146,6 @@ async function showBlock(b){
         return;
     }
 
-    // Ejercicios largos
     if(b.tipo === "tvid_ejercicio_largo"){
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
@@ -166,7 +162,6 @@ async function showBlock(b){
         return;
     }
 
-    // Cierre
     if(b.tipo === "cierre"){
         block.innerHTML = `<p style='font-size:1.8em; text-align:center; padding:40px;'>${b.texto}</p>`;
         await playVoice(b.texto);
@@ -179,9 +174,12 @@ async function showBlock(b){
 /* =================== CARGA DE SESIONES =================== */
 async function loadSessions(){
     try {
-        const res = await fetch("/static/tvid_ejercicio.json");
+        const res = await fetch(`/tvid_ejercicio.json?last_id=${lastSessionId}`);
         const data = await res.json();
-        sesiones = data.sesiones.sort((a,b) => a.id - b.id);
+        sesiones = data.sesiones;
+        if(sesiones.length > 0){
+            lastSessionId = sesiones[sesiones.length - 1].id;
+        }
     } catch (e) {
         console.error("Error cargando JSON:", e);
         sesiones = [{id:1, bloques:[{tipo:"voz", texto:"Iniciando MayKaMi."}]}];
@@ -192,28 +190,26 @@ async function loadSessions(){
 startBtn.addEventListener("click", async () => {
     startBtn.style.display = "none";
     await loadSessions();
-    currentSessionIndex = 0;
-    bloques = sesiones[currentSessionIndex].bloques;
     current = 0;
+    bloques = sesiones[0].bloques;
     showBlock(bloques[current]);
 });
 
-// Siguiente bloque
-nextBtn.addEventListener("click", () => {
+nextBtn.addEventListener("click", async () => {
     current++;
     if(current < bloques.length){
         showBlock(bloques[current]);
     } else {
-        // Termina la sesión actual
-        currentSessionIndex++;
-        if(currentSessionIndex >= sesiones.length) currentSessionIndex = 0;
-        bloques = sesiones[currentSessionIndex].bloques;
-        current = 0;
-        showBlock(bloques[current]);
+        // Cargar siguiente sesión
+        await loadSessions();
+        if(sesiones.length > 0){
+            bloques = sesiones[0].bloques;
+            current = 0;
+            showBlock(bloques[current]);
+        }
     }
 });
 
-// Botón atrás con penalización
 backBtn.addEventListener("click", () => {
     if(current > 0){
         aplicarPenalizacion();
