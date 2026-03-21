@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import json
@@ -31,6 +31,16 @@ def cargar_db():
         print(f"Error crítico en JSON: {e}")
         return {"sesiones": []}
 
+def get_next_session(last_id: int = 0):
+    """Devuelve la siguiente sesión después de last_id"""
+    db = cargar_db()
+    sesiones = db.get("sesiones", [])
+    for s in sesiones:
+        if s.get("id", 0) > last_id:
+            return s
+    # Si no quedan sesiones, reinicia desde la primera
+    return sesiones[0] if sesiones else {"id": 0, "bloques": []}
+
 # =================== ENDPOINTS ===================
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -43,10 +53,10 @@ async def home():
         return HTMLResponse(f"<h1>Error de Sistema</h1><p>No se halló session.html</p>")
 
 @app.get("/tvid_ejercicio.json")
-async def get_sessions_json():
-    """Devuelve el contenido de las sesiones en JSON"""
-    db = cargar_db()
-    return JSONResponse(content=db)
+async def get_sessions_json(last_id: int = Query(0, description="Última sesión leída")):
+    """Devuelve la siguiente sesión después de last_id"""
+    session = get_next_session(last_id)
+    return JSONResponse(content={"sesiones": [session]})
 
 @app.get("/health")
 async def health():
