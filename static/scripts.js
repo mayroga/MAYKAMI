@@ -70,15 +70,13 @@ async function breathingAnimation(b){
     container.appendChild(uiTimer);
     block.appendChild(container);
 
-    playVoice(instruccion);
+    await playVoice(instruccion);
 
     const duracion = b.duracion || 6;
     const esExpansion = (instruccion.toLowerCase().includes("inhala") || instruccion.toLowerCase().includes("mantén"));
     
-    setTimeout(() => {
-        circle.style.transition = `transform ${duracion}s cubic-bezier(0.42, 0, 0.58, 1)`;
-        circle.style.transform = esExpansion ? "scale(2.5)" : "scale(0.8)";
-    }, 100);
+    circle.style.transition = `transform ${duracion}s cubic-bezier(0.42, 0, 0.58, 1)`;
+    circle.style.transform = esExpansion ? "scale(2.5)" : "scale(0.8)";
 
     for(let s = duracion; s > 0; s--){
         uiTimer.innerText = `${s}s`;
@@ -94,13 +92,22 @@ async function showBlock(b){
     block.innerHTML = "";
     document.body.style.background = b.color || "#070b14";
     nextBtn.style.display = "none";
+    restartBtn.style.display = "none";
 
-    if(["voz","tvid","inteligencia_social","estrategia","historia","visualizacion","recompensa"].includes(b.tipo)){
+    if(["voz","tvid","inteligencia_social","estrategia","historia","visualizacion"].includes(b.tipo)){
         const titulo = b.titulo ? `<h2 style='color:#00d2ff; font-size:1.5em;'>${b.titulo}</h2>` : "";
         const texto = b.texto || "Continúa.";
         block.innerHTML = `<div style='text-align:center; padding:20px;'>${titulo}<p style='font-size:1.4em; font-weight:300; line-height:1.4;'>${texto}</p></div>`;
-        if(b.tipo === "recompensa") { userData.disciplina += (b.puntos || 10); updatePanel(); }
         await playVoice(texto);
+        nextBtn.style.display = "inline-block";
+        return;
+    }
+
+    if(b.tipo === "recompensa"){
+        userData.disciplina += (b.puntos || 10);
+        updatePanel();
+        block.innerHTML = `<p style='font-size:1.5em; text-align:center; padding:30px;'>${b.texto}</p>`;
+        await playVoice(b.texto);
         nextBtn.style.display = "inline-block";
         return;
     }
@@ -110,11 +117,36 @@ async function showBlock(b){
         return;
     }
 
-    if(["quiz","acertijo","decision","juego_mental","tvid_ejercicio_largo"].includes(b.tipo)){
+    if(["quiz","acertijo","decision","juego_mental"].includes(b.tipo)){
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
-        block.appendChild(container);
+        const pregunta = document.createElement("p");
+        pregunta.style.fontSize = "1.4em";
+        pregunta.style.marginBottom = "20px";
+        pregunta.innerText = b.pregunta;
+        container.appendChild(pregunta);
 
+        b.opciones.forEach((op, idx) => {
+            const btn = document.createElement("button");
+            btn.innerText = op;
+            btn.style.cssText = "margin:5px; padding:10px 20px; font-size:1.2em;";
+            btn.onclick = async () => {
+                if(idx === b.correcta) userData.disciplina += (b.recompensa || 5);
+                updatePanel();
+                await playVoice(b.explicacion || "Continúa.");
+                nextBtn.style.display = "inline-block";
+                Array.from(container.children).forEach(c => c.disabled = true);
+            };
+            container.appendChild(btn);
+        });
+
+        block.appendChild(container);
+        return;
+    }
+
+    if(b.tipo === "tvid_ejercicio_largo"){
+        const container = document.createElement("div");
+        container.style.cssText = "color:white; text-align:center; padding:20px;";
         const textos = b.textos || [b.texto || "Continúa tu entrenamiento MayKaMi."];
         for(let i=0;i<textos.length;i++){
             const p = document.createElement("p");
@@ -123,7 +155,7 @@ async function showBlock(b){
             container.appendChild(p);
             await playVoice(textos[i]);
         }
-
+        block.appendChild(container);
         nextBtn.style.display = "inline-block";
         return;
     }
@@ -133,6 +165,7 @@ async function showBlock(b){
         await playVoice(b.texto);
         nextBtn.style.display = "none";
         restartBtn.style.display = "inline-block";
+        return;
     }
 }
 
@@ -152,12 +185,10 @@ async function loadSessions(){
 startBtn.addEventListener("click", async () => {
     startBtn.style.display = "none";
     await loadSessions();
-
-    // Tomar la primera sesión disponible
     currentSessionIndex = 0;
     bloques = sesiones[currentSessionIndex].bloques;
     current = 0;
-    showBlock(bloques[0]);
+    showBlock(bloques[current]);
 });
 
 nextBtn.addEventListener("click", () => {
@@ -165,12 +196,12 @@ nextBtn.addEventListener("click", () => {
     if(current < bloques.length){
         showBlock(bloques[current]);
     } else {
-        // Termina la sesión actual, pasar a la siguiente
+        // Termina la sesión actual
         currentSessionIndex++;
-        if(currentSessionIndex >= sesiones.length) currentSessionIndex = 0; // Reinicia desde 1 después de la última
+        if(currentSessionIndex >= sesiones.length) currentSessionIndex = 0;
         bloques = sesiones[currentSessionIndex].bloques;
         current = 0;
-        showBlock(bloques[0]);
+        showBlock(bloques[current]);
     }
 });
 
