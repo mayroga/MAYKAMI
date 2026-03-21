@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 import json
+from pathlib import Path
 
 app = FastAPI(title="MayKaMi NeuroGame Engine")
 
@@ -40,10 +40,10 @@ async def home():
         with open(index_path, "r", encoding="utf-8") as f:
             return HTMLResponse(f.read())
     except Exception as e:
-        return HTMLResponse("<h1>Error de Sistema</h1><p>No se halló session.html</p>")
+        return HTMLResponse(f"<h1>Error de Sistema</h1><p>No se halló session.html</p>")
 
-@app.get("/session_content")
-async def session_content():
+@app.get("/tvid_ejercicio.json")
+async def get_sessions_json():
     """Devuelve el contenido de las sesiones en JSON"""
     db = cargar_db()
     return JSONResponse(content=db)
