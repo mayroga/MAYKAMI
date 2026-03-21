@@ -23,14 +23,14 @@
         {"tipo":"visualizacion","texto":"Visualiza cumplir tus objetivos sin rendirte.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Disciplina reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-          "Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Estoy aquí. Estoy vivo. Estoy en este momento. Y eso está bien.",
-          "Lleva tu atención a tu cuerpo. Observa tu respiración. Observa tu corazón. Observa tu mente. Aunque tengas problemas, algo en ti funciona. Algo en ti está bien.",
-          "Piensa en algo que te preocupa. No lo rechaces. Obsérvalo con calma. Pregúntate qué puedes aprender. Incluso en lo difícil puede existir algo bueno.",
-          "Recuerda un momento difícil de tu vida. Algo que dolió. Algo que no querías. Ahora observa lo que aprendiste. Lo que viví también me ayudó. Lo que pasó también me enseñó.",
-          "Mueve lentamente los hombros. Mueve las manos. Mueve el cuello. Tu cuerpo trabaja para ti. Tu cuerpo te mantiene vivo. Mi cuerpo también es bien.",
-          "Observa tus pensamientos. Algunos son buenos. Algunos son malos. Eso es normal. Puedo elegir ver lo bueno. Puedo buscar el bien.",
-          "Piensa en otras personas. Algunas te quieren. Algunas no. Aun así puedes elegir el bien. No controlo todo. Pero puedo elegir cómo reaccionar.",
-          "Respira profundo. Estoy vivo. Estoy aprendiendo. Estoy creciendo. Acepto lo bueno. Aprendo de lo malo. Camino con equilibrio. Camino con bien."
+         "Adopta una posición cómoda. Y mantén la espalda recta sin tensión. Respira lento e inhala por la nariz. Exhala por la boca y dí, Estoy aquí. Estoy vivo. Estoy en este momento. Y eso está bien.",
+    "Lleva tu atención a tu cuerpo. Observa tu respiración. Observa tu corazón. Observa tu mente. Aunque tengas problemas, algo en ti funciona. Algo en ti está bien.",
+    "Piensa en algo que te preocupa. No lo rechaces y obsérvalo con calma. Pregúntate qué puedes aprender porque incluso en lo difícil puede existir algo bueno.",
+    "Ahora, recuerda un momento difícil de tu vida. Algo que dolió. Algo que no querías. Ahora observa lo que aprendiste y dí; Lo que viví también me ayudó. Lo que pasó también me enseñó.",
+    "Mueve lentamente los hombros. Mueve las manos. Mueve el cuello. Tu cuerpo trabaja para ti. Tu cuerpo te mantiene vivo. Mi cuerpo también es bien.",
+    "Observa tus pensamientos. Algunos son buenos. Algunos son malos. Eso es normal. Puedo elegir ver lo bueno. Puedo buscar el bien.",
+    "Piensa en otras personas. Algunas te quieren. Algunas no. Aun así, puedes elegir el bien. Dí, No controlo todo, pero puedo elegir cómo reaccionar.",
+    "Respira profundo. Repite, Estoy vivo. Estoy aprendiendo. Estoy creciendo. Acepto lo bueno. Aprendo de lo malo. Camino con equilibrio. Camino con bien."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La disciplina te hace libre.","color":"#f87171"}
       ]
@@ -60,12 +60,12 @@
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":480,"textos":[
           "Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Hoy vas a observar lo difícil sin escapar.",
           "Piensa en algo que no te gusta. Algo que te molesta. Algo que te duele. No lo niegues. Lo malo también existe. Lo difícil también existe.",
-          "Piensa en un problema que tengas ahora. Puede ser dinero. Puede ser salud. Puede ser familia. Obsérvalo sin huir. Esto me duele, pero puedo soportarlo.",
+          "Piensa en un problema que tengas ahora. Puede ser dinero. Puede ser salud. Puede ser familia. Obsérvalo sin huir.di ahora, Esto me duele, pero puedo soportarlo.",
           "Mira dentro de ti. Todos tenemos errores. Todos tenemos miedo. A veces me equivoco. A veces pienso mal. Y sigo siendo humano.",
           "Recuerda algo malo que viviste. Algo que dolió. Ahora piensa qué aprendiste. Lo malo también enseña. Lo malo también forma.",
-          "Piensa en alguien que te hizo daño. No lo justifiques. Solo obsérvalo. No todo el mundo es bueno. Y aun así puedo seguir adelante.",
-          "Respira lento. Imagina que lo difícil se convierte en fuerza. Lo que me cuesta me entrena. Lo que me molesta me despierta.",
-          "Respira profundo. En la vida hay bien y hay mal. Ambos existen. Ambos enseñan. No huyo. No me rindo. Aprendo. Resisto. Avanzo."
+          "Piensa en alguien que te hizo daño. No lo justifiques. Solo obsérvalo. No todo el mundo es bueno. Y aun así puedes seguir adelante.",
+          "Respira lento. Imagina que lo difícil se convierte en fuerza.Repite,Lo que me cuesta me entrena. Lo que me molesta me despierta.",
+          "Respira profundo. En la vida hay bien y hay mal. Ambos existen. Ambos enseñan. No huyas. No te rindas. Aprende. Resiste. Avanza."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
       ]
@@ -95,12 +95,12 @@
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":480,"textos":[
           "Adopta una posición cómoda. Respira lento. Hoy vas a recordar al niño que vive dentro de ti. Dentro de mí hay un niño. Ese niño sigue vivo.",
           "Piensa en cuando eras niño. Cuando podías reír sin pensar. Cuando podías jugar sin miedo. Puedo volver a sentir sencillez. Puedo volver a sentir curiosidad.",
-          "Observa el mundo como si fuera nuevo. Mira tu respiración. Mira tu cuerpo. Los niños preguntan. Los niños aprenden. Quiero descubrir sin miedo.",
+          "Observa el mundo como si fuera nuevo. Mira tu respiración. Mira tu cuerpo. Los niños preguntan. Los niños aprenden. Repite,Quiero descubrir sin miedo.",
           "Imagina un lugar tranquilo. Un lugar seguro. Puede ser real o imaginado. Mi mente puede crear. Mi mente puede imaginar. Mi mente puede soñar.",
-          "Observa lo que sientes ahora. Sin esconder. Sin cambiar. Puedo sentir sin miedo. Puedo ser natural. Puedo ser sincero conmigo.",
+          "Observa lo que sientes ahora. Sin esconder. Sin cambiar. Puedes sentir sin miedo. Puedes ser natural.Repite,Puedo ser sincero conmigo.",
           "Mueve lentamente los hombros. Mueve las manos. Siente tu cuerpo. Tengo energía. Tengo vida. Tengo movimiento.",
-          "Recuerda cuando intentabas algo sin saber. Te caías y volvías a intentar. Puedo empezar otra vez. Puedo aprender otra vez.",
-          "Respira profundo. Dentro de mí vive un niño. Tiene curiosidad. Tiene imaginación. Tiene fuerza. Puedo ser fuerte sin perder alegría."
+          "Recuerda cuando intentabas algo sin saber. Te caías y volvías a intentar. Puedes empezar otra vez. Puedes aprender otra vez.",
+          "Respira profundo. Dentro de tí vive un niño. Tiene curiosidad. Tiene imaginación. Tiene fuerza. Puedes ser fuerte sin perder alegría."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
       ]
@@ -128,14 +128,14 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con valentía y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Tu valor subió.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":480,"textos":[
-          "Adopta una posición firme. Respira lento. Hoy es momento de fuerza. Estoy listo para enfrentar lo que venga.",
-          "Piensa en algo que temes. No huyas. No niegues. Observo el miedo. Lo siento. Y aun así sigo adelante.",
+          "Adopta una posición firme. Respira lento. Hoy es momento de fuerza. Estas listo para enfrentar lo que venga.",
+          "Piensa en algo que temes. No huyas. No niegues. Observa el miedo. Siente. Y aun así sigues adelante.",
           "Recuerda un reto que superaste. Siente la fuerza que tuviste. Esa fuerza está en mí ahora.",
-          "Imagina una situación difícil. Mantengo calma. Mantengo valentía. Puedo actuar con fuerza y decisión.",
-          "Mueve lentamente los hombros. Siente tu corazón. Siente tu fuerza. Estoy vivo. Estoy fuerte.",
-          "Piensa en alguien que te inspira. Su valentía es ejemplo. Puedo ser valiente también.",
-          "Respira profundo. Inhalo fuerza. Exhalo dudas. Mi mente está clara. Mi corazón está firme.",
-          "Respira y siente tu poder. Dentro de mí hay coraje. Dentro de mí hay fuerza. Puedo actuar. Puedo enfrentar. Puedo ganar."
+          "Imagina una situación difícil. Manten calma. Manten valentía. Puedes actuar con fuerza y decisión.",
+          "Mueve lentamente los hombros. Siente tu corazón. Siente tu fuerza. Estas vivo. Estas fuerte.",
+          "Piensa en alguien que te inspira. Su valentía es ejemplo. Puedes ser valiente también.",
+          "Respira profundo. Inhala fuerza. Exhala dudas.Repite, Mi mente está clara. Mi corazón está firme.",
+          "Respira y siente tu poder. Dentro de tí hay coraje. Dentro de tí hay fuerza. Puedes actuar. Puedes enfrentar. Puedes ganar."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La valentía te hace invencible.","color":"#f87171"}
       ]
@@ -164,13 +164,13 @@
         {"tipo":"recompensa","texto":"Empatía aumentada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":480,"textos":[
           "Adopta una posición cómoda. Respira lento. Hoy entreno comprensión y guía.",
-          "Piensa en alguien que necesita ayuda. Observa sin juzgar. Escucha sin interrumpir. Guío con amor.",
+          "Piensa en alguien que necesita ayuda. Observa sin juzgar. Escucha sin interrumpir. Guía con amor.",
           "Recuerda un consejo que te ayudó. Siente cómo te benefició. Puedes dar lo mismo a otros.",
           "Imagina un momento de enseñanza. Paciencia y firmeza combinadas. Enseñar es ayudar a crecer.",
           "Mueve lentamente los hombros. Siente tu corazón. Siente tu capacidad de guiar y amar.",
           "Piensa en alguien que confía en ti. Respóndele con cuidado y atención. Su confianza es valiosa.",
-          "Respira profundo. Inhalo paciencia. Exhalo juicio. Mi mente clara. Mi corazón abierto.",
-          "Respira y siente guía amorosa. Puedo ayudar. Puedo guiar. Puedo amar sin imponer."
+          "Respira profundo. Inhala paciencia. Exhala juicio. Mente clara. Y corazón abierto.",
+          "Respira y siente guía amorosa. Puedes ayudar. Puedes guiar. Puedes amar sin imponer."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La empatía fortalece relaciones.","color":"#f87171"}
       ]
@@ -199,13 +199,13 @@
         {"tipo":"recompensa","texto":"Amor y cercanía aumentados.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":480,"textos":[
           "Adopta posición cómoda. Respira lento. Hoy entreno amor y protección.",
-          "Piensa en alguien que necesita apoyo. Escucha sin juzgar. Acompaña sin imponer. Amo con cuidado.",
-          "Recuerda un acto de cariño recibido. Siente cómo impactó. Puedo dar lo mismo a otros.",
+          "Piensa en alguien que necesita apoyo. Escucha sin juzgar. Acompaña sin imponer. Ama con cuidado.",
+          "Recuerda un acto de cariño recibido. Siente cómo impactó. Puedes dar lo mismo a otros.",
           "Imagina un momento de cuidado. Paciencia y cariño combinados. Ayudar es proteger.",
           "Mueve lentamente los hombros. Siente tu corazón. Siente tu capacidad de cuidar y amar.",
           "Piensa en alguien que confía en ti. Respóndele con amor y atención. Su confianza es valiosa.",
-          "Respira profundo. Inhalo amor. Exhalo miedo. Mi mente clara. Mi corazón abierto.",
-          "Respira y siente amor y protección. Puedo amar. Puedo cuidar. Puedo apoyar sin imponer."
+          "Respira profundo. Inhala amor. Exhala miedo. Mente clara. Y corazón abierto.",
+          "Respira y siente amor y protección. Puedes amar. Puedes cuidar. Puedes apoyar sin imponer."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El amor fortalece la vida.","color":"#f87171"}
       ]
