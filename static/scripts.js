@@ -8,12 +8,12 @@ const block = document.getElementById("block");
 
 let bloques = [];
 let current = 0;
-let isBreathing = false; 
+let sesiones = [];
+let currentSessionIndex = 0;
 
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
     streak: 0, lastDay: null, nivel: 1, disciplina: 40, claridad: 50, calma: 30
 };
-let completedSessions = JSON.parse(localStorage.getItem("completedSessions")) || [];
 
 /* =================== ACTUALIZACIÓN DE PANEL =================== */
 function updatePanel(){
@@ -50,8 +50,6 @@ function playVoice(text){
 /* =================== RESPIRACIÓN PROFESIONAL =================== */
 async function breathingAnimation(b){
     block.innerHTML = "";
-    isBreathing = true;
-    
     const instruccion = b.texto || "Inicia tu ciclo de poder.";
     
     const container = document.createElement("div");
@@ -88,7 +86,6 @@ async function breathingAnimation(b){
     }
 
     uiLabel.innerText = "Ciclo integrado. Presiona siguiente.";
-    isBreathing = false;
     nextBtn.style.display = "inline-block";
 }
 
@@ -104,7 +101,7 @@ async function showBlock(b){
         block.innerHTML = `<div style='text-align:center; padding:20px;'>${titulo}<p style='font-size:1.4em; font-weight:300; line-height:1.4;'>${texto}</p></div>`;
         if(b.tipo === "recompensa") { userData.disciplina += (b.puntos || 10); updatePanel(); }
         await playVoice(texto);
-        setTimeout(() => { nextBtn.style.display = "inline-block"; }, 1500);
+        nextBtn.style.display = "inline-block";
         return;
     }
 
@@ -114,8 +111,6 @@ async function showBlock(b){
     }
 
     if(["quiz","acertijo","decision","juego_mental","tvid_ejercicio_largo"].includes(b.tipo)){
-        // Manejo de ejercicios largos Tvid y quiz interactivo
-        // El contenido se mantiene como antes, solo reemplazo de nombres
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
         block.appendChild(container);
@@ -136,38 +131,51 @@ async function showBlock(b){
     if(b.tipo === "cierre"){
         block.innerHTML = `<p style='font-size:1.8em; text-align:center; padding:40px;'>${b.texto}</p>`;
         await playVoice(b.texto);
-        completedSessions.push(currentSessionIndex);
-        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
+        nextBtn.style.display = "none";
         restartBtn.style.display = "inline-block";
     }
 }
 
-/* =================== NAVEGACIÓN Y CARGA =================== */
-let currentSessionIndex = 0;
-startBtn.addEventListener("click", async () => {
-    startBtn.style.display = "none";
+/* =================== CARGA DE SESIONES =================== */
+async function loadSessions(){
     try {
         const res = await fetch("/static/tvid_ejercicio.json");
         const data = await res.json();
-        const sesiones = data.sesiones;
-        let available = sesiones.map((_,i) => i).filter(i => !completedSessions.includes(i));
-        if(available.length === 0) { completedSessions = []; available = sesiones.map((_,i) => i); }
-        currentSessionIndex = available[Math.floor(Math.random() * available.length)];
-        bloques = sesiones[currentSessionIndex].bloques;
+        sesiones = data.sesiones.sort((a,b) => a.id - b.id); // Ordenar por ID ascendente
     } catch (e) {
-        bloques = [{ tipo: "voz", texto: "Iniciando MayKaMi.", color: "#070b14" }];
+        console.error("Error cargando JSON:", e);
+        sesiones = [{id:1, bloques:[{tipo:"voz", texto:"Iniciando MayKaMi."}]}];
     }
+}
+
+/* =================== NAVEGACIÓN Y CARGA =================== */
+startBtn.addEventListener("click", async () => {
+    startBtn.style.display = "none";
+    await loadSessions();
+
+    // Tomar la primera sesión disponible
+    currentSessionIndex = 0;
+    bloques = sesiones[currentSessionIndex].bloques;
     current = 0;
     showBlock(bloques[0]);
 });
 
 nextBtn.addEventListener("click", () => {
     current++;
-    if(current < bloques.length) showBlock(bloques[current]);
+    if(current < bloques.length){
+        showBlock(bloques[current]);
+    } else {
+        // Termina la sesión actual, pasar a la siguiente
+        currentSessionIndex++;
+        if(currentSessionIndex >= sesiones.length) currentSessionIndex = 0; // Reinicia desde 1 después de la última
+        bloques = sesiones[currentSessionIndex].bloques;
+        current = 0;
+        showBlock(bloques[0]);
+    }
 });
 
 backBtn.addEventListener("click", () => {
-    if(current > 0) {
+    if(current > 0){
         aplicarPenalizacion();
         current--;
         showBlock(bloques[current]);
@@ -175,7 +183,7 @@ backBtn.addEventListener("click", () => {
 });
 
 forwardBtn.addEventListener("click", () => {
-    if(current < bloques.length - 1) {
+    if(current < bloques.length - 1){
         aplicarPenalizacion();
         current++;
         showBlock(bloques[current]);
