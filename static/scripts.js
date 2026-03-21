@@ -3,7 +3,6 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const restartBtn = document.getElementById("restart-btn");
 const backBtn = document.getElementById("back-btn");
-const forwardBtn = document.getElementById("forward-btn");
 const block = document.getElementById("block");
 
 let bloques = [];
@@ -75,6 +74,7 @@ async function breathingAnimation(b){
     const duracion = b.duracion || 6;
     const esExpansion = (instruccion.toLowerCase().includes("inhala") || instruccion.toLowerCase().includes("mantén"));
     
+    // Forzar que el globo termine el ciclo antes de habilitar siguiente
     circle.style.transition = `transform ${duracion}s cubic-bezier(0.42, 0, 0.58, 1)`;
     circle.style.transform = esExpansion ? "scale(2.5)" : "scale(0.8)";
 
@@ -94,6 +94,7 @@ async function showBlock(b){
     nextBtn.style.display = "none";
     restartBtn.style.display = "none";
 
+    // Bloques tipo texto
     if(["voz","tvid","inteligencia_social","estrategia","historia","visualizacion"].includes(b.tipo)){
         const titulo = b.titulo ? `<h2 style='color:#00d2ff; font-size:1.5em;'>${b.titulo}</h2>` : "";
         const texto = b.texto || "Continúa.";
@@ -103,6 +104,7 @@ async function showBlock(b){
         return;
     }
 
+    // Recompensas
     if(b.tipo === "recompensa"){
         userData.disciplina += (b.puntos || 10);
         updatePanel();
@@ -112,11 +114,13 @@ async function showBlock(b){
         return;
     }
 
+    // Respiración
     if(b.tipo === "respiracion"){
         await breathingAnimation(b);
         return;
     }
 
+    // Ejercicios tipo selección
     if(["quiz","acertijo","decision","juego_mental"].includes(b.tipo)){
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
@@ -131,9 +135,10 @@ async function showBlock(b){
             btn.innerText = op;
             btn.style.cssText = "margin:5px; padding:10px 20px; font-size:1.2em;";
             btn.onclick = async () => {
+                // Siempre explicar
+                await playVoice(b.explicacion || "Esta es la opción que elegiste.");
                 if(idx === b.correcta) userData.disciplina += (b.recompensa || 5);
                 updatePanel();
-                await playVoice(b.explicacion || "Continúa.");
                 nextBtn.style.display = "inline-block";
                 Array.from(container.children).forEach(c => c.disabled = true);
             };
@@ -144,6 +149,7 @@ async function showBlock(b){
         return;
     }
 
+    // Ejercicios largos
     if(b.tipo === "tvid_ejercicio_largo"){
         const container = document.createElement("div");
         container.style.cssText = "color:white; text-align:center; padding:20px;";
@@ -160,6 +166,7 @@ async function showBlock(b){
         return;
     }
 
+    // Cierre
     if(b.tipo === "cierre"){
         block.innerHTML = `<p style='font-size:1.8em; text-align:center; padding:40px;'>${b.texto}</p>`;
         await playVoice(b.texto);
@@ -174,7 +181,7 @@ async function loadSessions(){
     try {
         const res = await fetch("/static/tvid_ejercicio.json");
         const data = await res.json();
-        sesiones = data.sesiones.sort((a,b) => a.id - b.id); // Ordenar por ID ascendente
+        sesiones = data.sesiones.sort((a,b) => a.id - b.id);
     } catch (e) {
         console.error("Error cargando JSON:", e);
         sesiones = [{id:1, bloques:[{tipo:"voz", texto:"Iniciando MayKaMi."}]}];
@@ -191,6 +198,7 @@ startBtn.addEventListener("click", async () => {
     showBlock(bloques[current]);
 });
 
+// Siguiente bloque
 nextBtn.addEventListener("click", () => {
     current++;
     if(current < bloques.length){
@@ -205,18 +213,11 @@ nextBtn.addEventListener("click", () => {
     }
 });
 
+// Botón atrás con penalización
 backBtn.addEventListener("click", () => {
     if(current > 0){
         aplicarPenalizacion();
         current--;
-        showBlock(bloques[current]);
-    }
-});
-
-forwardBtn.addEventListener("click", () => {
-    if(current < bloques.length - 1){
-        aplicarPenalizacion();
-        current++;
         showBlock(bloques[current]);
     }
 });
