@@ -1,0 +1,956 @@
+{
+  "sesiones": [
+{
+"id":1,
+"categoria":"disciplina",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás disciplina mental. El que domina su mente domina su vida.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Haz lo correcto aunque nadie te vea. La disciplina nace cuando decides hacerlo bien sin obligación.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las personas confiables hacen lo que prometen. La confianza vale más que el dinero.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Si algo te cuesta, hazlo todos los días. Lo difícil se vuelve fácil con repetición.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un atleta entrenaba cuando nadie lo miraba. Años después todos miraban sus victorias.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué crea disciplina?","opciones":["Motivación","Repetición","Suerte"],"correcta":1,"explicacion":"La repetición crea hábitos.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Cuanto más lo usas, más fuerte se vuelve.","opciones":["Músculo","Dinero","Sueño"],"correcta":0,"explicacion":"El músculo crece con uso.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Debes estudiar o ver el teléfono.","opciones":["Teléfono","Estudiar","Dormir"],"correcta":1,"explanacion":"La disciplina elige lo difícil.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"7×7+3","opciones":["52","49","58"],"correcta":0,"explicacion":"49+3=52","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira concentración y fuerza.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala disciplina, exhala dudas.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala disciplina.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y visualiza tu objetivo.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala distracciones y dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala disciplina y exhala dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes fuerza para mantener la disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece la disciplina.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza cumplir tus objetivos sin rendirte.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Disciplina reforzada.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de la Técnica del Bien",
+"duracion":480,
+"textos":[
+
+"Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Estoy aquí. Estoy vivo. Estoy en este momento. Y eso está bien.",
+
+"Lleva tu atención a tu cuerpo. Observa tu respiración. Observa tu corazón. Observa tu mente. Aunque tengas problemas, algo en ti funciona. Algo en ti está bien.",
+
+"Piensa en algo que te preocupa. No lo rechaces. Obsérvalo con calma. Pregúntate qué puedes aprender. Incluso en lo difícil puede existir algo bueno.",
+
+"Recuerda un momento difícil de tu vida. Algo que dolió. Algo que no querías. Ahora observa lo que aprendiste. Lo que viví también me ayudó. Lo que pasó también me enseñó.",
+
+"Mueve lentamente los hombros. Mueve las manos. Mueve el cuello. Tu cuerpo trabaja para ti. Tu cuerpo te mantiene vivo. Mi cuerpo también es bien.",
+
+"Observa tus pensamientos. Algunos son buenos. Algunos son malos. Eso es normal. Puedo elegir ver lo bueno. Puedo buscar el bien.",
+
+"Piensa en otras personas. Algunas te quieren. Algunas no. Aun así puedes elegir el bien. No controlo todo. Pero puedo elegir cómo reaccionar.",
+
+"Respira profundo. Estoy vivo. Estoy aprendiendo. Estoy creciendo. Acepto lo bueno. Aprendo de lo malo. Camino con equilibrio. Camino con bien."
+
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"La disciplina te hace libre.","color":"#f87171"}
+
+]
+},
+{
+"id":2,
+"categoria":"control",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás control mental.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","texto":"Reconoce el impulso malo y decide no obedecerlo.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"No reaccionar rápido evita problemas.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Cuenta hasta tres antes de responder.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre evitó una pelea solo guardando silencio.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué evita errores?","opciones":["Pensar","Gritar","Correr"],"correcta":0,"explicacion":"Pensar antes de actuar.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Si lo pierdes, pierdes todo.","opciones":["Control","Zapato","Sombrero"],"correcta":0,"explicacion":"Sin control hay problemas.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Te insultan.","opciones":["Responder","Ignorar","Golpear"],"correcta":1,"explanacion":"Ignorar es control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"6×6","opciones":["36","30","42"],"correcta":0,"explicacion":"6×6=36","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira calma y control.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Respiración del Mal","texto":"Inhala calma, exhala impulsos.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala calma.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y observa tus emociones.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala impulsos y tensión.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala calma y exhala impulsos.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes control sobre tus reacciones?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza control mental.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza manejar emociones con calma y claridad.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Control mental aumentado.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDM",
+"titulo":"Ejercicio profundo de la Técnica del Mal",
+"duracion":480,
+"textos":[
+
+"Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Hoy vas a observar lo difícil sin escapar.",
+
+"Piensa en algo que no te gusta. Algo que te molesta. Algo que te duele. No lo niegues. Lo malo también existe. Lo difícil también existe.",
+
+"Piensa en un problema que tengas ahora. Puede ser dinero. Puede ser salud. Puede ser familia. Obsérvalo sin huir. Esto me duele, pero puedo soportarlo.",
+
+"Mira dentro de ti. Todos tenemos errores. Todos tenemos miedo. A veces me equivoco. A veces pienso mal. Y sigo siendo humano.",
+
+"Recuerda algo malo que viviste. Algo que dolió. Ahora piensa qué aprendiste. Lo malo también enseña. Lo malo también forma.",
+
+"Piensa en alguien que te hizo daño. No lo justifiques. Solo obsérvalo. No todo el mundo es bueno. Y aun así puedo seguir adelante.",
+
+"Respira lento. Imagina que lo difícil se convierte en fuerza. Lo que me cuesta me entrena. Lo que me molesta me despierta.",
+
+"Respira profundo. En la vida hay bien y hay mal. Ambos existen. Ambos enseñan. No huyo. No me rindo. Aprendo. Resisto. Avanzo."
+
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
+
+]
+},
+{
+"id":3,
+"categoria":"control",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás control mental.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","texto":"Reconoce el impulso malo y decide no obedecerlo.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"No reaccionar rápido evita problemas.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Cuenta hasta tres antes de responder.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre evitó una pelea solo guardando silencio.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué evita errores?","opciones":["Pensar","Gritar","Correr"],"correcta":0,"explicacion":"Pensar antes de actuar.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Si lo pierdes, pierdes todo.","opciones":["Control","Zapato","Sombrero"],"correcta":0,"explicacion":"Sin control hay problemas.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Te insultan.","opciones":["Responder","Ignorar","Golpear"],"correcta":1,"explanacion":"Ignorar es control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"6×6","opciones":["36","30","42"],"correcta":0,"explicacion":"6×6=36","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira calma y control.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Respiración del Mal","texto":"Inhala calma, exhala impulsos.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala calma.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y observa tus emociones.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala impulsos y tensión.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala calma y exhala impulsos.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes control sobre tus reacciones?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza control mental.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza manejar emociones con calma y claridad.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Control mental aumentado.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDN",
+"titulo":"Ejercicio profundo de la Técnica del Niño",
+"duracion":480,
+"textos":[
+
+"Adopta una posición cómoda. Respira lento. Hoy vas a recordar al niño que vive dentro de ti. Dentro de mí hay un niño. Ese niño sigue vivo.",
+
+"Piensa en cuando eras niño. Cuando podías reír sin pensar. Cuando podías jugar sin miedo. Puedo volver a sentir sencillez. Puedo volver a sentir curiosidad.",
+
+"Observa el mundo como si fuera nuevo. Mira tu respiración. Mira tu cuerpo. Los niños preguntan. Los niños aprenden. Quiero descubrir sin miedo.",
+
+"Imagina un lugar tranquilo. Un lugar seguro. Puede ser real o imaginado. Mi mente puede crear. Mi mente puede imaginar. Mi mente puede soñar.",
+
+"Observa lo que sientes ahora. Sin esconder. Sin cambiar. Puedo sentir sin miedo. Puedo ser natural. Puedo ser sincero conmigo.",
+
+"Mueve lentamente los hombros. Mueve las manos. Siente tu cuerpo. Tengo energía. Tengo vida. Tengo movimiento.",
+
+"Recuerda cuando intentabas algo sin saber. Te caías y volvías a intentar. Puedo empezar otra vez. Puedo aprender otra vez.",
+
+"Respira profundo. Dentro de mí vive un niño. Tiene curiosidad. Tiene imaginación. Tiene fuerza. Puedo ser fuerte sin perder alegría."
+
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
+
+]
+},
+{
+"id":4,
+"categoria":"valor",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás valentía.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"La guerra interior te hace fuerte.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"El valiente dice la verdad.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Haz lo correcto aunque dé miedo.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un joven dijo la verdad y ganó respeto.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué crea respeto?","opciones":["Mentir","Valentía","Miedo"],"correcta":1,"explicacion":"La valentía inspira.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"No pesa pero se siente.","opciones":["Miedo","Piedra","Mesa"],"correcta":0,"explicacion":"El miedo no pesa.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Debes decir verdad.","opciones":["Mentir","Decir","Callar"],"correcta":1,"explanacion":"La verdad fortalece.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"12×3","opciones":["36","30","24"],"correcta":0,"explicacion":"36","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira valentía y fuerza.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala valentía, exhala miedo.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala valentía.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente fuerza interior.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala miedo y dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala valentía y exhala miedo.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes más coraje para enfrentar retos?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece el valor.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza actuar con valentía y seguridad.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Tu valor subió.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDG",
+"titulo":"Ejercicio profundo de la Técnica de la Guerra",
+"duracion":480,
+"textos":[
+
+"Adopta una posición firme. Respira lento. Hoy es momento de fuerza. Estoy listo para enfrentar. Estoy listo para resistir.",
+
+"Piensa en algo que te presiona. Trabajo, dinero, familia, miedo. La presión existe. La lucha existe. Y puedo soportarla.",
+
+"Siente tu cuerpo firme. Dentro de ti hay energía. Tengo fuerza. Tengo resistencia. Tengo voluntad.",
+
+"Piensa en algo que te hace enojar. No grites. No te muevas. Solo respira. Siento la fuerza pero yo decido usarla.",
+
+"Recuerda un momento difícil. Algo que dolía. Y aun así seguiste. He resistido antes. Puedo resistir otra vez.",
+
+"Imagina un problema frente a ti. No huyes. No te escondes. Decides avanzar. No me rindo. No me paralizo.",
+
+"Piensa en algo que te da miedo. El miedo me alerta. El miedo me prepara. El miedo también entrena.",
+
+"Respira profundo. Tengo control. Tengo fuerza. Tengo disciplina. Acepto la guerra de la vida con conciencia y firmeza."
+
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"El valiente vive mejor.","color":"#f87171"}
+
+]
+},
+{
+"id":5,
+"categoria":"mente",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás mente fuerte.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Técnica de la Madre","texto":"Cuida tu mente como una madre cuida a su hijo.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las palabras suaves evitan conflictos.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Habla menos cuando estés molesto.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre evitó perder amigos controlando sus palabras.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué evita problemas?","opciones":["Callar","Gritar","Correr"],"correcta":0,"explicacion":"Callar a tiempo ayuda.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Si lo rompes no se ve.","opciones":["Silencio","Mesa","Vaso"],"correcta":0,"explicacion":"El silencio se rompe.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Estás molesto.","opciones":["Hablar","Esperar","Gritar"],"correcta":1,"explanacion":"Esperar da control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"15−5","opciones":["10","12","8"],"correcta":0,"explanacion":"10","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira calma y claridad mental.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Respiración de la Madre","texto":"Inhala tranquilidad, exhala tensión.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala tranquilidad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente control.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala tensión y estrés.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala tranquilidad y exhala tensión.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes tu mente más clara?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza mente fuerte.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza mantener calma ante problemas.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Mente fuerte.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDMM",
+"titulo":"Ejercicio profundo de la Técnica de la Madre",
+"duracion":480,
+"textos":[
+"Adopta una posición cómoda. Respira lento. Hoy cultivarás ternura y cuidado.",
+"Piensa en alguien que necesita apoyo. Puede ser tú mismo o alguien cercano. Observa cómo te sientes, sin juzgar.",
+"Recuerda un momento donde debiste esperar. La paciencia ayuda a enseñar y guiar.",
+"Imagina dar un consejo o apoyo sin imponer. Solo guía y sugiere con amor.",
+"Piensa en tus emociones como un niño pequeño. Protégelas sin negarlas. Siente seguridad y ternura.",
+"Visualiza dar palabras, pensamientos o energía positiva. Como madre que alimenta y motiva.",
+"Piensa en un conflicto reciente. Observa tus emociones y las de otros. Acepta sin juzgar.",
+"Respira profundo. Inhala ternura, exhala tensión. Dentro de ti vive la madre que cuida, protege y guía."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Controlar la mente es poder.","color":"#f87171"}
+]
+},
+{
+"id":6,
+"categoria":"superacion",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás superación.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDP","titulo":"Técnica del Padre","texto":"Exígete más cada día.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Los que se superan inspiran.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Haz hoy más que ayer.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre mejoró un poco cada día y cambió su vida.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Cómo se mejora?","opciones":["Poco a poco","De golpe","Nunca"],"correcta":0,"explicacion":"Paso a paso.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Sube sin escaleras.","opciones":["Nivel","Mesa","Casa"],"correcta":0,"explicacion":"Nivel sube.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Hoy puedes mejorar.","opciones":["Sí","No","Después"],"correcta":0,"explanacion":"Hoy es el día.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"18÷3","opciones":["6","5","7"],"correcta":0,"explicacion":"6","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira fuerza y motivación.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDP","titulo":"Respiración del Padre","texto":"Inhala motivación, exhala dudas.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala motivación.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente tu progreso.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala dudas y temores.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala motivación y exhala dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes impulso de superarte?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza superación.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza tu mejor versión.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Nivel aumentado.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDP",
+"titulo":"Ejercicio profundo de la Técnica del Padre",
+"duracion":480,
+"textos":[
+"Adopta postura firme. Respira lento. Hoy cultivarás fuerza y guía con amor.",
+"Piensa en decisiones que debes tomar. Siente firmeza sin rigidez.",
+"Piensa en alguien que necesita orientación. Guía sin imponer.",
+"Recuerda un momento donde debiste actuar con disciplina. Respira profundo. Soy firme, justo y consistente.",
+"Visualiza a tu 'niño interior' seguro bajo tu guía. Protégelo y fortalece.",
+"Siente tu energía interna. La fuerza no es agresión, es firmeza con cuidado.",
+"Piensa en alguien que depende de tu guía. Inspira confianza, respeto y seguridad.",
+"Respira profundo. Inhala fuerza, exhala dudas. Dentro de ti vive el padre que guía, protege y fortalece."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Siempre puedes ser mejor.","color":"#f87171"}
+]
+},
+{
+"id":7,
+"categoria":"respeto",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás respeto.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDK","titulo":"Técnica del Beso","texto":"Trata a otros con respeto y recibirás respeto.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"La gente recuerda cómo la haces sentir.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Saluda siempre.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un saludo abrió una oportunidad.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué abre puertas?","opciones":["Respeto","Grito","Pelea"],"correcta":0,"explicacion":"Respeto abre puertas.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se da y vuelve.","opciones":["Respeto","Piedra","Luz"],"correcta":0,"explicacion":"Respeto vuelve.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Alguien te habla.","opciones":["Ignorar","Responder","Irte"],"correcta":1,"explanacion":"Responder muestra respeto.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"5×8","opciones":["40","35","45"],"correcta":0,"explanacion":"40","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira respeto y cordialidad.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDK","titulo":"Respiración del Beso","texto":"Inhala respeto, exhala indiferencia.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala respeto.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente cortesía.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala indiferencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala respeto y exhala indiferencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes respeto hacia otros?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza respeto.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cortesía.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Respeto ganado.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDK",
+"titulo":"Ejercicio profundo de la Técnica del Beso",
+"duracion":480,
+"textos":[
+"Adopta una posición cómoda, espalda recta. Respira lentamente. Hoy cultivarás afecto y conexión positiva.",
+"Cierra los ojos y visualiza a alguien a quien quieras transmitir cariño. Puede ser tu niño interior o alguien cercano.",
+"Siente cómo fluye el afecto dentro de ti hacia esa persona. No juzgues tus emociones, solo obsérvalas.",
+"Imagina un beso simbólico lleno de afecto, luz y energía positiva, sin contacto físico. Siente su impacto emocional.",
+"Expande esa energía de afecto hacia tu entorno. Imagina que tu energía positiva se multiplica y llega a todos.",
+"Visualiza recibiendo un beso simbólico de apoyo y amor. Siente calidez, seguridad y afecto.",
+"Piensa en un momento reciente de tensión y observa cómo este cariño transforma emociones negativas en positivas.",
+"Respira profundo. Inhala amor y afecto, exhala tensión. Dentro de ti vive la capacidad de dar y recibir cariño y protección."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Respeto crea oportunidades.","color":"#f87171"}
+]
+},
+{
+"id":8,
+"categoria":"paciencia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás paciencia.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Técnica de la Madre","texto":"La madre espera el momento correcto.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"La persona paciente toma mejores decisiones.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"No todo debe hacerse rápido.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre esperó el momento correcto y ganó.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué evita errores?","opciones":["Paciencia","Prisa","Miedo"],"correcta":0,"explicacion":"La paciencia permite pensar.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Llega a todos pero nunca corre.","opciones":["Tiempo","Paciencia","Sol"],"correcta":1,"explicacion":"La paciencia espera.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Estás molesto.","opciones":["Responder","Esperar","Gritar"],"correcta":1,"explanacion":"Esperar da control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"14+6","opciones":["20","18","22"],"correcta":0,"explicacion":"20","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira paciencia y calma.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Respiración de la Madre","texto":"Inhala calma, exhala prisa.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala calma.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente paciencia interior.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala prisa e impulsos.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala calma y exhala prisa.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Te sientes más paciente?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza paciencia.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza tu calma ante retos.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Paciencia aumentada.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDMM",
+"titulo":"Ejercicio profundo de la Paciencia",
+"duracion":480,
+"textos":[
+"Siéntate cómodo y respira lento. Hoy entrenarás paciencia profunda.",
+"Cierra los ojos y observa tu respiración. Inhala tranquilidad, exhala prisa.",
+"Visualiza un reto reciente que generó estrés. Mantén la calma mientras lo revives.",
+"Imagina cómo esperas el momento correcto para actuar, sin apresurarte.",
+"Siente cómo cada inhalación te da control y cada exhalación disuelve impulsos.",
+"Piensa en tu niño interior y cómo una madre paciente lo guía con calma.",
+"Visualiza cómo la paciencia transforma situaciones difíciles en oportunidades.",
+"Respira profundamente una última vez. Siente la fuerza que te da la paciencia para actuar con claridad y calma."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"La paciencia vence al impulso.","color":"#f87171"}
+]
+},
+{
+"id":9,
+"categoria":"decision",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás decisiones inteligentes.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDP","titulo":"Técnica del Padre","texto":"Decide como si guiaras a alguien.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las buenas decisiones crean respeto.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Piensa en el futuro antes de decidir.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un joven eligió estudiar y cambió su destino.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué guía una buena decisión?","opciones":["Pensar","Impulso","Rabia"],"correcta":0,"explicacion":"Pensar primero.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Abre caminos.","opciones":["Decisión","Puerta","Mesa"],"correcta":0,"explicacion":"Decidir abre caminos.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Estudiar o distraerte.","opciones":["Estudiar","Teléfono","Dormir"],"correcta":0,"explanacion":"Elegir bien cambia la vida.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"16÷4","opciones":["4","5","6"],"correcta":0,"explanacion":"4","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira antes de decidir.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDP","titulo":"Respiración del Padre","texto":"Inhala claridad, exhala dudas.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala claridad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y visualiza tu decisión.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala claridad y exhala dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes seguridad al decidir?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza tu capacidad de decidir.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Te ves decidiendo bien.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Decisión fuerte.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDP",
+"titulo":"Ejercicio profundo de la Decisión",
+"duracion":480,
+"textos":[
+"Siéntate y respira lentamente. Hoy entrenarás toma de decisiones profunda.",
+"Cierra los ojos y observa tu respiración. Inhala claridad, exhala dudas.",
+"Piensa en una decisión reciente que dudaste en tomar. Revívela sin juzgar.",
+"Visualiza las opciones disponibles y evalúa cada una con calma.",
+"Siente cómo cada inhalación te da enfoque y cada exhalación disuelve incertidumbre.",
+"Imagínate guiando a alguien importante con tu elección, como un padre guía.",
+"Observa cómo tus decisiones afectan a ti y a los demás, con responsabilidad.",
+"Respira profundo una última vez. Siente confianza y claridad para decidir bien."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Tu futuro depende de tus decisiones.","color":"#f87171"}
+]
+},
+{
+"id":10,
+"categoria":"autocontrol",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás autocontrol.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","texto":"Reconoce el impulso y no lo sigas.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"El que se controla gana respeto.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"No respondas de inmediato.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre evitó problemas controlándose.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué demuestra fuerza?","opciones":["Control","Grito","Rabia"],"correcta":0,"explicacion":"Control es fuerza.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se pierde en un segundo.","opciones":["Control","Sombrero","Libro"],"correcta":0,"explanacion":"Perder control trae problemas.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Te provocan.","opciones":["Ignorar","Pelear","Gritar"],"correcta":0,"explanacion":"Ignorar es control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"9×6","opciones":["54","56","60"],"correcta":0,"explanacion":"54","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira antes de reaccionar.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDM","titulo":"Respiración del Mal","texto":"Inhala calma, exhala impulsos.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala calma.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente control interior.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala impulsos.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala calma y exhala impulsos.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes autocontrol?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"Practicar fortalece el autocontrol.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Te ves tranquilo y controlado.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Autocontrol alto.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDM",
+"titulo":"Ejercicio profundo de Autocontrol",
+"duracion":480,
+"textos":[
+"Siéntate y respira lentamente. Hoy entrenarás autocontrol profundo.",
+"Cierra los ojos y observa tu respiración. Inhala calma, exhala impulsos.",
+"Piensa en un momento reciente donde tuviste que controlar tus emociones.",
+"Visualiza cada impulso y observa cómo puedes manejarlo con calma.",
+"Siente cómo cada inhalación te da fuerza y cada exhalación disuelve tensión.",
+"Imagínate actuando con autocontrol en diferentes situaciones.",
+"Observa cómo mantener la calma te da respeto y seguridad.",
+"Respira profundo una última vez. Siente tu poder interior y autocontrol reforzado."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Controlar tu mente te hace fuerte.","color":"#f87171"}
+]
+},
+{
+"id":11,
+"categoria":"aprendizaje",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás aprender rápido.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDN","titulo":"Técnica del Niño","texto":"El que pregunta aprende.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"El que aprende siempre avanza.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Pregunta cuando no entiendas.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un joven preguntaba todo y llegó lejos.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué acelera aprender?","opciones":["Preguntar","Callar","Dormir"],"correcta":0,"explicacion":"Preguntar ayuda.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Cuanto más lo usas más sabes.","opciones":["Cerebro","Zapato","Mesa"],"correcta":0,"explanacion":"El cerebro aprende.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"No entiendes algo.","opciones":["Preguntar","Ignorar","Salir"],"correcta":0,"explanacion":"Preguntar es inteligencia.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"7×8","opciones":["56","54","58"],"correcta":0,"explanacion":"56","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira y enfócate.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDN","titulo":"Respiración del Niño","texto":"Inhala curiosidad, exhala confusión.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala curiosidad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y enfócate.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala confusión.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala curiosidad y exhala confusión.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Te sientes más capaz de aprender?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece el aprendizaje.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Te ves aprendiendo rápido.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Aprendizaje alto.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDN",
+"titulo":"Ejercicio profundo de Aprendizaje",
+"duracion":480,
+"textos":[
+"Siéntate cómodo y respira profundo. Hoy entrenarás aprendizaje intenso.",
+"Cierra los ojos y observa tu respiración. Inhala curiosidad, exhala confusión.",
+"Recuerda algo que no entendiste bien antes y revívelo con calma.",
+"Visualiza haciendo preguntas y recibiendo respuestas claras.",
+"Siente cómo cada inhalación te da claridad y cada exhalación disuelve dudas.",
+"Imagínate explorando un nuevo conocimiento con entusiasmo como un niño.",
+"Observa cómo aprender mejora tus decisiones y fortalece tu mente.",
+"Respira profundo una última vez. Siente tu capacidad de aprender incrementada."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"El que aprende siempre gana.","color":"#f87171"}
+]
+},
+{
+"id":12,
+"categoria":"energia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás energía mental.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"La energía se crea luchando contra la pereza.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"La gente activa inspira.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Muévete aunque no tengas ganas.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre venció la pereza y cambió su vida.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué mata la energía?","opciones":["Pereza","Movimiento","Acción"],"correcta":0,"explicacion":"La pereza quita energía.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se pierde si no lo usas.","opciones":["Energía","Zapato","Libro"],"correcta":0,"explicacion":"La energía se usa.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"No quieres hacer algo.","opciones":["Hacerlo","Dormir","Dejar"],"correcta":0,"explanacion":"Acción crea energía.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"5×9","opciones":["45","40","50"],"correcta":0,"explanacion":"45","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira y activa tu energía.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala fuerza, exhala pereza.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala fuerza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente tu energía crecer.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala pereza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala fuerza y exhala pereza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Listo para actuar?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica aumenta tu energía.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Te ves activo y con energía.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Energía alta.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDG",
+"titulo":"Ejercicio profundo de Energía",
+"duracion":480,
+"textos":[
+"Siéntate o ponte de pie y respira profundo. Hoy entrenarás energía total.",
+"Cierra los ojos y enfoca tu mente en tu fuerza interior.",
+"Inhala energía, exhala pereza lentamente.",
+"Visualiza realizar tus tareas sin resistencia, con motivación.",
+"Imagínate moviéndote y actuando incluso cuando no tengas ganas.",
+"Observa cómo cada inhalación te llena de fuerza y cada exhalación disuelve flojera.",
+"Repite mentalmente: 'Yo tengo energía, yo puedo actuar'.",
+"Respira profundo una última vez y siente tu energía completamente activada."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"La acción crea fuerza.","color":"#f87171"}
+]
+},
+{
+"id":13,
+"categoria":"orden",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás orden.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"El orden crea tranquilidad.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las personas ordenadas inspiran confianza.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Pon cada cosa en su lugar.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre ordenó su vida y mejoró todo.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué da claridad?","opciones":["Orden","Caos","Ruido"],"correcta":0,"explicacion":"Orden aclara.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Todo encaja cuando existe.","opciones":["Orden","Caja","Mesa"],"correcta":0,"explanacion":"El orden organiza.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Tu cuarto está desordenado.","opciones":["Ordenar","Salir","Ignorar"],"correcta":0,"explanacion":"Orden crea control.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"18+2","opciones":["20","21","19"],"correcta":0,"explanacion":"20","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Ahora entrenaremos el orden con la respiración.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Respirar con orden fortalece tu mente.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala lento por la nariz.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente control.","duracion":4,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala despacio por la boca.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Repite y ordena tu mente.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Qué sientes después de respirar?","opciones":["Calma","Control","Nada"],"correcta":1,"explanacion":"Respirar con orden da control.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Imagina tu mente ordenada y tranquila.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Has ganado orden mental.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de Orden",
+"duracion":480,
+"textos":[
+"Siéntate y respira profundo. Hoy entrenarás orden total.",
+"Cierra los ojos y observa tu respiración con calma.",
+"Inhala orden y exhala caos lentamente.",
+"Visualiza tu espacio físico y mental perfectamente organizado.",
+"Imagina realizar tus tareas de manera ordenada y eficiente.",
+"Siente cómo cada inhalación llena tu mente de claridad y cada exhalación disuelve confusión.",
+"Repite mentalmente: 'Yo estoy ordenado, yo pienso con claridad'.",
+"Respira profundo una última vez y siente control y tranquilidad en tu mente."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Orden es poder.","color":"#f87171"}
+]
+},
+{
+"id":14,
+"categoria":"respeto",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás respeto y afecto.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDK","titulo":"Técnica del Beso","texto":"Trata a otros con respeto y recibirás respeto.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"La gente recuerda cómo la haces sentir.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Saluda siempre con cordialidad.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un saludo amable abrió una gran oportunidad.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué genera respeto?","opciones":["Gritar","Respeto","Ignorar"],"correcta":1,"explicacion":"El respeto inspira reciprocidad.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se da y vuelve.","opciones":["Respeto","Piedra","Luz"],"correcta":0,"explicacion":"El respeto vuelve cuando se da.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Alguien te habla.","opciones":["Ignorar","Responder con respeto","Gritar"],"correcta":1,"explanacion":"Responder con respeto refuerza relaciones.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"6×7","opciones":["42","36","48"],"correcta":0,"explanacion":"42","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira respeto y cordialidad.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDK","titulo":"Respiración del Beso","texto":"Inhala respeto, exhala indiferencia.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala respeto.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente cortesía.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala indiferencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala respeto y exhala indiferencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes respeto hacia otros?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"Practicar refuerza respeto y afecto.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cariño en todas tus interacciones.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Respeto y afecto aumentados.","puntos":20,"color":"#10b981"},
+
+{"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDK",
+"titulo":"Ejercicio completo de la Técnica del Beso",
+"duracion":480,
+"textos":[
+"Siéntate o ponte cómodo y cierra los ojos. Hoy entrenarás respeto y afecto profundo.",
+"Coloca tus manos sobre tu pecho y siente tu respiración.",
+"Inhala respeto y cariño durante 6 segundos, mantén el aire 5 segundos y exhala indiferencia o tensión durante 6 segundos.",
+"Visualiza a alguien a quien quieras enviar respeto y afecto, como un 'beso simbólico de respeto'.",
+"Siente cómo esta energía positiva fluye desde tu pecho hacia esa persona.",
+"Repite mentalmente: 'Mando respeto y cariño, recibo respeto y cariño'.",
+"Respira profundo, imaginando cómo cada inhalación llena tu corazón de afecto y cada exhalación disuelve frialdad o tensión.",
+"Mantén esta sensación durante toda la respiración final y abre lentamente los ojos sintiendo respeto y conexión positiva."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Respeto y afecto crean conexiones fuertes.","color":"#f87171"}
+]
+},
+{
+"id":15,
+"categoria":"confianza",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás confianza en ti mismo.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Confía en tus decisiones y en tu capacidad de aprender de los errores.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las personas seguras inspiran respeto y tranquilidad.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Haz pequeñas acciones confiadas cada día. La práctica genera seguridad.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un joven dudaba de sí mismo, pero cada paso pequeño le dio confianza y éxito.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué fortalece la confianza?","opciones":["Duda","Acción","Miedo"],"correcta":1,"explicacion":"Actuar con conciencia fortalece la confianza.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Crece cuando te enfrentas a tus miedos.","opciones":["Confianza","Sombrero","Zapato"],"correcta":0,"explicacion":"La confianza se desarrolla con práctica.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Te asignan una tarea difícil.","opciones":["Evitar","Intentar","Quejarte"],"correcta":1,"explanacion":"Intentar aumenta tu confianza.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"8×8","opciones":["64","60","66"],"correcta":0,"explicacion":"8×8=64","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira seguridad y firmeza.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala seguridad, exhala dudas.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala seguridad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente firmeza interna.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala dudas y miedo.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala seguridad y exhala dudas.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes seguridad en ti mismo?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza confianza.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza actuar con seguridad y claridad en tus decisiones.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Confianza fortalecida.","puntos":20,"color":"#10b981"},
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de la Técnica del Bien",
+"duracion":480,
+"textos":[
+"Siéntate derecho y respira profundamente. Hoy entrenarás tu confianza interna.",
+"Observa tu cuerpo y siente que estás presente aquí y ahora.",
+"Recuerda un momento donde dudaste pero actuaste. Siente la fuerza que surgió al intentarlo.",
+"Inhala seguridad, exhala miedo lentamente.",
+"Visualiza un desafío futuro y cómo lo enfrentas con calma y determinación.",
+"Repite mentalmente: 'Puedo confiar en mí. Puedo aprender de todo.'",
+"Siente cómo tu pecho se expande con seguridad y cómo cada exhalación libera inseguridad.",
+"Respira profundo una última vez y abre los ojos sintiéndote seguro y capaz."
+],
+"color":"#06b6d4"
+},
+{"tipo":"cierre","texto":"La confianza comienza contigo.","color":"#f87171"}
+]
+},
+{
+"id":16,
+"categoria":"paciencia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás paciencia mental.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"La paciencia permite pensar antes de actuar y tomar mejores decisiones.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las personas pacientes generan respeto y tranquilidad.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Respira antes de reaccionar. Haz un paso a la vez.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre esperó años para obtener lo que quería y finalmente lo logró sin apresurarse.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué desarrolla la paciencia?","opciones":["Impaciencia","Práctica","Prisa"],"correcta":1,"explicacion":"La práctica constante desarrolla paciencia.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se gana lentamente y se pierde rápido.","opciones":["Paciencia","Reloj","Dinero"],"correcta":0,"explicacion":"La paciencia se construye poco a poco.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Debes esperar tu turno.","opciones":["Quejarte","Esperar","Interrumpir"],"correcta":1,"explanacion":"Esperar fortalece la paciencia.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"9×5","opciones":["45","40","50"],"correcta":0,"explanacion":"9×5=45","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira calma y espera.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala paciencia, exhala ansiedad.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala paciencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente calma interna.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala ansiedad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala paciencia y exhala ansiedad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes paciencia?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"Practicar refuerza la paciencia.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza enfrentar situaciones difíciles con calma y claridad.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Paciencia fortalecida.","puntos":20,"color":"#10b981"},
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de la Técnica del Bien",
+"duracion":480,
+"textos":[
+"Siéntate y coloca las manos sobre las piernas. Respira profundo y siente tu cuerpo.",
+"Observa tu respiración. No la cambies, solo obsérvala.",
+"Piensa en algo que normalmente te irrita. Obsérvalo sin reaccionar.",
+"Inhala paciencia y exhala ansiedad lentamente.",
+"Visualiza cómo enfrentas esa situación con calma y claridad.",
+"Repite mentalmente: 'Puedo esperar. Puedo actuar con calma.'",
+"Siente cómo tu cuerpo se relaja y cómo tu mente se organiza.",
+"Respira profundo una última vez y abre los ojos sintiendo paciencia y control interno."
+],
+"color":"#06b6d4"
+},
+{"tipo":"cierre","texto":"La paciencia da claridad y fuerza.","color":"#f87171"}
+]
+},
+{
+"id":17,
+"categoria":"energia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás energía vital.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Actúa con energía, incluso cuando no tengas ganas. La acción genera fuerza.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Las personas activas inspiran a otros.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Muévete cada día, aunque sea poco. La constancia crea impulso.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre venció la pereza diaria y transformó su vida con acción constante.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué genera energía?","opciones":["Acción","Inactividad","Descanso"],"correcta":0,"explicacion":"La acción activa la energía.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se pierde si no lo usas.","opciones":["Energía","Tiempo","Dinero"],"correcta":0,"explicacion":"La energía se mantiene con acción.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"No quieres levantarte.","opciones":["Quedarte","Levantarte","Ignorar"],"correcta":1,"explanacion":"Actuar genera energía.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"10×5","opciones":["50","45","55"],"correcta":0,"explanacion":"10×5=50","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira fuerza y vitalidad.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala fuerza, exhala pereza.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala fuerza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente tu energía crecer.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala pereza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala fuerza y exhala pereza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Listo para actuar?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza energía y acción.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza tu cuerpo activo y con energía positiva.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Energía vital reforzada.","puntos":20,"color":"#10b981"},
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDG",
+"titulo":"Ejercicio profundo de la Técnica de la Guerra",
+"duracion":480,
+"textos":[
+"Siéntate o párate con la espalda recta y respira profundo.",
+"Observa tu cuerpo. Siente que está vivo. Siente la energía fluyendo.",
+"Piensa en algo que te da flojera. Obsérvalo, luego decide moverte de todos modos.",
+"Inhala fuerza y exhala pereza lentamente.",
+"Visualiza cómo tu cuerpo y mente se llenan de vitalidad con cada respiración.",
+"Repite mentalmente: 'Mi energía crece con acción. Puedo actuar con fuerza.'",
+"Siente cómo cada músculo y cada pensamiento se activa.",
+"Respira profundo una última vez y abre los ojos sintiendo energía y determinación."
+],
+"color":"#06b6d4"
+},
+{"tipo":"cierre","texto":"La acción crea fuerza y vitalidad.","color":"#f87171"}
+]
+},
+{
+"id":18,
+"categoria":"gratitud",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás gratitud.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Agradecer transforma tu día y tu mente.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Agradecer fortalece relaciones.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Cada mañana menciona tres cosas por las que estés agradecido.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre empezó a agradecer cada día y encontró más felicidad.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué mejora al practicar gratitud?","opciones":["Dinero","Felicidad","Fama"],"correcta":1,"explicacion":"La gratitud aumenta la felicidad.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"No se ve pero se siente.","opciones":["Gratitud","Dinero","Llave"],"correcta":0,"explicacion":"La gratitud se siente.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Alguien te ayuda.","opciones":["Ignorar","Agradecer","Quejarse"],"correcta":1,"explanacion":"Agradecer refuerza gratitud.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"8×4","opciones":["32","30","36"],"correcta":0,"explicacion":"8×4=32","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira gratitud y alegría.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala gratitud, exhala negatividad.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala gratitud.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente alegría interior.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala negatividad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala gratitud y exhala negatividad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes más aprecio por tu vida?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza gratitud.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza todo lo que tienes y agradece por ello.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Gratitud aumentada.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de la Técnica del Bien",
+"duracion":480,
+"textos":[
+"Siéntate cómodo. Respira lentamente. Hoy cultivarás gratitud profunda.",
+"Piensa en tu familia, amigos y oportunidades. Observa lo que te da vida y alegría.",
+"Recuerda momentos difíciles y cómo te ayudaron a crecer. Agradece tu aprendizaje.",
+"Siente tu cuerpo y salud. Agradece cada respiración y movimiento que puedes realizar.",
+"Piensa en alguien que te apoyó y no le dijiste gracias. Envía gratitud mentalmente.",
+"Imagina tu día lleno de pequeños detalles por los cuales estar agradecido.",
+"Permítete sentir alegría por lo que ya tienes, sin desear más de lo necesario.",
+"Respira profundo. Inhala gratitud, exhala dudas y preocupaciones. La gratitud vive dentro de ti."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Agradecer te hace libre y feliz.","color":"#f87171"}
+]
+},
+{
+"id":19,
+"categoria":"paciencia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás paciencia.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Técnica de la Madre","texto":"La paciencia es fuerza tranquila.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Escuchar sin interrumpir fortalece relaciones.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Respira antes de actuar.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un hombre esperó su turno y logró lo que quería.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué desarrolla la paciencia?","opciones":["Impaciencia","Éxito","Frustración"],"correcta":1,"explicacion":"La paciencia permite resultados positivos.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Se fortalece con espera.","opciones":["Paciencia","Fuego","Agua"],"correcta":0,"explicacion":"La paciencia crece con espera.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Debes esperar tu turno.","opciones":["Impacientarte","Esperar","Abandonar"],"correcta":1,"explanacion":"Esperar demuestra paciencia.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"9×5","opciones":["45","40","50"],"correcta":0,"explicacion":"9×5=45","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira calma y paciencia.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDMM","titulo":"Respiración de la Madre","texto":"Inhala calma, exhala urgencia.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala calma.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente serenidad.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala urgencia y estrés.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala calma y exhala urgencia.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes más paciencia?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza paciencia.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza esperar con serenidad y obtener buenos resultados.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Paciencia desarrollada.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDMM",
+"titulo":"Ejercicio profundo de la Técnica de la Madre",
+"duracion":480,
+"textos":[
+"Adopta postura cómoda. Respira lento. Hoy cultivarás paciencia.",
+"Piensa en situaciones donde usualmente pierdes la calma. Obsérvalas sin reaccionar.",
+"Visualiza esperar sin frustración. Mantén la serenidad y el control.",
+"Recuerda momentos donde la espera te dio resultados positivos. Agradece esos momentos.",
+"Observa tus emociones y respétalas. La paciencia no es debilidad, es fuerza interna.",
+"Practica imaginar situaciones futuras con calma y aceptación.",
+"Siente tu cuerpo relajado mientras mantienes tu mente alerta y serena.",
+"Respira profundo. Inhala calma, exhala urgencia. La paciencia es tu aliada."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"La paciencia trae resultados duraderos.","color":"#f87171"}
+]
+},
+{
+"id":20,
+"categoria":"optimismo",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás optimismo.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Ver el lado positivo fortalece la mente.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Una sonrisa genera sonrisas.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Busca lo positivo incluso en dificultades.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Una mujer cambió su día solo enfocándose en lo bueno.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué fortalece la mente?","opciones":["Pesimismo","Optimismo","Indiferencia"],"correcta":1,"explicacion":"El optimismo mejora bienestar mental.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Siempre mira el sol.","opciones":["Optimismo","Reloj","Luna"],"correcta":0,"explicacion":"El optimismo se centra en lo positivo.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Algo va mal.","opciones":["Quejarse","Buscar lo bueno","Ignorar"],"correcta":1,"explanacion":"Enfocarse en lo positivo ayuda.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"7+8","opciones":["15","14","16"],"correcta":0,"explicacion":"7+8=15","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira optimismo y energía.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala esperanza, exhala negatividad.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala esperanza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente energía positiva.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala negatividad y miedo.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala esperanza y exhala negatividad.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes más optimismo?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza optimismo.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza situaciones positivas y tu éxito en ellas.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Optimismo fortalecido.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDB",
+"titulo":"Ejercicio profundo de la Técnica del Bien",
+"duracion":480,
+"textos":[
+"Adopta postura cómoda. Respira profundo. Hoy cultivarás optimismo.",
+"Recuerda momentos difíciles y cómo algo bueno surgió de ellos.",
+"Piensa en lo que te hace feliz ahora. Siente gratitud y alegría.",
+"Visualiza tu futuro con oportunidades y resultados positivos.",
+"Observa tus pensamientos y elige enfocarte en lo bueno.",
+"Envía energía positiva a ti mismo y a otros a tu alrededor.",
+"Cada dificultad es una lección. Aprende y sonríe.",
+"Respira profundo. Inhala esperanza, exhala negatividad. El optimismo vive dentro de ti."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"El optimista crea su propia luz.","color":"#f87171"}
+]
+},
+{
+"id":21,
+"categoria":"resiliencia",
+"bloques":[
+{"tipo":"voz","texto":"Hoy entrenarás resiliencia.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Lo difícil te hace más fuerte.","color":"#06b6d4"},
+{"tipo":"inteligencia_social","texto":"Aceptar desafíos fortalece relaciones y confianza.","color":"#0ea5e9"},
+{"tipo":"estrategia","texto":"Transforma problemas en oportunidades de aprendizaje.","color":"#14b8a6"},
+{"tipo":"historia","texto":"Un joven perdió todo pero reconstruyó su vida con paciencia y esfuerzo.","color":"#34d399"},
+{"tipo":"quiz","pregunta":"¿Qué aumenta la resiliencia?","opciones":["Quejarse","Superar dificultades","Evitar retos"],"correcta":1,"explicacion":"Enfrentar y superar fortalece.","recompensa":10,"color":"#facc15"},
+{"tipo":"acertijo","pregunta":"Más lo empujas, más crece.","opciones":["Resiliencia","Silla","Río"],"correcta":0,"explicacion":"La resiliencia crece con desafíos.","recompensa":8,"color":"#f59e0b"},
+{"tipo":"decision","pregunta":"Fracaso reciente.","opciones":["Rendirse","Intentar de nuevo","Ignorar"],"correcta":1,"explanacion":"Persistir fortalece resiliencia.","recompensa":12,"color":"#22c55e"},
+{"tipo":"juego_mental","pregunta":"14−6","opciones":["8","6","10"],"correcta":0,"explicacion":"14−6=8","recompensa":7,"color":"#38bdf8"},
+{"tipo":"voz","texto":"Respira fuerza y recuperación.","color":"#2563eb"},
+{"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala fuerza, exhala frustración.","color":"#06b6d4"},
+{"tipo":"respiracion","texto":"Inhala fuerza.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Mantén el aire y siente poder interior.","duracion":5,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Exhala frustración y miedo.","duracion":6,"color":"#60a5fa"},
+{"tipo":"respiracion","texto":"Otra vez, inhala fuerza y exhala frustración.","duracion":6,"color":"#60a5fa"},
+{"tipo":"decision","pregunta":"¿Sientes resiliencia?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza resiliencia.","recompensa":10,"color":"#22c55e"},
+{"tipo":"visualizacion","texto":"Visualiza superar desafíos y salir fortalecido.","color":"#a78bfa"},
+{"tipo":"recompensa","texto":"Resiliencia fortalecida.","puntos":20,"color":"#10b981"},
+
+{
+"tipo":"tvid_ejercicio_largo",
+"tecnica":"TDG",
+"titulo":"Ejercicio profundo de la Técnica de la Guerra",
+"duracion":480,
+"textos":[
+"Siéntate firme. Respira profundo. Hoy cultivarás resiliencia.",
+"Piensa en un problema reciente y cómo lo enfrentaste.",
+"Visualiza el desafío y tu respuesta positiva. Siente fuerza interior.",
+"Recuerda momentos donde te levantaste tras caer. Agradece tu resistencia.",
+"Observa emociones negativas y transfórmalas en aprendizaje y energía.",
+"Respira con consciencia. Cada inhalación fortalece, cada exhalación libera.",
+"Visualiza superarte frente a dificultades, paso a paso.",
+"Respira profundo. Inhala fuerza, exhala frustración. La resiliencia vive en ti."
+],
+"color":"#06b6d4"
+},
+
+{"tipo":"cierre","texto":"Lo que no te destruye te hace más fuerte.","color":"#f87171"}
+]
+}    
+]
+}
+
