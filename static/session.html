@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MayKaMi</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:linear-gradient(180deg,#0f172a,#020617);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    transition:background 1s;
+}
+
+/* APP */
+#app{
+    width:95%;
+    max-width:420px;
+    background:#111827;
+    border-radius:25px;
+    padding:25px;
+    box-shadow:
+    0 20px 40px rgba(0,0,0,0.6),
+    0 0 40px rgba(59,130,246,0.1);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* LOGO */
+#logo{
+    font-size:32px;
+    font-weight:600;
+    margin-bottom:4px;
+    letter-spacing:2px;
+    background:linear-gradient(90deg,#60a5fa,#a78bfa);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+#subtitle{
+    font-size:14px;
+    opacity:0.7;
+    margin-bottom:10px;
+}
+
+/* PANEL */
+#mental-panel{
+    width:100%;
+    background:#020617;
+    padding:12px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+.stat{
+    margin:6px 0;
+}
+
+.bar{
+    height:8px;
+    background:#1e293b;
+    border-radius:10px;
+    margin-top:4px;
+}
+
+.bar-fill{
+    height:8px;
+    background:#22c55e;
+    border-radius:10px;
+    width:40%;
+}
+
+/* BLOQUE */
+#block{
+    font-size:24px;
+    line-height:1.7;
+    text-align:center;
+    margin:20px 0;
+    min-height:150px;
+}
+
+/* BOTONES */
+button{
+    padding:16px;
+    margin:6px;
+    font-size:18px;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+    transition:all 0.2s;
+    width:100%;
+    max-width:300px;
+}
+
+button:hover{
+    transform:scale(1.05);
+    background:#3b82f6;
+}
+
+.secondary{
+    background:#374151;
+}
+
+/* RESPIRACION */
+.breath-circle{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    background:radial-gradient(circle,#60a5fa,#2563eb);
+    margin:20px auto;
+    transition:transform 4s ease-in-out;
+}
+
+/* FOOTER */
+#footer{
+    margin-top:10px;
+    font-size:12px;
+    opacity:0.5;
+}
+
+/* RESPONSIVE REAL */
+@media (max-width:480px){
+    body{
+        height:auto;
+        align-items:flex-start;
+        padding:10px;
+    }
+    #app{
+        width:100%;
+        max-width:none;
+        border-radius:0;
+        padding:15px;
+    }
+    #block{
+        font-size:26px;
+    }
+    button{
+        font-size:20px;
+        padding:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+    <div id="logo">MayKaMi</div>
+    <div id="subtitle">Entrenamiento mental diario</div>
+
+    <div id="mental-panel">
+        <div class="stat" id="streak">Racha: 0 días</div>
+        <div class="stat" id="level">Nivel MayKaMi: 1</div>
+        <div class="stat">
+            Disciplina
+            <div class="bar">
+                <div id="disciplina-bar" class="bar-fill"></div>
+            </div>
+        </div>
+        <div class="stat">
+            Claridad
+            <div class="bar">
+                <div id="claridad-bar" class="bar-fill"></div>
+            </div>
+        </div>
+        <div class="stat">
+            Calma
+            <div class="bar">
+                <div id="calma-bar" class="bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="block">
+        Bienvenido a tu sesión MayKaMi
+    </div>
+
+    <!-- BOTONES -->
+    <button id="start-btn">Iniciar sesión</button>
+    <button id="next-btn" style="display:none;">Siguiente</button>
+    <button id="back-btn">⬅ Atrás</button>
+    <button id="forward-btn">➡ Adelantar</button>
+    <button id="restart-btn" class="secondary" style="display:none;">Reiniciar</button>
+
+    <div id="footer">
+        Sesión diaria · 15 minutos 45 segundos
+    </div>
+
+</div>
+
+<script src="/static/scripts.js"></script>
+
+</body>
+</html>
