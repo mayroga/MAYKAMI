@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+gunicorn
+websockets
+wsproto
+stripe
+python-jose
+python-multipart
+requests
+pydantic
+openai
+json5
+pytz
