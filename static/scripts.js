@@ -12,20 +12,62 @@ let lastSessionId =
     parseInt(localStorage.getItem("lastSessionId")) || 0;
 
 
+/* ================= COLORES AUTOMATICOS ================= */
+
+const colors = [
+    "#0f172a",
+    "#020617",
+    "#111827",
+    "#1e293b",
+    "#0b132b",
+    "#020617",
+    "#1a1a2e",
+    "#0a0f1f"
+];
+
+function changeColor() {
+
+    const c =
+        colors[
+            Math.floor(
+                Math.random() * colors.length
+            )
+        ];
+
+    document.body.style.background = c;
+}
+
+
 /* ================= VOZ ================= */
 
-function playVoice(text) {
+function playVoice(text, soft=false) {
+
     return new Promise(resolve => {
+
         speechSynthesis.cancel();
 
-        const msg = new SpeechSynthesisUtterance(text);
+        const msg =
+            new SpeechSynthesisUtterance(text);
+
         msg.lang = "es-ES";
-        msg.rate = 0.85;
+
+        if (soft) {
+
+            msg.rate = 0.75;
+            msg.pitch = 0.9;
+
+        } else {
+
+            msg.rate = 0.9;
+            msg.pitch = 1;
+        }
 
         msg.onend = () => resolve();
 
         speechSynthesis.speak(msg);
+
     });
+
 }
 
 
@@ -34,15 +76,15 @@ function playVoice(text) {
 async function loadSession() {
 
     const res =
-        await fetch(`/tvid_ejercicio.json?last_id=${lastSessionId}`);
+        await fetch(
+            `/tvid_ejercicio.json?last_id=${lastSessionId}`
+        );
 
     const data = await res.json();
 
     sesiones = data.sesiones || [];
 
-    if (sesiones.length === 0) {
-        return;
-    }
+    if (sesiones.length === 0) return;
 
     bloques = sesiones[0].bloques;
 
@@ -59,13 +101,15 @@ async function loadSession() {
 
 /* ================= RESPIRACION ================= */
 
-async function breathing(blockData) {
+async function breathing(b) {
+
+    changeColor();
 
     block.innerHTML = "";
 
-    const texto = blockData.texto || "Respira";
+    const text = b.texto || "Respira";
 
-    const dur = blockData.duracion || 4;
+    const dur = b.duracion || 4;
 
     const circle = document.createElement("div");
 
@@ -74,25 +118,30 @@ async function breathing(blockData) {
     circle.style.borderRadius = "50%";
     circle.style.background = "#00bfff";
     circle.style.margin = "40px auto";
-    circle.style.transition = `transform ${dur}s linear`;
+    circle.style.transition =
+        `transform ${dur}s linear`;
 
     block.appendChild(circle);
 
     const p = document.createElement("p");
-    p.innerText = texto;
+
+    p.innerText = text;
+
     block.appendChild(p);
 
-    await playVoice(texto);
+    await playVoice(text, true);
 
-    // expandir
     circle.style.transform = "scale(2.5)";
 
-    await new Promise(r => setTimeout(r, dur * 1000));
+    await new Promise(
+        r => setTimeout(r, dur * 1000)
+    );
 
-    // contraer
     circle.style.transform = "scale(1)";
 
-    await new Promise(r => setTimeout(r, dur * 1000));
+    await new Promise(
+        r => setTimeout(r, dur * 1000)
+    );
 
     nextBtn.style.display = "inline-block";
 }
@@ -102,9 +151,12 @@ async function breathing(blockData) {
 
 async function quiz(b) {
 
+    changeColor();
+
     block.innerHTML = "";
 
     const q = document.createElement("p");
+
     q.innerText = b.pregunta;
 
     block.appendChild(q);
@@ -113,20 +165,34 @@ async function quiz(b) {
 
     b.opciones.forEach((op, i) => {
 
-        const btn = document.createElement("button");
+        const btn =
+            document.createElement("button");
 
         btn.innerText = op;
 
         btn.onclick = async () => {
 
-            await playVoice(
-                "Elegiste " + op
-            );
+            const correct =
+                i === b.correcta;
+
+            const result =
+                correct
+                ? "CORRECTO"
+                : "INCORRECTO";
+
+            block.innerHTML +=
+                `<h2>${result}</h2>`;
+
+            await playVoice(result);
 
             if (b.explicacion) {
 
+                block.innerHTML +=
+                    `<p>${b.explicacion}</p>`;
+
                 await playVoice(
-                    b.explicacion
+                    b.explicacion,
+                    true
                 );
             }
 
@@ -136,6 +202,7 @@ async function quiz(b) {
 
         block.appendChild(btn);
     });
+
 }
 
 
@@ -143,32 +210,36 @@ async function quiz(b) {
 
 async function tvidLargo(b) {
 
+    changeColor();
+
     block.innerHTML = "";
 
     const textos = b.textos || [];
 
     for (let t of textos) {
 
-        const p = document.createElement("p");
+        const p =
+            document.createElement("p");
 
         p.innerText = t;
 
         block.appendChild(p);
 
-        await playVoice(t);
+        await playVoice(t, true);
     }
 
-    nextBtn.style.display = "inline-block";
+    nextBtn.style.display =
+        "inline-block";
 }
 
 
-/* ================= MOSTRAR BLOQUE ================= */
+/* ================= BLOQUE ================= */
 
 async function showBlock(b) {
 
     nextBtn.style.display = "none";
 
-    block.innerHTML = "";
+    changeColor();
 
     if (b.tipo === "respiracion") {
 
@@ -176,31 +247,38 @@ async function showBlock(b) {
         return;
     }
 
-    if (b.tipo === "quiz"
+    if (
+        b.tipo === "quiz"
         || b.tipo === "acertijo"
-        || b.tipo === "decision") {
+        || b.tipo === "decision"
+    ) {
 
         await quiz(b);
         return;
     }
 
-    if (b.tipo === "tvid_ejercicio_largo") {
+    if (
+        b.tipo ===
+        "tvid_ejercicio_largo"
+    ) {
 
         await tvidLargo(b);
         return;
     }
 
-    // texto normal
+    block.innerHTML = "";
 
-    const p = document.createElement("p");
+    const p =
+        document.createElement("p");
 
     p.innerText = b.texto || "";
 
     block.appendChild(p);
 
-    await playVoice(b.texto || "");
+    await playVoice(b.texto);
 
-    nextBtn.style.display = "inline-block";
+    nextBtn.style.display =
+        "inline-block";
 }
 
 
@@ -224,14 +302,19 @@ nextBtn.onclick = async () => {
 
     if (current < bloques.length) {
 
-        showBlock(bloques[current]);
+        showBlock(
+            bloques[current]
+        );
 
     } else {
 
         await loadSession();
 
-        showBlock(bloques[current]);
+        showBlock(
+            bloques[current]
+        );
     }
+
 };
 
 
@@ -243,16 +326,22 @@ backBtn.onclick = () => {
 
         current--;
 
-        showBlock(bloques[current]);
+        showBlock(
+            bloques[current]
+        );
     }
+
 };
 
 
-/* ================= RESTART ================= */
+/* ================= RESET ================= */
 
 restartBtn.onclick = () => {
 
-    localStorage.removeItem("lastSessionId");
+    localStorage.removeItem(
+        "lastSessionId"
+    );
 
     location.reload();
+
 };
