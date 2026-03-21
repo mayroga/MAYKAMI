@@ -22,36 +22,24 @@
 {"tipo":"decision","pregunta":"¿Sientes fuerza para mantener la disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece la disciplina.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza cumplir tus objetivos sin rendirte.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Disciplina reforzada.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDB",
 "titulo":"Ejercicio profundo de la Técnica del Bien",
 "duracion":480,
 "textos":[
-
 "Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Estoy aquí. Estoy vivo. Estoy en este momento. Y eso está bien.",
-
 "Lleva tu atención a tu cuerpo. Observa tu respiración. Observa tu corazón. Observa tu mente. Aunque tengas problemas, algo en ti funciona. Algo en ti está bien.",
-
 "Piensa en algo que te preocupa. No lo rechaces. Obsérvalo con calma. Pregúntate qué puedes aprender. Incluso en lo difícil puede existir algo bueno.",
-
 "Recuerda un momento difícil de tu vida. Algo que dolió. Algo que no querías. Ahora observa lo que aprendiste. Lo que viví también me ayudó. Lo que pasó también me enseñó.",
-
 "Mueve lentamente los hombros. Mueve las manos. Mueve el cuello. Tu cuerpo trabaja para ti. Tu cuerpo te mantiene vivo. Mi cuerpo también es bien.",
-
 "Observa tus pensamientos. Algunos son buenos. Algunos son malos. Eso es normal. Puedo elegir ver lo bueno. Puedo buscar el bien.",
-
 "Piensa en otras personas. Algunas te quieren. Algunas no. Aun así puedes elegir el bien. No controlo todo. Pero puedo elegir cómo reaccionar.",
-
 "Respira profundo. Estoy vivo. Estoy aprendiendo. Estoy creciendo. Acepto lo bueno. Aprendo de lo malo. Camino con equilibrio. Camino con bien."
-
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"La disciplina te hace libre.","color":"#f87171"}
-
 ]
 },
 {
@@ -76,36 +64,24 @@
 {"tipo":"decision","pregunta":"¿Sientes control sobre tus reacciones?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza control mental.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza manejar emociones con calma y claridad.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Control mental aumentado.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDM",
 "titulo":"Ejercicio profundo de la Técnica del Mal",
 "duracion":480,
 "textos":[
-
 "Adopta una posición cómoda. Mantén la espalda recta sin tensión. Respira lento. Inhala por la nariz. Exhala por la boca. Hoy vas a observar lo difícil sin escapar.",
-
 "Piensa en algo que no te gusta. Algo que te molesta. Algo que te duele. No lo niegues. Lo malo también existe. Lo difícil también existe.",
-
 "Piensa en un problema que tengas ahora. Puede ser dinero. Puede ser salud. Puede ser familia. Obsérvalo sin huir. Esto me duele, pero puedo soportarlo.",
-
 "Mira dentro de ti. Todos tenemos errores. Todos tenemos miedo. A veces me equivoco. A veces pienso mal. Y sigo siendo humano.",
-
 "Recuerda algo malo que viviste. Algo que dolió. Ahora piensa qué aprendiste. Lo malo también enseña. Lo malo también forma.",
-
 "Piensa en alguien que te hizo daño. No lo justifiques. Solo obsérvalo. No todo el mundo es bueno. Y aun así puedo seguir adelante.",
-
 "Respira lento. Imagina que lo difícil se convierte en fuerza. Lo que me cuesta me entrena. Lo que me molesta me despierta.",
-
 "Respira profundo. En la vida hay bien y hay mal. Ambos existen. Ambos enseñan. No huyo. No me rindo. Aprendo. Resisto. Avanzo."
-
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
-
 ]
 },
 {
@@ -130,36 +106,24 @@
 {"tipo":"decision","pregunta":"¿Sientes control sobre tus reacciones?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza control mental.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza manejar emociones con calma y claridad.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Control mental aumentado.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDN",
 "titulo":"Ejercicio profundo de la Técnica del Niño",
 "duracion":480,
 "textos":[
-
 "Adopta una posición cómoda. Respira lento. Hoy vas a recordar al niño que vive dentro de ti. Dentro de mí hay un niño. Ese niño sigue vivo.",
-
 "Piensa en cuando eras niño. Cuando podías reír sin pensar. Cuando podías jugar sin miedo. Puedo volver a sentir sencillez. Puedo volver a sentir curiosidad.",
-
 "Observa el mundo como si fuera nuevo. Mira tu respiración. Mira tu cuerpo. Los niños preguntan. Los niños aprenden. Quiero descubrir sin miedo.",
-
 "Imagina un lugar tranquilo. Un lugar seguro. Puede ser real o imaginado. Mi mente puede crear. Mi mente puede imaginar. Mi mente puede soñar.",
-
 "Observa lo que sientes ahora. Sin esconder. Sin cambiar. Puedo sentir sin miedo. Puedo ser natural. Puedo ser sincero conmigo.",
-
 "Mueve lentamente los hombros. Mueve las manos. Siente tu cuerpo. Tengo energía. Tengo vida. Tengo movimiento.",
-
 "Recuerda cuando intentabas algo sin saber. Te caías y volvías a intentar. Puedo empezar otra vez. Puedo aprender otra vez.",
-
 "Respira profundo. Dentro de mí vive un niño. Tiene curiosidad. Tiene imaginación. Tiene fuerza. Puedo ser fuerte sin perder alegría."
-
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"El fuerte se controla.","color":"#f87171"}
-
 ]
 },
 {
@@ -184,36 +148,24 @@
 {"tipo":"decision","pregunta":"¿Sientes más coraje para enfrentar retos?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece el valor.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza actuar con valentía y seguridad.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Tu valor subió.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDG",
 "titulo":"Ejercicio profundo de la Técnica de la Guerra",
 "duracion":480,
 "textos":[
-
 "Adopta una posición firme. Respira lento. Hoy es momento de fuerza. Estoy listo para enfrentar. Estoy listo para resistir.",
-
 "Piensa en algo que te presiona. Trabajo, dinero, familia, miedo. La presión existe. La lucha existe. Y puedo soportarla.",
-
 "Siente tu cuerpo firme. Dentro de ti hay energía. Tengo fuerza. Tengo resistencia. Tengo voluntad.",
-
 "Piensa en algo que te hace enojar. No grites. No te muevas. Solo respira. Siento la fuerza pero yo decido usarla.",
-
 "Recuerda un momento difícil. Algo que dolía. Y aun así seguiste. He resistido antes. Puedo resistir otra vez.",
-
 "Imagina un problema frente a ti. No huyes. No te escondes. Decides avanzar. No me rindo. No me paralizo.",
-
 "Piensa en algo que te da miedo. El miedo me alerta. El miedo me prepara. El miedo también entrena.",
-
 "Respira profundo. Tengo control. Tengo fuerza. Tengo disciplina. Acepto la guerra de la vida con conciencia y firmeza."
-
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"El valiente vive mejor.","color":"#f87171"}
-
 ]
 },
 {
@@ -238,7 +190,6 @@
 {"tipo":"decision","pregunta":"¿Sientes tu mente más clara?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza mente fuerte.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza mantener calma ante problemas.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Mente fuerte.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDMM",
@@ -256,7 +207,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Controlar la mente es poder.","color":"#f87171"}
 ]
 },
@@ -282,7 +232,6 @@
 {"tipo":"decision","pregunta":"¿Sientes impulso de superarte?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza superación.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza tu mejor versión.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Nivel aumentado.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDP",
@@ -300,7 +249,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Siempre puedes ser mejor.","color":"#f87171"}
 ]
 },
@@ -326,7 +274,6 @@
 {"tipo":"decision","pregunta":"¿Sientes respeto hacia otros?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza respeto.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cortesía.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Respeto ganado.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDK",
@@ -344,7 +291,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Respeto crea oportunidades.","color":"#f87171"}
 ]
 },
@@ -370,7 +316,6 @@
 {"tipo":"decision","pregunta":"¿Te sientes más paciente?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza paciencia.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza tu calma ante retos.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Paciencia aumentada.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDMM",
 "titulo":"Ejercicio profundo de la Paciencia",
@@ -387,7 +332,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"La paciencia vence al impulso.","color":"#f87171"}
 ]
 },
@@ -413,7 +357,6 @@
 {"tipo":"decision","pregunta":"¿Sientes seguridad al decidir?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza tu capacidad de decidir.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Te ves decidiendo bien.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Decisión fuerte.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDP",
 "titulo":"Ejercicio profundo de la Decisión",
@@ -430,7 +373,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Tu futuro depende de tus decisiones.","color":"#f87171"}
 ]
 },
@@ -456,7 +398,6 @@
 {"tipo":"decision","pregunta":"¿Sientes autocontrol?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"Practicar fortalece el autocontrol.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Te ves tranquilo y controlado.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Autocontrol alto.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDM",
 "titulo":"Ejercicio profundo de Autocontrol",
@@ -473,7 +414,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Controlar tu mente te hace fuerte.","color":"#f87171"}
 ]
 },
@@ -499,7 +439,6 @@
 {"tipo":"decision","pregunta":"¿Te sientes más capaz de aprender?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica fortalece el aprendizaje.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Te ves aprendiendo rápido.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Aprendizaje alto.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDN",
 "titulo":"Ejercicio profundo de Aprendizaje",
@@ -516,7 +455,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"El que aprende siempre gana.","color":"#f87171"}
 ]
 },
@@ -542,7 +480,6 @@
 {"tipo":"decision","pregunta":"¿Listo para actuar?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica aumenta tu energía.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Te ves activo y con energía.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Energía alta.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDG",
 "titulo":"Ejercicio profundo de Energía",
@@ -559,7 +496,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"La acción crea fuerza.","color":"#f87171"}
 ]
 },
@@ -585,7 +521,6 @@
 {"tipo":"decision","pregunta":"¿Qué sientes después de respirar?","opciones":["Calma","Control","Nada"],"correcta":1,"explanacion":"Respirar con orden da control.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Imagina tu mente ordenada y tranquila.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Has ganado orden mental.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDB",
 "titulo":"Ejercicio profundo de Orden",
@@ -602,7 +537,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Orden es poder.","color":"#f87171"}
 ]
 },
@@ -628,7 +562,6 @@
 {"tipo":"decision","pregunta":"¿Sientes respeto hacia otros?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"Practicar refuerza respeto y afecto.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cariño en todas tus interacciones.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Respeto y afecto aumentados.","puntos":20,"color":"#10b981"},
-
 {"tipo":"tvid_ejercicio_largo",
 "tecnica":"TDK",
 "titulo":"Ejercicio completo de la Técnica del Beso",
@@ -645,7 +578,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Respeto y afecto crean conexiones fuertes.","color":"#f87171"}
 ]
 },
@@ -797,7 +729,6 @@
 {"tipo":"decision","pregunta":"¿Sientes más aprecio por tu vida?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza gratitud.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza todo lo que tienes y agradece por ello.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Gratitud aumentada.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDB",
@@ -815,7 +746,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Agradecer te hace libre y feliz.","color":"#f87171"}
 ]
 },
@@ -841,7 +771,6 @@
 {"tipo":"decision","pregunta":"¿Sientes más paciencia?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza paciencia.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza esperar con serenidad y obtener buenos resultados.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Paciencia desarrollada.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDMM",
@@ -859,7 +788,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"La paciencia trae resultados duraderos.","color":"#f87171"}
 ]
 },
@@ -885,7 +813,6 @@
 {"tipo":"decision","pregunta":"¿Sientes más optimismo?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza optimismo.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza situaciones positivas y tu éxito en ellas.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Optimismo fortalecido.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDB",
@@ -903,7 +830,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"El optimista crea su propia luz.","color":"#f87171"}
 ]
 },
@@ -929,7 +855,6 @@
 {"tipo":"decision","pregunta":"¿Sientes resiliencia?","opciones":["Sí","Un poco","No"],"correcta":0,"explanacion":"La práctica refuerza resiliencia.","recompensa":10,"color":"#22c55e"},
 {"tipo":"visualizacion","texto":"Visualiza superar desafíos y salir fortalecido.","color":"#a78bfa"},
 {"tipo":"recompensa","texto":"Resiliencia fortalecida.","puntos":20,"color":"#10b981"},
-
 {
 "tipo":"tvid_ejercicio_largo",
 "tecnica":"TDG",
@@ -947,7 +872,6 @@
 ],
 "color":"#06b6d4"
 },
-
 {"tipo":"cierre","texto":"Lo que no te destruye te hace más fuerte.","color":"#f87171"}
 ]
 }    
