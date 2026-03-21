@@ -113,8 +113,33 @@ async function showBlock(b){
         return;
     }
 
-    // Juegos interactivos y ejercicios Tvid se mantienen igual, cambiando "KaMiZen" por "MayKaMi"
-    // ... (el resto de tu scripts.js igual, solo cambios de nombre)
+    if(["quiz","acertijo","decision","juego_mental","tvid_ejercicio_largo"].includes(b.tipo)){
+        // Manejo de ejercicios largos Tvid y quiz interactivo
+        // El contenido se mantiene como antes, solo reemplazo de nombres
+        const container = document.createElement("div");
+        container.style.cssText = "color:white; text-align:center; padding:20px;";
+        block.appendChild(container);
+
+        const textos = b.textos || [b.texto || "Continúa tu entrenamiento MayKaMi."];
+        for(let i=0;i<textos.length;i++){
+            const p = document.createElement("p");
+            p.style.margin="15px 0";
+            p.innerText = textos[i];
+            container.appendChild(p);
+            await playVoice(textos[i]);
+        }
+
+        nextBtn.style.display = "inline-block";
+        return;
+    }
+
+    if(b.tipo === "cierre"){
+        block.innerHTML = `<p style='font-size:1.8em; text-align:center; padding:40px;'>${b.texto}</p>`;
+        await playVoice(b.texto);
+        completedSessions.push(currentSessionIndex);
+        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
+        restartBtn.style.display = "inline-block";
+    }
 }
 
 /* =================== NAVEGACIÓN Y CARGA =================== */
@@ -122,7 +147,7 @@ let currentSessionIndex = 0;
 startBtn.addEventListener("click", async () => {
     startBtn.style.display = "none";
     try {
-        const res = await fetch("/tvid_ejercicio.json");
+        const res = await fetch("/static/tvid_ejercicio.json");
         const data = await res.json();
         const sesiones = data.sesiones;
         let available = sesiones.map((_,i) => i).filter(i => !completedSessions.includes(i));
@@ -148,6 +173,7 @@ backBtn.addEventListener("click", () => {
         showBlock(bloques[current]);
     }
 });
+
 forwardBtn.addEventListener("click", () => {
     if(current < bloques.length - 1) {
         aplicarPenalizacion();
@@ -155,4 +181,5 @@ forwardBtn.addEventListener("click", () => {
         showBlock(bloques[current]);
     }
 });
+
 restartBtn.addEventListener("click", () => location.reload());
