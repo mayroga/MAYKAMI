@@ -128,9 +128,9 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con valentía y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Tu valor subió.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":480,"textos":[
-          "Adopta una posición firme. Respira lento. Hoy es momento de fuerza. Estas listo para enfrentar lo que venga.",
-          "Piensa en algo que temes. No huyas. No niegues. Observa el miedo. Siente. Y aun así sigues adelante.",
-          "Recuerda un reto que superaste. Siente la fuerza que tuviste. Esa fuerza está en mí ahora.",
+          "Adopta una posición firme. Respira lento. Hoy es momento de fuerza para ti. Estas listo para enfrentar lo que venga.",
+          "Piensa en algo que temes. No huyas, No niegues. Observa el miedo. Siente y respira valentia,coraje, y sigue adelante.",
+          "Recuerda un reto que superaste. Siente la fuerza que tuviste. Esa fuerza está en tí ahora.",
           "Imagina una situación difícil. Manten calma. Manten valentía. Puedes actuar con fuerza y decisión.",
           "Mueve lentamente los hombros. Siente tu corazón. Siente tu fuerza. Estas vivo. Estas fuerte.",
           "Piensa en alguien que te inspira. Su valentía es ejemplo. Puedes ser valiente también.",
@@ -163,13 +163,13 @@
         {"tipo":"visualizacion","texto":"Visualiza ayudar y comprender a los demás.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Empatía aumentada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":480,"textos":[
-          "Adopta una posición cómoda. Respira lento. Hoy entreno comprensión y guía.",
+          "Adopta una posición cómoda. Respira lento. Hoy entrenas comprensión y guía.",
           "Piensa en alguien que necesita ayuda. Observa sin juzgar. Escucha sin interrumpir. Guía con amor.",
           "Recuerda un consejo que te ayudó. Siente cómo te benefició. Puedes dar lo mismo a otros.",
-          "Imagina un momento de enseñanza. Paciencia y firmeza combinadas. Enseñar es ayudar a crecer.",
+          "Imagina un momento de enseñanza. Imagina que tienes Paciencia y firmeza combinadas. Enseñar es ayudar a crecer.",
           "Mueve lentamente los hombros. Siente tu corazón. Siente tu capacidad de guiar y amar.",
           "Piensa en alguien que confía en ti. Respóndele con cuidado y atención. Su confianza es valiosa.",
-          "Respira profundo. Inhala paciencia. Exhala juicio. Mente clara. Y corazón abierto.",
+          "Respira profundo. Inhala paciencia. Exhala juicio. Manten Mente clara, y corazón abierto.",
           "Respira y siente guía amorosa. Puedes ayudar. Puedes guiar. Puedes amar sin imponer."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La empatía fortalece relaciones.","color":"#f87171"}
@@ -198,14 +198,14 @@
         {"tipo":"visualizacion","texto":"Visualiza dar amor y apoyo a los demás.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Amor y cercanía aumentados.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":480,"textos":[
-          "Adopta posición cómoda. Respira lento. Hoy entreno amor y protección.",
+          "Adopta posición cómoda. Respira lento. Hoy entrenas amor y protección.",
           "Piensa en alguien que necesita apoyo. Escucha sin juzgar. Acompaña sin imponer. Ama con cuidado.",
           "Recuerda un acto de cariño recibido. Siente cómo impactó. Puedes dar lo mismo a otros.",
           "Imagina un momento de cuidado. Paciencia y cariño combinados. Ayudar es proteger.",
           "Mueve lentamente los hombros. Siente tu corazón. Siente tu capacidad de cuidar y amar.",
           "Piensa en alguien que confía en ti. Respóndele con amor y atención. Su confianza es valiosa.",
-          "Respira profundo. Inhala amor. Exhala miedo. Mente clara. Y corazón abierto.",
-          "Respira y siente amor y protección. Puedes amar. Puedes cuidar. Puedes apoyar sin imponer."
+          "Respira profundo. Inhala amor. Exhala miedo. Mente clara Y corazón abierto.",
+          "Respira , siente amor y protección. Puedes amar. Puedes cuidar. Puedes apoyar sin imponer."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El amor fortalece la vida.","color":"#f87171"}
       ]
@@ -233,7 +233,7 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cortesía.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Respeto ganado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDK","titulo":"Ejercicio profundo de la Técnica del Beso","duracion":480,"textos":[
-          "Adopta una posición cómoda, espalda recta. Respira lentamente. Hoy cultivarás afecto y conexión positiva.",
+          "Adopta una posición cómoda, espalda recta. Respira lentamente. Hoy cultivas afecto y conexión positiva.",
           "Cierra los ojos y visualiza a alguien a quien quieras transmitir cariño. Puede ser tu niño interior o alguien cercano.",
           "Siente cómo fluye el afecto dentro de ti hacia esa persona. No juzgues tus emociones, solo obsérvalas.",
           "Imagina un beso simbólico lleno de afecto, luz y energía positiva, sin contacto físico. Siente su impacto emocional.",
@@ -268,7 +268,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tu calma ante retos.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Paciencia aumentada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Paciencia","duracion":480,"textos":[
-          "Siéntate cómodo y respira lento. Hoy entrenarás paciencia profunda.",
+          "Siéntate cómodo y respira lento. Hoy entrenas paciencia profunda.",
           "Cierra los ojos y observa tu respiración. Inhala tranquilidad, exhala prisa.",
           "Visualiza un reto reciente que generó estrés. Mantén la calma mientras lo revives.",
           "Imagina cómo esperas el momento correcto para actuar, sin apresurarte.",
@@ -303,7 +303,7 @@
         {"tipo":"visualizacion","texto":"Te ves decidiendo bien.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Decisión fuerte.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Decisión","duracion":480,"textos":[
-          "Siéntate y respira lentamente. Hoy entrenarás toma de decisiones profunda.",
+          "Siéntate y respira lentamente. Hoy entrenas toma de decisiones profunda.",
           "Cierra los ojos y observa tu respiración. Inhala claridad, exhala dudas.",
           "Piensa en una decisión reciente que dudaste en tomar. Revívela sin juzgar.",
           "Visualiza las opciones disponibles y evalúa cada una con calma.",
@@ -338,7 +338,7 @@
         {"tipo":"visualizacion","texto":"Te ves tranquilo y controlado.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Autocontrol alto.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de Autocontrol","duracion":480,"textos":[
-          "Siéntate y respira lentamente. Hoy entrenarás autocontrol profundo.",
+          "Siéntate y respira lentamente. Hoy entrenas autocontrol profundo.",
           "Cierra los ojos y observa tu respiración. Inhala calma, exhala impulsos.",
           "Piensa en un momento reciente donde tuviste que controlar tus emociones.",
           "Visualiza cada impulso y observa cómo puedes manejarlo con calma.",
@@ -373,7 +373,7 @@
         {"tipo":"visualizacion","texto":"Te ves aprendiendo rápido.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Aprendizaje alto.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de Aprendizaje","duracion":480,"textos":[
-          "Siéntate cómodo y respira profundo. Hoy entrenarás aprendizaje intenso.",
+          "Siéntate cómodo y respira profundo. Hoy entrenas aprendizaje intenso.",
           "Cierra los ojos y observa tu respiración. Inhala curiosidad, exhala confusión.",
           "Recuerda algo que no entendiste bien antes y revívelo con calma.",
           "Visualiza haciendo preguntas y recibiendo respuestas claras.",
@@ -408,7 +408,7 @@
         {"tipo":"visualizacion","texto":"Te ves activo y con energía.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Energía alta.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de Energía","duracion":480,"textos":[
-          "Siéntate o ponte de pie y respira profundo. Hoy entrenarás energía total.",
+          "Siéntate o ponte de pie y respira profundo. Hoy entrenas energía total.",
           "Cierra los ojos y enfoca tu mente en tu fuerza interior.",
           "Inhala energía, exhala pereza lentamente.",
           "Visualiza realizar tus tareas sin resistencia, con motivación.",
@@ -443,7 +443,7 @@
         {"tipo":"visualizacion","texto":"Imagina tu mente ordenada y tranquila.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Has ganado orden mental.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de Orden","duracion":480,"textos":[
-          "Siéntate y respira profundo. Hoy entrenarás orden total.",
+          "Siéntate y respira profundo. Hoy entrenas orden total.",
           "Cierra los ojos y observa tu respiración con calma.",
           "Inhala orden y exhala caos lentamente.",
           "Visualiza tu espacio físico y mental perfectamente organizado.",
@@ -478,7 +478,7 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con respeto y cariño en todas tus interacciones.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Respeto y afecto aumentados.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDK","titulo":"Ejercicio completo de la Técnica del Beso","duracion":480,"textos":[
-          "Siéntate o ponte cómodo y cierra los ojos. Hoy entrenarás respeto y afecto profundo.",
+          "Siéntate o ponte cómodo y cierra los ojos. Hoy entrenas respeto y afecto profundo.",
           "Coloca tus manos sobre tu pecho y siente tu respiración.",
           "Inhala respeto y cariño durante 6 segundos, mantén el aire 5 segundos y exhala indiferencia o tensión durante 6 segundos.",
           "Visualiza a alguien a quien quieras enviar respeto y afecto, como un 'beso simbólico de respeto'.",
@@ -513,7 +513,7 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con seguridad y claridad en tus decisiones.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Confianza fortalecida.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-          "Siéntate derecho y respira profundamente. Hoy entrenarás tu confianza interna.",
+          "Siéntate derecho y respira profundamente. Hoy entrenas tu confianza interna.",
           "Observa tu cuerpo y siente que estás presente aquí y ahora.",
           "Recuerda un momento donde dudaste pero actuaste. Siente la fuerza que surgió al intentarlo.",
           "Inhala seguridad, exhala miedo lentamente.",
@@ -618,7 +618,7 @@
       {"tipo":"visualizacion","texto":"Visualiza todo lo que tienes y agradece por ello.","color":"#a78bfa"},
       {"tipo":"recompensa","texto":"Gratitud aumentada.","puntos":20,"color":"#10b981"},
       {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-        "Siéntate cómodo. Respira lentamente. Hoy cultivarás gratitud profunda.",
+        "Siéntate cómodo. Respira lentamente. Hoy cultivas gratitud profunda.",
         "Piensa en tu familia, amigos y oportunidades. Observa lo que te da vida y alegría.",
         "Recuerda momentos difíciles y cómo te ayudaron a crecer. Agradece tu aprendizaje.",
         "Siente tu cuerpo y salud. Agradece cada respiración y movimiento que puedes realizar.",
@@ -653,7 +653,7 @@
       {"tipo":"visualizacion","texto":"Visualiza esperar con serenidad y obtener buenos resultados.","color":"#a78bfa"},
       {"tipo":"recompensa","texto":"Paciencia desarrollada.","puntos":20,"color":"#10b981"},
       {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":480,"textos":[
-        "Adopta postura cómoda. Respira lento. Hoy cultivarás paciencia.",
+        "Adopta postura cómoda. Respira lento. Hoy cultivas paciencia.",
         "Piensa en situaciones donde usualmente pierdes la calma. Obsérvalas sin reaccionar.",
         "Visualiza esperar sin frustración. Mantén la serenidad y el control.",
         "Recuerda momentos donde la espera te dio resultados positivos. Agradece esos momentos.",
@@ -688,7 +688,7 @@
       {"tipo":"visualizacion","texto":"Visualiza lograr tus objetivos con entusiasmo y confianza.","color":"#a78bfa"},
       {"tipo":"recompensa","texto":"Motivación fortalecida.","puntos":20,"color":"#10b981"},
       {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-        "Siéntate cómodo y respira profundo. Hoy cultivarás motivación interna.",
+        "Siéntate cómodo y respira profundo. Hoy cultivas motivación interna.",
         "Piensa en un objetivo que deseas alcanzar. Observa cómo te sientes al imaginarlo.",
         "Recuerda pequeños logros previos y la energía que generaron. Siente orgullo y motivación.",
         "Inhala motivación, exhala dudas lentamente.",
