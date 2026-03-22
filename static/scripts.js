@@ -1,71 +1,51 @@
-// static/scripts.js versión fluida
+// static/scripts.js
 
-const block = document.getElementById("block");
+// Botones y contenedor
+const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
+const restartBtn = document.getElementById("restart-btn");
+const block = document.getElementById("block");
 
-// Variables de estado
+// Variables globales
 let sesiones = [];
-let currentBlockIndex = 0;
-let totalPoints = 0;
+let currentSesionIndex = 0;
+let currentBloqueIndex = 0;
+let puntos = 0;
+let userData = JSON.parse(localStorage.getItem("kamizen_userData")) || { puntos: 0 };
 
-// Cargar progreso guardado si existe
-const savedData = JSON.parse(localStorage.getItem("kamizen_progress"));
-if (savedData) {
-  currentBlockIndex = savedData.currentBlockIndex || 0;
-  totalPoints = savedData.totalPoints || 0;
-}
-
-// Guardar progreso
-function saveProgress() {
-  localStorage.setItem(
-    "kamizen_progress",
-    JSON.stringify({
-      currentBlockIndex,
-      totalPoints,
-    })
-  );
-}
-
-// Cargar JSON completo
-async function loadJSON() {
+// Función para cargar JSON
+async function cargarSesiones() {
   try {
-    const response = await fetch("static/tvid_ejercicio.json");
-    if (!response.ok) throw new Error("No se pudo cargar el JSON");
-    const data = await response.json();
-    sesiones = data.sesiones || [];
-    renderBlock();
-  } catch (err) {
-    console.error(err);
-    block.innerHTML = `<p>Error cargando las sesiones</p>`;
+    const res = await fetch("static/tvid_ejercicio.json");
+    const data = await res.json();
+    sesiones = data.sesiones;
+    startBtn.disabled = false;
+  } catch (error) {
+    block.innerHTML = "<p style='color:red'>Error cargando las sesiones. Verifica el JSON o la ruta.</p>";
+    console.error("Error cargando JSON:", error);
   }
 }
 
-// Renderizar bloque
-function renderBlock() {
+// Función para mostrar bloque
+function mostrarBloque() {
   if (!sesiones.length) return;
 
-  // Evitar índice fuera de rango
-  if (currentBlockIndex < 0) currentBlockIndex = 0;
-  if (currentBlockIndex >= sesiones.length) {
-    currentBlockIndex = 0; // Reiniciar desde 0
-  }
+  const sesion = sesiones[currentSesionIndex];
+  const bloque = sesion.bloques[currentBloqueIndex];
 
-  const bloque = sesiones[currentBlockIndex];
+  if (!bloque) return;
+
+  // Limpia contenido anterior
   block.innerHTML = "";
+  block.style.backgroundColor = bloque.color || "#ffffff";
 
-  // Color de fondo dinámico
-  document.body.style.backgroundColor = bloque.color || "#ffffff";
-
-  // Render según tipo
   switch (bloque.tipo) {
     case "voz":
     case "inteligencia_social":
     case "estrategia":
     case "historia":
     case "visualizacion":
-    case "recompensa":
-    case "cierre":
       block.innerHTML = `<p>${bloque.texto}</p>`;
       break;
 
@@ -74,79 +54,136 @@ function renderBlock() {
       break;
 
     case "respiracion":
-      block.innerHTML = `<h3>${bloque.texto}</h3><div class="globo"></div>`;
-      animateGlobo(bloque.duracion || 5);
+      block.innerHTML = `<p>${bloque.texto}</p>`;
+      animarGlobo(bloque);
       break;
 
     case "decision":
-      renderDecision(bloque); // Fluido: next se puede usar mientras se da feedback
+      mostrarDecision(bloque);
+      break;
+
+    case "recompensa":
+      block.innerHTML = `<p>${bloque.texto}</p><p>Puntos: ${bloque.puntos}</p>`;
+      puntos += bloque.puntos;
+      actualizarPuntos();
       break;
 
     case "tvid_ejercicio_largo":
-      renderTvidLargo(bloque); // Fluido: next no bloquea
+      mostrarTvidEjercicioLargo(bloque);
+      break;
+
+    case "cierre":
+      block.innerHTML = `<p>${bloque.texto}</p>`;
       break;
 
     default:
-      block.innerHTML = `<p>${bloque.texto || "Contenido desconocido"}</p>`;
+      block.innerHTML = `<p>${bloque.texto || ""}</p>`;
   }
-
-  saveProgress();
 }
 
-// Animación del globo azul solo en respiración
-function animateGlobo(duration) {
-  const globo = document.querySelector(".globo");
-  if (!globo) return;
-  globo.style.transition = `transform ${duration}s ease-in-out`;
-  globo.style.transform = "scale(1.5)";
-  setTimeout(() => (globo.style.transform = "scale(1)"), duration * 1000);
+// Función de animación de globo (solo respiración)
+function animarGlobo(bloque) {
+  const globo = document.createElement("div");
+  globo.style.width = "100px";
+  globo.style.height = "100px";
+  globo.style.borderRadius = "50%";
+  globo.style.backgroundColor = "#60a5fa";
+  globo.style.margin = "20px auto";
+  globo.style.transition = `all ${bloque.duracion || 5}s ease-in-out`;
+  block.appendChild(globo);
+
+  setTimeout(() => {
+    globo.style.transform = "scale(1.5)";
+  }, 100);
+
+  setTimeout(() => {
+    globo.style.transform = "scale(1)";
+  }, (bloque.duracion || 5) * 1000);
 }
 
-// Renderizar decisiones con feedback (fluido)
-function renderDecision(bloque) {
-  const opcionesHTML = bloque.opciones
-    .map((op, i) => `<button class="decision-btn" data-index="${i}">${op}</button>`)
-    .join("");
-  block.innerHTML = `<p>${bloque.pregunta}</p>${opcionesHTML}<div id="decision-feedback"></div>`;
-
-  document.querySelectorAll(".decision-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const idx = parseInt(btn.dataset.index);
-      const feedback = document.getElementById("decision-feedback");
-      if (idx === bloque.correcta) {
-        feedback.innerHTML = `<p style="color:green">Correcto ✅: ${bloque.explicacion}</p>`;
-        totalPoints += bloque.recompensa || 0;
+// Función mostrar decision
+function mostrarDecision(bloque) {
+  block.innerHTML = `<p>${bloque.pregunta}</p>`;
+  bloque.opciones.forEach((op, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = op;
+    btn.style.margin = "5px";
+    btn.onclick = () => {
+      if (index === bloque.correcta) {
+        block.innerHTML += `<p style="color:green">Correcto ✅</p><p>${bloque.explicacion}</p>`;
+        puntos += bloque.recompensa;
+        actualizarPuntos();
       } else {
-        feedback.innerHTML = `<p style="color:red">Incorrecto ❌: ${bloque.explicacion}</p>`;
+        block.innerHTML += `<p style="color:red">Incorrecto ❌</p><p>${bloque.explicacion}</p>`;
       }
-      saveProgress();
-    });
+    };
+    block.appendChild(btn);
   });
 }
 
-// Renderizar ejercicio largo Tvid (fluido)
-async function renderTvidLargo(bloque) {
-  block.innerHTML = `<h3>${bloque.titulo}</h3><p id="tvid-text"></p>`;
-  const textoElem = document.getElementById("tvid-text");
+// Función mostrar tvid_ejercicio_largo
+function mostrarTvidEjercicioLargo(bloque) {
+  let index = 0;
+  const textoDiv = document.createElement("div");
+  textoDiv.style.marginBottom = "20px";
+  block.appendChild(textoDiv);
 
-  // Reproduce cada texto de manera asíncrona pero sin bloquear next
-  bloque.textos.forEach((txt, i) => {
-    setTimeout(() => {
-      textoElem.innerText = txt;
-    }, (bloque.duracion / bloque.textos.length) * 1000 * i);
-  });
+  const siguienteTexto = () => {
+    if (index >= bloque.textos.length) return;
+    textoDiv.innerHTML = `<p>${bloque.textos[index]}</p>`;
+    index++;
+    // Avanza solo con next, sin bloquear
+  };
+
+  siguienteTexto();
+}
+
+// Función actualizar puntos
+function actualizarPuntos() {
+  userData.puntos = puntos;
+  localStorage.setItem("kamizen_userData", JSON.stringify(userData));
 }
 
 // Botones
+startBtn.addEventListener("click", () => {
+  startBtn.style.display = "none";
+  nextBtn.style.display = "inline-block";
+  backBtn.style.display = "inline-block";
+  restartBtn.style.display = "inline-block";
+  mostrarBloque();
+});
+
 nextBtn.addEventListener("click", () => {
-  currentBlockIndex++;
-  renderBlock();
+  currentBloqueIndex++;
+  const sesion = sesiones[currentSesionIndex];
+  if (currentBloqueIndex >= sesion.bloques.length) {
+    currentSesionIndex++;
+    currentBloqueIndex = 0;
+    if (currentSesionIndex >= sesiones.length) {
+      block.innerHTML = "<p>¡Has completado todas las sesiones! 🎉</p>";
+      nextBtn.disabled = true;
+      return;
+    }
+  }
+  mostrarBloque();
 });
 
 backBtn.addEventListener("click", () => {
-  currentBlockIndex--;
-  renderBlock();
+  if (currentBloqueIndex > 0) currentBloqueIndex--;
+  else if (currentSesionIndex > 0) {
+    currentSesionIndex--;
+    currentBloqueIndex = sesiones[currentSesionIndex].bloques.length - 1;
+  }
+  mostrarBloque();
 });
 
-// Inicializar
-loadJSON();
+restartBtn.addEventListener("click", () => {
+  currentSesionIndex = 0;
+  currentBloqueIndex = 0;
+  puntos = 0;
+  actualizarPuntos();
+  mostrarBloque();
+});
+
+// Carga inicial
+cargarSesiones();
