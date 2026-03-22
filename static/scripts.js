@@ -1,189 +1,283 @@
 // static/scripts.js
 
-// Botones y contenedor
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 const block = document.getElementById("block");
 
-// Variables globales
 let sesiones = [];
 let currentSesionIndex = 0;
 let currentBloqueIndex = 0;
 let puntos = 0;
-let userData = JSON.parse(localStorage.getItem("kamizen_userData")) || { puntos: 0 };
 
-// Función para cargar JSON
+
+// =====================
+// CARGAR JSON DESDE FASTAPI
+// =====================
+
 async function cargarSesiones() {
+
   try {
-    const res = await fetch("static/tvid_ejercicio.json");
+
+    const res = await fetch("/tvid_ejercicio.json");
+
     const data = await res.json();
+
     sesiones = data.sesiones;
+
+    if (!sesiones.length) {
+      block.innerHTML = "No hay sesiones";
+      return;
+    }
+
     startBtn.disabled = false;
-  } catch (error) {
-    block.innerHTML = "<p style='color:red'>Error cargando las sesiones. Verifica el JSON o la ruta.</p>";
-    console.error("Error cargando JSON:", error);
+
+  } catch (e) {
+
+    block.innerHTML =
+      "Error cargando las sesiones. Verifica el JSON o la ruta";
+
+    console.error(e);
   }
 }
 
-// Función para mostrar bloque
+
+// =====================
+// MOSTRAR BLOQUE
+// =====================
+
 function mostrarBloque() {
-  if (!sesiones.length) return;
 
   const sesion = sesiones[currentSesionIndex];
+
+  if (!sesion) return;
+
   const bloque = sesion.bloques[currentBloqueIndex];
 
   if (!bloque) return;
 
-  // Limpia contenido anterior
   block.innerHTML = "";
-  block.style.backgroundColor = bloque.color || "#ffffff";
+
+  block.style.background = bloque.color || "#000";
 
   switch (bloque.tipo) {
+
     case "voz":
-    case "inteligencia_social":
-    case "estrategia":
     case "historia":
+    case "estrategia":
     case "visualizacion":
+    case "inteligencia_social":
+
       block.innerHTML = `<p>${bloque.texto}</p>`;
       break;
+
 
     case "tvid":
-      block.innerHTML = `<h3>${bloque.titulo}</h3><p>${bloque.texto}</p>`;
+
+      block.innerHTML =
+        `<h3>${bloque.titulo}</h3><p>${bloque.texto}</p>`;
       break;
+
 
     case "respiracion":
-      block.innerHTML = `<p>${bloque.texto}</p>`;
-      animarGlobo(bloque);
+
+      mostrarRespiracion(bloque);
       break;
 
+
     case "decision":
+
       mostrarDecision(bloque);
       break;
 
+
     case "recompensa":
-      block.innerHTML = `<p>${bloque.texto}</p><p>Puntos: ${bloque.puntos}</p>`;
-      puntos += bloque.puntos;
-      actualizarPuntos();
+
+      puntos += bloque.puntos || 0;
+
+      block.innerHTML =
+        `<p>${bloque.texto}</p><p>Puntos +${bloque.puntos}</p>`;
+
       break;
+
 
     case "tvid_ejercicio_largo":
-      mostrarTvidEjercicioLargo(bloque);
+
+      mostrarEjercicioLargo(bloque);
+
       break;
+
 
     case "cierre":
+
       block.innerHTML = `<p>${bloque.texto}</p>`;
+
       break;
 
-    default:
-      block.innerHTML = `<p>${bloque.texto || ""}</p>`;
   }
+
 }
 
-// Función de animación de globo (solo respiración)
-function animarGlobo(bloque) {
-  const globo = document.createElement("div");
-  globo.style.width = "100px";
-  globo.style.height = "100px";
-  globo.style.borderRadius = "50%";
-  globo.style.backgroundColor = "#60a5fa";
-  globo.style.margin = "20px auto";
-  globo.style.transition = `all ${bloque.duracion || 5}s ease-in-out`;
-  block.appendChild(globo);
+
+// =====================
+// RESPIRACION
+// =====================
+
+function mostrarRespiracion(b) {
+
+  block.innerHTML =
+    `<div class="breath-circle" id="circle"></div>
+     <div class="breath-text">${b.texto}</div>`;
+
+  const c = document.getElementById("circle");
 
   setTimeout(() => {
-    globo.style.transform = "scale(1.5)";
+    c.style.transform = "scale(1.4)";
   }, 100);
 
   setTimeout(() => {
-    globo.style.transform = "scale(1)";
-  }, (bloque.duracion || 5) * 1000);
+    c.style.transform = "scale(1)";
+  }, (b.duracion || 5) * 1000);
+
 }
 
-// Función mostrar decision
-function mostrarDecision(bloque) {
-  block.innerHTML = `<p>${bloque.pregunta}</p>`;
-  bloque.opciones.forEach((op, index) => {
+
+// =====================
+// DECISION (no bloquea next)
+// =====================
+
+function mostrarDecision(b) {
+
+  block.innerHTML = `<p>${b.pregunta}</p>`;
+
+  b.opciones.forEach((op, i) => {
+
     const btn = document.createElement("button");
+
     btn.innerText = op;
-    btn.style.margin = "5px";
+
     btn.onclick = () => {
-      if (index === bloque.correcta) {
-        block.innerHTML += `<p style="color:green">Correcto ✅</p><p>${bloque.explicacion}</p>`;
-        puntos += bloque.recompensa;
-        actualizarPuntos();
+
+      if (i === b.correcta) {
+
+        puntos += b.recompensa || 0;
+
+        block.innerHTML +=
+          `<p style="color:lime">Correcto</p>
+           <p>${b.explicacion}</p>`;
+
       } else {
-        block.innerHTML += `<p style="color:red">Incorrecto ❌</p><p>${bloque.explicacion}</p>`;
+
+        block.innerHTML +=
+          `<p style="color:red">Incorrecto</p>
+           <p>${b.explicacion}</p>`;
       }
+
     };
+
     block.appendChild(btn);
+
   });
+
 }
 
-// Función mostrar tvid_ejercicio_largo
-function mostrarTvidEjercicioLargo(bloque) {
-  let index = 0;
-  const textoDiv = document.createElement("div");
-  textoDiv.style.marginBottom = "20px";
-  block.appendChild(textoDiv);
 
-  const siguienteTexto = () => {
-    if (index >= bloque.textos.length) return;
-    textoDiv.innerHTML = `<p>${bloque.textos[index]}</p>`;
-    index++;
-    // Avanza solo con next, sin bloquear
-  };
+// =====================
+// EJERCICIO LARGO (fluido)
+// =====================
 
-  siguienteTexto();
+function mostrarEjercicioLargo(b) {
+
+  let i = 0;
+
+  const div = document.createElement("div");
+
+  block.appendChild(div);
+
+  function nextText() {
+
+    if (i >= b.textos.length) return;
+
+    div.innerHTML = `<p>${b.textos[i]}</p>`;
+
+    i++;
+
+  }
+
+  nextText();
+
 }
 
-// Función actualizar puntos
-function actualizarPuntos() {
-  userData.puntos = puntos;
-  localStorage.setItem("kamizen_userData", JSON.stringify(userData));
-}
 
-// Botones
-startBtn.addEventListener("click", () => {
+// =====================
+// BOTONES
+// =====================
+
+startBtn.onclick = () => {
+
   startBtn.style.display = "none";
-  nextBtn.style.display = "inline-block";
-  backBtn.style.display = "inline-block";
-  restartBtn.style.display = "inline-block";
-  mostrarBloque();
-});
 
-nextBtn.addEventListener("click", () => {
+  nextBtn.style.display = "block";
+
+  restartBtn.style.display = "block";
+
+  mostrarBloque();
+
+};
+
+
+nextBtn.onclick = () => {
+
   currentBloqueIndex++;
+
   const sesion = sesiones[currentSesionIndex];
+
   if (currentBloqueIndex >= sesion.bloques.length) {
+
     currentSesionIndex++;
+
     currentBloqueIndex = 0;
+
     if (currentSesionIndex >= sesiones.length) {
-      block.innerHTML = "<p>¡Has completado todas las sesiones! 🎉</p>";
-      nextBtn.disabled = true;
+
+      block.innerHTML = "Fin";
+
       return;
     }
   }
-  mostrarBloque();
-});
 
-backBtn.addEventListener("click", () => {
-  if (currentBloqueIndex > 0) currentBloqueIndex--;
-  else if (currentSesionIndex > 0) {
-    currentSesionIndex--;
-    currentBloqueIndex = sesiones[currentSesionIndex].bloques.length - 1;
+  mostrarBloque();
+
+};
+
+
+backBtn.onclick = () => {
+
+  if (currentBloqueIndex > 0) {
+
+    currentBloqueIndex--;
+
   }
-  mostrarBloque();
-});
 
-restartBtn.addEventListener("click", () => {
+  mostrarBloque();
+
+};
+
+
+restartBtn.onclick = () => {
+
   currentSesionIndex = 0;
-  currentBloqueIndex = 0;
-  puntos = 0;
-  actualizarPuntos();
-  mostrarBloque();
-});
 
-// Carga inicial
+  currentBloqueIndex = 0;
+
+  puntos = 0;
+
+  mostrarBloque();
+
+};
+
+
+// =====================
+
 cargarSesiones();
