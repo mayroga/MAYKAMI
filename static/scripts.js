@@ -1,283 +1,160 @@
-// static/scripts.js
-
+// ==================== ELEMENTOS ====================
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
-const restartBtn = document.getElementById("restart-btn");
 const block = document.getElementById("block");
+const discBar = document.getElementById("disciplina-bar");
+const clarBar = document.getElementById("claridad-bar");
+const calmaBar = document.getElementById("calma-bar");
 
 let sesiones = [];
-let currentSesionIndex = 0;
-let currentBloqueIndex = 0;
+let currentBloque = 0;
+let currentSesion = 0;
 let puntos = 0;
 
+// Globo azul para respiración
+const breathCircle = document.createElement("div");
+breathCircle.className = "breath-circle";
+block.appendChild(breathCircle);
 
-// =====================
-// CARGAR JSON DESDE FASTAPI
-// =====================
+const breathText = document.createElement("div");
+breathText.className = "breath-text";
+block.appendChild(breathText);
 
+// ==================== FUNCIONES ====================
+
+// Cargar JSON de sesiones
 async function cargarSesiones() {
-
   try {
-
     const res = await fetch("/tvid_ejercicio.json");
-
     const data = await res.json();
-
-    sesiones = data.sesiones;
-
-    if (!sesiones.length) {
-      block.innerHTML = "No hay sesiones";
-      return;
-    }
-
-    startBtn.disabled = false;
-
+    sesiones = data.sesiones || [];
   } catch (e) {
-
-    block.innerHTML =
-      "Error cargando las sesiones. Verifica el JSON o la ruta";
-
-    console.error(e);
+    block.innerText = "Error cargando sesiones. Verifica el JSON.";
   }
 }
 
+// Mostrar bloque con tiempo real y voz simulada
+async function mostrarBloque(bloque) {
+  block.innerHTML = ""; // Limpiar bloque
+  block.appendChild(breathCircle);
+  block.appendChild(breathText);
 
-// =====================
-// MOSTRAR BLOQUE
-// =====================
-
-function mostrarBloque() {
-
-  const sesion = sesiones[currentSesionIndex];
-
-  if (!sesion) return;
-
-  const bloque = sesion.bloques[currentBloqueIndex];
-
-  if (!bloque) return;
-
-  block.innerHTML = "";
-
-  block.style.background = bloque.color || "#000";
-
-  switch (bloque.tipo) {
-
-    case "voz":
-    case "historia":
-    case "estrategia":
-    case "visualizacion":
-    case "inteligencia_social":
-
-      block.innerHTML = `<p>${bloque.texto}</p>`;
-      break;
-
-
-    case "tvid":
-
-      block.innerHTML =
-        `<h3>${bloque.titulo}</h3><p>${bloque.texto}</p>`;
-      break;
-
-
-    case "respiracion":
-
-      mostrarRespiracion(bloque);
-      break;
-
-
-    case "decision":
-
-      mostrarDecision(bloque);
-      break;
-
-
-    case "recompensa":
-
-      puntos += bloque.puntos || 0;
-
-      block.innerHTML =
-        `<p>${bloque.texto}</p><p>Puntos +${bloque.puntos}</p>`;
-
-      break;
-
-
-    case "tvid_ejercicio_largo":
-
-      mostrarEjercicioLargo(bloque);
-
-      break;
-
-
-    case "cierre":
-
-      block.innerHTML = `<p>${bloque.texto}</p>`;
-
-      break;
-
+  if (bloque.tipo === "voz" || bloque.tipo === "historia" || bloque.tipo === "tvid") {
+    await escribirTexto(bloque.texto, 40); // 40ms por letra, ajustable para simular voz
   }
 
-}
-
-
-// =====================
-// RESPIRACION
-// =====================
-
-function mostrarRespiracion(b) {
-
-  block.innerHTML =
-    `<div class="breath-circle" id="circle"></div>
-     <div class="breath-text">${b.texto}</div>`;
-
-  const c = document.getElementById("circle");
-
-  setTimeout(() => {
-    c.style.transform = "scale(1.4)";
-  }, 100);
-
-  setTimeout(() => {
-    c.style.transform = "scale(1)";
-  }, (b.duracion || 5) * 1000);
-
-}
-
-
-// =====================
-// DECISION (no bloquea next)
-// =====================
-
-function mostrarDecision(b) {
-
-  block.innerHTML = `<p>${b.pregunta}</p>`;
-
-  b.opciones.forEach((op, i) => {
-
-    const btn = document.createElement("button");
-
-    btn.innerText = op;
-
-    btn.onclick = () => {
-
-      if (i === b.correcta) {
-
-        puntos += b.recompensa || 0;
-
-        block.innerHTML +=
-          `<p style="color:lime">Correcto</p>
-           <p>${b.explicacion}</p>`;
-
-      } else {
-
-        block.innerHTML +=
-          `<p style="color:red">Incorrecto</p>
-           <p>${b.explicacion}</p>`;
-      }
-
-    };
-
-    block.appendChild(btn);
-
-  });
-
-}
-
-
-// =====================
-// EJERCICIO LARGO (fluido)
-// =====================
-
-function mostrarEjercicioLargo(b) {
-
-  let i = 0;
-
-  const div = document.createElement("div");
-
-  block.appendChild(div);
-
-  function nextText() {
-
-    if (i >= b.textos.length) return;
-
-    div.innerHTML = `<p>${b.textos[i]}</p>`;
-
-    i++;
-
+  if (bloque.tipo === "respiracion") {
+    await respirar(bloque.texto, bloque.duracion);
   }
 
-  nextText();
+  if (bloque.tipo === "decision") {
+    await decision(bloque);
+  }
 
-}
+  if (bloque.tipo === "visualizacion" || bloque.tipo === "estrategia" || bloque.tipo === "inteligencia_social") {
+    await escribirTexto(bloque.texto, 35);
+  }
 
+  if (bloque.tipo === "recompensa") {
+    puntos += bloque.puntos || 0;
+  }
 
-// =====================
-// BOTONES
-// =====================
-
-startBtn.onclick = () => {
-
-  startBtn.style.display = "none";
-
-  nextBtn.style.display = "block";
-
-  restartBtn.style.display = "block";
-
-  mostrarBloque();
-
-};
-
-
-nextBtn.onclick = () => {
-
-  currentBloqueIndex++;
-
-  const sesion = sesiones[currentSesionIndex];
-
-  if (currentBloqueIndex >= sesion.bloques.length) {
-
-    currentSesionIndex++;
-
-    currentBloqueIndex = 0;
-
-    if (currentSesionIndex >= sesiones.length) {
-
-      block.innerHTML = "Fin";
-
-      return;
+  if (bloque.tipo === "tvid_ejercicio_largo") {
+    for (const txt of bloque.textos) {
+      await escribirTexto(txt, 40);
     }
   }
 
-  mostrarBloque();
-
-};
-
-
-backBtn.onclick = () => {
-
-  if (currentBloqueIndex > 0) {
-
-    currentBloqueIndex--;
-
+  if (bloque.tipo === "cierre") {
+    await escribirTexto(bloque.texto, 30);
   }
+}
 
-  mostrarBloque();
+// Simular escritura de texto como voz
+function escribirTexto(texto, velocidad) {
+  return new Promise((resolve) => {
+    let i = 0;
+    block.innerHTML = "";
+    block.appendChild(breathCircle);
+    block.appendChild(breathText);
 
+    const interval = setInterval(() => {
+      if (i < texto.length) {
+        breathText.innerHTML += texto[i];
+        i++;
+      } else {
+        clearInterval(interval);
+        resolve();
+      }
+    }, velocidad);
+  });
+}
+
+// Respiración con globo azul
+function respirar(texto, duracion) {
+  return new Promise((resolve) => {
+    breathText.innerHTML = texto;
+    breathCircle.style.transform = "scale(1.5)";
+    let mitad = duracion * 500; // mitad del tiempo para inflar
+    setTimeout(() => {
+      breathCircle.style.transform = "scale(1)";
+      setTimeout(resolve, mitad);
+    }, mitad);
+  });
+}
+
+// Decisión con opciones y explicación
+function decision(bloque) {
+  return new Promise((resolve) => {
+    block.innerHTML = `<div>${bloque.pregunta}</div>`;
+    bloque.opciones.forEach((opt, idx) => {
+      const btn = document.createElement("button");
+      btn.innerText = opt;
+      btn.onclick = () => {
+        if (idx === bloque.correcta) {
+          block.innerHTML += `<div style="color:#22c55e">Correcto ✅</div><div>${bloque.explicacion}</div>`;
+          setTimeout(resolve, 2000);
+        } else {
+          block.innerHTML += `<div style="color:#f87171">Incorrecto ❌</div><div>${bloque.explicacion}</div>`;
+        }
+      };
+      block.appendChild(btn);
+    });
+  });
+}
+
+// ==================== NAVEGACIÓN ====================
+function actualizarBotones() {
+  backBtn.style.display = currentBloque > 0 ? "block" : "none";
+  nextBtn.style.display = currentBloque < sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
+}
+
+async function mostrarActual() {
+  if (!sesiones.length) return;
+  actualizarBotones();
+  await mostrarBloque(sesiones[currentSesion].bloques[currentBloque]);
+}
+
+// ==================== EVENTOS ====================
+startBtn.onclick = async () => {
+  await cargarSesiones();
+  startBtn.style.display = "none";
+  currentBloque = 0;
+  mostrarActual();
 };
 
-
-restartBtn.onclick = () => {
-
-  currentSesionIndex = 0;
-
-  currentBloqueIndex = 0;
-
-  puntos = 0;
-
-  mostrarBloque();
-
+nextBtn.onclick = async () => {
+  if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+    currentBloque++;
+    mostrarActual();
+  }
 };
 
-
-// =====================
-
-cargarSesiones();
+backBtn.onclick = async () => {
+  if (currentBloque > 0) {
+    currentBloque--;
+    puntos -= 5; // penalización
+    mostrarActual();
+  }
+};
