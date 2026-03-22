@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -10,7 +11,6 @@ content="width=device-width, initial-scale=1.0">
 <title>MayKaMi</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
 
 <style>
 
@@ -21,15 +21,9 @@ padding:0;
 font-family:'Inter',sans-serif;
 }
 
-
 body{
 
-background:linear-gradient(
-180deg,
-#020617,
-#000000
-);
-
+background:#020617;
 color:white;
 
 display:flex;
@@ -38,7 +32,7 @@ align-items:center;
 
 height:100vh;
 
-transition:background 1s;
+transition:background 0.5s;
 
 }
 
@@ -52,18 +46,14 @@ max-width:420px;
 
 background:#020617;
 
-border-radius:25px;
+border-radius:20px;
 
-padding:25px;
+padding:20px;
 
 box-shadow:
+0 0 40px black;
 
-0 20px 40px rgba(0,0,0,0.8),
-0 0 40px rgba(59,130,246,0.2);
-
-display:flex;
-flex-direction:column;
-align-items:center;
+text-align:center;
 
 }
 
@@ -71,32 +61,34 @@ align-items:center;
 /* LOGO */
 
 #logo{
-
-font-size:34px;
+font-size:32px;
 font-weight:600;
+margin-bottom:5px;
+}
 
-margin-bottom:4px;
+#subtitle{
+font-size:14px;
+opacity:0.7;
+margin-bottom:10px;
+}
 
-letter-spacing:2px;
 
-background:
+/* NUEVA SESION */
 
-linear-gradient(
-90deg,
-#60a5fa,
-#a78bfa
-);
+#session-label{
 
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
+font-size:18px;
+margin-bottom:10px;
+color:#22c55e;
 
 }
 
 
-#subtitle{
+/* TIMER */
 
-font-size:14px;
-opacity:0.7;
+#timer{
+
+font-size:22px;
 margin-bottom:10px;
 
 }
@@ -106,45 +98,25 @@ margin-bottom:10px;
 
 #mental-panel{
 
-width:100%;
-
 background:#000814;
-
-padding:12px;
-
-border-radius:12px;
-
-margin-bottom:15px;
-
-font-size:14px;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
 
 }
-
-
-.stat{
-
-margin:6px 0;
-
-}
-
 
 .bar{
-
 height:8px;
-background:#1e293b;
-border-radius:10px;
-margin-top:4px;
-
+background:#111;
+margin:5px 0;
+border-radius:5px;
 }
 
-
-.bar-fill{
-
+.fill{
 height:8px;
 background:#22c55e;
-border-radius:10px;
-width:40%;
-
+width:50%;
+border-radius:5px;
 }
 
 
@@ -152,20 +124,26 @@ width:40%;
 
 #block{
 
-font-size:26px;
+min-height:150px;
+font-size:24px;
+margin:10px;
 
-line-height:1.6;
+}
 
-text-align:center;
 
-margin:20px 0;
+/* CIRCULO */
 
-min-height:160px;
+#breath-circle{
 
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+width:150px;
+height:150px;
+border-radius:50%;
+
+background:#00bfff;
+
+margin:10px auto;
+
+transition:transform 1s linear;
 
 }
 
@@ -174,38 +152,19 @@ align-items:center;
 
 button{
 
-padding:16px;
-
-margin:6px;
+width:100%;
+padding:15px;
+margin:5px;
 
 font-size:18px;
 
 border:none;
-
-border-radius:14px;
-
-cursor:pointer;
+border-radius:10px;
 
 background:#2563eb;
-
 color:white;
 
-transition:all 0.2s;
-
-width:100%;
-max-width:300px;
-
 }
-
-
-button:hover{
-
-transform:scale(1.05);
-
-background:#3b82f6;
-
-}
-
 
 .secondary{
 
@@ -214,110 +173,17 @@ background:#374151;
 }
 
 
-/* ================= RESPIRACION FUERTE ================= */
+/* RESPONSIVE */
 
-.breath-circle{
-
-width:160px;
-height:160px;
-
-border-radius:50%;
-
-background:
-
-radial-gradient(
-circle,
-#60a5fa,
-#2563eb,
-#1e40af
-);
-
-margin:20px auto;
-
-transition:
-
-transform 4s ease-in-out,
-box-shadow 1s;
-
-box-shadow:
-
-0 0 20px #60a5fa,
-0 0 40px #2563eb,
-0 0 60px #1e40af;
-
-}
-
-
-/* TEXTO RESPIRACION */
-
-.breath-text{
-
-font-size:28px;
-
-margin-top:15px;
-
-font-weight:600;
-
-letter-spacing:1px;
-
-}
-
-
-/* FOOTER */
-
-#footer{
-
-margin-top:10px;
-
-font-size:12px;
-
-opacity:0.5;
-
-}
-
-
-/* RESPONSIVE REAL */
-
-@media (max-width:480px){
-
-body{
-
-height:auto;
-align-items:flex-start;
-padding:10px;
-
-}
+@media(max-width:480px){
 
 #app{
-
 width:100%;
-max-width:none;
-
 border-radius:0;
-
-padding:15px;
-
 }
 
 #block{
-
-font-size:28px;
-
-}
-
-button{
-
-font-size:20px;
-
-padding:18px;
-
-}
-
-.breath-circle{
-
-width:180px;
-height:180px;
-
+font-size:26px;
 }
 
 }
@@ -331,7 +197,6 @@ height:180px;
 <body>
 
 
-
 <div id="app">
 
 <div id="logo">MayKaMi</div>
@@ -340,65 +205,30 @@ height:180px;
 Entrenamiento mental diario
 </div>
 
+<div id="session-label">
+Esperando sesión
+</div>
+
+<div id="timer">
+00:00
+</div>
 
 
 <div id="mental-panel">
 
-<div class="stat"
-id="streak">
-
-Racha: 0 días
-
-</div>
-
-
-<div class="stat"
-id="level">
-
-Nivel MayKaMi: 1
-
-</div>
-
-
-<div class="stat">
-
 Disciplina
-
 <div class="bar">
-
-<div id="disciplina-bar"
-class="bar-fill"></div>
-
+<div id="disciplina" class="fill"></div>
 </div>
-
-</div>
-
-
-<div class="stat">
 
 Claridad
-
 <div class="bar">
-
-<div id="claridad-bar"
-class="bar-fill"></div>
-
+<div id="claridad" class="fill"></div>
 </div>
-
-</div>
-
-
-<div class="stat">
 
 Calma
-
 <div class="bar">
-
-<div id="calma-bar"
-class="bar-fill"></div>
-
-</div>
-
+<div id="calma" class="fill"></div>
 </div>
 
 </div>
@@ -406,57 +236,34 @@ class="bar-fill"></div>
 
 
 <div id="block">
-
-Bienvenido a tu sesión MayKaMi
-
+Bienvenido
 </div>
 
+<div id="breath-circle"></div>
 
 
 <button id="start-btn">
 Iniciar sesión
 </button>
 
-
-<button id="next-btn"
-style="display:none;">
+<button id="next-btn" style="display:none;">
 Siguiente
 </button>
 
-
 <button id="back-btn">
-⬅ Atrás
+Atrás
 </button>
-
-
-<button id="forward-btn">
-➡ Adelantar
-</button>
-
 
 <button id="restart-btn"
-class="secondary"
-style="display:none;">
+class="secondary">
 Reiniciar
 </button>
 
 
-
-<div id="footer">
-
-Sesión diaria · MAYKAMI BY May Roga LLC
-
 </div>
-
-
-</div>
-
 
 
 <script src="/static/scripts.js"></script>
 
-
-
 </body>
-
 </html>
