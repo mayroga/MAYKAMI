@@ -1,71 +1,63 @@
-// static/scripts.js actualizado con LocalStorage
+// static/scripts.js versión fluida
+
 const block = document.getElementById("block");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 
 // Variables de estado
 let sesiones = [];
-let currentSessionId = 1;
 let currentBlockIndex = 0;
 let totalPoints = 0;
 
 // Cargar progreso guardado si existe
 const savedData = JSON.parse(localStorage.getItem("kamizen_progress"));
 if (savedData) {
-  currentSessionId = savedData.currentSessionId;
-  currentBlockIndex = savedData.currentBlockIndex;
-  totalPoints = savedData.totalPoints;
+  currentBlockIndex = savedData.currentBlockIndex || 0;
+  totalPoints = savedData.totalPoints || 0;
 }
 
-// Función para guardar progreso en LocalStorage
+// Guardar progreso
 function saveProgress() {
   localStorage.setItem(
     "kamizen_progress",
     JSON.stringify({
-      currentSessionId,
       currentBlockIndex,
       totalPoints,
     })
   );
 }
 
-// Cargar sesión desde JSON por ID
-async function loadSession(id) {
+// Cargar JSON completo
+async function loadJSON() {
   try {
-    const response = await fetch(`static/tvid_ejercicio_${id}.json`);
-    if (!response.ok) throw new Error("No se pudo cargar la sesión");
+    const response = await fetch("static/tvid_ejercicio.json");
+    if (!response.ok) throw new Error("No se pudo cargar el JSON");
     const data = await response.json();
-    sesiones = data.sesiones;
-    currentBlockIndex = currentBlockIndex || 0; // Si es primera vez
+    sesiones = data.sesiones || [];
     renderBlock();
   } catch (err) {
     console.error(err);
-    block.innerHTML = `<p>Error cargando la sesión ${id}</p>`;
+    block.innerHTML = `<p>Error cargando las sesiones</p>`;
   }
 }
 
-// Renderizar bloque actual
+// Renderizar bloque
 function renderBlock() {
   if (!sesiones.length) return;
 
-  const session = sesiones[0]; // Siempre un solo JSON por sesión
+  // Evitar índice fuera de rango
   if (currentBlockIndex < 0) currentBlockIndex = 0;
-  if (currentBlockIndex >= session.bloques.length) {
-    // Pasar a siguiente sesión
-    currentSessionId++;
-    if (currentSessionId > 21) currentSessionId = 1; // Reiniciar desde 1
-    currentBlockIndex = 0;
-    loadSession(currentSessionId);
-    return;
+  if (currentBlockIndex >= sesiones.length) {
+    currentBlockIndex = 0; // Reiniciar desde 0
   }
 
-  const bloque = session.bloques[currentBlockIndex];
-  block.innerHTML = ""; // Limpiar
+  const bloque = sesiones[currentBlockIndex];
+  block.innerHTML = "";
 
-  // Cambiar color de fondo dinámico
+  // Color de fondo dinámico
   document.body.style.backgroundColor = bloque.color || "#ffffff";
 
-  // Mostrar texto según tipo
+  // Render según tipo
   switch (bloque.tipo) {
     case "voz":
     case "inteligencia_social":
@@ -76,19 +68,24 @@ function renderBlock() {
     case "cierre":
       block.innerHTML = `<p>${bloque.texto}</p>`;
       break;
+
     case "tvid":
       block.innerHTML = `<h3>${bloque.titulo}</h3><p>${bloque.texto}</p>`;
       break;
+
     case "respiracion":
       block.innerHTML = `<h3>${bloque.texto}</h3><div class="globo"></div>`;
-      animateGlobo(bloque.duracion);
+      animateGlobo(bloque.duracion || 5);
       break;
+
     case "decision":
-      renderDecision(bloque);
+      renderDecision(bloque); // Fluido: next se puede usar mientras se da feedback
       break;
+
     case "tvid_ejercicio_largo":
-      renderTvidLargo(bloque);
+      renderTvidLargo(bloque); // Fluido: next no bloquea
       break;
+
     default:
       block.innerHTML = `<p>${bloque.texto || "Contenido desconocido"}</p>`;
   }
@@ -105,15 +102,13 @@ function animateGlobo(duration) {
   setTimeout(() => (globo.style.transform = "scale(1)"), duration * 1000);
 }
 
-// Renderizar decisiones con feedback
+// Renderizar decisiones con feedback (fluido)
 function renderDecision(bloque) {
   const opcionesHTML = bloque.opciones
-    .map(
-      (op, i) =>
-        `<button class="decision-btn" data-index="${i}">${op}</button>`
-    )
+    .map((op, i) => `<button class="decision-btn" data-index="${i}">${op}</button>`)
     .join("");
   block.innerHTML = `<p>${bloque.pregunta}</p>${opcionesHTML}<div id="decision-feedback"></div>`;
+
   document.querySelectorAll(".decision-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const idx = parseInt(btn.dataset.index);
@@ -129,16 +124,17 @@ function renderDecision(bloque) {
   });
 }
 
-// Renderizar ejercicio largo Tvid
+// Renderizar ejercicio largo Tvid (fluido)
 async function renderTvidLargo(bloque) {
   block.innerHTML = `<h3>${bloque.titulo}</h3><p id="tvid-text"></p>`;
   const textoElem = document.getElementById("tvid-text");
-  for (let i = 0; i < bloque.textos.length; i++) {
-    textoElem.innerText = bloque.textos[i];
-    await new Promise((res) =>
-      setTimeout(res, (bloque.duracion / bloque.textos.length) * 1000)
-    );
-  }
+
+  // Reproduce cada texto de manera asíncrona pero sin bloquear next
+  bloque.textos.forEach((txt, i) => {
+    setTimeout(() => {
+      textoElem.innerText = txt;
+    }, (bloque.duracion / bloque.textos.length) * 1000 * i);
+  });
 }
 
 // Botones
@@ -153,4 +149,4 @@ backBtn.addEventListener("click", () => {
 });
 
 // Inicializar
-loadSession(currentSessionId);
+loadJSON();
