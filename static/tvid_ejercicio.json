@@ -34,7 +34,7 @@
       "id": 2,
       "categoria": "control",
       "bloques": [
-        {"tipo":"voz","texto":"Sistema activo. Compromiso detectado. Silencie el entorno. Usted es su prioridad absoluta hoy.Hoy entrenas control mental. Observa tus emociones y actúa con calma.","color":"#2563eb"},
+        {"tipo":"voz","texto":"Sistema activo. Compromiso detectado. Silencie el entorno.En estos momentos, Usted es su prioridad absoluta.Hoy entrenas control mental. Observa tus emociones y actúa con calma.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","texto":"Reconoce impulsos negativos. No los sigas. Transforma cada reacción en fuerza y claridad.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"Al observar sin reaccionar, evitas problemas y tomas decisiones con sabiduría.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Cuando sientas enojo o frustración, respira y espera un momento antes de actuar. Hazlo ahora. Hazlo de nuevo.","color":"#14b8a6"},
