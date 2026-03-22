@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import json
@@ -6,59 +6,93 @@ from pathlib import Path
 
 app = FastAPI(title="MayKaMi NeuroGame Engine")
 
-# =================== RUTAS Y ARCHIVOS ===================
+
+# ============================
+# RUTAS
+# ============================
+
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
-DB_PATH = STATIC_DIR / "tvid_ejercicio.json"
+JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-# Montar archivos estáticos
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-# =================== FUNCIONES ===================
+# ============================
+# STATIC FILES
+# ============================
+
+app.mount(
+    "/static",
+    StaticFiles(directory=str(STATIC_DIR)),
+    name="static"
+)
+
+
+# ============================
+# CARGAR JSON
+# ============================
+
 def cargar_db():
-    """Carga el JSON de sesiones y lo ordena por ID"""
+
     try:
-        if not DB_PATH.exists():
-            print(f"ERROR: No se encuentra {DB_PATH}")
+
+        if not JSON_PATH.exists():
+            print("No existe JSON")
             return {"sesiones": []}
-        with open(DB_PATH, "r", encoding="utf-8") as f:
+
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+
             data = json.load(f)
-        if "sesiones" in data:
-            data["sesiones"].sort(key=lambda x: x.get("id", 0))
-            return data
-        return {"sesiones": []}
+
+        if "sesiones" not in data:
+            return {"sesiones": []}
+
+        # ordenar por id
+        data["sesiones"].sort(
+            key=lambda x: x.get("id", 0)
+        )
+
+        return data
+
     except Exception as e:
-        print(f"Error crítico en JSON: {e}")
+
+        print("Error JSON:", e)
+
         return {"sesiones": []}
 
-def get_next_session(last_id: int = 0):
-    """Devuelve la siguiente sesión después de last_id"""
-    db = cargar_db()
-    sesiones = db.get("sesiones", [])
-    for s in sesiones:
-        if s.get("id", 0) > last_id:
-            return s
-    # Si no quedan sesiones, reinicia desde la primera
-    return sesiones[0] if sesiones else {"id": 0, "bloques": []}
 
-# =================== ENDPOINTS ===================
+# ============================
+# PAGINA PRINCIPAL
+# ============================
+
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    """Sirve la página principal session.html"""
-    index_path = STATIC_DIR / "session.html"
-    try:
-        with open(index_path, "r", encoding="utf-8") as f:
-            return HTMLResponse(f.read())
-    except Exception as e:
-        return HTMLResponse(f"<h1>Error de Sistema</h1><p>No se halló session.html</p>")
+
+    html_path = STATIC_DIR / "session.html"
+
+    if not html_path.exists():
+        return HTMLResponse("<h1>No existe session.html</h1>")
+
+    with open(html_path, "r", encoding="utf-8") as f:
+        return HTMLResponse(f.read())
+
+
+# ============================
+# DEVOLVER TODAS LAS SESIONES
+# ============================
 
 @app.get("/tvid_ejercicio.json")
-async def get_sessions_json(last_id: int = Query(0, description="Última sesión leída")):
-    """Devuelve la siguiente sesión después de last_id"""
-    session = get_next_session(last_id)
-    return JSONResponse(content={"sesiones": [session]})
+async def get_sessions():
+
+    db = cargar_db()
+
+    return JSONResponse(content=db)
+
+
+# ============================
+# HEALTH CHECK
+# ============================
 
 @app.get("/health")
 async def health():
-    """Endpoint para verificación de salud de la app"""
+
     return {"status": "ok"}
