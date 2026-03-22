@@ -2,415 +2,458 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+
 const block = document.getElementById("block");
+
+const circle = document.getElementById("breath-circle");
+
+const timerEl = document.getElementById("timer");
+
+const sessionLabel =
+document.getElementById("session-label");
+
+const disciplinaBar =
+document.getElementById("disciplina");
+
+const claridadBar =
+document.getElementById("claridad");
+
+const calmaBar =
+document.getElementById("calma");
+
 
 let sesiones = [];
 let bloques = [];
+
 let current = 0;
 
+let tiempo = 0;
+
+let disciplina = 50;
+let claridad = 50;
+let calma = 50;
+
+
 let lastSessionId =
-    parseInt(localStorage.getItem("lastSessionId")) || 0;
+parseInt(
+localStorage.getItem("lastSessionId")
+) || 0;
 
 
-/* ================= COLORES FUERTES ================= */
+
+/* ================= COLORES ================= */
 
 const colors = [
-    "#020617",
-    "#0f172a",
-    "#111827",
-    "#1e293b",
-    "#0b132b",
-    "#020617",
-    "#1a1a2e",
-    "#000000"
+"#020617",
+"#0f172a",
+"#111827",
+"#1e293b",
+"#000000"
 ];
 
-function changeColor() {
+function changeColor(){
 
-    const c =
-        colors[
-            Math.floor(
-                Math.random() * colors.length
-            )
-        ];
+const c =
+colors[
+Math.floor(
+Math.random()*colors.length
+)
+];
 
-    document.body.style.background = c;
+document.body.style.background = c;
+
 }
 
 
-/* ================= PAUSA OBLIGATORIA ================= */
 
-function wait(ms) {
-    return new Promise(r => setTimeout(r, ms));
+/* ================= TIMER ================= */
+
+function startTimer(){
+
+setInterval(()=>{
+
+tiempo++;
+
+let m =
+String(
+Math.floor(tiempo/60)
+).padStart(2,"0");
+
+let s =
+String(
+tiempo%60
+).padStart(2,"0");
+
+timerEl.innerText =
+m+":"+s;
+
+},1000);
+
 }
+
+
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+disciplinaBar.style.width =
+disciplina+"%";
+
+claridadBar.style.width =
+claridad+"%";
+
+calmaBar.style.width =
+calma+"%";
+
+}
+
 
 
 /* ================= VOZ ================= */
 
-function playVoice(text, soft=false) {
+function playVoice(text){
 
-    return new Promise(resolve => {
+return new Promise(r=>{
 
-        speechSynthesis.cancel();
+speechSynthesis.cancel();
 
-        const msg =
-            new SpeechSynthesisUtterance(text);
+const msg =
+new SpeechSynthesisUtterance(text);
 
-        msg.lang = "es-ES";
+msg.lang="es-ES";
 
-        if (soft) {
+msg.rate=0.9;
 
-            msg.rate = 0.8;
-            msg.pitch = 0.9;
+msg.onend=()=>r();
 
-        } else {
+speechSynthesis.speak(msg);
 
-            msg.rate = 0.9;
-            msg.pitch = 1;
-        }
-
-        msg.onend = () => resolve();
-
-        speechSynthesis.speak(msg);
-
-    });
+});
 
 }
 
 
-/* ================= CARGAR SESION ================= */
 
-async function loadSession() {
+/* ================= PAUSA ================= */
 
-    const res =
-        await fetch(
-            `/tvid_ejercicio.json?last_id=${lastSessionId}`
-        );
-
-    const data = await res.json();
-
-    sesiones = data.sesiones || [];
-
-    if (sesiones.length === 0) return;
-
-    bloques = sesiones[0].bloques;
-
-    lastSessionId = sesiones[0].id;
-
-    localStorage.setItem(
-        "lastSessionId",
-        lastSessionId
-    );
-
-    current = 0;
+function wait(ms){
+return new Promise(r=>setTimeout(r,ms));
 }
 
 
-/* ================= EFECTO CONFIRMACION ================= */
 
-async function confirmEffect(text) {
+/* ================= CARGAR ================= */
 
-    const p = document.createElement("p");
+async function loadSession(){
 
-    p.innerText = text;
-    p.style.fontSize = "22px";
-    p.style.marginTop = "20px";
-    p.style.opacity = "0.8";
+sessionLabel.innerText =
+"Nueva sesión";
 
-    block.appendChild(p);
+changeColor();
 
-    await playVoice(text, true);
+await wait(800);
 
-    await wait(700);
+const res =
+await fetch(
+`/tvid_ejercicio.json?last_id=${lastSessionId}`
+);
+
+const data =
+await res.json();
+
+sesiones =
+data.sesiones || [];
+
+if(!sesiones.length)
+return;
+
+bloques =
+sesiones[0].bloques;
+
+lastSessionId =
+sesiones[0].id;
+
+localStorage.setItem(
+"lastSessionId",
+lastSessionId
+);
+
+current = 0;
+
 }
+
 
 
 /* ================= RESPIRACION ================= */
 
-async function breathing(b) {
+async function breathing(b){
 
-    changeColor();
+changeColor();
 
-    block.innerHTML = "";
+block.innerHTML="";
 
-    const text = b.texto || "Respira";
-    const dur = b.duracion || 4;
+circle.style.display="block";
 
-    const circle = document.createElement("div");
+const dur =
+b.duracion || 4;
 
-    circle.style.width = "140px";
-    circle.style.height = "140px";
-    circle.style.borderRadius = "50%";
-    circle.style.background = "#00bfff";
-    circle.style.margin = "30px auto";
-    circle.style.transition =
-        `transform ${dur}s linear`;
+const text =
+b.texto || "Respira";
 
-    block.appendChild(circle);
 
-    const p = document.createElement("p");
-    p.innerText = text;
-    block.appendChild(p);
+block.innerText = text;
 
-    await playVoice(text, true);
+await playVoice(text);
 
-    circle.style.transform = "scale(2.5)";
 
-    await wait(dur * 1000);
+circle.style.transform =
+"scale(2.5)";
 
-    circle.style.transform = "scale(1)";
+await wait(dur*1000);
 
-    await wait(dur * 1000);
 
-    await confirmEffect("Control mental activo");
+circle.style.transform =
+"scale(1)";
 
-    nextBtn.style.display = "inline-block";
+await wait(dur*1000);
+
+
+disciplina+=2;
+calma+=3;
+
+updateStats();
+
+nextBtn.style.display="block";
+
 }
+
 
 
 /* ================= QUIZ ================= */
 
-async function quiz(b) {
+async function quiz(b){
 
-    changeColor();
+changeColor();
 
-    block.innerHTML = "";
+circle.style.display="none";
 
-    const q = document.createElement("p");
-    q.innerText = b.pregunta;
+block.innerHTML="";
 
-    block.appendChild(q);
+const p =
+document.createElement("p");
 
-    await playVoice(b.pregunta);
+p.innerText =
+b.pregunta;
 
-    for (let i = 0; i < b.opciones.length; i++) {
+block.appendChild(p);
 
-        const btn =
-            document.createElement("button");
+await playVoice(b.pregunta);
 
-        btn.innerText = b.opciones[i];
 
-        btn.onclick = async () => {
+b.opciones.forEach((op,i)=>{
 
-            block.innerHTML = "";
+const btn =
+document.createElement("button");
 
-            const correct =
-                i === b.correcta;
+btn.innerText=op;
 
-            const result =
-                correct
-                ? "CORRECTO"
-                : "INCORRECTO";
+btn.onclick=async()=>{
 
-            const h =
-                document.createElement("h2");
+block.innerHTML="";
 
-            h.innerText = result;
+const correct =
+i===b.correcta;
 
-            block.appendChild(h);
+const h =
+document.createElement("h2");
 
-            await playVoice(result);
+h.innerText=
+correct
+? "✔ CORRECTO"
+: "✘ INCORRECTO";
 
-            await wait(500);
+block.appendChild(h);
 
-            if (b.explicacion) {
+await playVoice(
+correct
+? "Correcto"
+: "Incorrecto"
+);
 
-                const p =
-                    document.createElement("p");
+await wait(400);
 
-                p.innerText =
-                    b.explicacion;
+const exp =
+document.createElement("p");
 
-                block.appendChild(p);
+exp.innerText =
+b.explicacion;
 
-                await playVoice(
-                    b.explicacion,
-                    true
-                );
-            }
+block.appendChild(exp);
 
-            if (correct) {
+await playVoice(
+b.explicacion
+);
 
-                await confirmEffect(
-                    "Disciplina aumenta"
-                );
 
-            } else {
+if(correct){
 
-                await confirmEffect(
-                    "Debes entrenar más"
-                );
+block.innerHTML +=
+"<p>Tu mente respondió bien</p>";
 
-            }
+disciplina+=5;
+claridad+=3;
 
-            nextBtn.style.display =
-                "inline-block";
-        };
+}else{
 
-        block.appendChild(btn);
-    }
+block.innerHTML +=
+"<p>Tu mente dudó</p>";
+
+disciplina-=5;
+claridad-=2;
 
 }
 
 
-/* ================= TVID LARGO ================= */
+updateStats();
 
-async function tvidLargo(b) {
+nextBtn.style.display="block";
 
-    changeColor();
+};
 
-    block.innerHTML = "";
+block.appendChild(btn);
 
-    const textos = b.textos || [];
+});
 
-    for (let t of textos) {
-
-        const p =
-            document.createElement("p");
-
-        p.innerText = t;
-
-        block.appendChild(p);
-
-        await playVoice(t, true);
-
-        await wait(400);
-    }
-
-    await confirmEffect(
-        "Ejercicio completado"
-    );
-
-    nextBtn.style.display =
-        "inline-block";
 }
 
 
-/* ================= BLOQUE FUERTE ================= */
 
-async function showBlock(b) {
+/* ================= TEXTO ================= */
 
-    nextBtn.style.display = "none";
+async function textBlock(b){
 
-    changeColor();
+changeColor();
 
-    block.innerHTML = "";
+circle.style.display="none";
 
-    await wait(300);
+block.innerText =
+b.texto;
 
+await playVoice(
+b.texto
+);
 
-    if (b.tipo === "respiracion") {
+nextBtn.style.display="block";
 
-        await breathing(b);
-        return;
-    }
-
-
-    if (
-        b.tipo === "quiz"
-        || b.tipo === "acertijo"
-        || b.tipo === "decision"
-    ) {
-
-        await quiz(b);
-        return;
-    }
-
-
-    if (
-        b.tipo ===
-        "tvid_ejercicio_largo"
-    ) {
-
-        await tvidLargo(b);
-        return;
-    }
-
-
-    /* ===== TEXTO NORMAL ===== */
-
-    const p =
-        document.createElement("p");
-
-    p.innerText = b.texto || "";
-
-    block.appendChild(p);
-
-    await playVoice(b.texto);
-
-    await wait(500);
-
-    await confirmEffect(
-        "Continúa"
-    );
-
-    nextBtn.style.display =
-        "inline-block";
 }
+
+
+
+/* ================= BLOQUE ================= */
+
+async function showBlock(b){
+
+nextBtn.style.display="none";
+
+if(!b) return;
+
+if(b.tipo==="respiracion"){
+
+await breathing(b);
+return;
+
+}
+
+if(
+b.tipo==="quiz"
+|| b.tipo==="acertijo"
+|| b.tipo==="decision"
+){
+
+await quiz(b);
+return;
+
+}
+
+await textBlock(b);
+
+}
+
 
 
 /* ================= START ================= */
 
-startBtn.onclick = async () => {
+startBtn.onclick = async()=>{
 
-    startBtn.style.display = "none";
+startBtn.style.display="none";
 
-    await loadSession();
+startTimer();
 
-    showBlock(
-        bloques[current]
-    );
+await loadSession();
+
+showBlock(
+bloques[current]
+);
+
 };
+
 
 
 /* ================= NEXT ================= */
 
-nextBtn.onclick = async () => {
+nextBtn.onclick=()=>{
 
-    current++;
+current++;
 
-    if (current < bloques.length) {
+if(current<bloques.length){
 
-        showBlock(
-            bloques[current]
-        );
+showBlock(
+bloques[current]
+);
 
-    } else {
+}else{
 
-        await loadSession();
+loadSession();
 
-        showBlock(
-            bloques[current]
-        );
-    }
+}
 
 };
+
 
 
 /* ================= BACK ================= */
 
-backBtn.onclick = () => {
+backBtn.onclick=()=>{
 
-    if (current > 0) {
+if(current>0){
 
-        current--;
+current--;
 
-        showBlock(
-            bloques[current]
-        );
-    }
+disciplina*=0.2;
+claridad*=0.6;
+calma*=0.2;
+
+updateStats();
+
+showBlock(
+bloques[current]
+);
+
+}
 
 };
 
 
+
 /* ================= RESET ================= */
 
-restartBtn.onclick = () => {
+restartBtn.onclick=()=>{
 
-    localStorage.removeItem(
-        "lastSessionId"
-    );
+localStorage.removeItem(
+"lastSessionId"
+);
 
-    location.reload();
+location.reload();
 
 };
