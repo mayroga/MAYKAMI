@@ -324,7 +324,7 @@
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 9s - Inhale energía positiva pura</span>","duracion":9,"color":"#60a5fa"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Retiene: 5s - Sienta el impulso acumulado</span>","duracion":5,"color":"#60a5fa"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Exhala: 9s - Deseche la duda y la pereza</span>","duracion":9,"color":"#60a5fa"},
-        {"tipo":"voz","texto":"<span style='color:#22c55e'>Explicación: La inhalación prolongada eleva los niveles de oxígeno en el cerebro, activando el sistema de recompensa y disponiendo al cuerpo para la acción.</span>","color":"#2563eb"}
+        {"tipo":"voz","texto":"<span style='color:#22c55e'>Explicación: La inhalación prolongada eleva los niveles de oxígeno en el cerebro, activando el sistema de recompensa y disponiendo al cuerpo para la acción.</span>","color":"#2563eb"},
         {"tipo":"decision","pregunta":"¿Puedes tomar acción ahora con motivación?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La motivación se refuerza con acción y enfoque consciente.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza tus metas alcanzadas y el orgullo de tu esfuerzo. Siente entusiasmo y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
