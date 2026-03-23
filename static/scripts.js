@@ -16,8 +16,11 @@ breathCircle.style.height = "120px";
 breathCircle.style.borderRadius = "50%";
 breathCircle.style.background = "#60a5fa";
 breathCircle.style.margin = "20px auto";
-breathCircle.style.transition = "transform 1s linear";
+breathCircle.style.transition = "transform 1.5s ease-in-out";
+breathCircle.style.display = "none"; // inicialmente oculto
 block.appendChild(breathCircle);
+
+let breathingInterval = null;
 
 /* ==================== TEXTO ==================== */
 const breathText = document.createElement("div");
@@ -91,18 +94,44 @@ function hablar(texto, soft = false) {
 
 /* ==================== LIMPIAR BLOQUE ==================== */
 function limpiarBloque() {
-  block.innerHTML = "";
-  block.appendChild(breathCircle);
-  block.appendChild(breathText);
-  block.appendChild(contador);
+  // eliminar todo lo que no sea globo, texto y contador
+  Array.from(block.children).forEach(el => {
+    if (el !== breathCircle && el !== breathText && el !== contador) block.removeChild(el);
+  });
+  breathText.innerHTML = "";
+  contador.innerHTML = "";
+  block.style.backgroundColor = "#020617";
+
+  // detener animación del globo si existía
+  if (breathingInterval) {
+    clearInterval(breathingInterval);
+    breathingInterval = null;
+  }
+  breathCircle.style.display = "none";
+  breathCircle.style.transform = "scale(1)";
 }
 
 /* ==================== TEXTO + VOZ ==================== */
 async function escribirTextoYHablar(texto, color = "#ffffff") {
   limpiarBloque();
-  block.style.backgroundColor = "#020617";
   breathText.style.color = color;
-  breathText.innerHTML = "";
+
+  // detectar automáticamente si hay respiración
+  const isBreathing = texto.toLowerCase().includes("respira");
+  if (isBreathing) {
+    breathCircle.style.display = "block";
+    let growing = true;
+    breathingInterval = setInterval(() => {
+      if (growing) {
+        breathCircle.style.transform = "scale(1.6)";
+        growing = false;
+      } else {
+        breathCircle.style.transform = "scale(1)";
+        growing = true;
+      }
+    }, 1500);
+  }
+
   await hablar(texto);
   let i = 0;
   return new Promise(resolve => {
@@ -122,15 +151,17 @@ async function escribirTextoYHablar(texto, color = "#ffffff") {
 async function respirar(texto, duracion) {
   limpiarBloque();
   breathText.innerHTML = texto;
+  breathCircle.style.display = "block";
 
-  let inicio = 1, fin = 1;
-  if (texto.toLowerCase().includes("inhala")) inicio = 1, fin = 1.6;
-  if (texto.toLowerCase().includes("retiene")) inicio = 1.6, fin = 1.6;
-  if (texto.toLowerCase().includes("exhala")) inicio = 1.6, fin = 0.8;
+  let inicio = 1, fin = 1.6;
 
-  breathCircle.style.transition = `transform ${duracion}s linear`;
   breathCircle.style.transform = `scale(${inicio})`;
-  setTimeout(() => breathCircle.style.transform = `scale(${fin})`, 100);
+  let growing = true;
+  breathingInterval = setInterval(() => {
+    if (growing) breathCircle.style.transform = `scale(${fin})`;
+    else breathCircle.style.transform = `scale(${inicio})`;
+    growing = !growing;
+  }, 1500);
 
   await hablar(texto, true);
   for (let i = duracion; i > 0; i--) {
@@ -138,6 +169,9 @@ async function respirar(texto, duracion) {
     await new Promise(r => setTimeout(r, 1000));
   }
   contador.innerText = "";
+  clearInterval(breathingInterval);
+  breathingInterval = null;
+  breathCircle.style.display = "none";
 }
 
 /* ==================== DECISION ==================== */
@@ -145,7 +179,6 @@ function decision(bloque) {
   return new Promise(resolve => {
     limpiarBloque();
 
-    // Contenedor central con color (estilo Kamizen)
     const container = document.createElement("div");
     container.style.cssText = `
       max-width: 700px;
@@ -190,9 +223,8 @@ function decision(bloque) {
 
 /* ==================== MOSTRAR BLOQUE ==================== */
 async function mostrarBloque(bloque) {
-  // Cambiar fondo general solo si no es respiración
   if (bloque.tipo !== "respiracion") document.body.style.backgroundColor = "#020617";
-  
+
   switch (bloque.tipo) {
     case "voz":
     case "historia":
@@ -201,21 +233,8 @@ async function mostrarBloque(bloque) {
     case "visualizacion":
     case "inteligencia_social":
       if (bloque.texto) {
-        // Contenedor central con color
-        const container = document.createElement("div");
-        container.style.cssText = `
-          max-width: 800px;
-          margin: 40px auto;
-          padding: 30px;
-          background-color: ${bloque.color || "#1e293b"};
-          border-radius: 12px;
-          box-shadow: 0 0 20px rgba(0,0,0,0.5);
-          color: #ffffff;
-          text-align: center;
-        `;
-        container.innerHTML = `<p style="font-size:1.3em; line-height:1.5;">${bloque.texto}</p>`;
-        block.appendChild(container);
-        await hablar(bloque.texto);
+        limpiarBloque();
+        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
         nextBtn.style.display = "inline-block";
       }
       break;
@@ -223,20 +242,8 @@ async function mostrarBloque(bloque) {
     case "tvid_ejercicio_largo":
       if (Array.isArray(bloque.textos)) {
         for (const t of bloque.textos) {
-          const container = document.createElement("div");
-          container.style.cssText = `
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 25px;
-            background-color: ${bloque.color || "#1e293b"};
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            color: #ffffff;
-            text-align: center;
-          `;
-          container.innerHTML = `<p style="font-size:1.2em; line-height:1.5;">${t}</p>`;
-          block.appendChild(container);
-          await hablar(t);
+          limpiarBloque();
+          await escribirTextoYHablar(t, bloque.color || "#ffffff");
           await new Promise(r => setTimeout(r, 300));
         }
       }
@@ -254,28 +261,12 @@ async function mostrarBloque(bloque) {
 
     case "cierre":
       if (bloque.texto) {
-        const container = document.createElement("div");
-        container.style.cssText = `
-          max-width: 800px;
-          margin: 40px auto;
-          padding: 30px;
-          background-color: ${bloque.color || "#1e293b"};
-          border-radius: 12px;
-          box-shadow: 0 0 20px rgba(0,0,0,0.5);
-          color: #ffffff;
-          text-align: center;
-        `;
-        container.innerHTML = `<p style="font-size:1.4em;">${bloque.texto}</p>`;
-        block.appendChild(container);
-        await hablar(bloque.texto);
+        limpiarBloque();
+        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
         completedSessions.push(currentSesion);
         localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
         restartBtn.style.display = "block";
       }
-      break;
-
-    default:
-      console.warn("Tipo de bloque no reconocido:", bloque.tipo);
       break;
   }
 }
