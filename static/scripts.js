@@ -23,8 +23,6 @@ breathCircle.style.margin = "20px auto";
 breathCircle.style.transition = "transform 1s linear";
 breathCircle.style.display = "block";
 
-block.appendChild(breathCircle);
-
 
 // ==================== TEXTO ====================
 
@@ -36,20 +34,16 @@ breathText.style.textAlign = "center";
 breathText.style.color = "#ffffff";
 breathText.style.padding = "10px";
 
-block.appendChild(breathText);
-
 
 // ==================== CONTADOR ====================
 
 const contador = document.createElement("div");
 
 contador.style.fontSize = "16px";
-contador.style.opacity = "0.7";
+contador.style.opacity = "0.8";
 contador.style.marginTop = "10px";
 contador.style.textAlign = "center";
 contador.style.color = "#ffffff";
-
-block.appendChild(contador);
 
 
 // ==================== VARIABLES ====================
@@ -59,11 +53,10 @@ let currentBloque = 0;
 let currentSesion = 0;
 let puntos = 0;
 
+let respirandoAuto = false;
 
-// ==================== FUNCIONES ====================
 
-
-// Cargar JSON
+// ==================== CARGAR JSON ====================
 
 async function cargarSesiones() {
 
@@ -77,14 +70,14 @@ async function cargarSesiones() {
 
   } catch (e) {
 
-    block.innerText = "Error cargando sesiones. Verifica el JSON.";
+    block.innerText = "Error cargando sesiones";
 
   }
 
 }
 
 
-// Limpiar
+// ==================== LIMPIAR ====================
 
 function limpiarBloque() {
 
@@ -103,12 +96,10 @@ function obtenerVozEspañol() {
 
   const voces = speechSynthesis.getVoices();
 
-  const voz =
-    voces.find(v => v.lang.startsWith("es") && v.name.toLowerCase().includes("male"))
-    || voces.find(v => v.lang.startsWith("es"))
-    || voces[0];
-
-  return voz;
+  return (
+    voces.find(v => v.lang.startsWith("es")) ||
+    voces[0]
+  );
 
 }
 
@@ -119,17 +110,15 @@ function hablar(texto, soft=false) {
 
     speechSynthesis.cancel();
 
-    const utter = new SpeechSynthesisUtterance(
-      texto.replace(/<[^>]*>/g, "")
-    );
+    const limpio = texto.replace(/<[^>]*>/g, "");
+
+    const utter = new SpeechSynthesisUtterance(limpio);
 
     utter.lang = "es-ES";
 
     utter.voice = obtenerVozEspañol();
 
     utter.rate = soft ? 0.8 : 0.9;
-
-    utter.pitch = soft ? 0.9 : 1;
 
     utter.onend = resolve;
 
@@ -140,45 +129,63 @@ function hablar(texto, soft=false) {
 }
 
 
+// ==================== TEXTO + VOZ ====================
 
 async function escribirTextoYHablar(texto, color="#ffffff") {
 
   limpiarBloque();
 
-  block.style.color = color;
+  block.style.backgroundColor = "#020617";
 
-  breathText.innerHTML = "";
+  breathText.innerHTML = texto;
 
   await hablar(texto);
 
-  let i = 0;
-
-  return new Promise((resolve) => {
-
-    const interval = setInterval(() => {
-
-      if (i < texto.length) {
-
-        breathText.innerHTML += texto[i];
-
-        i++;
-
-      } else {
-
-        clearInterval(interval);
-
-        resolve();
-
-      }
-
-    }, 35);
-
-  });
+  await new Promise(r => setTimeout(r, 500));
 
 }
 
 
-// ==================== RESPIRACION ====================
+// ==================== RESPIRACION AUTO ====================
+
+function respirarAutomatico() {
+
+  respirandoAuto = true;
+
+  function loop() {
+
+    if (!respirandoAuto) return;
+
+    breathCircle.style.transition = "transform 4s linear";
+
+    breathCircle.style.transform = "scale(1.6)";
+
+    setTimeout(() => {
+
+      breathCircle.style.transition = "transform 4s linear";
+
+      breathCircle.style.transform = "scale(1)";
+
+    }, 4000);
+
+    setTimeout(loop, 8000);
+
+  }
+
+  loop();
+
+}
+
+
+function pararRespiracion() {
+
+  respirandoAuto = false;
+
+}
+
+
+
+// ==================== RESPIRACION CONTROLADA ====================
 
 async function respirar(texto, duracion) {
 
@@ -186,40 +193,58 @@ async function respirar(texto, duracion) {
 
   breathText.innerHTML = texto;
 
-  let scale = 1;
+  pararRespiracion();
 
-  if (
-    texto.toLowerCase().includes("inhala") ||
-    texto.toLowerCase().includes("respira")
-  ) scale = 1.5;
+  let inicio = 1;
+  let fin = 1;
 
-  if (
-    texto.toLowerCase().includes("exhala") ||
-    texto.toLowerCase().includes("suelta")
-  ) scale = 0.8;
+  const t = texto.toLowerCase();
 
+  if (t.includes("inhala")) {
+    inicio = 1;
+    fin = 1.6;
+  }
 
-  breathCircle.style.transform = `scale(${scale})`;
+  if (t.includes("retiene")) {
+    inicio = 1.6;
+    fin = 1.6;
+  }
 
-  contador.innerText = `Tiempo restante: ${duracion}s`;
+  if (t.includes("exhala")) {
+    inicio = 1.6;
+    fin = 0.8;
+  }
+
+  if (t.includes("respira")) {
+    respirarAutomatico();
+  }
+
+  breathCircle.style.transition = `transform ${duracion}s linear`;
+
+  breathCircle.style.transform = `scale(${inicio})`;
+
+  setTimeout(() => {
+
+    breathCircle.style.transform = `scale(${fin})`;
+
+  }, 100);
+
 
   await hablar(texto, true);
 
 
   for (let i = duracion; i > 0; i--) {
 
-    contador.innerText = `Tiempo restante: ${i}s`;
+    contador.innerText = "Tiempo restante: " + i + "s";
 
     await new Promise(r => setTimeout(r, 1000));
 
   }
 
-
-  breathCircle.style.transform = "scale(1)";
-
   contador.innerText = "";
 
 }
+
 
 
 // ==================== DECISION ====================
@@ -230,11 +255,9 @@ function decision(bloque) {
 
     limpiarBloque();
 
-    block.style.color = bloque.color || "#ffffff";
-
     breathText.innerHTML = bloque.pregunta;
 
-    bloque.opciones.forEach((opt, idx) => {
+    bloque.opciones.forEach((opt, i) => {
 
       const btn = document.createElement("button");
 
@@ -242,12 +265,12 @@ function decision(bloque) {
 
       btn.onclick = async () => {
 
-        if (idx === bloque.correcta) {
+        if (i === bloque.correcta) {
 
           breathText.innerHTML =
-            `${bloque.pregunta}<br>✅ Correcto<br>${bloque.explicacion}`;
+            "Correcto<br>" + bloque.explicacion;
 
-          await hablar(`Correcto. ${bloque.explicacion}`);
+          await hablar("Correcto. " + bloque.explicacion);
 
           puntos += bloque.recompensa || 0;
 
@@ -256,9 +279,9 @@ function decision(bloque) {
         } else {
 
           breathText.innerHTML =
-            `${bloque.pregunta}<br>❌ Incorrecto<br>${bloque.explicacion}`;
+            "Incorrecto<br>" + bloque.explicacion;
 
-          await hablar(`Incorrecto. ${bloque.explicacion}`);
+          await hablar("Incorrecto");
 
         }
 
@@ -277,7 +300,7 @@ function decision(bloque) {
 
 async function mostrarBloque(bloque) {
 
-  block.style.backgroundColor = bloque.color || "#020617";
+  block.style.backgroundColor = "#020617";
 
   switch (bloque.tipo) {
 
@@ -285,17 +308,23 @@ async function mostrarBloque(bloque) {
     case "historia":
     case "tvid":
     case "estrategia":
-    case "inteligencia_social":
     case "visualizacion":
+    case "inteligencia_social":
 
-      await escribirTextoYHablar(bloque.texto, bloque.color);
+      await escribirTextoYHablar(
+        bloque.texto,
+        bloque.color
+      );
 
       break;
 
 
     case "respiracion":
 
-      await respirar(bloque.texto, bloque.duracion);
+      await respirar(
+        bloque.texto,
+        bloque.duracion
+      );
 
       break;
 
@@ -318,7 +347,10 @@ async function mostrarBloque(bloque) {
 
       for (const txt of bloque.textos) {
 
-        await escribirTextoYHablar(txt, bloque.color);
+        await escribirTextoYHablar(
+          txt,
+          bloque.color
+        );
 
       }
 
@@ -327,14 +359,12 @@ async function mostrarBloque(bloque) {
 
     case "cierre":
 
-      await escribirTextoYHablar(bloque.texto, bloque.color);
+      await escribirTextoYHablar(
+        bloque.texto,
+        bloque.color
+      );
 
       break;
-
-
-    default:
-
-      await escribirTextoYHablar("Bloque desconocido", "#ffffff");
 
   }
 
@@ -386,7 +416,7 @@ startBtn.onclick = async () => {
 
   if (!sesiones.length) {
 
-    block.innerText = "No hay sesiones disponibles.";
+    block.innerText = "No hay sesiones disponibles";
 
     return;
 
