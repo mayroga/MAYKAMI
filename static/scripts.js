@@ -1,4 +1,5 @@
 /* ==================== ELEMENTOS ==================== */
+
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
@@ -9,324 +10,396 @@ const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
-/* ==================== GLOBO DE RESPIRACION ==================== */
-const breathCircle = document.createElement("div");
-breathCircle.style.width = "120px";
-breathCircle.style.height = "120px";
-breathCircle.style.borderRadius = "50%";
-breathCircle.style.background = "#60a5fa";
-breathCircle.style.margin = "20px auto";
-breathCircle.style.transition = "transform 1.5s ease-in-out";
-breathCircle.style.display = "none"; // inicialmente oculto
-block.appendChild(breathCircle);
+/* ===== VISUAL PROFUNDO ===== */
 
-let breathingInterval = null;
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
+const audio = document.getElementById("nature-audio");
 
-/* ==================== TEXTO ==================== */
-const breathText = document.createElement("div");
-breathText.style.fontSize = "22px";
-breathText.style.fontWeight = "600";
-breathText.style.textAlign = "center";
-breathText.style.color = "#ffffff";
-breathText.style.padding = "10px";
-block.appendChild(breathText);
+let slides = [];
+let slideIndex = 0;
+let slideInterval = null;
 
-/* ==================== CONTADOR ==================== */
-const contador = document.createElement("div");
-contador.style.fontSize = "18px";
-contador.style.opacity = "0.8";
-contador.style.marginTop = "10px";
-contador.style.textAlign = "center";
-contador.style.color = "#ffffff";
-block.appendChild(contador);
+/* crear paisajes */
+
+for (let i = 0; i < 20; i++) {
+
+    const div = document.createElement("div");
+
+    div.className = "slide";
+
+    div.style.backgroundImage =
+        `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
+
+    gallery.appendChild(div);
+
+}
+
+slides = document.querySelectorAll(".slide");
+
+function cambiarSlide() {
+
+    slides[slideIndex].classList.remove("active");
+
+    slideIndex = (slideIndex + 1) % slides.length;
+
+    slides[slideIndex].classList.add("active");
+
+}
+
+
+/* ===== ACTIVAR VISUAL ===== */
+
+function activarVisual(tipo = "inhala") {
+
+    circle.style.display = "flex";
+
+    circle.classList.remove("inhale", "exhale", "hold");
+
+    if (tipo === "inhala") {
+
+        circle.innerText = "Inhala";
+        circle.classList.add("inhale");
+
+    }
+
+    if (tipo === "exhala") {
+
+        circle.innerText = "Exhala";
+        circle.classList.add("exhale");
+
+    }
+
+    if (tipo === "hold") {
+
+        circle.innerText = "Retén";
+        circle.classList.add("hold");
+
+    }
+
+    slides[0].classList.add("active");
+
+    if (!slideInterval) {
+
+        slideInterval = setInterval(cambiarSlide, 6000);
+
+    }
+
+    audio.volume = 0.25;
+    audio.play();
+
+}
+
+function pararVisual() {
+
+    circle.style.display = "none";
+
+    audio.pause();
+
+    if (slideInterval) {
+
+        clearInterval(slideInterval);
+
+        slideInterval = null;
+
+    }
+
+}
+
+
 
 /* ==================== VARIABLES ==================== */
-let sesiones = [];
-let currentBloque = 0;
-let currentSesion = 0;
-let puntos = 0;
-let completedSessions = JSON.parse(localStorage.getItem("completedSessions")) || [];
 
-/* ==================== DATOS USUARIO ==================== */
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-  streak: 0,
-  lastDay: null,
-  nivel: 1,
-  disciplina: 40,
-  claridad: 50,
-  calma: 30
-};
+let sesiones = [];
+
+let currentBloque = 0;
+
+let currentSesion = 0;
+
+
 
 /* ==================== PANEL ==================== */
+
 function updatePanel() {
-  discBar.style.width = userData.disciplina + "%";
-  clarBar.style.width = userData.claridad + "%";
-  calmaBar.style.width = userData.calma + "%";
-  localStorage.setItem("maykamiData", JSON.stringify(userData));
+
+    discBar.style.width = "50%";
+
+    clarBar.style.width = "50%";
+
+    calmaBar.style.width = "50%";
+
 }
 
-/* ==================== PENALIZACION ==================== */
-function aplicarPenalizacion() {
-  userData.calma = Math.max(0, userData.calma * 0.2);
-  userData.disciplina = Math.max(0, userData.disciplina * 0.2);
-  userData.claridad = Math.max(0, userData.claridad * 0.6);
-  updatePanel();
-  hablar("Advertencia: saltar pasos afecta tu progreso.");
-}
+
 
 /* ==================== VOZ ==================== */
-function obtenerVozEspañol() {
-  const voces = speechSynthesis.getVoices();
-  return voces.find(v => v.lang.startsWith("es")) || voces[0];
+
+function voz() {
+
+    return speechSynthesis.getVoices().find(v => v.lang.startsWith("es"))
+
 }
 
-function hablar(texto, soft = false) {
-  return new Promise(resolve => {
-    speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(texto.replace(/<[^>]*>/g, ""));
-    utter.lang = "es-ES";
-    utter.voice = obtenerVozEspañol();
-    utter.rate = soft ? 0.8 : 0.9;
-    utter.onend = resolve;
-    speechSynthesis.speak(utter);
-  });
+
+
+function hablar(texto, lento = false) {
+
+    return new Promise(r => {
+
+        speechSynthesis.cancel();
+
+        const u = new SpeechSynthesisUtterance(texto);
+
+        u.lang = "es-ES";
+
+        u.voice = voz();
+
+        u.rate = lento ? 0.8 : 0.9;
+
+        u.onend = r;
+
+        speechSynthesis.speak(u);
+
+    });
+
 }
 
-/* ==================== LIMPIAR BLOQUE ==================== */
-function limpiarBloque() {
-  // eliminar todo lo que no sea globo, texto y contador
-  Array.from(block.children).forEach(el => {
-    if (el !== breathCircle && el !== breathText && el !== contador) block.removeChild(el);
-  });
-  breathText.innerHTML = "";
-  contador.innerHTML = "";
-  block.style.backgroundColor = "#020617";
 
-  // detener animación del globo si existía
-  if (breathingInterval) {
-    clearInterval(breathingInterval);
-    breathingInterval = null;
-  }
-  breathCircle.style.display = "none";
-  breathCircle.style.transform = "scale(1)";
+
+/* ==================== DETECTOR RESPIRACION ==================== */
+
+function detectarRespiracion(texto) {
+
+    texto = texto.toLowerCase();
+
+    if (texto.includes("respira")) return true;
+
+    if (texto.includes("inhala")) return true;
+
+    if (texto.includes("exhala")) return true;
+
+    if (texto.includes("lento")) return true;
+
+    if (texto.includes("calma")) return true;
+
+    if (texto.includes("silencio")) return true;
+
+    if (texto.includes("concéntrate")) return true;
+
+    if (texto.includes("observa")) return true;
+
+    if (texto.includes("siente")) return true;
+
+    if (texto.includes("mantente")) return true;
+
+    return false;
+
 }
 
-/* ==================== TEXTO + VOZ ==================== */
-async function escribirTextoYHablar(texto, color = "#ffffff") {
-  limpiarBloque();
-  breathText.style.color = color;
 
-  // detectar automáticamente si hay respiración
-  const isBreathing = texto.toLowerCase().includes("respira");
-  if (isBreathing) {
-    breathCircle.style.display = "block";
-    let growing = true;
-    breathingInterval = setInterval(() => {
-      if (growing) {
-        breathCircle.style.transform = "scale(1.6)";
-        growing = false;
-      } else {
-        breathCircle.style.transform = "scale(1)";
-        growing = true;
-      }
-    }, 1500);
-  }
 
-  await hablar(texto);
-  let i = 0;
-  return new Promise(resolve => {
-    const interval = setInterval(() => {
-      if (i < texto.length) {
-        breathText.innerHTML += texto[i];
-        i++;
-      } else {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 20);
-  });
+/* ==================== TEXTO ==================== */
+
+async function escribir(texto, color = "#fff", forzarVisual = false) {
+
+    block.innerHTML = "";
+
+    const div = document.createElement("div");
+
+    div.style.fontSize = "26px";
+
+    div.style.color = color;
+
+    block.appendChild(div);
+
+
+
+    if (detectarRespiracion(texto) || forzarVisual) {
+
+        activarVisual("inhala");
+
+    } else {
+
+        pararVisual();
+
+    }
+
+
+
+    await hablar(texto, true);
+
+
+
+    for (let i = 0; i < texto.length; i++) {
+
+        div.innerHTML += texto[i];
+
+        await new Promise(r => setTimeout(r, 20));
+
+    }
+
+
+
+    await new Promise(r => setTimeout(r, 1200));
+
 }
+
+
 
 /* ==================== RESPIRACION ==================== */
+
 async function respirar(texto, duracion) {
-  limpiarBloque();
-  breathText.innerHTML = texto;
-  breathCircle.style.display = "block";
 
-  let inicio = 1, fin = 1.6;
+    activarVisual("inhala");
 
-  breathCircle.style.transform = `scale(${inicio})`;
-  let growing = true;
-  breathingInterval = setInterval(() => {
-    if (growing) breathCircle.style.transform = `scale(${fin})`;
-    else breathCircle.style.transform = `scale(${inicio})`;
-    growing = !growing;
-  }, 1500);
+    await hablar(texto, true);
 
-  await hablar(texto, true);
-  for (let i = duracion; i > 0; i--) {
-    contador.innerText = "Tiempo restante: " + i + "s";
-    await new Promise(r => setTimeout(r, 1000));
-  }
-  contador.innerText = "";
-  clearInterval(breathingInterval);
-  breathingInterval = null;
-  breathCircle.style.display = "none";
+    for (let i = duracion; i > 0; i--) {
+
+        block.innerHTML = texto + "<br>" + i;
+
+        await new Promise(r => setTimeout(r, 1000));
+
+    }
+
+    pararVisual();
+
 }
 
-/* ==================== DECISION ==================== */
-function decision(bloque) {
-  return new Promise(resolve => {
-    limpiarBloque();
 
-    const container = document.createElement("div");
-    container.style.cssText = `
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: ${bloque.color || "#1e293b"};
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      color: #ffffff;
-      text-align: center;
-    `;
-    container.innerHTML = `<p style="font-size:1.3em;">${bloque.pregunta}</p>`;
-    block.appendChild(container);
-
-    const feedbackArea = document.createElement("div");
-    feedbackArea.style.cssText = "margin-top:15px; text-align:center; color:#00d2ff;";
-    feedbackArea.innerText = "Selecciona una opción";
-    container.appendChild(feedbackArea);
-
-    bloque.opciones.forEach((opt, i) => {
-      const btn = document.createElement("button");
-      btn.innerText = opt;
-      btn.style.cssText = "display:block; margin:10px auto; padding:10px 15px; border-radius:8px; cursor:pointer;";
-      btn.onclick = async () => {
-        if (i === bloque.correcta) {
-          feedbackArea.innerHTML = `<strong>✅ Correcto:</strong> ${bloque.explicacion || "Bien hecho"}`;
-          await hablar("Correcto. " + (bloque.explicacion || ""));
-          userData.disciplina += bloque.recompensa || 5;
-          updatePanel();
-          resolve();
-        } else {
-          feedbackArea.innerHTML = `<strong>❌ Incorrecto:</strong> ${bloque.explicacion || ""}`;
-          await hablar("Incorrecto. " + (bloque.explicacion || ""));
-          userData.calma += 2;
-          updatePanel();
-        }
-      };
-      container.appendChild(btn);
-    });
-  });
-}
 
 /* ==================== MOSTRAR BLOQUE ==================== */
-async function mostrarBloque(bloque) {
-  if (bloque.tipo !== "respiracion") document.body.style.backgroundColor = "#020617";
 
-  switch (bloque.tipo) {
-    case "voz":
-    case "historia":
-    case "tvid":
-    case "estrategia":
-    case "visualizacion":
-    case "inteligencia_social":
-      if (bloque.texto) {
-        limpiarBloque();
-        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
-        nextBtn.style.display = "inline-block";
-      }
-      break;
+async function mostrarBloque(b) {
 
-    case "tvid_ejercicio_largo":
-      if (Array.isArray(bloque.textos)) {
-        for (const t of bloque.textos) {
-          limpiarBloque();
-          await escribirTextoYHablar(t, bloque.color || "#ffffff");
-          await new Promise(r => setTimeout(r, 300));
-        }
-      }
-      if (bloque.duracion) await respirar("Respira y asimila lo aprendido", bloque.duracion);
-      nextBtn.style.display = "inline-block";
-      break;
+    switch (b.tipo) {
 
-    case "respiracion":
-      if (bloque.texto && bloque.duracion) await respirar(bloque.texto, bloque.duracion);
-      break;
 
-    case "decision":
-      if (bloque.pregunta && Array.isArray(bloque.opciones)) await decision(bloque);
-      break;
+        case "voz":
 
-    case "cierre":
-      if (bloque.texto) {
-        limpiarBloque();
-        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
-        completedSessions.push(currentSesion);
-        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
-        restartBtn.style.display = "block";
-      }
-      break;
-  }
+        case "tvid":
+
+        case "historia":
+
+            await escribir(b.texto, b.color);
+
+            break;
+
+
+        case "respiracion":
+
+            await respirar(b.texto, b.duracion);
+
+            break;
+
+
+        case "tvid_ejercicio_largo":
+
+            activarVisual("inhala");
+
+            for (let t of b.textos) {
+
+                await escribir(t, b.color, true);
+
+            }
+
+            if (b.duracion) {
+
+                await respirar("Respira", b.duracion);
+
+            }
+
+            pararVisual();
+
+            break;
+
+
+        case "cierre":
+
+            await escribir(b.texto);
+
+            restartBtn.style.display = "block";
+
+            break;
+
+    }
+
 }
 
-/* ==================== BOTONES ==================== */
-function actualizarBotones() {
-  backBtn.style.display = currentBloque > 0 ? "block" : "none";
-  nextBtn.style.display = currentBloque < sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
-  restartBtn.style.display = currentBloque >= sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
+
+
+/* ==================== SESIONES ==================== */
+
+async function cargarSesiones() {
+
+    const r = await fetch("/tvid_ejercicio.json");
+
+    const d = await r.json();
+
+    sesiones = d.sesiones;
+
+    currentSesion = Math.floor(Math.random() * sesiones.length);
+
 }
+
+
+
+/* ==================== CONTROL ==================== */
 
 async function mostrarActual() {
-  if (!sesiones.length) return;
-  actualizarBotones();
-  await mostrarBloque(sesiones[currentSesion].bloques[currentBloque]);
+
+    await mostrarBloque(
+
+        sesiones[currentSesion].bloques[currentBloque]
+
+    );
+
 }
 
-/* ==================== CARGAR SESIONES ==================== */
-async function cargarSesiones() {
-  try {
-    const res = await fetch("/tvid_ejercicio.json");
-    const data = await res.json();
-    sesiones = data.sesiones || [];
-    let disponibles = sesiones.map((_,i)=>i).filter(i=>!completedSessions.includes(i));
-    if(!disponibles.length) { completedSessions=[]; disponibles = sesiones.map((_,i)=>i); }
-    currentSesion = disponibles[Math.floor(Math.random() * disponibles.length)];
-  } catch (e) {
-    block.innerText = "Error cargando sesiones";
-    sesiones = [{ tipo: "voz", texto: "Iniciando Maykami..." }];
-  }
-}
 
-/* ==================== EVENTOS ==================== */
+
+/* ==================== BOTONES ==================== */
+
 startBtn.onclick = async () => {
-  await cargarSesiones();
-  if (!sesiones.length) { block.innerText = "No hay sesiones disponibles"; return; }
-  startBtn.style.display = "none";
-  currentBloque = 0;
-  mostrarActual();
+
+    await cargarSesiones();
+
+    startBtn.style.display = "none";
+
+    currentBloque = 0;
+
+    mostrarActual();
+
 };
 
-nextBtn.onclick = async () => {
-  if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+nextBtn.onclick = () => {
+
     currentBloque++;
+
     mostrarActual();
-  }
+
 };
 
-backBtn.onclick = async () => {
-  if (currentBloque > 0) {
-    aplicarPenalizacion();
-    currentBloque--;
+backBtn.onclick = () => {
+
+    if (currentBloque > 0) {
+
+        currentBloque--;
+
+        mostrarActual();
+
+    }
+
+};
+
+restartBtn.onclick = () => {
+
+    currentBloque = 0;
+
     mostrarActual();
-  }
+
 };
 
-restartBtn.onclick = async () => {
-  currentBloque = 0;
-  mostrarActual();
-};
 
-/* ==================== INICIALIZACION ==================== */
+
 updatePanel();
