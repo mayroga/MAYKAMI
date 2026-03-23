@@ -10,7 +10,7 @@
         {"tipo":"estrategia","texto":"Identifica lo que más te cuesta. Hazlo una vez ahora, sin excusas, y repítelo. Siente cómo lo difícil se vuelve fácil con la práctica.","color":"#14b8a6"},
         {"tipo":"historia","texto":"Carla corría cuando nadie la veía. No buscaba aplausos, buscaba resistencia. El mundo solo vio el éxito final, pero ella lo construyó en la soledad de la playa. Moraleja: Lo que haces en la oscuridad te hace brillar en la luz.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Hoy cada acción cuenta. Hazlo con conciencia y fuerza.","color":"#2563eb"},
-        {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala disciplina, exhala dudas. Siente tu cuerpo activo y presente.","color":"#06b6d4"},
+        {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala disciplina. Exhala dudas. Siente tu cuerpo activo y presente.","color":"#06b6d4"},
         {"tipo":"respiracion","texto":"Inhala: 8segundos - Inhala disciplina y orden.","duracion":8,"color":"#60a5fa"},
         {"tipo":"respiracion","texto":"Retiene: 5segundos - Fija la estructura en tu mente.","duracion":5,"color":"#60a5fa"},
         {"tipo":"respiracion","texto":"Exhala: 8segundos - Expulsa la pereza y el caos.","duracion":8,"color":"#60a5fa"},
