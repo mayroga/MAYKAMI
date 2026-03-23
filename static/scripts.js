@@ -1,4 +1,4 @@
-// ==================== ELEMENTOS ==================== 
+// ==================== ELEMENTOS ====================
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
@@ -50,10 +50,11 @@ function limpiarBloque() {
   block.appendChild(contador);
 }
 
+// ==================== VOZ NATURAL, MASCULINA, ESPAÑOL ====================
+
 // Obtener voz masculina en español
 function obtenerVozEspañol() {
   const voces = speechSynthesis.getVoices();
-  // Buscar voz española masculina si existe
   const voz = voces.find(v => v.lang.startsWith("es") && v.name.toLowerCase().includes("male")) 
             || voces.find(v => v.lang.startsWith("es")) 
             || voces[0];
@@ -61,13 +62,19 @@ function obtenerVozEspañol() {
 }
 
 // Hablar con SpeechSynthesis
-function hablar(texto) {
+function hablar(texto, soft=false) {
   return new Promise((resolve) => {
+    speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(texto);
     utter.lang = "es-ES";
     utter.voice = obtenerVozEspañol();
-    utter.rate = 0.9;  // un poco más pausado para claridad
-    utter.pitch = 1;   // tono natural
+    if (soft) {
+      utter.rate = 0.8;
+      utter.pitch = 0.9;
+    } else {
+      utter.rate = 0.9;
+      utter.pitch = 1;
+    }
     utter.onend = resolve;
     speechSynthesis.speak(utter);
   });
@@ -116,7 +123,7 @@ async function respirar(acciones, duracionTotal, objetivo) {
     contador.innerText = `Tiempo restante: ${Math.ceil(tiempo)}s`;
     
     // Leer en voz alta el paso
-    await hablar(acciones[i]);
+    await hablar(acciones[i], true);
 
     // Espera según duración
     await new Promise(r => setTimeout(r, duracionPaso));
