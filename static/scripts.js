@@ -144,12 +144,26 @@ async function respirar(texto, duracion) {
 function decision(bloque) {
   return new Promise(resolve => {
     limpiarBloque();
-    breathText.innerHTML = bloque.pregunta;
+
+    // Contenedor central con color (estilo Kamizen)
+    const container = document.createElement("div");
+    container.style.cssText = `
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: ${bloque.color || "#1e293b"};
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      color: #ffffff;
+      text-align: center;
+    `;
+    container.innerHTML = `<p style="font-size:1.3em;">${bloque.pregunta}</p>`;
+    block.appendChild(container);
 
     const feedbackArea = document.createElement("div");
     feedbackArea.style.cssText = "margin-top:15px; text-align:center; color:#00d2ff;";
     feedbackArea.innerText = "Selecciona una opción";
-    block.appendChild(feedbackArea);
+    container.appendChild(feedbackArea);
 
     bloque.opciones.forEach((opt, i) => {
       const btn = document.createElement("button");
@@ -169,15 +183,16 @@ function decision(bloque) {
           updatePanel();
         }
       };
-      block.appendChild(btn);
+      container.appendChild(btn);
     });
   });
 }
 
 /* ==================== MOSTRAR BLOQUE ==================== */
 async function mostrarBloque(bloque) {
-  block.style.backgroundColor = bloque.color || "#020617";
-
+  // Cambiar fondo general solo si no es respiración
+  if (bloque.tipo !== "respiracion") document.body.style.backgroundColor = "#020617";
+  
   switch (bloque.tipo) {
     case "voz":
     case "historia":
@@ -185,17 +200,48 @@ async function mostrarBloque(bloque) {
     case "estrategia":
     case "visualizacion":
     case "inteligencia_social":
-      if (bloque.texto) await escribirTextoYHablar(bloque.texto, bloque.color);
+      if (bloque.texto) {
+        // Contenedor central con color
+        const container = document.createElement("div");
+        container.style.cssText = `
+          max-width: 800px;
+          margin: 40px auto;
+          padding: 30px;
+          background-color: ${bloque.color || "#1e293b"};
+          border-radius: 12px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.5);
+          color: #ffffff;
+          text-align: center;
+        `;
+        container.innerHTML = `<p style="font-size:1.3em; line-height:1.5;">${bloque.texto}</p>`;
+        block.appendChild(container);
+        await hablar(bloque.texto);
+        nextBtn.style.display = "inline-block";
+      }
       break;
 
     case "tvid_ejercicio_largo":
       if (Array.isArray(bloque.textos)) {
         for (const t of bloque.textos) {
-          await escribirTextoYHablar(t, bloque.color || "#ffffff");
+          const container = document.createElement("div");
+          container.style.cssText = `
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background-color: ${bloque.color || "#1e293b"};
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            color: #ffffff;
+            text-align: center;
+          `;
+          container.innerHTML = `<p style="font-size:1.2em; line-height:1.5;">${t}</p>`;
+          block.appendChild(container);
+          await hablar(t);
           await new Promise(r => setTimeout(r, 300));
         }
       }
       if (bloque.duracion) await respirar("Respira y asimila lo aprendido", bloque.duracion);
+      nextBtn.style.display = "inline-block";
       break;
 
     case "respiracion":
@@ -207,10 +253,25 @@ async function mostrarBloque(bloque) {
       break;
 
     case "cierre":
-      if (bloque.texto) await escribirTextoYHablar(bloque.texto, bloque.color);
-      completedSessions.push(currentSesion);
-      localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
-      restartBtn.style.display = "block";
+      if (bloque.texto) {
+        const container = document.createElement("div");
+        container.style.cssText = `
+          max-width: 800px;
+          margin: 40px auto;
+          padding: 30px;
+          background-color: ${bloque.color || "#1e293b"};
+          border-radius: 12px;
+          box-shadow: 0 0 20px rgba(0,0,0,0.5);
+          color: #ffffff;
+          text-align: center;
+        `;
+        container.innerHTML = `<p style="font-size:1.4em;">${bloque.texto}</p>`;
+        block.appendChild(container);
+        await hablar(bloque.texto);
+        completedSessions.push(currentSesion);
+        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
+        restartBtn.style.display = "block";
+      }
       break;
 
     default:
