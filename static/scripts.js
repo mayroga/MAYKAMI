@@ -10,7 +10,7 @@ const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
-/* ===== VISUAL PROFUNDO ===== */
+/* ================= VISUAL PROFUNDO ================= */
 
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
@@ -48,9 +48,11 @@ function cambiarSlide() {
 }
 
 
-/* ===== ACTIVAR VISUAL ===== */
+/* ===== VISUAL ON ===== */
 
 function activarVisual(tipo = "inhala") {
+
+    if (!circle) return;
 
     circle.style.display = "flex";
 
@@ -77,7 +79,11 @@ function activarVisual(tipo = "inhala") {
 
     }
 
-    slides[0].classList.add("active");
+    if (slides.length > 0) {
+
+        slides[0].classList.add("active");
+
+    }
 
     if (!slideInterval) {
 
@@ -85,16 +91,22 @@ function activarVisual(tipo = "inhala") {
 
     }
 
-    audio.volume = 0.25;
-    audio.play();
+    if (audio) {
+
+        audio.volume = 0.25;
+        audio.play().catch(() => {});
+
+    }
 
 }
 
 function pararVisual() {
 
+    if (!circle) return;
+
     circle.style.display = "none";
 
-    audio.pause();
+    if (audio) audio.pause();
 
     if (slideInterval) {
 
@@ -108,39 +120,32 @@ function pararVisual() {
 
 
 
-/* ==================== VARIABLES ==================== */
+/* ================= VARIABLES ================= */
 
 let sesiones = [];
-
 let currentBloque = 0;
-
 let currentSesion = 0;
 
 
-
-/* ==================== PANEL ==================== */
+/* ================= PANEL ================= */
 
 function updatePanel() {
 
     discBar.style.width = "50%";
-
     clarBar.style.width = "50%";
-
     calmaBar.style.width = "50%";
 
 }
 
 
 
-/* ==================== VOZ ==================== */
+/* ================= VOZ ================= */
 
 function voz() {
 
-    return speechSynthesis.getVoices().find(v => v.lang.startsWith("es"))
+    return speechSynthesis.getVoices().find(v => v.lang.startsWith("es"));
 
 }
-
-
 
 function hablar(texto, lento = false) {
 
@@ -166,30 +171,22 @@ function hablar(texto, lento = false) {
 
 
 
-/* ==================== DETECTOR RESPIRACION ==================== */
+/* ================= DETECTOR ================= */
 
 function detectarRespiracion(texto) {
+
+    if (!texto) return false;
 
     texto = texto.toLowerCase();
 
     if (texto.includes("respira")) return true;
-
     if (texto.includes("inhala")) return true;
-
     if (texto.includes("exhala")) return true;
-
     if (texto.includes("lento")) return true;
-
     if (texto.includes("calma")) return true;
-
     if (texto.includes("silencio")) return true;
-
-    if (texto.includes("concéntrate")) return true;
-
     if (texto.includes("observa")) return true;
-
     if (texto.includes("siente")) return true;
-
     if (texto.includes("mantente")) return true;
 
     return false;
@@ -198,7 +195,7 @@ function detectarRespiracion(texto) {
 
 
 
-/* ==================== TEXTO ==================== */
+/* ================= TEXTO ================= */
 
 async function escribir(texto, color = "#fff", forzarVisual = false) {
 
@@ -207,12 +204,9 @@ async function escribir(texto, color = "#fff", forzarVisual = false) {
     const div = document.createElement("div");
 
     div.style.fontSize = "26px";
-
     div.style.color = color;
 
     block.appendChild(div);
-
-
 
     if (detectarRespiracion(texto) || forzarVisual) {
 
@@ -224,29 +218,23 @@ async function escribir(texto, color = "#fff", forzarVisual = false) {
 
     }
 
-
-
     await hablar(texto, true);
-
-
 
     for (let i = 0; i < texto.length; i++) {
 
         div.innerHTML += texto[i];
 
-        await new Promise(r => setTimeout(r, 20));
+        await new Promise(r => setTimeout(r, 18));
 
     }
 
-
-
-    await new Promise(r => setTimeout(r, 1200));
+    await new Promise(r => setTimeout(r, 1500));
 
 }
 
 
 
-/* ==================== RESPIRACION ==================== */
+/* ================= RESPIRACION ================= */
 
 async function respirar(texto, duracion) {
 
@@ -268,17 +256,16 @@ async function respirar(texto, duracion) {
 
 
 
-/* ==================== MOSTRAR BLOQUE ==================== */
+/* ================= MOSTRAR BLOQUE ================= */
 
 async function mostrarBloque(b) {
 
+    if (!b) return;
+
     switch (b.tipo) {
 
-
         case "voz":
-
         case "tvid":
-
         case "historia":
 
             await escribir(b.texto, b.color);
@@ -297,7 +284,7 @@ async function mostrarBloque(b) {
 
             activarVisual("inhala");
 
-            for (let t of b.textos) {
+            for (const t of b.textos) {
 
                 await escribir(t, b.color, true);
 
@@ -328,25 +315,50 @@ async function mostrarBloque(b) {
 
 
 
-/* ==================== SESIONES ==================== */
+/* ================= CARGAR ================= */
 
 async function cargarSesiones() {
 
-    const r = await fetch("/tvid_ejercicio.json");
+    try {
 
-    const d = await r.json();
+        const r = await fetch("/tvid_ejercicio.json");
 
-    sesiones = d.sesiones;
+        const d = await r.json();
 
-    currentSesion = Math.floor(Math.random() * sesiones.length);
+        sesiones = d.sesiones || [];
+
+        if (!sesiones.length) {
+
+            block.innerText = "No hay sesiones";
+
+            return;
+
+        }
+
+        currentSesion =
+            Math.floor(Math.random() * sesiones.length);
+
+    } catch {
+
+        block.innerText = "Error cargando";
+
+    }
 
 }
 
 
 
-/* ==================== CONTROL ==================== */
+/* ================= MOSTRAR ================= */
 
 async function mostrarActual() {
+
+    if (!sesiones.length) return;
+
+    if (!sesiones[currentSesion]) return;
+
+    if (!sesiones[currentSesion].bloques) return;
+
+    if (!sesiones[currentSesion].bloques[currentBloque]) return;
 
     await mostrarBloque(
 
@@ -358,13 +370,15 @@ async function mostrarActual() {
 
 
 
-/* ==================== BOTONES ==================== */
+/* ================= BOTONES ================= */
 
 startBtn.onclick = async () => {
 
     await cargarSesiones();
 
     startBtn.style.display = "none";
+
+    nextBtn.style.display = "block";
 
     currentBloque = 0;
 
