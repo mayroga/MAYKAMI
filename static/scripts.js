@@ -1,4 +1,4 @@
-// ==================== ELEMENTOS ====================
+// ==================== ELEMENTOS ==================== 
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
@@ -50,11 +50,24 @@ function limpiarBloque() {
   block.appendChild(contador);
 }
 
+// Obtener voz masculina en español
+function obtenerVozEspañol() {
+  const voces = speechSynthesis.getVoices();
+  // Buscar voz española masculina si existe
+  const voz = voces.find(v => v.lang.startsWith("es") && v.name.toLowerCase().includes("male")) 
+            || voces.find(v => v.lang.startsWith("es")) 
+            || voces[0];
+  return voz;
+}
+
 // Hablar con SpeechSynthesis
 function hablar(texto) {
   return new Promise((resolve) => {
     const utter = new SpeechSynthesisUtterance(texto);
-    utter.rate = 1; // velocidad normal
+    utter.lang = "es-ES";
+    utter.voice = obtenerVozEspañol();
+    utter.rate = 0.9;  // un poco más pausado para claridad
+    utter.pitch = 1;   // tono natural
     utter.onend = resolve;
     speechSynthesis.speak(utter);
   });
@@ -88,6 +101,8 @@ async function respirar(acciones, duracionTotal, objetivo) {
 
   for (let i = 0; i < pasos; i++) {
     breathText.innerHTML = `Ejercicio: ${objetivo}\n${acciones[i]}...`;
+    
+    // Animación globo
     if (acciones[i].toLowerCase().includes("inhala") || acciones[i].toLowerCase().includes("respira")) {
       breathCircle.style.transform = "scale(1.5)";
     } else if (acciones[i].toLowerCase().includes("exhala") || acciones[i].toLowerCase().includes("suelta")) {
@@ -95,11 +110,18 @@ async function respirar(acciones, duracionTotal, objetivo) {
     } else {
       breathCircle.style.transform = "scale(1)";
     }
+
     // Contador regresivo
     let tiempo = duracionPaso / 1000;
     contador.innerText = `Tiempo restante: ${Math.ceil(tiempo)}s`;
+    
+    // Leer en voz alta el paso
+    await hablar(acciones[i]);
+
+    // Espera según duración
     await new Promise(r => setTimeout(r, duracionPaso));
   }
+
   breathCircle.style.transform = "scale(1)";
   contador.innerText = "";
 }
@@ -184,6 +206,8 @@ nextBtn.onclick = async () => {
   if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
     currentBloque++;
     mostrarActual();
+  } else {
+    alert("Has terminado la sesión. Presiona reiniciar para la siguiente sesión.");
   }
 };
 
