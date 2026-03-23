@@ -9,231 +9,230 @@ const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
+const logo = document.getElementById("logo");
+const subtitle = document.getElementById("subtitle");
+const mentalPanel = document.getElementById("mental-panel");
+const footer = document.getElementById("footer");
+
+/* ===== GALERIA VISUAL PROFUNDA ===== */
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const audio = document.getElementById("nature-audio");
+
+let slides = [];
+let slideIndex = 0;
+let slideInterval = null;
+
+/* crear paisajes */
+for (let i = 0; i < 20; i++) {
+    const div = document.createElement("div");
+    div.className = "slide";
+    div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
+    gallery.appendChild(div);
+}
+slides = document.querySelectorAll(".slide");
+
+function cambiarSlide() {
+    slides.forEach(s => s.classList.remove("active"));
+    slideIndex = (slideIndex + 1) % slides.length;
+    slides[slideIndex].classList.add("active");
+}
+
+/* ===== ACTIVAR VISUAL ===== */
+function activarVisual(tipo = "inhala") {
+    circle.style.display = "flex";
+    circle.classList.remove("inhale", "exhale", "hold");
+
+    if (tipo === "inhala") { circle.innerText = "Inhala"; circle.classList.add("inhale"); }
+    if (tipo === "exhala") { circle.innerText = "Exhala"; circle.classList.add("exhale"); }
+    if (tipo === "hold") { circle.innerText = "Retén"; circle.classList.add("hold"); }
+
+    slides[slideIndex].classList.add("active");
+
+    if (!slideInterval) slideInterval = setInterval(cambiarSlide, 6000);
+
+    audio.volume = 0.25;
+    audio.play();
+}
+
+function pararVisual() {
+    circle.style.display = "none";
+    audio.pause();
+    if (slideInterval) { clearInterval(slideInterval); slideInterval = null; }
+}
 
 /* ==================== VARIABLES ==================== */
 let sesiones = [];
 let currentBloque = 0;
 let currentSesion = 0;
-let slideIndex = 0;
-let slideInterval = null;
 
-/* ==================== GALERIA VISUAL ==================== */
-for (let i = 0; i < 20; i++) {
-  const div = document.createElement("div");
-  div.className = "slide";
-  div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
-  gallery.appendChild(div);
-}
-let slides = document.querySelectorAll(".slide");
+/* ==================== DATOS INICIALES ==================== */
+let userData = {
+    claridad: 80,
+    disciplina: 80,
+    calma: 40,
+    streak: 0,
+    nivel: 1
+};
 
-function cambiarSlide() {
-  slides.forEach(s => s.classList.remove("active"));
-  slides[slideIndex].classList.add("active");
-  slideIndex = (slideIndex + 1) % slides.length;
-}
-
-/* ==================== RESPIRACION ==================== */
-function activarVisual(tipo="inhala") {
-  circle.style.display = "flex";
-  circle.classList.remove("inhale","exhale","hold");
-
-  if(tipo==="inhala") circle.innerText="Inhala", circle.classList.add("inhale");
-  if(tipo==="exhala") circle.innerText="Exhala", circle.classList.add("exhale");
-  if(tipo==="hold") circle.innerText="Retén", circle.classList.add("hold");
-
-  slides[0].classList.add("active");
-  if(!slideInterval) slideInterval=setInterval(cambiarSlide,6000);
-
-  audio.volume = 0.25;
-  audio.play();
-}
-
-function pararVisual() {
-  circle.style.display="none";
-  audio.pause();
-  if(slideInterval){clearInterval(slideInterval); slideInterval=null;}
+/* ==================== PANEL ==================== */
+function updatePanel() {
+    discBar.style.width = userData.disciplina + "%";
+    clarBar.style.width = userData.claridad + "%";
+    calmaBar.style.width = userData.calma + "%";
 }
 
 /* ==================== VOZ ==================== */
-function voz() {
-  return speechSynthesis.getVoices().find(v => v.lang.startsWith("es")) || speechSynthesis.getVoices()[0];
+function obtenerVoz() {
+    return speechSynthesis.getVoices().find(v => v.lang.startsWith("es")) || speechSynthesis.getVoices()[0];
 }
 
-function hablar(texto,lento=false) {
-  return new Promise(r=>{
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(texto.replace(/<[^>]*>/g,""));
-    u.lang="es-ES";
-    u.voice=voz();
-    u.rate=lento?0.8:0.9;
-    u.onend=r;
-    speechSynthesis.speak(u);
-  });
+function hablar(texto, lento = false) {
+    return new Promise(resolve => {
+        speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(texto);
+        utter.lang = "es-ES";
+        utter.voice = obtenerVoz();
+        utter.rate = lento ? 0.8 : 0.9;
+        utter.onend = resolve;
+        speechSynthesis.speak(utter);
+    });
 }
 
-/* ==================== DETECTOR RESPIRACION ==================== */
+/* ==================== DETECTOR DE RESPIRACION ==================== */
 function detectarRespiracion(texto) {
-  texto = texto.toLowerCase();
-  const palabras=["respira","inhala","exhala","lento","calma","silencio","concéntrate","observa","siente","mantente"];
-  return palabras.some(p => texto.includes(p));
+    const t = texto.toLowerCase();
+    return ["respira", "inhala", "exhala", "retén", "calma", "silencio", "concéntrate", "observa", "siente", "mantente"].some(palabra => t.includes(palabra));
 }
 
-/* ==================== ESCRIBIR BLOQUE ==================== */
-async function escribir(texto,color="#fff",forzarVisual=false,tiempoLectura=2000){
-  block.innerHTML="";
-  const div=document.createElement("div");
-  div.style.fontSize="26px";
-  div.style.color=color;
-  div.style.textAlign="center";
-  block.appendChild(div);
+/* ==================== ESCRIBIR TEXTO ==================== */
+async function escribir(texto, color = "#fff", forzarVisual = false) {
+    const div = document.createElement("div");
+    div.style.fontSize = "26px";
+    div.style.color = color;
+    block.innerHTML = "";
+    block.appendChild(div);
 
-  if(detectarRespiracion(texto) || forzarVisual) activarVisual("inhala");
-  else pararVisual();
+    if (detectarRespiracion(texto) || forzarVisual) activarVisual("inhala");
 
-  await hablar(texto,true);
+    await hablar(texto, true);
 
-  for(let i=0;i<texto.length;i++){
-    div.innerHTML+=texto[i];
-    await new Promise(r=>setTimeout(r,20));
-  }
+    for (let i = 0; i < texto.length; i++) {
+        div.innerHTML += texto[i];
+        await new Promise(r => setTimeout(r, 20));
+    }
 
-  await new Promise(r=>setTimeout(r,tiempoLectura));
+    // Permitir que el texto permanezca unos segundos más para lectura
+    await new Promise(r => setTimeout(r, 1500));
 }
 
-/* ==================== RESPIRACION CON CONTADOR ==================== */
-async function respirar(texto,duracion){
-  activarVisual("inhala");
-  await hablar(texto,true);
+/* ==================== RESPIRACION ==================== */
+async function respirar(texto, duracion) {
+    activarVisual("inhala");
+    await hablar(texto, true);
 
-  for(let i=duracion;i>0;i--){
-    block.innerHTML=`<div>${texto}</div><div style="margin-top:10px;font-size:22px">${i}s</div>`;
-    await new Promise(r=>setTimeout(r,1000));
-  }
+    for (let i = duracion; i > 0; i--) {
+        block.innerHTML = `${texto}<br>Tiempo restante: ${i}s`;
+        await new Promise(r => setTimeout(r, 1000));
+    }
 
-  pararVisual();
+    pararVisual();
 }
 
 /* ==================== MOSTRAR BLOQUE ==================== */
-async function mostrarBloque(b){
-  switch(b.tipo){
-    case "voz":
-    case "tvid":
-    case "historia":
-      await escribir(b.texto,b.color);
-      break;
+async function mostrarBloque(b) {
+    // Al avanzar, ocultar pantalla principal para liberar el centro
+    if (currentBloque > 0) {
+        logo.style.display = "none";
+        subtitle.style.display = "none";
+        mentalPanel.style.opacity = "0.5";
+        footer.style.opacity = "0.5";
+        nextBtn.style.opacity = "0.7";
+        backBtn.style.opacity = "0.7";
+    }
 
-    case "respiracion":
-      await respirar(b.texto,b.duracion);
-      break;
+    switch (b.tipo) {
+        case "voz":
+        case "tvid":
+        case "historia":
+            await escribir(b.texto, "#fff");
+            break;
 
-    case "tvid_ejercicio_largo":
-      activarVisual("inhala");
-      for(let t of b.textos) await escribir(t,b.color,true,3000);
-      if(b.duracion) await respirar("Respira y asimila",b.duracion);
-      pararVisual();
-      break;
+        case "respiracion":
+            await respirar(b.texto, b.duracion);
+            break;
 
-    case "cierre":
-      await escribir(b.texto,"#fff",true,4000);
-      restartBtn.style.display="block";
-      break;
-  }
+        case "tvid_ejercicio_largo":
+            for (let t of b.textos) await escribir(t, "#fff", true);
+            if (b.duracion) await respirar("Respira y asimila lo aprendido", b.duracion);
+            break;
+
+        case "cierre":
+            await escribir(b.texto, "#fff");
+            restartBtn.style.display = "block";
+            logo.style.display = "block";
+            subtitle.style.display = "block";
+            mentalPanel.style.opacity = "1";
+            footer.style.opacity = "1";
+            break;
+    }
 }
 
-/* ==================== SESIONES ==================== */
-async function cargarSesiones(){
-  try{
-    const r=await fetch("/tvid_ejercicio.json");
-    const d=await r.json();
-    sesiones=d.sesiones||[];
-    currentSesion=Math.floor(Math.random()*sesiones.length);
-  }catch(e){
-    block.innerText="Error cargando sesiones";
-    sesiones=[{tipo:"voz",texto:"Iniciando MayKaMi..."}];
-  }
-}
-
-/* ==================== PANEL ==================== */
-function initPanel(){
-  discBar.style.width="80%";
-  clarBar.style.width="80%";
-  calmaBar.style.width="40%";
-
-  const panel = document.getElementById("mental-panel");
-  panel.style.backgroundColor="rgba(0,8,20,0.7)";
-  panel.style.position="fixed";
-  panel.style.top="10px";
-  panel.style.left="10px";
-  panel.style.right="10px";
-  panel.style.zIndex="20";
-  panel.style.padding="12px";
-  panel.style.borderRadius="12px";
-
-  [startBtn,nextBtn,backBtn,restartBtn].forEach(b=>{
-    b.style.position="fixed";
-    b.style.zIndex="21";
-    b.style.opacity="0.85";
-  });
-
-  startBtn.style.bottom="20px"; startBtn.style.left="10px"; startBtn.style.width="calc(50% - 15px)";
-  nextBtn.style.bottom="20px"; nextBtn.style.right="10px"; nextBtn.style.width="calc(50% - 15px)";
-  backBtn.style.bottom="70px"; backBtn.style.left="10px"; backBtn.style.width="calc(50% - 15px)";
-  restartBtn.style.bottom="70px"; restartBtn.style.right="10px"; restartBtn.style.width="calc(50% - 15px)";
-}
-
-/* ==================== CONTROL ==================== */
-async function mostrarActual(){
-  if(!sesiones.length) return;
-  await mostrarBloque(sesiones[currentSesion].bloques[currentBloque]);
+/* ==================== CARGAR SESIONES ==================== */
+async function cargarSesiones() {
+    try {
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones;
+        currentSesion = Math.floor(Math.random() * sesiones.length);
+    } catch (e) {
+        block.innerText = "Error cargando sesiones";
+        sesiones = [{ tipo: "voz", texto: "Iniciando MayKaMi..." }];
+    }
 }
 
 /* ==================== BOTONES ==================== */
-startBtn.onclick=async()=>{
-  await cargarSesiones();
-  startBtn.style.display="none";
-  currentBloque=0;
-  mostrarActual();
+startBtn.onclick = async () => {
+    await cargarSesiones();
+    startBtn.style.display = "none";
+    currentBloque = 0;
+    mostrarActual();
 };
 
-nextBtn.onclick=async()=>{
-  if(currentBloque<sesiones[currentSesion].bloques.length-1){
-    currentBloque++;
-    // Quitar pantalla principal después del primer bloque
-    if(currentBloque>0){
-      document.getElementById("app").style.background="transparent";
-      document.getElementById("logo").style.display="none";
-      document.getElementById("subtitle").style.display="none";
+nextBtn.onclick = () => {
+    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+        currentBloque++;
+        mostrarActual();
     }
-    mostrarActual();
-  }
 };
 
-backBtn.onclick=async()=>{
-  if(currentBloque>0){
-    currentBloque--;
-    // Penalidad
-    discBar.style.width="64%"; // 80% -> 80*0.8
-    clarBar.style.width="64%";
-    calmaBar.style.width="32%"; // 40% -> 40*0.8
-    alert("Has retrocedido: se aplica penalidad a tus estadísticas");
-    mostrarActual();
-  }
+backBtn.onclick = async () => {
+    if (currentBloque > 0) {
+        // Penalidad al regresar
+        userData.claridad = Math.max(0, userData.claridad * 0.8);
+        userData.disciplina = Math.max(0, userData.disciplina * 0.8);
+        userData.calma = Math.max(0, userData.calma * 0.4);
+        updatePanel();
+        alert("⚠ Penalidad aplicada al retroceder.");
+        currentBloque--;
+        mostrarActual();
+    }
 };
 
-restartBtn.onclick=()=>{
-  currentBloque=0;
-  mostrarActual();
+restartBtn.onclick = () => {
+    currentBloque = 0;
+    logo.style.display = "block";
+    subtitle.style.display = "block";
+    mentalPanel.style.opacity = "1";
+    footer.style.opacity = "1";
+    restartBtn.style.display = "none";
+    mostrarActual();
 };
+
+/* ==================== MOSTRAR ACTUAL ==================== */
+async function mostrarActual() {
+    await mostrarBloque(sesiones[currentSesion].bloques[currentBloque]);
+}
 
 /* ==================== INICIALIZACION ==================== */
-initPanel();
 updatePanel();
-
-function updatePanel(){
-  discBar.style.width="80%";
-  clarBar.style.width="80%";
-  calmaBar.style.width="40%";
-}
