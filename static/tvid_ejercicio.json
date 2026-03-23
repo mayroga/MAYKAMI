@@ -67,7 +67,7 @@
       "categoria": "valor",
       "bloques": [
         {"tipo":"voz","texto":"Acceso concedido. Optimización en curso. Detenga el ruido. Su éxito comienza en este instante.Hoy entrenas valor. Haz lo que temes, actúa ahora.","color":"#2563eb"},
-        {"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Enfrenta tus miedos. Transformalos en fuerza y decisión.","color":"#06b6d4"},
+        {"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Enfrenta tus miedos. Transfórmalos en fuerza y decisión.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"El valor se refleja en palabras y acciones. Hoy elige actuar con coraje.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Identifica un reto pequeño y enfréntalo ahora mismo. Hazlo presente, sin esperar.","color":"#14b8a6"},
         {"tipo":"historia","texto":"Sofía odiaba el escenario. No buscó valor, buscó repetición. Se expuso hasta que el miedo se aburrió de ella. Hoy motiva a miles porque ella no evitó el fuego, lo atravesó. Moraleja: El valor es el residuo de la acción constante.","color":"#34d399"},
@@ -112,7 +112,7 @@
         {"tipo":"visualizacion","texto":"Visualiza elegir la mejor acción en cada momento presente. Siente claridad y certeza.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Sabiduría reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":480,"textos":[
-          "Ancle su cuerpo al presente.. Respira profundo. Hoy observas, aprendes y actúas con sabiduría.",
+          "Ancle su cuerpo al presente. Respira profundo. Hoy observas, aprendes y actúas con sabiduría.",
           "Piensa en una decisión reciente. Analiza opciones sin juzgar. Observa consecuencias posibles.",
           "Recuerda un error pasado y lo que aprendiste de él. Siente cómo la experiencia te guía.",
           "Imagina un reto frente a ti. Visualiza soluciones y actúa mentalmente. Decide con claridad.",
@@ -143,7 +143,7 @@
         {"tipo":"visualizacion","texto":"Visualiza cuidarte a ti mismo cada día. Siente orgullo y confianza en tus acciones.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Amor propio reforzado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":480,"textos":[
-          "Siéntese derecho. Usted manda. Respira profundo.. Hoy entrenas amor y cuidado hacia ti mismo.",
+          "Siéntese derecho. Usted manda. Respira profundo.Hoy entrenas amor y Autocuidado.",
           "Piensa en una decisión reciente que tomaste por ti. Siente cómo tu acción te fortaleció.",
           "Recuerda un momento donde dudaste de ti mismo. Ahora reconoce tu esfuerzo y capacidad.",
           "Visualiza tus hábitos positivos y cómo te hacen sentir orgullo. Hazlos presentes.",
@@ -163,7 +163,7 @@
         {"tipo":"tvid","tecnica":"TDMM","titulo":"Técnica de la Madre","texto":"Siente amor y guía hacia otros. Hazlo presente en tu acción y palabra.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"La empatía fortalece relaciones y comunicación. Hoy elige entender antes de juzgar.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Piensa en alguien con quien tengas conflicto. Observa su perspectiva sin reaccionar. Hazlo ahora.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Ana dejó de interrumpir para empezar a ganar. Entendió que el que habla mucho, entrega sus cartas; el que escucha, mapea el terreno. Hoy lidera porque conoce las debilidades y fuerzas de todos. Moraleja: El silencio es el radar del éxito.","tvid":"TDE","titulo_tvid":"Técnica de Escucha","extra":"Escuchar es extraer datos. No espere su turno para hablar, procese la información.","color":"#34d399"},
+        {"tipo":"historia","texto":"Ana dejó de interrumpir para empezar a ganar. Entendió que el que habla mucho, entrega sus cartas; el que escucha, mapea el terreno. Hoy lidera porque conoce las debilidades y fuerzas de todos. Moraleja: El silencio es el radar del éxito.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Siente cómo tu corazón se abre a la comprensión.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDMM","titulo":"Respiración de la Madre","texto":"Inhala comprensión, exhala juicio. Hazlo mientras sientes cercanía y atención.","color":"#06b6d4"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 9s - Inhala datos del entorno</span>","duracion":9,"color":"#60a5fa"},
@@ -174,7 +174,7 @@
         {"tipo":"visualizacion","texto":"Visualiza entender a cada persona y actuar con empatía. Siente conexión y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Empatía reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":480,"textos":[
-          "Pies firmes. Espalda recta. Inicie.. Respira profundo. Hoy entrenas empatía y comprensión hacia otros.",
+          "Pies firmes. Espalda recta. Inicie. Respira profundo. Hoy entrenas empatía y comprensión hacia otros.",
           "Piensa en alguien con quien tuviste un malentendido. Observa su perspectiva sin reaccionar.",
           "Recuerda un momento donde comprendiste y ayudaste. Siente satisfacción y conexión.",
           "Visualiza situaciones futuras donde actúes con empatía. Hazlas presentes en tu mente.",
@@ -205,7 +205,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tus ideas tomando forma y impactando positivamente. Siente orgullo y satisfacción.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":480,"textos":[
-          "Alinee su cuerpo con su meta. Respira profundo.. Hoy exploras creatividad en acción.",
+          "Alinee su cuerpo con su meta. Respira profundo. Hoy exploras creatividad en acción.",
           "Piensa en un problema y dibuja o escribe tres soluciones posibles. Hazlo presente.",
           "Recuerda un momento creativo donde innovaste. Siente satisfacción y aprendizaje.",
           "Observa tu entorno y encuentra inspiración en detalles cotidianos.",
@@ -236,7 +236,7 @@
         {"tipo":"visualizacion","texto":"Visualiza superar cada dificultad y salir más fuerte. Siente determinación y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":480,"textos":[
-          "Prepare su sistema para la ejecución.. Respira profundo. Hoy entrenas resiliencia y fuerza ante obstáculos.",
+          "Prepare su sistema para la ejecución. Respira profundo. Hoy entrenas resiliencia y fuerza ante obstáculos.",
           "Piensa en un reto actual. No huyas, enfrenta mentalmente cada paso.",
           "Recuerda un fracaso pasado. Analiza lo aprendido y aplícalo ahora.",
           "Visualiza el resultado positivo de tu acción y haz presente la sensación de éxito.",
@@ -252,31 +252,31 @@
       "id": 9,
       "categoria": "autodisciplina",
       "bloques": [
-        {"tipo":"voz","texto":"Iniciando sesión de poder. Compromiso validado. Apague el exterior. Su evolución es la meta.Hoy entrenas autodisciplina. Haz lo que debes hacer, aunque sea difícil.","color":"#2563eb"},
-        {"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Entrena tu mente a seguir acciones correctas para tu crecimiento. Hazlo ahora.","color":"#06b6d4"},
-        {"tipo":"inteligencia_social","texto":"La autodisciplina fortalece tu confianza y respeto propio. Hoy elige acción constante.","color":"#0ea5e9"},
-        {"tipo":"estrategia","texto":"Piensa en una meta importante. Haz un pequeño paso ahora hacia ella. Siente el logro.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Sofía sacrificó 30 minutos de sueño por 30 minutos de ventaja estratégica. El cansancio fue su primera prueba; su constancia fue su victoria. La disciplina es el precio de la libertad. Moraleja: Mate la pereza antes de que ella lo mate a usted.","color":"#34d399"},
-        {"tipo":"voz","texto":"Respira profundo. Siente tu fuerza de voluntad y tu capacidad de acción.","color":"#2563eb"},
-        {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala motivación, exhala dudas. Hazlo mientras sientes impulso y claridad.","color":"#06b6d4"},
-        {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 8s - Inhala determinación</span>","duracion":8,"color":"#60a5fa"},
-        {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Retiene: 5s - Sella tu compromiso</span>","duracion":5,"color":"#60a5fa"},
-        {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Exhala: 8s - Elimina la postergación</span>","duracion":8,"color":"#60a5fa"},
-        {"tipo":"voz","texto":"<span style='color:#22c55e'>Explicación: Sincroniza tu intención con tu energía física para asegurar que lo que planeas hoy, se cumpla sin falta.</span>","color":"#2563eb"},
-        {"tipo":"decision","pregunta":"¿Puedes hacer tu acción ahora con disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La autodisciplina se fortalece con práctica consciente y repetida.","recompensa":10,"color":"#22c55e"},
-        {"tipo":"visualizacion","texto":"Visualiza lograr tus metas paso a paso. Siente orgullo y confianza en tu constancia.","color":"#a78bfa"},
-        {"tipo":"recompensa","texto":"Autodisciplina reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-          "Elimine el ruido corporal. Esté presente.. Respira profundo. Hoy entrenas autodisciplina y fuerza de acción.",
-          "Piensa en una tarea que has pospuesto. Haz un paso ahora.",
-          "Recuerda un momento donde actuaste correctamente a pesar de dificultad. Siente orgullo.",
-          "Visualiza tus hábitos positivos consolidándose con constancia.",
-          "Mueve brazos y hombros suavemente para liberar tensión y activar energía.",
-          "Respira profundo y repite mentalmente: 'Actúo, cumplo, progreso, soy disciplinado'.",
-          "Piensa en el resultado final de tu esfuerzo y hazlo presente.",
-          "Finaliza reconociendo tu capacidad de actuar con constancia y fuerza de voluntad."
-        ],"color":"#06b6d4"},
-        {"tipo":"cierre","texto":"La autodisciplina fortalece tu mente y te impulsa a alcanzar tus metas.Tu desarrollo es una marea invencible. Fluye con estructura y liderazgo. Mañana a esta hora, tu centro de mando te reclama; sé leal.","color":"#f87171"}
+       {"tipo":"voz","texto":"Iniciando sesión de poder. Compromiso validado. Apague el exterior. Su evolución es la meta. Hoy entrenas autodisciplina. Haz lo que debes hacer, aunque sea difícil.","color":"#2563eb"},
+       {"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Entrena tu mente a seguir acciones correctas para tu crecimiento. Hazlo ahora.","color":"#06b6d4"},
+       {"tipo":"inteligencia_social","texto":"La autodisciplina fortalece tu confianza y respeto propio. Hoy elige acción constante.","color":"#0ea5e9"},
+       {"tipo":"estrategia","texto":"Piensa en una meta importante. Haz un pequeño paso ahora hacia ella. Siente el logro.","color":"#14b8a6"},
+       {"tipo":"historia","texto":"Sofía sacrificó 30 minutos de sueño por 30 minutos de ventaja estratégica. El cansancio fue su primera prueba; su constancia fue su victoria. La disciplina es el precio de la libertad. Moraleja: Mate la pereza antes de que ella lo mate a usted.","color":"#34d399"},
+       {"tipo":"voz","texto":"Respira profundo. Siente tu fuerza de voluntad y tu capacidad de acción.","color":"#2563eb"},
+       {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala motivación, exhala dudas. Hazlo mientras sientes impulso y claridad.","color":"#06b6d4"},
+       {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 8s - Inhala determinación</span>","duracion":8,"color":"#60a5fa"},
+       {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Retiene: 5s - Sella tu compromiso</span>","duracion":5,"color":"#60a5fa"},
+       {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Exhala: 8s - Elimina la postergación</span>","duracion":8,"color":"#60a5fa"},
+       {"tipo":"voz","texto":"<span style='color:#22c55e'>Explicación: Sincroniza tu intención con tu energía física para asegurar que lo que planeas hoy se cumpla sin falta.</span>","color":"#2563eb"},
+       {"tipo":"decision","pregunta":"¿Puedes hacer tu acción ahora con disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La autodisciplina se fortalece con práctica consciente y repetida.","recompensa":10,"color":"#22c55e"},
+       {"tipo":"visualizacion","texto":"Visualiza lograr tus metas paso a paso. Siente orgullo y confianza en tu constancia.","color":"#a78bfa"},
+       {"tipo":"recompensa","texto":"Autodisciplina reforzada.","puntos":20,"color":"#10b981"},
+       {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
+         "Elimine el ruido corporal. Esté presente. Respira profundo. Hoy entrenas autodisciplina y fuerza de acción.",
+         "Piensa en una tarea que has pospuesto. Haz un paso ahora.",
+         "Recuerda un momento donde actuaste correctamente a pesar de dificultad. Siente orgullo.",
+         "Visualiza tus hábitos positivos consolidándose con constancia.",
+         "Mueve brazos y hombros suavemente para liberar tensión y activar energía.",
+         "Respira profundo y repite mentalmente: 'Actúo, cumplo, progreso, soy disciplinado'.",
+         "Piensa en el resultado final de tu esfuerzo y hazlo presente.",
+         "Finaliza reconociendo tu capacidad de actuar con constancia y fuerza de voluntad."
+       ],"color":"#06b6d4"},
+       {"tipo":"cierre","texto":"La autodisciplina fortalece tu mente y te impulsa a alcanzar tus metas. Tu desarrollo es una marea invencible. Fluye con estructura y liderazgo. Mañana a esta hora, tu centro de mando te reclama; sé leal.","color":"#f87171"}
       ]
     },
     {
@@ -329,7 +329,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tus metas alcanzadas y el orgullo de tu esfuerzo. Siente entusiasmo y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-          "Siéntate cómodo.Cuerpo en calma, mente en guardia. Respira profundo. Hoy entrenas motivación y energía positiva.",
+          "Siéntate cómodo. Cuerpo en calma, mente en guardia. Respira profundo. Hoy entrenas motivación y energía positiva.",
           "Piensa en tu meta más importante de hoy. Haz un paso concreto hacia ella.",
           "Recuerda un momento donde lograste algo difícil. Siente orgullo y satisfacción.",
           "Visualiza tu esfuerzo dando resultados positivos y cómo te sientes al lograrlo.",
@@ -360,7 +360,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tus acciones confiadas y el reconocimiento que genera. Siente seguridad y orgullo.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":480,"textos":[
-          "Siéntate cómodo.Tome el mando de su asiento. Respira profundo.. Hoy entrenas confianza y seguridad en ti mismo.",
+          "Siéntate cómodo. Tome el mando de su asiento. Respira profundo. Hoy entrenas confianza y seguridad en ti mismo.",
           "Recuerda un momento donde dudaste y rehace mentalmente la acción con firmeza.",
           "Visualiza tu postura segura y tu voz clara transmitiendo confianza.",
           "Mueve brazos y hombros para proyectar seguridad y presencia.",
@@ -391,7 +391,7 @@
         {"tipo":"visualizacion","texto":"Visualiza superar tus retos y sentir orgullo por tu esfuerzo. Siente fuerza y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":480,"textos":[
-          "Posición alfa.Postura lista. Siéntate cómodo. Respira profundo. Hoy entrenas resiliencia y fortaleza mental.",
+          "Posición alfa. Postura lista. Siéntate cómodo. Respira profundo. Hoy entrenas resiliencia y fortaleza mental.",
           "Piensa en un desafío reciente. Analízalo y haz un paso positivo para superarlo.",
           "Recuerda momentos donde superaste dificultades. Siente orgullo y aprendizaje.",
           "Visualiza obstáculos transformándose en oportunidades y fortalezas.",
@@ -422,7 +422,7 @@
         {"tipo":"visualizacion","texto":"Visualiza soluciones creativas y cómo tus ideas fluyen naturalmente. Siente libertad y entusiasmo.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":480,"textos":[
-          "Fije su centro. No se mueva y Siéntate cómodo. Respira profundo. Hoy entrenas creatividad y exploración mental.",
+          "Fije su centro. No se mueva y siéntate cómodo. Respira profundo. Hoy entrenas creatividad y exploración mental.",
           "Piensa en un reto o situación reciente. Genera 3 soluciones posibles.",
           "Recuerda un momento donde una idea inesperada te ayudó. Siente alegría y aprendizaje.",
           "Visualiza tus ideas tomando forma y generando resultados positivos.",
@@ -442,7 +442,7 @@
         {"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Planifica y ejecuta acciones con eficiencia y enfoque. Hazlo ahora.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"La gestión del tiempo fortalece tu productividad y claridad. Hoy actúa con estructura y presencia.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Identifica la tarea más importante de hoy. Haz un paso ahora y siente progreso.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Andrés tenía un mar de tareas. Dejó de nadar y empezó a priorizar. Cortó lo urgente para hacer lo importante. Terminó el día con victorias reales, no con fatiga vacía. Moraleja: Si intentas cazar dos liebres, ambas escapan.","color":"#34d399"},
+        {"tipo":"historia","texto":"Andrés tenía un mar de tareas. Dejó de nadar y empezó a priorizar. Cortó lo urgente para hacer lo importante. Terminó el día con victorias reales, no con fatiga vacía. Moraleja:Si intentas cazar dos liebres, ambas escapan.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Siente tu capacidad de organizar y ejecutar acciones.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala claridad, exhala desorden. Hazlo mientras ejecutas tus tareas.","color":"#06b6d4"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 9s - Inhale claridad estratégica</span>","duracion":9,"color":"#60a5fa"},
@@ -453,7 +453,7 @@
         {"tipo":"visualizacion","texto":"Visualiza completar tus tareas con éxito y tranquilidad. Siente control y logro.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Gestión del tiempo reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":480,"textos":[
-          "Siéntate,Asuma su lugar de poder. Respira profundo. Hoy entrenas gestión del tiempo y eficiencia.",
+          "Siéntate. Asuma su lugar de poder. Respira profundo. Hoy entrenas gestión del tiempo y eficiencia.",
           "Identifica la tarea más importante y haz un paso concreto para iniciarla.",
           "Recuerda un momento donde actuaste organizado y eficiente. Siente satisfacción.",
           "Visualiza tus tareas fluyendo y concluyendo con éxito.",
@@ -473,7 +473,7 @@
         {"tipo":"tvid","tecnica":"TDN","titulo":"Técnica del Niño","texto":"Explora tus pensamientos, emociones y deseos con curiosidad y honestidad. Hazlo ahora.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"El autoconocimiento fortalece decisiones y relaciones. Hoy actúa observando tu interior.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Piensa en una emoción o pensamiento que repites con frecuencia. Obsérvalo y actúa consciente.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Marta vivía en un futuro que no existía y su cuerpo pagaba el precio con ansiedad. Cortó el cable: se ancló al presente. Observó su miedo como un dato irrelevante y recuperó el mando.Moraleja: La claridad no es un regalo, es el premio de quien domina su atención aquí y ahora.","color":"#34d399"},
+        {"tipo":"historia","texto":"Marta vivía en un futuro que no existía y su cuerpo pagaba el precio con ansiedad. Cortó el cable: se ancló al presente. Observó su miedo como un dato irrelevante y recuperó el mando. Moraleja: La claridad no es un regalo, es el premio de quien domina su atención aquí y ahora.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Siente tu interior, sin juicio y con curiosidad.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDN","titulo":"Respiración del Niño","texto":"Inhala conciencia, exhala confusión. Hazlo mientras exploras tu interior.","color":"#06b6d4"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 8s - Inhale conciencia de su presente</span>","duracion":8,"color":"#60a5fa"},
@@ -484,7 +484,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tus emociones y pensamientos claramente, aceptándolos y aprendiendo de ellos.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Autoconocimiento reforzado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":480,"textos":[
-          "Siéntate,Pies firmes. Espalda recta.Respira profundo. Hoy entrenas autoconocimiento y claridad interior.",
+          "Siéntate. Pies firmes. Espalda recta. Respira profundo. Hoy entrenas autoconocimiento y claridad interior.",
           "Observa un pensamiento recurrente o emoción frecuente. Hazlo sin juzgar.",
           "Recuerda momentos donde actuar consciente mejoró tu bienestar. Siente aprendizaje.",
           "Visualiza tus emociones y pensamientos fluyendo sin resistencia.",
@@ -500,11 +500,11 @@
       "id": 17,
       "categoria": "motivacion",
       "bloques": [
-        {"tipo":"voz","texto":"Unidad de éxito detectada. Detenga lo externo. Usted es el activo prioritario. Ejecute.Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.","color":"#2563eb"},
+        {"tipo":"voz","texto":"Unidad de éxito detectada. Detenga lo externo. Usted es el activo prioritario. Ejecute. Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Identifica tus metas y actúa ahora con determinación.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"La motivación fortalece tu constancia y actitud positiva. Hoy hazlo con energía y claridad.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Piensa en un objetivo actual. Haz un paso consciente hacia él.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Ana dejó de soñar y empezó a operar. Entendió que la motivación es para los aficionados; los profesionales usan la disciplina. Un paso diario, sin excusas, sin emociones.Moraleja:El orgullo no nace de la idea, nace del proyecto terminado. Ejecute o cállese.","color":"#34d399"},
+        {"tipo":"historia","texto":"Ana dejó de soñar y empezó a operar. Entendió que la motivación es para los aficionados; los profesionales usan la disciplina. Un paso diario, sin excusas, sin emociones. Moraleja:El orgullo no nace de la idea, nace del proyecto terminado. Ejecute o cállese.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Siente tu impulso y determinación interior.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala fuerza, exhala dudas. Hazlo mientras visualizas tu meta alcanzada.","color":"#06b6d4"},
        {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 9s - Inhale fuerza y orden directo</span>","duracion":9,"color":"#60a5fa"},
@@ -522,7 +522,7 @@
           "Mueve brazos y hombros para liberar tensiones y activar energía de acción.",
           "Respira profundo y repite: 'Actúo con motivación, enfoque y constancia'.",
           "Imagina escenarios futuros donde tu motivación te lleva a alcanzar más logros.",
-          "Finaliza reconociendo tu capacidad de actuar con energía y enfoque cada día."
+          "Finaliza reconociendo tu capacidad de actuar con energía cada día."
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La motivación te permite actuar con energía, enfoque y constancia.Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a nuestra cita.","color":"#f87171"}
       ]
@@ -535,7 +535,7 @@
         {"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Enfócate en un objetivo específico y actúa sin distracciones.","color":"#06b6d4"},
         {"tipo":"inteligencia_social","texto":"La concentración fortalece decisiones, aprendizaje y rendimiento. Hoy actúa con claridad y presencia.","color":"#0ea5e9"},
         {"tipo":"estrategia","texto":"Elige una tarea importante y haz un paso enfocado ahora. Siente cada acción.","color":"#14b8a6"},
-        {"tipo":"historia","texto":"Carlos perdía su día en interrupciones. Decidió sitiar su atención: 15 minutos de guerra total contra la distracción. No buscó el final, buscó el bloque. El éxito no es una meta lejana, es el dominio de tus próximos 15 minutos.Moraleja:Si no controlas tu cuarto de hora, no controlas tu vida.","color":"#34d399"},
+        {"tipo":"historia","texto":"Carlos perdía su día en interrupciones. Decidió sitiar su atención: 15 minutos de guerra total contra la distracción. No buscó el final, buscó el bloque. El éxito no es una meta lejana, es el dominio de tus próximos 15 minutos. Moraleja:Si no controlas tu cuarto de hora, no controlas tu vida.","color":"#34d399"},
         {"tipo":"voz","texto":"Respira profundo. Siente tu mente clara y presente.","color":"#2563eb"},
         {"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala enfoque, exhala dispersión. Hazlo mientras actúas en tu tarea.","color":"#06b6d4"},
         {"tipo":"respiracion","texto":"<span style='color:#22c55e'>Inhala: 9s - Inhale enfoque absoluto</span>","duracion":9,"color":"#60a5fa"},
@@ -546,7 +546,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tu tarea completada con eficiencia y claridad. Siente satisfacción y control.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Concentración reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":480,"textos":[
-          "Siéntate cómodo y Tome posición de control. Respira profundo. Hoy entrenas concentración y atención plena.",
+          "Siéntate cómodo y tome posición de control. Respira profundo. Hoy entrenas concentración y atención plena.",
           "Elige una tarea y dedica 15 minutos a ejecutarla con total enfoque.",
           "Recuerda momentos donde tu atención plena generó resultados positivos.",
           "Visualiza el flujo de tus acciones, claras y eficientes.",
@@ -577,7 +577,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tu emoción transformándose en energía positiva y aprendizaje. Siente equilibrio y paz.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":480,"textos":[
-          "Asuma su lugar de poder.Ancle su cuerpo al presente. Respira profundo. Hoy entrenas gestión emocional y equilibrio.",
+          "Asuma su lugar de poder. Ancle su cuerpo al presente. Respira profundo. Hoy entrenas gestión emocional y equilibrio.",
           "Observa una emoción negativa y haz un paso consciente para transformarla.",
           "Recuerda momentos donde la gestión emocional mejoró tus decisiones.",
           "Visualiza tus emociones fluyendo y convirtiéndose en aprendizaje y fuerza.",
@@ -608,7 +608,7 @@
         {"tipo":"visualizacion","texto":"Visualiza tu acción realizada con éxito y claridad. Siente orgullo y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":480,"textos":[
-          "Siéntese derecho. Usted manda.. Respira profundo. Hoy entrenas confianza y seguridad interior.",
+          "Siéntese derecho. Usted manda. Respira profundo. Hoy entrenas confianza y seguridad interior.",
           "Piensa en una acción que deseas realizar y actúa con firmeza.",
           "Recuerda momentos donde actuar con seguridad generó resultados positivos.",
           "Visualiza tu acción completada con éxito y reconocimiento.",
@@ -617,7 +617,7 @@
           "Imagina escenarios futuros donde tu confianza guía tus decisiones y relaciones.",
           "Finaliza reconociendo tu capacidad de actuar seguro y presente en cualquier situación."
         ],"color":"#06b6d4"},
-        {"tipo":"cierre","texto":"La confianza te permite actuar con seguridad, firmeza y claridad.Cada segundo te perfeccionas. Avanza con estructura y luz. Nos vemos mañana en este mismo punto de poder; sé fiel a tu proceso","color":"#f87171"}
+        {"tipo":"cierre","texto":"La confianza te permite actuar con seguridad, firmeza y claridad. Cada segundo te perfeccionas. Avanza con estructura y luz. Nos vemos mañana en este mismo punto de poder; sé fiel a tu proceso.","color":"#f87171"}
       ]
     },
     {
