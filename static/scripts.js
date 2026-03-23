@@ -9,16 +9,19 @@ const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
-/* ===== VISUAL PROFUNDO ===== */
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const audio = document.getElementById("nature-audio");
+
+let sesiones = [];
+let currentBloque = 0;
+let currentSesion = 0;
 
 let slides = [];
 let slideIndex = 0;
 let slideInterval = null;
 
-/* Crear paisajes */
+/* ==================== INICIALIZAR PAISAJES ==================== */
 for (let i = 0; i < 20; i++) {
     const div = document.createElement("div");
     div.className = "slide";
@@ -33,46 +36,27 @@ function cambiarSlide() {
     slides[slideIndex].classList.add("active");
 }
 
-/* ===== ACTIVAR VISUAL ===== */
+/* ==================== VISUAL RESPIRACION ==================== */
 function activarVisual(tipo = "inhala") {
     circle.style.display = "flex";
     circle.classList.remove("inhale", "exhale", "hold");
 
-    if (tipo === "inhala") {
-        circle.innerText = "Inhala";
-        circle.classList.add("inhale");
-    }
-    if (tipo === "exhala") {
-        circle.innerText = "Exhala";
-        circle.classList.add("exhale");
-    }
-    if (tipo === "hold") {
-        circle.innerText = "Retén";
-        circle.classList.add("hold");
-    }
+    if (tipo === "inhala") circle.classList.add("inhale"), circle.innerText = "Inhala";
+    if (tipo === "exhala") circle.classList.add("exhale"), circle.innerText = "Exhala";
+    if (tipo === "hold") circle.classList.add("hold"), circle.innerText = "Retén";
 
-    slides[0].classList.add("active");
     if (!slideInterval) slideInterval = setInterval(cambiarSlide, 6000);
-
     audio.volume = 0.25;
     audio.play();
 }
 
 function pararVisual() {
     circle.style.display = "none";
+    if (slideInterval) { clearInterval(slideInterval); slideInterval = null; }
     audio.pause();
-    if (slideInterval) {
-        clearInterval(slideInterval);
-        slideInterval = null;
-    }
 }
 
-/* ==================== VARIABLES ==================== */
-let sesiones = [];
-let currentBloque = 0;
-let currentSesion = 0;
-
-/* ==================== PANEL ==================== */
+/* ==================== PANEL ESTADISTICAS ==================== */
 function updatePanel() {
     discBar.style.width = "80%";
     clarBar.style.width = "80%";
@@ -103,7 +87,7 @@ function detectarRespiracion(texto) {
     return palabras.some(p => texto.includes(p));
 }
 
-/* ==================== TEXTO ==================== */
+/* ==================== ESCRIBIR TEXTO ==================== */
 async function escribir(texto, color = "#fff", forzarVisual = false, mostrarExtra = 1200) {
     block.innerHTML = "";
     const div = document.createElement("div");
@@ -114,14 +98,13 @@ async function escribir(texto, color = "#fff", forzarVisual = false, mostrarExtr
     if (detectarRespiracion(texto) || forzarVisual) activarVisual("inhala");
     else pararVisual();
 
-    // Mostrar texto y voz simultáneamente sin bloquear
     hablar(texto, true);
+
     for (let i = 0; i < texto.length; i++) {
         div.innerHTML += texto[i];
         await new Promise(r => setTimeout(r, 20));
     }
 
-    // Mantener texto visible extra tiempo
     await new Promise(r => setTimeout(r, mostrarExtra));
 }
 
@@ -140,7 +123,6 @@ async function respirar(texto, duracion) {
 async function mostrarBloque(b) {
     if (!b) return;
 
-    // Nota previa
     if (b.nota) {
         const notaDiv = document.createElement("div");
         notaDiv.style.fontSize = "18px";
@@ -156,20 +138,15 @@ async function mostrarBloque(b) {
         case "historia":
             await escribir(b.texto, b.color);
             break;
-
         case "respiracion":
             await respirar(b.texto, b.duracion);
             break;
-
         case "tvid_ejercicio_largo":
             activarVisual("inhala");
-            for (let t of b.textos) {
-                await escribir(t, b.color, true);
-            }
+            for (let t of b.textos) await escribir(t, b.color, true);
             if (b.duracion) await respirar("Respira", b.duracion);
             pararVisual();
             break;
-
         case "cierre":
             await escribir(b.texto);
             restartBtn.style.display = "block";
@@ -177,7 +154,7 @@ async function mostrarBloque(b) {
     }
 }
 
-/* ==================== SESIONES ==================== */
+/* ==================== CARGAR SESIONES ==================== */
 async function cargarSesiones() {
     const r = await fetch("/tvid_ejercicio.json");
     const d = await r.json();
@@ -221,8 +198,10 @@ restartBtn.onclick = () => {
     mostrarActual();
 };
 
-/* ==================== INICIALIZAR ==================== */
+/* ==================== INICIALIZAR UI ==================== */
 updatePanel();
+
+// Botones semi-transparentes en bordes, solo visibles al inicio y final
 nextBtn.style.opacity = 0.7;
 backBtn.style.opacity = 0.7;
 nextBtn.style.position = "absolute";
