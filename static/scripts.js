@@ -7,19 +7,27 @@ const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
-let sesiones = [];
-let currentBloque = 0;
-let currentSesion = 0;
-let puntos = 0;
-
-// Globo azul para respiración
+// Globo azul
 const breathCircle = document.createElement("div");
 breathCircle.className = "breath-circle";
 block.appendChild(breathCircle);
 
+// Texto
 const breathText = document.createElement("div");
 breathText.className = "breath-text";
 block.appendChild(breathText);
+
+// Contador regresivo
+const contador = document.createElement("div");
+contador.style.fontSize = "16px";
+contador.style.opacity = "0.7";
+contador.style.marginTop = "10px";
+block.appendChild(contador);
+
+let sesiones = [];
+let currentBloque = 0;
+let currentSesion = 0;
+let puntos = 0;
 
 // ==================== FUNCIONES ====================
 
@@ -34,51 +42,31 @@ async function cargarSesiones() {
   }
 }
 
-// Mostrar bloque con tiempo real y voz simulada
-async function mostrarBloque(bloque) {
-  block.innerHTML = ""; // Limpiar bloque
+// Limpiar bloque
+function limpiarBloque() {
+  block.innerHTML = "";
   block.appendChild(breathCircle);
   block.appendChild(breathText);
-
-  if (bloque.tipo === "voz" || bloque.tipo === "historia" || bloque.tipo === "tvid") {
-    await escribirTexto(bloque.texto, 40); // 40ms por letra, ajustable para simular voz
-  }
-
-  if (bloque.tipo === "respiracion") {
-    await respirar(bloque.texto, bloque.duracion);
-  }
-
-  if (bloque.tipo === "decision") {
-    await decision(bloque);
-  }
-
-  if (bloque.tipo === "visualizacion" || bloque.tipo === "estrategia" || bloque.tipo === "inteligencia_social") {
-    await escribirTexto(bloque.texto, 35);
-  }
-
-  if (bloque.tipo === "recompensa") {
-    puntos += bloque.puntos || 0;
-  }
-
-  if (bloque.tipo === "tvid_ejercicio_largo") {
-    for (const txt of bloque.textos) {
-      await escribirTexto(txt, 40);
-    }
-  }
-
-  if (bloque.tipo === "cierre") {
-    await escribirTexto(bloque.texto, 30);
-  }
+  block.appendChild(contador);
 }
 
-// Simular escritura de texto como voz
-function escribirTexto(texto, velocidad) {
+// Hablar con SpeechSynthesis
+function hablar(texto) {
   return new Promise((resolve) => {
-    let i = 0;
-    block.innerHTML = "";
-    block.appendChild(breathCircle);
-    block.appendChild(breathText);
+    const utter = new SpeechSynthesisUtterance(texto);
+    utter.rate = 1; // velocidad normal
+    utter.onend = resolve;
+    speechSynthesis.speak(utter);
+  });
+}
 
+// Escribir texto sincronizado con voz
+async function escribirTextoYHablar(texto) {
+  breathText.innerHTML = "";
+  limpiarBloque();
+  await hablar(texto);
+  let i = 0;
+  return new Promise((resolve) => {
     const interval = setInterval(() => {
       if (i < texto.length) {
         breathText.innerHTML += texto[i];
@@ -87,36 +75,51 @@ function escribirTexto(texto, velocidad) {
         clearInterval(interval);
         resolve();
       }
-    }, velocidad);
+    }, 35);
   });
 }
 
-// Respiración con globo azul
-function respirar(texto, duracion) {
-  return new Promise((resolve) => {
-    breathText.innerHTML = texto;
-    breathCircle.style.transform = "scale(1.5)";
-    let mitad = duracion * 500; // mitad del tiempo para inflar
-    setTimeout(() => {
+// Respiración sincronizada con globo
+async function respirar(acciones, duracionTotal, objetivo) {
+  limpiarBloque();
+  breathText.innerHTML = `Ejercicio: ${objetivo}\nRealizando: ${acciones.join(", ")}`;
+  let pasos = acciones.length;
+  let duracionPaso = duracionTotal / pasos * 1000;
+
+  for (let i = 0; i < pasos; i++) {
+    breathText.innerHTML = `Ejercicio: ${objetivo}\n${acciones[i]}...`;
+    if (acciones[i].toLowerCase().includes("inhala") || acciones[i].toLowerCase().includes("respira")) {
+      breathCircle.style.transform = "scale(1.5)";
+    } else if (acciones[i].toLowerCase().includes("exhala") || acciones[i].toLowerCase().includes("suelta")) {
+      breathCircle.style.transform = "scale(0.8)";
+    } else {
       breathCircle.style.transform = "scale(1)";
-      setTimeout(resolve, mitad);
-    }, mitad);
-  });
+    }
+    // Contador regresivo
+    let tiempo = duracionPaso / 1000;
+    contador.innerText = `Tiempo restante: ${Math.ceil(tiempo)}s`;
+    await new Promise(r => setTimeout(r, duracionPaso));
+  }
+  breathCircle.style.transform = "scale(1)";
+  contador.innerText = "";
 }
 
-// Decisión con opciones y explicación
+// Decisión con opciones
 function decision(bloque) {
   return new Promise((resolve) => {
-    block.innerHTML = `<div>${bloque.pregunta}</div>`;
+    limpiarBloque();
+    breathText.innerHTML = bloque.pregunta;
     bloque.opciones.forEach((opt, idx) => {
       const btn = document.createElement("button");
       btn.innerText = opt;
-      btn.onclick = () => {
+      btn.onclick = async () => {
         if (idx === bloque.correcta) {
-          block.innerHTML += `<div style="color:#22c55e">Correcto ✅</div><div>${bloque.explicacion}</div>`;
-          setTimeout(resolve, 2000);
+          breathText.innerHTML = `${bloque.pregunta}\n✅ Correcto\n${bloque.explicacion}`;
+          await hablar(`Correcto. ${bloque.explicacion}`);
+          resolve();
         } else {
-          block.innerHTML += `<div style="color:#f87171">Incorrecto ❌</div><div>${bloque.explicacion}</div>`;
+          breathText.innerHTML = `${bloque.pregunta}\n❌ Incorrecto\n${bloque.explicacion}`;
+          await hablar(`Incorrecto. ${bloque.explicacion}`);
         }
       };
       block.appendChild(btn);
@@ -124,12 +127,45 @@ function decision(bloque) {
   });
 }
 
-// ==================== NAVEGACIÓN ====================
+// Mostrar bloque actual
+async function mostrarBloque(bloque) {
+  limpiarBloque();
+  switch (bloque.tipo) {
+    case "voz":
+    case "historia":
+    case "tvid":
+    case "visualizacion":
+    case "estrategia":
+    case "inteligencia_social":
+      await escribirTextoYHablar(bloque.texto);
+      break;
+    case "respiracion":
+      await respirar(bloque.acciones, bloque.duracion, bloque.objetivo);
+      break;
+    case "decision":
+      await decision(bloque);
+      break;
+    case "recompensa":
+      puntos += bloque.puntos || 0;
+      break;
+    case "tvid_ejercicio_largo":
+      for (const txt of bloque.textos) {
+        await escribirTextoYHablar(txt);
+      }
+      break;
+    case "cierre":
+      await escribirTextoYHablar(bloque.texto);
+      break;
+  }
+}
+
+// Actualizar botones
 function actualizarBotones() {
   backBtn.style.display = currentBloque > 0 ? "block" : "none";
   nextBtn.style.display = currentBloque < sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
 }
 
+// Mostrar bloque actual
 async function mostrarActual() {
   if (!sesiones.length) return;
   actualizarBotones();
