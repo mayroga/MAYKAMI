@@ -2,13 +2,11 @@
 /* MAYKAMI NEUROGAME ENGINE - BY MAY ROGA LLC                   */
 /* ============================================================ */
 
-const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
-const restartBtn = document.getElementById("restart-btn");
 const audio = document.getElementById("nature-audio");
 
 // Barras de progreso
@@ -17,9 +15,7 @@ const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
 
 let sesiones = [];
-let currentSesion = 0;
 let currentBloque = 0;
-let abortController = { abort: false };
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || { disciplina: 40, claridad: 50, calma: 30 };
 
 function updatePanel() {
@@ -30,126 +26,124 @@ function updatePanel() {
 }
 
 /* ========================= */
-/* NÚCLEO DE VOZ Y ACCIÓN    */
+/* MOTOR DE VOZ Y GLOBO      */
 /* ========================= */
-async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
-    if (localAbort.abort) return;
-    window.speechSynthesis.cancel(); 
-    
-    // Detectar respiración para mover el globo
+function hablar(texto) {
+    window.speechSynthesis.cancel();
     const t = texto.toLowerCase();
-    if (["inhala", "aire", "llena"].some(p => t.includes(p))) circle.className = "inhale";
+    
+    // Animación automática del globo por palabras clave
+    if (["inhala", "aire", "dentro"].some(p => t.includes(p))) circle.className = "inhale";
     else if (["exhala", "suelta", "fuera"].some(p => t.includes(p))) circle.className = "exhale";
-    else if (["retén", "pausa"].some(p => t.includes(p))) circle.className = "hold";
+    else if (["retén", "pausa", "aguanta"].some(p => t.includes(p))) circle.className = "hold";
     else circle.className = "";
-
-    block.innerHTML = "";
-    for (let char of texto.split("")) {
-        if (localAbort.abort) return;
-        block.insertAdjacentHTML('beforeend', char);
-        await new Promise(r => setTimeout(r, 20));
-    }
 
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
     mensaje.rate = 0.9;
-    await new Promise(resolve => {
-        mensaje.onend = resolve;
-        window.speechSynthesis.speak(mensaje);
-    });
-
-    if (duracion > 0) await iniciarContador(duracion, texto, localAbort);
-}
-
-async function iniciarContador(segundos, texto, localAbort) {
-    return new Promise(r => {
-        let t = segundos;
-        const timer = setInterval(() => {
-            if (localAbort.abort) { clearInterval(timer); return; }
-            block.innerHTML = `${texto}<br><span style="font-size:50px; color:#60a5fa;">${t}s</span>`;
-            if (t <= 0) { clearInterval(timer); r(); }
-            t--;
-        }, 1000);
-    });
+    window.speechSynthesis.speak(mensaje);
 }
 
 /* ========================= */
-/* BOTONES DE RESPUESTA      */
+/* RENDERIZADO DE BLOQUES    */
 /* ========================= */
-async function ejecutarQuiz(bloque, localAbort) {
-    // 1. Decir la pregunta
-    await procesarTexto(bloque.pregunta, localAbort, 0, true);
+async function renderBloque() {
+    const bloque = sesiones[0].bloques[currentBloque];
+    if (!bloque) return;
 
-    // 2. Crear contenedor de opciones
-    const container = document.createElement("div");
-    container.style.marginTop = "20px";
-    block.appendChild(container);
-
-    // Ocultar botón "Siguiente" para obligar a elegir
-    nextBtn.style.display = "none";
-
-    return new Promise(resolve => {
-        bloque.opciones.forEach((opcion, index) => {
-            const btn = document.createElement("button");
-            btn.innerText = opcion;
-            btn.style.cssText = "display:block; width:100%; margin:10px 0; padding:15px; border-radius:10px; background:#1e293b; color:white; border:1px solid #3b82f6; cursor:pointer; font-size:1.1rem;";
-            
-            btn.onclick = async () => {
-                const esCorrecto = (index === bloque.correcta);
-                const feedback = esCorrecto ? `Correcto. ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
-                
-                // Actualizar progreso
-                if (esCorrecto) userData.disciplina += 5; else userData.calma += 2;
-                updatePanel();
-
-                container.innerHTML = `<p style="color:${esCorrecto ? '#4ade80' : '#f87171'}">${feedback}</p>`;
-                await procesarTexto(feedback, localAbort);
-                
-                nextBtn.style.display = "inline-block"; // Mostrar siguiente tras responder
-                resolve();
-            };
-            container.appendChild(btn);
-        });
-    });
-}
-
-/* ========================= */
-/* NAVEGACIÓN                */
-/* ========================= */
-async function mostrarBloque() {
-    abortController.abort = true;
-    abortController = { abort: false };
-    const localAbort = abortController;
-
-    const sesion = sesiones[currentSesion];
-    if (!sesion) return;
-    const bloque = sesion.bloques[currentBloque];
-
-    // Control de botones de navegación
-    backBtn.style.display = (currentBloque > 0) ? "inline-block" : "none";
-    restartBtn.style.display = (currentBloque === sesion.bloques.length - 1) ? "inline-block" : "none";
-    nextBtn.style.display = (currentBloque < sesion.bloques.length - 1) ? "inline-block" : "none";
+    block.innerHTML = ""; // Limpiar pantalla
+    nextBtn.style.display = "none"; // Ocultar navegación por defecto
 
     if (bloque.tipo === "decision") {
-        await ejecutarQuiz(bloque, localAbort);
-    } else if (bloque.tipo === "respiracion") {
-        await procesarTexto(bloque.texto, localAbort, bloque.duracion || 10);
+        // 1. Mostrar Pregunta
+        const p = document.createElement("p");
+        p.style.fontSize = "1.4rem";
+        p.innerText = bloque.pregunta;
+        block.appendChild(p);
+        hablar(bloque.pregunta);
+
+        // 2. Crear los 3 botones de respuesta de inmediato
+        const btnCont = document.createElement("div");
+        btnCont.style.marginTop = "20px";
+        
+        bloque.opciones.forEach((opt, idx) => {
+            const b = document.createElement("button");
+            b.innerText = opt;
+            b.style.cssText = "display:block; width:100%; margin:10px 0; padding:15px; border-radius:12px; background:#1e293b; color:white; border:1px solid #3b82f6; cursor:pointer;";
+            
+            b.onclick = () => {
+                const esCorrecto = (idx === bloque.correcta);
+                const feedback = esCorrecto ? `Correcto. ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
+                
+                // Feedback visual y de voz
+                block.innerHTML = `<p style="font-size:1.3rem; color:${esCorrecto ? '#4ade80' : '#f87171'}">${feedback}</p>`;
+                hablar(feedback);
+                
+                // Actualizar puntos
+                if (esCorrecto) userData.disciplina += 10; else userData.calma += 5;
+                updatePanel();
+
+                // Habilitar botón para seguir
+                nextBtn.style.display = "inline-block";
+            };
+            btnCont.appendChild(b);
+        });
+        block.appendChild(btnCont);
+
     } else {
-        await procesarTexto(bloque.texto, localAbort);
+        // Bloque normal de texto o respiración
+        const p = document.createElement("p");
+        p.innerText = bloque.texto;
+        block.appendChild(p);
+        hablar(bloque.texto);
+
+        if (bloque.duracion) {
+            let seg = bloque.duracion;
+            const timer = setInterval(() => {
+                p.innerHTML = `${bloque.texto}<br><br><b style="font-size:3rem; color:#60a5fa;">${seg}s</b>`;
+                if (seg <= 0) {
+                    clearInterval(timer);
+                    nextBtn.style.display = "inline-block";
+                }
+                seg--;
+            }, 1000);
+        } else {
+            nextBtn.style.display = "inline-block";
+        }
     }
 }
 
+/* ========================= */
+/* INICIO Y NAVEGACIÓN       */
+/* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    if (audio) { audio.volume = 0.08; audio.play(); }
+    if (audio) { audio.volume = 0.05; audio.play(); } // Música muy baja
+    
     const res = await fetch("/tvid_ejercicio.json");
     const data = await res.json();
     sesiones = data.sesiones;
-    mostrarBloque();
+    currentBloque = 0;
+    renderBloque();
 };
 
-nextBtn.onclick = () => { currentBloque++; mostrarBloque(); };
-backBtn.onclick = () => { userData.disciplina -= 10; updatePanel(); currentBloque--; mostrarBloque(); };
-restartBtn.onclick = () => { currentBloque = 0; mostrarBloque(); };
+nextBtn.onclick = () => {
+    currentBloque++;
+    if (currentBloque < sesiones[0].bloques.length) {
+        renderBloque();
+    } else {
+        block.innerHTML = "<h2>Sesión completada con éxito.</h2>";
+        nextBtn.style.display = "none";
+    }
+};
+
+backBtn.onclick = () => {
+    if (currentBloque > 0) {
+        userData.disciplina = Math.max(0, userData.disciplina - 15); // Penalización
+        updatePanel();
+        currentBloque--;
+        renderBloque();
+    }
+};
 
 updatePanel();
