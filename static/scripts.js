@@ -41,7 +41,6 @@ function aplicarPenalizacion() {
     userData.calma = Math.max(0, userData.calma * 0.5);
     userData.disciplina = Math.max(0, userData.disciplina * 0.5);
     updatePanel();
-    // No usamos 'hablar' directamente para no romper el flujo de promesas de procesarTexto
 }
 
 /* ========================= */
@@ -51,12 +50,15 @@ function limpiarEstado() {
     abortController.abort = true;
     abortController = { abort: false };
     window.speechSynthesis.cancel();
-    circle.className = "";
-    circle.innerText = "MAYKAMI";
+    if(circle) {
+        circle.className = "";
+        circle.innerText = "MAYKAMI";
+    }
     block.innerHTML = "";
 }
 
 function detectarRespiracion(texto) {
+    if(!circle) return;
     const t = texto.toLowerCase();
     if (["inhala", "aspira", "llena", "aire"].some(p => t.includes(p))) { 
         circle.className = "inhale"; circle.innerText = "Inhala"; 
@@ -80,16 +82,19 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     detectarRespiracion(texto);
     block.innerHTML = "";
 
+    // Escritura mecánica del texto
     const chars = texto.split("");
     for (let char of chars) {
         if (localAbort.abort) return;
         block.insertAdjacentHTML('beforeend', char);
-        await new Promise(r => setTimeout(r, 20));
+        await new Promise(r => setTimeout(r, 15)); // Un poco más rápido para fluidez
     }
 
+    // Locución de la asesoría
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
-    mensaje.rate = 0.9; 
+    mensaje.rate = 0.95; 
+    mensaje.volume = 1.0; // Voz al máximo
    
     await new Promise(resolve => {
         mensaje.onend = resolve;
@@ -101,7 +106,8 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
         await iniciarContador(duracion, texto, localAbort);
     }
 
-    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 1200));
+    // Pausa sutil entre bloques para asimilación
+    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 800));
 }
 
 async function iniciarContador(segundos, texto, localAbort) {
@@ -109,7 +115,7 @@ async function iniciarContador(segundos, texto, localAbort) {
         let t = segundos;
         const timer = setInterval(() => {
             if (localAbort.abort) { clearInterval(timer); return; }
-            block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa;">${t}s</span>`;
+            block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa; display:block; margin-top:10px;">${t}s</span>`;
             if (t <= 0) { clearInterval(timer); r(); }
             t--;
         }, 1000);
@@ -121,18 +127,18 @@ async function iniciarContador(segundos, texto, localAbort) {
 /* ========================= */
 async function ejecutarQuiz(bloque, localAbort) {
     const container = document.createElement("div");
-    container.style.cssText = `max-width: 700px; margin: 20px auto; padding: 25px; background-color: ${bloque.color || "#1e293b"}; border-radius: 12px; color: #ffffff; text-align: center;`;
+    container.style.cssText = `max-width: 700px; margin: 20px auto; padding: 25px; background-color: ${bloque.color || "#1e293b"}; border-radius: 12px; color: #ffffff; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);`;
     block.appendChild(container);
 
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
     const feedbackArea = document.createElement("div");
-    feedbackArea.style.cssText = "margin-top:15px; font-weight:bold; color:#00d2ff; min-height:1.5em;";
-    feedbackArea.innerText = "Selecciona una opción:";
+    feedbackArea.style.cssText = "margin-top:20px; font-weight:bold; color:#00d2ff; min-height:1.5em; font-size: 1.1em;";
+    feedbackArea.innerText = "Selecciona la respuesta correcta:";
     container.appendChild(feedbackArea);
 
     const btnContainer = document.createElement("div");
-    btnContainer.style.marginTop = "15px";
+    btnContainer.style.marginTop = "20px";
     container.appendChild(btnContainer);
 
     nextBtn.disabled = true;
@@ -142,8 +148,11 @@ async function ejecutarQuiz(bloque, localAbort) {
         bloque.opciones.forEach((opcion, index) => {
             const btn = document.createElement("button");
             btn.innerText = opcion;
-            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569;";
+            btn.style.cssText = "display:block; width:90%; margin:12px auto; padding:15px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1em; transition: 0.2s;";
             
+            btn.onmouseover = () => btn.style.background = "#475569";
+            btn.onmouseout = () => btn.style.background = "#334155";
+
             btn.onclick = async () => {
                 const btns = btnContainer.querySelectorAll("button");
                 btns.forEach(b => b.disabled = true);
@@ -153,7 +162,6 @@ async function ejecutarQuiz(bloque, localAbort) {
                     ? `¡Correcto! ${bloque.explicacion}` 
                     : `Incorrecto. ${bloque.explicacion}`;
                 
-                // Actualizar estadísticas MAYKAMI
                 if (esCorrecto) {
                     userData.disciplina = Math.min(100, userData.disciplina + (bloque.recompensa || 5));
                 } else {
@@ -161,7 +169,7 @@ async function ejecutarQuiz(bloque, localAbort) {
                 }
                 updatePanel();
 
-                feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "❌"}</strong> ${feedback}`;
+                feedbackArea.innerHTML = `<span style="font-size:1.5em;">${esCorrecto ? "✅" : "❌"}</span><br>${feedback}`;
                 await procesarTexto(feedback, localAbort);
                 
                 nextBtn.disabled = false;
@@ -181,7 +189,10 @@ async function cargarSesiones() {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-    } catch (e) { console.error("Error en DB MAYKAMI."); }
+    } catch (e) { 
+        console.error("Error en DB MAYKAMI."); 
+        block.innerText = "Error cargando la sesión. Verifique el archivo JSON.";
+    }
 }
 
 async function mostrarBloque() {
@@ -194,9 +205,10 @@ async function mostrarBloque() {
     const bloques = sesiones[currentSesion].bloques;
     const bloque = bloques[currentBloque];
 
-    // Visibilidad de botones
+    // Gestión de botones de navegación
     const esUltimaSesion = (currentSesion === sesiones.length - 1);
     const esUltimoBloque = (currentBloque === bloques.length - 1);
+    
     backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
     nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
     restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
@@ -211,19 +223,23 @@ async function mostrarBloque() {
                 await procesarTexto(t, localAbort, 8);
             }
         }
-        else if (bloque.texto) {
+        else {
             const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
-            await procesarTexto(bloque.texto, localAbort, dur);
+            await procesarTexto(bloque.texto || "Continuando...", localAbort, dur);
         }
-    } catch (e) { console.log("Flujo interrumpido."); }
+    } catch (e) { console.log("Salto de bloque."); }
 }
 
 /* ========================= */
-/* EVENTOS                   */
+/* EVENTOS DE CONTROL        */
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    if (audio) { audio.volume = 0.15; audio.play(); }
+    // Música sutil de fondo (0.05 a 0.1 para que no moleste)
+    if (audio) { 
+        audio.volume = 0.08; 
+        audio.play().catch(e => console.log("Audio requiere interacción")); 
+    }
     initGallery();
     await cargarSesiones();
     currentSesion = 0;
@@ -243,7 +259,7 @@ nextBtn.onclick = () => {
 };
 
 backBtn.onclick = () => {
-    aplicarPenalizacion(); // Se penaliza por retroceder pasos
+    aplicarPenalizacion(); 
     if (currentBloque > 0) {
         currentBloque--;
     } else if (currentSesion > 0) {
@@ -258,9 +274,6 @@ restartBtn.onclick = () => {
     currentBloque = 0;
     mostrarBloque();
 };
-
-// Inicializar panel al cargar
-updatePanel();
 
 /* ========================= */
 /* GALERÍA DINÁMICA          */
@@ -286,3 +299,6 @@ function initGallery(total = 30) {
         currentSlides[slideIndex].classList.add("active");
     }, 7000);
 }
+
+// Inicialización
+updatePanel();
