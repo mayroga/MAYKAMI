@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -28,7 +27,6 @@ color:white;
 /* ========================= */
 /* FONDO NATURAL */
 /* ========================= */
-
 #visual-gallery{
 position:fixed;
 top:0;
@@ -55,41 +53,27 @@ opacity:1;
 /* ========================= */
 /* CIRCULO RESPIRACION */
 /* ========================= */
-
 #visual-circle{
-
 position:fixed;
 top:50%;
 left:50%;
-
 transform:translate(-50%,-50%);
-
 width:180px;
 height:180px;
-
 border-radius:50%;
-
 border:4px solid #3b82f6;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
 font-size:22px;
 letter-spacing:2px;
-
 background:transparent;
-
 z-index:5;
-
 backdrop-filter:blur(2px);
-
 transition:border-color 1s;
-
 }
 
 /* animaciones */
-
 .inhale{
 animation:inhale 6s infinite ease-in-out;
 border-color:#3b82f6;
@@ -123,277 +107,127 @@ border-color:#34d399;
 100%{box-shadow:0 0 10px #34d399}
 }
 
-
 /* ========================= */
 /* TEXTO CENTRAL */
 /* ========================= */
-
 #block{
-
 position:fixed;
-
 top:70%;
-
 left:50%;
-
 transform:translateX(-50%);
-
 font-size:28px;
-
 text-align:center;
-
 z-index:6;
-
 max-width:80%;
-
 text-shadow:0 0 10px black;
-
 }
-
-
 
 /* ========================= */
 /* ESQUINAS FLOTANTES */
 /* ========================= */
-
 .corner{
-
 position:fixed;
-
 font-size:14px;
-
 padding:8px 12px;
-
 background:rgba(0,0,0,0.25);
-
 border-radius:10px;
-
 backdrop-filter:blur(4px);
-
 box-shadow:0 0 10px rgba(0,0,0,0.5);
-
 z-index:10;
-
 }
 
-
-/* arriba izquierda */
-
-#top-left{
-
-top:10px;
-
-left:10px;
-
-}
-
-
-/* arriba derecha */
-
-#top-right{
-
-top:10px;
-
-right:10px;
-
-text-align:right;
-
-}
-
-
-/* abajo izquierda */
-
-#bottom-left{
-
-bottom:10px;
-
-left:10px;
-
-}
-
-
-/* abajo derecha */
-
-#bottom-right{
-
-bottom:10px;
-
-right:10px;
-
-text-align:right;
-
-}
-
-
+#top-left{top:10px; left:10px;}
+#top-right{top:10px; right:10px; text-align:right;}
+#bottom-left{bottom:10px; left:10px;}
+#bottom-right{bottom:10px; right:10px; text-align:right;}
 
 /* ========================= */
 /* BOTONES */
 /* ========================= */
-
 button{
-
 padding:10px 14px;
-
 border:none;
-
 border-radius:8px;
-
 background:#2563eb;
-
 color:white;
-
 font-size:14px;
-
 cursor:pointer;
-
 margin-top:4px;
-
 }
 
 button:hover{
-
 background:#3b82f6;
-
 }
-
-
 
 /* ========================= */
 /* AUDIO */
-/* ========================= */
-
 audio{
 display:none;
 }
-
-
 </style>
 </head>
 
-
 <body>
-
-
 
 <!-- ========================= -->
 <!-- GALERIA NATURAL -->
 <!-- ========================= -->
-
 <div id="visual-gallery"></div>
-
-
 
 <!-- ========================= -->
 <!-- CIRCULO -->
 <!-- ========================= -->
-
 <div id="visual-circle">
-
 Respira
-
 </div>
-
-
 
 <!-- ========================= -->
 <!-- TEXTO CENTRAL -->
 <!-- ========================= -->
-
 <div id="block">
-
 Bienvenido a tu sesión MayKaMi
-
 </div>
-
-
 
 <!-- ========================= -->
 <!-- ESQUINAS -->
 <!-- ========================= -->
-
 <div id="top-left" class="corner">
-
 <div>MayKaMi</div>
 <div>Entrenamiento mental diario</div>
-
 </div>
-
-
 
 <div id="top-right" class="corner">
-
 <div>Racha: 0 días</div>
 <div>Nivel MayKaMi: 1</div>
-
 </div>
 
-
-
 <div id="bottom-left" class="corner">
-
 <div>Disciplina</div>
 <div>Claridad</div>
 <div>Calma</div>
-
 </div>
-
-
 
 <div id="bottom-right" class="corner">
-
-<button id="start-btn">
-
-Iniciar sesión
-
-</button>
-
-<button id="next-btn" style="display:none">
-
-Siguiente
-
-</button>
-
-<button id="back-btn">
-
-Atrás
-
-</button>
-
-<button id="restart-btn" style="display:none">
-
-Reiniciar
-
-</button>
-
+<button id="start-btn">Iniciar sesión</button>
+<button id="next-btn" style="display:none">Siguiente</button>
+<button id="back-btn">Atrás</button>
+<button id="restart-btn" style="display:none">Reiniciar</button>
 <div style="margin-top:6px;font-size:12px">
-
 Sesión diaria · MAYKAMI BY May Roga LLC
-
 </div>
-
 </div>
-
-
 
 <!-- ========================= -->
 <!-- AUDIO NATURALEZA -->
 <!-- ========================= -->
-
 <audio id="nature-audio" loop>
-
 <source src="https://www.soundjay.com/nature/ocean-wave-1.mp3">
-
 </audio>
-
-
 
 <!-- ========================= -->
 <!-- SCRIPT -->
-<!-- ========================= -->
-
+<!-- Usar el scripts.js definitivo -->
 <script src="/static/scripts.js"></script>
-
-
 
 </body>
 </html>
