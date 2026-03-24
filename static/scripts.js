@@ -41,15 +41,14 @@ function initGallery(total = 30) {
     }, 7000);
 }
 
-/* ==================== GLOBO Y VOZ ==================== */
+/* ==================== ELEMENTOS FIJOS DEL BLOQUE ==================== */
+// Los creamos una sola vez fuera para que no se borren permanentemente
 const breathCircle = document.createElement("div");
-breathCircle.id = "visual-circle"; // Reutiliza el ID del script visual
+breathCircle.id = "visual-circle"; 
 breathCircle.style.display = "none";
-block.appendChild(breathCircle);
 
 const breathText = document.createElement("div");
-breathText.style.cssText = "font-size:24px; color:white; text-align:center; margin-top:20px; font-weight:bold;";
-block.appendChild(breathText);
+breathText.style.cssText = "font-size:24px; color:white; text-align:center; margin-top:20px; font-weight:bold; min-height: 1.2em;";
 
 function hablar(texto) {
     return new Promise(resolve => {
@@ -64,9 +63,9 @@ function hablar(texto) {
 
 /* ==================== LÓGICA DE PROGRESO ==================== */
 function updatePanel() {
-    discBar.style.width = userData.disciplina + "%";
-    clarBar.style.width = userData.claridad + "%";
-    calmaBar.style.width = userData.calma + "%";
+    if(discBar) discBar.style.width = userData.disciplina + "%";
+    if(clarBar) clarBar.style.width = userData.claridad + "%";
+    if(calmaBar) calmaBar.style.width = userData.calma + "%";
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
@@ -74,20 +73,26 @@ async function mostrarBloque() {
     speechSynthesis.cancel();
     if (breathingInterval) clearInterval(breathingInterval);
     
+    // Validar existencia de datos
+    if (!sesiones[currentSesion] || !sesiones[currentSesion].bloques[currentBloque]) return;
+    
     const bloque = sesiones[currentSesion].bloques[currentBloque];
-    block.innerHTML = ""; // Limpiar
+    
+    // LIMPIEZA SEGURA: Solo borramos contenedores de botones previos
+    block.innerHTML = ""; 
     block.appendChild(breathCircle);
     block.appendChild(breathText);
     breathText.innerText = "";
     
-    // Configurar botones
+    // Configurar botones de navegación
     backBtn.style.display = (currentBloque === 0 && currentSesion === 0) ? "none" : "inline-block";
     const esUltimo = (currentSesion === sesiones.length - 1 && currentBloque === sesiones[currentSesion].bloques.length - 1);
     nextBtn.style.display = esUltimo ? "none" : "inline-block";
-    restartBtn.style.display = esUltimo ? "inline-block" : "none";
+    if(restartBtn) restartBtn.style.display = esUltimo ? "inline-block" : "none";
 
-    // Tipo Respiración
-    if (bloque.tipo === "respiracion" || (bloque.texto && bloque.texto.toLowerCase().includes("respira"))) {
+    // Lógica de Respiración
+    const necesitaRespirar = bloque.tipo === "respiracion" || (bloque.texto && bloque.texto.toLowerCase().includes("respira"));
+    if (necesitaRespirar) {
         breathCircle.style.display = "block";
         breathCircle.className = "inhale"; 
         let growing = true;
@@ -99,31 +104,43 @@ async function mostrarBloque() {
         breathCircle.style.display = "none";
     }
 
-    // Procesar texto y voz
-    const texto = bloque.texto || bloque.pregunta || "Continúa tu camino";
-    await hablar(texto);
+    // Efecto de escritura y voz
+    const texto = bloque.texto || bloque.pregunta || "...";
+    hablar(texto); // No ponemos await aquí para que el texto salga mientras habla
+    
     for (let char of texto) {
         breathText.innerHTML += char;
-        await new Promise(r => setTimeout(r, 25));
+        await new Promise(r => setTimeout(r, 30));
     }
 
-    // Si es Quiz/Decisión
-    if (bloque.tipo === "decision") {
+    // Renderizado de Opciones si es tipo decisión
+    if (bloque.tipo === "decision" && bloque.opciones) {
         const container = document.createElement("div");
-        container.style.marginTop = "20px";
+        container.style.marginTop = "25px";
         bloque.opciones.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.innerText = opt;
-            btn.className = "quiz-btn"; // Asume que tienes este estilo en CSS
+            btn.className = "quiz-btn"; // Asegúrate de tener este estilo en tu CSS
+            btn.style.display = "block";
+            btn.style.margin = "10px auto";
+            
             btn.onclick = async () => {
+                const btns = container.querySelectorAll("button");
+                btns.forEach(b => b.disabled = true); // Evitar doble clic
+
                 if (i === bloque.correcta) {
-                    userData.disciplina += 5;
+                    userData.disciplina = Math.min(100, userData.disciplina + 5);
                     await hablar("Correcto. " + (bloque.explicacion || ""));
-                    currentBloque++;
-                    mostrarBloque();
+                    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+                        currentBloque++;
+                        mostrarBloque();
+                    } else {
+                        nextBtn.click();
+                    }
                 } else {
-                    userData.calma += 2;
-                    hablar("Inténtalo de nuevo.");
+                    userData.calma = Math.max(0, userData.calma - 2);
+                    hablar("Incorrecto. Inténtalo de nuevo.");
+                    btns.forEach(b => b.disabled = false);
                 }
                 updatePanel();
             };
@@ -135,15 +152,24 @@ async function mostrarBloque() {
 
 /* ==================== EVENTOS ==================== */
 startBtn.onclick = async () => {
-    startBtn.style.display = "none";
-    initGallery();
-    audio.volume = 0.15;
-    audio.play();
-    const res = await fetch("/tvid_ejercicio.json");
-    const data = await res.json();
-    sesiones = data.sesiones;
-    updatePanel();
-    mostrarBloque();
+    try {
+        startBtn.style.display = "none";
+        initGallery();
+        if(audio) {
+            audio.volume = 0.15;
+            audio.play().catch(e => console.log("Audio bloqueado por navegador"));
+        }
+        
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones;
+        
+        updatePanel();
+        mostrarBloque();
+    } catch (error) {
+        console.error("Error al iniciar:", error);
+        block.innerHTML = "<p style='color:white;'>Error al cargar los ejercicios.</p>";
+    }
 };
 
 nextBtn.onclick = () => {
@@ -157,8 +183,21 @@ nextBtn.onclick = () => {
 };
 
 backBtn.onclick = () => {
-    userData.disciplina *= 0.8; // Penalización suave
+    userData.disciplina = Math.max(0, userData.disciplina * 0.9); // Penalización más justa
     updatePanel();
-    if (currentBloque > 0) currentBloque--;
+    if (currentBloque > 0) {
+        currentBloque--;
+    } else if (currentSesion > 0) {
+        currentSesion--;
+        currentBloque = sesiones[currentSesion].bloques.length - 1;
+    }
     mostrarBloque();
 };
+
+if(restartBtn) {
+    restartBtn.onclick = () => {
+        currentSesion = 0;
+        currentBloque = 0;
+        mostrarBloque();
+    };
+}
