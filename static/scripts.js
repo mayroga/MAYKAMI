@@ -17,7 +17,6 @@ const audio = document.getElementById("nature-audio");
 /* ========================= */
 let slides = [];
 let slideIndex = 0;
-
 for (let i = 0; i < 20; i++) {
     const div = document.createElement("div");
     div.className = "slide";
@@ -39,23 +38,23 @@ setInterval(() => {
 function setInhala() {
     circle.className = "inhale";
     circle.innerText = "Inhala";
-    circle.style.borderColor = "#60ffa0"; // verde menta sutil
+    circle.style.borderColor = "#3b82f6";
 }
 function setExhala() {
     circle.className = "exhale";
     circle.innerText = "Exhala";
-    circle.style.borderColor = "rgba(255,255,255,0.6)";
+    circle.style.borderColor = "#ffffff";
 }
 function setHold() {
     circle.className = "hold";
     circle.innerText = "Retén";
-    circle.style.borderColor = "#60ffa0";
+    circle.style.borderColor = "#34d399"; // verde menta sutil
 }
 
 /* ========================= */
-/* VOZ SEGURA */
+/* VOZ SIEMPRE DISPONIBLE */
 /* ========================= */
-function voz() {
+function getVoice() {
     const voices = speechSynthesis.getVoices();
     return voices.find(v => v.lang.startsWith("es")) || voices[0];
 }
@@ -66,7 +65,7 @@ function hablar(texto) {
             speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(texto);
             u.lang = "es-ES";
-            u.voice = voz();
+            u.voice = getVoice();
             u.rate = 0.9;
             u.onend = resolve;
             speechSynthesis.speak(u);
@@ -77,21 +76,18 @@ function hablar(texto) {
 }
 
 /* ========================= */
-/* TEXTO FLEXIBLE */
+/* FUNCIONES FLEXIBLES */
 /* ========================= */
-async function escribirSeguro(texto) {
+async function mostrarTexto(texto) {
     if (!texto) texto = "...";
     block.innerHTML = "";
-    try { await hablar(texto); } catch {}
+    await hablar(texto);
     for (let i = 0; i < texto.length; i++) {
         block.innerHTML += texto[i];
         await new Promise(r => setTimeout(r, 15));
     }
 }
 
-/* ========================= */
-/* CONTADOR SEGURO */
-/* ========================= */
 async function contadorSeguro(texto, tiempo) {
     if (!tiempo) tiempo = 5;
     for (let i = tiempo; i > 0; i--) {
@@ -100,9 +96,6 @@ async function contadorSeguro(texto, tiempo) {
     }
 }
 
-/* ========================= */
-/* RESPIRACIÓN SEGURA */
-/* ========================= */
 async function respirarSeguro(ciclos) {
     if (!ciclos) ciclos = 2;
     for (let i = 0; i < ciclos; i++) {
@@ -124,35 +117,34 @@ let currentBloque = 0;
 
 async function cargarSesiones() {
     try {
-        const r = await fetch("/tvid_ejercicio.json");
-        const d = await r.json();
-        sesiones = d.sesiones || d || [];
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones || [];
     } catch {
         sesiones = [];
     }
-    if (sesiones.length === 0) {
-        sesiones = [{ bloques: [{ texto: "Respira", ciclos: 2 }, { texto: "Concéntrate", tiempo: 5 }, { texto: "Sigue adelante" }] }];
+    if (!sesiones.length) {
+        sesiones = [{ bloques: [{ texto: "Bienvenido a tu sesión MayKaMi" }] }];
     }
-    currentSesion = Math.floor(Math.random() * sesiones.length);
 }
 
 /* ========================= */
-/* MOSTRAR BLOQUE FLEXIBLE */
+/* MOSTRAR BLOQUE ACTUAL */
 /* ========================= */
 async function mostrarBloque(b) {
     nextBtn.style.display = "none";
     backBtn.style.display = "none";
 
     if (!b) {
-        await escribirSeguro("Continuar");
+        await mostrarTexto("Continuar");
     } else if (b.ciclos) {
         await respirarSeguro(b.ciclos);
-    } else if (b.tiempo || b.duracion) {
-        await contadorSeguro(b.texto || "Respira", b.tiempo || b.duracion);
+    } else if (b.tiempo) {
+        await contadorSeguro(b.texto || "Esperando", b.tiempo);
     } else if (b.texto) {
-        await escribirSeguro(b.texto);
+        await mostrarTexto(b.texto);
     } else {
-        await escribirSeguro("...");
+        await mostrarTexto("...");
     }
 
     if (currentBloque < sesiones[currentSesion].bloques.length - 1) nextBtn.style.display = "inline-block";
@@ -160,7 +152,7 @@ async function mostrarBloque(b) {
 }
 
 /* ========================= */
-/* CONTROL ACTUAL */
+/* MOSTRAR SESIÓN ACTUAL */
 /* ========================= */
 async function mostrarActual() {
     const b = sesiones[currentSesion].bloques[currentBloque];
@@ -168,7 +160,7 @@ async function mostrarActual() {
 }
 
 /* ========================= */
-/* BOTONES */
+/* BOTONES CONTROL */
 /* ========================= */
 startBtn.onclick = async () => {
     try { audio.volume = 0.3; await audio.play(); } catch {}
