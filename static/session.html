@@ -1,233 +1,250 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* ========================= */
+/* ELEMENTOS PRINCIPALES */
+/* ========================= */
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
+const block = document.getElementById("block");
+const startBtn = document.getElementById("start-btn");
+const nextBtn = document.getElementById("next-btn");
+const backBtn = document.getElementById("back-btn");
+const restartBtn = document.getElementById("restart-btn");
+const audio = document.getElementById("nature-audio");
 
-<title>MayKaMi</title>
+let sesiones = [];
+let currentSesion = 0;
+let currentBloque = 0;
+let abortController = { abort: false };
+let slideIndex = 0;
+let galleryInterval = null;
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+/* ========================= */
+/* GALERÍA DINÁMICA */
+/* ========================= */
+function initGallery(total = 30) {
+    gallery.innerHTML = "";
+    for (let i = 0; i < total; i++) {
+        const div = document.createElement("div");
+        div.className = "slide";
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
+        gallery.appendChild(div);
+    }
+    const slides = document.querySelectorAll(".slide");
+    if (slides.length > 0) slides[0].classList.add("active");
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
-}
-
-body{
-width:100vw;
-height:100vh;
-overflow:hidden;
-background:black;
-color:white;
+    if (galleryInterval) clearInterval(galleryInterval);
+    galleryInterval = setInterval(() => {
+        const currentSlides = document.querySelectorAll(".slide");
+        if (currentSlides.length === 0) return;
+        currentSlides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % currentSlides.length;
+        currentSlides[slideIndex].classList.add("active");
+    }, 7000);
 }
 
 /* ========================= */
-/* FONDO NATURAL */
+/* CONTROL DE ESTADOS Y RESPIRACIÓN */
 /* ========================= */
-#visual-gallery{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:1;
+function limpiarEstado() {
+    abortController.abort = true;
+    abortController = { abort: false };
+    window.speechSynthesis.cancel();
+    circle.className = "";
+    circle.innerText = "Respira";
+    block.innerHTML = "";
 }
 
-.slide{
-position:absolute;
-width:100%;
-height:100%;
-background-size:cover;
-background-position:center;
-opacity:0;
-transition:opacity 2s;
-}
+function detectarRespiracion(texto) {
+    const t = texto.toLowerCase();
+    const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
+    const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
+    const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
 
-.slide.active{
-opacity:1;
+    if (inhala.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Inhala"; }
+    else if (exhala.some(p => t.includes(p))) { circle.className = "exhale"; circle.innerText = "Exhala"; }
+    else if (retiene.some(p => t.includes(p))) { circle.className = "hold"; circle.innerText = "Retén"; }
+    else { circle.className = "inhale"; circle.innerText = "Respira"; }
 }
 
 /* ========================= */
-/* CIRCULO RESPIRACION */
+/* NÚCLEO DE VOZ Y ACCIÓN OPTIMIZADO */
 /* ========================= */
-#visual-circle{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:180px;
-height:180px;
-border-radius:50%;
-border:4px solid #3b82f6;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-letter-spacing:2px;
-background:transparent;
-z-index:5;
-backdrop-filter:blur(2px);
-transition:border-color 1s;
+async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
+    if (localAbort.abort) return;
+
+    window.speechSynthesis.cancel(); 
+    detectarRespiracion(texto);
+    block.innerHTML = "";
+
+    const chars = texto.split("");
+    for (let char of chars) {
+        if (localAbort.abort) return;
+        block.insertAdjacentHTML('beforeend', char);
+        await new Promise(r => setTimeout(r, 20));
+    }
+
+    const mensaje = new SpeechSynthesisUtterance(texto);
+    mensaje.lang = "es-ES";
+    mensaje.rate = 0.95; 
+   
+    await new Promise(resolve => {
+        mensaje.onend = resolve;
+        mensaje.onerror = resolve; 
+        window.speechSynthesis.speak(mensaje);
+    });
+
+    if (duracion > 0 && !localAbort.abort) {
+        await iniciarContador(duracion, texto, localAbort);
+    }
+
+    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 1200));
 }
 
-/* animaciones */
-.inhale{
-animation:inhale 6s infinite ease-in-out;
-border-color:#3b82f6;
-}
-
-.exhale{
-animation:exhale 6s infinite ease-in-out;
-border-color:#ffffff;
-}
-
-.hold{
-animation:hold 6s infinite ease-in-out;
-border-color:#34d399;
-}
-
-@keyframes inhale{
-0%{transform:translate(-50%,-50%) scale(1)}
-50%{transform:translate(-50%,-50%) scale(1.4)}
-100%{transform:translate(-50%,-50%) scale(1)}
-}
-
-@keyframes exhale{
-0%{transform:translate(-50%,-50%) scale(1.4)}
-50%{transform:translate(-50%,-50%) scale(0.7)}
-100%{transform:translate(-50%,-50%) scale(1.4)}
-}
-
-@keyframes hold{
-0%{box-shadow:0 0 10px #34d399}
-50%{box-shadow:0 0 30px #34d399}
-100%{box-shadow:0 0 10px #34d399}
+async function iniciarContador(segundos, texto, localAbort) {
+    return new Promise(r => {
+        let t = segundos;
+        const timer = setInterval(() => {
+            if (localAbort.abort) { clearInterval(timer); return; }
+            block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa; text-shadow: 0 0 20px rgba(96,165,250,0.5);">${t}s</span>`;
+            if (t <= 0) { clearInterval(timer); r(); }
+            t--;
+        }, 1000);
+    });
 }
 
 /* ========================= */
-/* TEXTO CENTRAL */
+/* LÓGICA DE QUIZ INTERACTIVO */
 /* ========================= */
-#block{
-position:fixed;
-top:70%;
-left:50%;
-transform:translateX(-50%);
-font-size:28px;
-text-align:center;
-z-index:6;
-max-width:80%;
-text-shadow:0 0 10px black;
+async function ejecutarQuiz(bloque, localAbort) {
+    const container = document.createElement("div");
+    container.style.cssText = `
+        max-width: 700px; margin: 20px auto; padding: 25px;
+        background-color: ${bloque.color || "#1e293b"};
+        border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        color: #ffffff; text-align: center;
+    `;
+    block.appendChild(container);
+
+    await procesarTexto(bloque.pregunta, localAbort, 0, true);
+
+    const feedbackArea = document.createElement("div");
+    feedbackArea.style.cssText = "margin-top:15px; font-weight:bold; color:#00d2ff; min-height:1.5em;";
+    feedbackArea.innerText = "Selecciona una opción:";
+    container.appendChild(feedbackArea);
+
+    const btnContainer = document.createElement("div");
+    btnContainer.style.marginTop = "15px";
+    container.appendChild(btnContainer);
+
+    nextBtn.disabled = true;
+    nextBtn.style.opacity = "0.5";
+
+    return new Promise(resolve => {
+        bloque.opciones.forEach((opcion, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = opcion;
+            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1.1em;";
+            
+            btn.onclick = async () => {
+                const btns = btnContainer.querySelectorAll("button");
+                btns.forEach(b => b.disabled = true);
+
+                const esCorrecto = (index === bloque.correcta);
+                const feedback = esCorrecto ? `¡Correcto! ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
+                
+                feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "❌"}</strong> ${feedback}`;
+                await procesarTexto(feedback, localAbort);
+                
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = "1";
+                resolve();
+            };
+            btnContainer.appendChild(btn);
+        });
+    });
 }
 
 /* ========================= */
-/* ESQUINAS FLOTANTES */
+/* CARGA Y NAVEGACIÓN */
 /* ========================= */
-.corner{
-position:fixed;
-font-size:14px;
-padding:8px 12px;
-background:rgba(0,0,0,0.25);
-border-radius:10px;
-backdrop-filter:blur(4px);
-box-shadow:0 0 10px rgba(0,0,0,0.5);
-z-index:10;
+async function cargarSesiones() {
+    try {
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones || [];
+    } catch (e) { console.error("Error de carga de base de datos."); }
 }
 
-#top-left{top:10px; left:10px;}
-#top-right{top:10px; right:10px; text-align:right;}
-#bottom-left{bottom:10px; left:10px;}
-#bottom-right{bottom:10px; right:10px; text-align:right;}
+async function mostrarBloque() {
+    limpiarEstado();
+    const localAbort = abortController;
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
 
-/* ========================= */
-/* BOTONES */
-/* ========================= */
-button{
-padding:10px 14px;
-border:none;
-border-radius:8px;
-background:#2563eb;
-color:white;
-font-size:14px;
-cursor:pointer;
-margin-top:4px;
+    if (!sesiones[currentSesion]) return;
+    const bloques = sesiones[currentSesion].bloques;
+    const bloque = bloques[currentBloque];
+
+    const esUltimaSesion = (currentSesion === sesiones.length - 1);
+    const esUltimoBloque = (currentBloque === bloques.length - 1);
+
+    backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
+    nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
+    restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
+
+    try {
+        if (bloque.tipo === "decision") {
+            await ejecutarQuiz(bloque, localAbort);
+        }
+        else if (bloque.tipo === "tvid_ejercicio_largo") {
+            for (let t of bloque.textos) {
+                if (localAbort.abort) break;
+                await procesarTexto(t, localAbort, 8);
+            }
+        }
+        else if (bloque.texto) {
+            const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
+            await procesarTexto(bloque.texto, localAbort, dur);
+        }
+    } catch (e) { console.log("Interrupción de flujo."); }
 }
 
-button:hover{
-background:#3b82f6;
-}
-
 /* ========================= */
-/* AUDIO */
-audio{
-display:none;
-}
-</style>
-</head>
+/* EVENTOS DE CONTROL */
+/* ========================= */
+startBtn.onclick = async () => {
+    startBtn.style.display = "none";
+    audio.volume = 0.15;
+    audio.play();
+    initGallery(30);
+    await cargarSesiones();
+    currentSesion = 0;
+    currentBloque = 0;
+    mostrarBloque();
+};
 
-<body>
+nextBtn.onclick = () => {
+    if (nextBtn.disabled) return;
+    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+        currentBloque++;
+    } else if (currentSesion < sesiones.length - 1) {
+        currentSesion++;
+        currentBloque = 0;
+    }
+    mostrarBloque();
+};
 
-<!-- ========================= -->
-<!-- GALERIA NATURAL -->
-<!-- ========================= -->
-<div id="visual-gallery"></div>
+backBtn.onclick = () => {
+    if (currentBloque > 0) {
+        currentBloque--;
+    } else if (currentSesion > 0) {
+        currentSesion--;
+        currentBloque = sesiones[currentSesion].bloques.length - 1;
+    }
+    mostrarBloque();
+};
 
-<!-- ========================= -->
-<!-- CIRCULO -->
-<!-- ========================= -->
-<div id="visual-circle">
-Respira
-</div>
-
-<!-- ========================= -->
-<!-- TEXTO CENTRAL -->
-<!-- ========================= -->
-<div id="block">
-Bienvenido a tu sesión MayKaMi
-</div>
-
-<!-- ========================= -->
-<!-- ESQUINAS -->
-<!-- ========================= -->
-<div id="top-left" class="corner">
-<div>MayKaMi</div>
-<div>Entrenamiento mental diario</div>
-</div>
-
-<div id="top-right" class="corner">
-<div>Racha: 0 días</div>
-<div>Nivel MayKaMi: 1</div>
-</div>
-
-<div id="bottom-left" class="corner">
-<div>Disciplina</div>
-<div>Claridad</div>
-<div>Calma</div>
-</div>
-
-<div id="bottom-right" class="corner">
-<button id="start-btn">Iniciar sesión</button>
-<button id="next-btn" style="display:none">Siguiente</button>
-<button id="back-btn">Atrás</button>
-<button id="restart-btn" style="display:none">Reiniciar</button>
-<div style="margin-top:6px;font-size:12px">
-Sesión diaria · MAYKAMI BY May Roga LLC
-</div>
-</div>
-
-<!-- ========================= -->
-<!-- AUDIO NATURALEZA -->
-<!-- ========================= -->
-<audio id="nature-audio" loop>
-<source src="https://www.soundjay.com/nature/ocean-wave-1.mp3">
-</audio>
-
-<!-- ========================= -->
-<!-- SCRIPT -->
-<!-- Usar el scripts.js definitivo -->
-<script src="/static/scripts.js"></script>
-
-</body>
-</html>
+restartBtn.onclick = () => {
+    currentSesion = 0;
+    currentBloque = 0;
+    mostrarBloque();
+};
