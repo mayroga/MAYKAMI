@@ -18,24 +18,18 @@ let slideIndex = 0;
 let galleryInterval = null;
 
 /* ========================= */
-/* GALERÍA DINÁMICA (RENOVABLE) */
+/* GALERÍA DINÁMICA */
 /* ========================= */
 function initGallery(total = 30) {
     gallery.innerHTML = "";
-    // Usamos un número aleatorio para que Picsum siempre traiga fotos nuevas
-    const randomSeed = Math.floor(Math.random() * 1000);
-    
     for (let i = 0; i < total; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${randomSeed + i})`;
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
-        slideIndex = 0;
-        slides[0].classList.add("active");
-    }
+    if (slides.length > 0) slides[0].classList.add("active");
 
     if (galleryInterval) clearInterval(galleryInterval);
     galleryInterval = setInterval(() => {
@@ -169,6 +163,8 @@ async function cargarSesiones() {
 async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
 
     if (!sesiones[currentSesion]) return;
     const bloques = sesiones[currentSesion].bloques;
@@ -195,7 +191,7 @@ async function mostrarBloque() {
             const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
             await procesarTexto(bloque.texto, localAbort, dur);
         }
-    } catch (e) { console.log("Flujo activo."); }
+    } catch (e) { console.log("Error en el flujo de bloques."); }
 }
 
 /* ========================= */
@@ -218,15 +214,16 @@ nextBtn.onclick = () => {
     const bloquesActuales = sesiones[currentSesion].bloques;
 
     if (currentBloque < bloquesActuales.length - 1) {
+        // Avanzar al siguiente bloque de la misma sesión
         currentBloque++;
     } else if (currentSesion < sesiones.length - 1) {
+        // Avanzar a la siguiente sesión, bloque inicial
         currentSesion++;
         currentBloque = 0;
     } else {
-        // REINICIO DE CICLO: Vuelve a la sesión 0 y renueva la galería
+        // SI ES EL FINAL DE TODO: Reiniciar al principio (Ciclo infinito)
         currentSesion = 0;
         currentBloque = 0;
-        initGallery(30); 
     }
     mostrarBloque();
 };
@@ -244,6 +241,5 @@ backBtn.onclick = () => {
 restartBtn.onclick = () => {
     currentSesion = 0;
     currentBloque = 0;
-    initGallery(30); // También renueva galería al reiniciar manualmente
     mostrarBloque();
 };
