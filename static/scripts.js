@@ -1,332 +1,284 @@
-/* ==================== ELEMENTOS ==================== */
+/* ========================= */
+/* ELEMENTOS PRINCIPALES */
+/* ========================= */
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
+const block = document.getElementById("block");
+
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
-const block = document.getElementById("block");
 
-const discBar = document.getElementById("disciplina-bar");
-const clarBar = document.getElementById("claridad-bar");
-const calmaBar = document.getElementById("calma-bar");
+const audio = document.getElementById("nature-audio");
 
-/* ==================== GLOBO DE RESPIRACION ==================== */
-const breathCircle = document.createElement("div");
-breathCircle.style.width = "120px";
-breathCircle.style.height = "120px";
-breathCircle.style.borderRadius = "50%";
-breathCircle.style.background = "#60a5fa";
-breathCircle.style.margin = "20px auto";
-breathCircle.style.transition = "transform 1.5s ease-in-out";
-breathCircle.style.display = "none"; // inicialmente oculto
-block.appendChild(breathCircle);
-
-let breathingInterval = null;
-
-/* ==================== TEXTO ==================== */
-const breathText = document.createElement("div");
-breathText.style.fontSize = "22px";
-breathText.style.fontWeight = "600";
-breathText.style.textAlign = "center";
-breathText.style.color = "#ffffff";
-breathText.style.padding = "10px";
-block.appendChild(breathText);
-
-/* ==================== CONTADOR ==================== */
-const contador = document.createElement("div");
-contador.style.fontSize = "18px";
-contador.style.opacity = "0.8";
-contador.style.marginTop = "10px";
-contador.style.textAlign = "center";
-contador.style.color = "#ffffff";
-block.appendChild(contador);
-
-/* ==================== VARIABLES ==================== */
 let sesiones = [];
-let currentBloque = 0;
 let currentSesion = 0;
-let puntos = 0;
-let completedSessions = JSON.parse(localStorage.getItem("completedSessions")) || [];
+let currentBloque = 0;
 
-/* ==================== DATOS USUARIO ==================== */
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-  streak: 0,
-  lastDay: null,
-  nivel: 1,
-  disciplina: 40,
-  claridad: 50,
-  calma: 30
-};
+let abortController = { abort: false };
 
-/* ==================== PANEL ==================== */
-function updatePanel() {
-  discBar.style.width = userData.disciplina + "%";
-  clarBar.style.width = userData.claridad + "%";
-  calmaBar.style.width = userData.calma + "%";
-  localStorage.setItem("maykamiData", JSON.stringify(userData));
+let slideIndex = 0;
+let galleryInterval = null;
+
+/* ========================= */
+/* GALERÍA DINÁMICA */
+/* ========================= */
+function initGallery(total = 30) {
+    gallery.innerHTML = "";
+    const seed = Math.floor(Math.random() * 1000);
+
+    for (let i = 0; i < total; i++) {
+        const div = document.createElement("div");
+        div.className = "slide";
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${seed + i})`;
+        gallery.appendChild(div);
+    }
+
+    const slides = document.querySelectorAll(".slide");
+    if (slides.length > 0) {
+        slideIndex = 0;
+        slides.forEach(s => s.classList.remove("active"));
+        slides[0].classList.add("active");
+    }
+
+    if (galleryInterval) clearInterval(galleryInterval);
+    galleryInterval = setInterval(() => {
+        const slides = document.querySelectorAll(".slide");
+        slides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % slides.length;
+        slides[slideIndex].classList.add("active");
+    }, 7000);
 }
 
-/* ==================== PENALIZACION ==================== */
-function aplicarPenalizacion() {
-  userData.calma = Math.max(0, userData.calma * 0.2);
-  userData.disciplina = Math.max(0, userData.disciplina * 0.2);
-  userData.claridad = Math.max(0, userData.claridad * 0.6);
-  updatePanel();
-  hablar("Advertencia: saltar pasos afecta tu progreso.");
-}
-
-/* ==================== VOZ ==================== */
-function obtenerVozEspañol() {
-  const voces = speechSynthesis.getVoices();
-  return voces.find(v => v.lang.startsWith("es")) || voces[0];
-}
-
-function hablar(texto, soft = false) {
-  return new Promise(resolve => {
+/* ========================= */
+/* LIMPIAR ESTADO */
+/* ========================= */
+function limpiarEstado() {
+    abortController.abort = true;
+    abortController = { abort: false };
     speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(texto.replace(/<[^>]*>/g, ""));
-    utter.lang = "es-ES";
-    utter.voice = obtenerVozEspañol();
-    utter.rate = soft ? 0.8 : 0.9;
-    utter.onend = resolve;
-    speechSynthesis.speak(utter);
-  });
+    circle.className = "";
+    circle.innerText = "Respira";
+    block.innerHTML = "";
 }
 
-/* ==================== LIMPIAR BLOQUE ==================== */
-function limpiarBloque() {
-  // eliminar todo lo que no sea globo, texto y contador
-  Array.from(block.children).forEach(el => {
-    if (el !== breathCircle && el !== breathText && el !== contador) block.removeChild(el);
-  });
-  breathText.innerHTML = "";
-  contador.innerHTML = "";
-  block.style.backgroundColor = "#020617";
+/* ========================= */
+/* RESPIRACIÓN AUTOMÁTICA */
+/* ========================= */
+function detectarRespiracion(texto) {
+    const t = texto.toLowerCase();
+    const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
+    const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
+    const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
+    const general = ["respira", "respiración", "pulmones", "diafragma"];
 
-  // detener animación del globo si existía
-  if (breathingInterval) {
-    clearInterval(breathingInterval);
-    breathingInterval = null;
-  }
-  breathCircle.style.display = "none";
-  breathCircle.style.transform = "scale(1)";
+    if (inhala.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Inhala"; }
+    else if (exhala.some(p => t.includes(p))) { circle.className = "exhale"; circle.innerText = "Exhala"; }
+    else if (retiene.some(p => t.includes(p))) { circle.className = "hold"; circle.innerText = "Retén"; }
+    else if (general.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Respira"; }
 }
 
-/* ==================== TEXTO + VOZ ==================== */
-async function escribirTextoYHablar(texto, color = "#ffffff") {
-  limpiarBloque();
-  breathText.style.color = color;
+/* ========================= */
+/* ESCRITURA MECÁNICA + VOZ */
+/* ========================= */
+async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
+    if (!texto) texto = "";
+    if (localAbort.abort) return;
 
-  // detectar automáticamente si hay respiración
-  const isBreathing = texto.toLowerCase().includes("respira");
-  if (isBreathing) {
-    breathCircle.style.display = "block";
-    let growing = true;
-    breathingInterval = setInterval(() => {
-      if (growing) {
-        breathCircle.style.transform = "scale(1.6)";
-        growing = false;
-      } else {
-        breathCircle.style.transform = "scale(1)";
-        growing = true;
-      }
-    }, 1500);
-  }
+    detectarRespiracion(texto);
 
-  await hablar(texto);
-  let i = 0;
-  return new Promise(resolve => {
-    const interval = setInterval(() => {
-      if (i < texto.length) {
-        breathText.innerHTML += texto[i];
-        i++;
-      } else {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 20);
-  });
+    if (!esQuiz) block.innerHTML = "";
+
+    for (let c of texto) {
+        if (localAbort.abort) return;
+        block.innerHTML += c;
+        await new Promise(r => setTimeout(r, 25));
+    }
+
+    const msg = new SpeechSynthesisUtterance(texto);
+    msg.lang = "es-ES";
+    msg.rate = 0.9;
+
+    await new Promise(resolve => {
+        msg.onend = resolve;
+        speechSynthesis.speak(msg);
+    });
+
+    if (duracion > 0) {
+        await new Promise(r => {
+            let t = duracion;
+            const timer = setInterval(() => {
+                if (localAbort.abort) { clearInterval(timer); return; }
+                block.innerHTML = `${texto}<br><span style="font-size:50px;color:#3b82f6">${t}</span>`;
+                t--;
+                if (t < 0) { clearInterval(timer); r(); }
+            }, 1000);
+        });
+    }
+
+    if (!esQuiz) await new Promise(r => setTimeout(r, 1200));
 }
 
-/* ==================== RESPIRACION ==================== */
-async function respirar(texto, duracion) {
-  limpiarBloque();
-  breathText.innerHTML = texto;
-  breathCircle.style.display = "block";
-
-  let inicio = 1, fin = 1.6;
-
-  breathCircle.style.transform = `scale(${inicio})`;
-  let growing = true;
-  breathingInterval = setInterval(() => {
-    if (growing) breathCircle.style.transform = `scale(${fin})`;
-    else breathCircle.style.transform = `scale(${inicio})`;
-    growing = !growing;
-  }, 1500);
-
-  await hablar(texto, true);
-  for (let i = duracion; i > 0; i--) {
-    contador.innerText = "Tiempo restante: " + i + "s";
-    await new Promise(r => setTimeout(r, 1000));
-  }
-  contador.innerText = "";
-  clearInterval(breathingInterval);
-  breathingInterval = null;
-  breathCircle.style.display = "none";
+/* ========================= */
+/* ESCRIBIR EN ELEMENTO (para quiz) */
+/* ========================= */
+async function escribirEn(el, texto, localAbort) {
+    el.innerHTML = "";
+    for (let c of texto) {
+        if (localAbort.abort) return;
+        el.innerHTML += c;
+        await new Promise(r => setTimeout(r, 25));
+    }
+    const msg = new SpeechSynthesisUtterance(texto);
+    msg.lang = "es-ES";
+    await new Promise(resolve => {
+        msg.onend = resolve;
+        speechSynthesis.speak(msg);
+    });
 }
 
-/* ==================== DECISION ==================== */
-function decision(bloque) {
-  return new Promise(resolve => {
-    limpiarBloque();
+/* ========================= */
+/* QUIZ INTERACTIVO */
+/* ========================= */
+async function ejecutarQuiz(bloque, localAbort) {
+    block.innerHTML = "";
 
     const container = document.createElement("div");
-    container.style.cssText = `
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: ${bloque.color || "#1e293b"};
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      color: #ffffff;
-      text-align: center;
-    `;
-    container.innerHTML = `<p style="font-size:1.3em;">${bloque.pregunta}</p>`;
+    container.style.maxWidth = "700px";
+    container.style.margin = "auto";
+    container.style.textAlign = "center";
+    container.style.backgroundColor = bloque.color || "#1e293b";
+    container.style.padding = "20px";
+    container.style.borderRadius = "12px";
     block.appendChild(container);
 
-    const feedbackArea = document.createElement("div");
-    feedbackArea.style.cssText = "margin-top:15px; text-align:center; color:#00d2ff;";
-    feedbackArea.innerText = "Selecciona una opción";
-    container.appendChild(feedbackArea);
+    await escribirEn(container, bloque.pregunta, localAbort);
 
-    bloque.opciones.forEach((opt, i) => {
-      const btn = document.createElement("button");
-      btn.innerText = opt;
-      btn.style.cssText = "display:block; margin:10px auto; padding:10px 15px; border-radius:8px; cursor:pointer;";
-      btn.onclick = async () => {
-        if (i === bloque.correcta) {
-          feedbackArea.innerHTML = `<strong>✅ Correcto:</strong> ${bloque.explicacion || "Bien hecho"}`;
-          await hablar("Correcto. " + (bloque.explicacion || ""));
-          userData.disciplina += bloque.recompensa || 5;
-          updatePanel();
-          resolve();
-        } else {
-          feedbackArea.innerHTML = `<strong>❌ Incorrecto:</strong> ${bloque.explicacion || ""}`;
-          await hablar("Incorrecto. " + (bloque.explicacion || ""));
-          userData.calma += 2;
-          updatePanel();
-        }
-      };
-      container.appendChild(btn);
+    const feedback = document.createElement("div");
+    feedback.style.marginTop = "15px";
+    feedback.style.fontWeight = "bold";
+    feedback.style.minHeight = "1.5em";
+    container.appendChild(feedback);
+
+    const btnBox = document.createElement("div");
+    btnBox.style.marginTop = "15px";
+    container.appendChild(btnBox);
+
+    nextBtn.disabled = true;
+    nextBtn.style.opacity = "0.5";
+
+    return new Promise(resolve => {
+        bloque.opciones.forEach((op, i) => {
+            const b = document.createElement("button");
+            b.innerText = op;
+            b.style.display = "block";
+            b.style.width = "85%";
+            b.style.margin = "10px auto";
+            b.style.padding = "12px";
+            b.style.borderRadius = "8px";
+            b.style.cursor = "pointer";
+            b.style.background = "#334155";
+            b.style.color = "white";
+            b.style.border = "1px solid #475569";
+            b.style.fontSize = "1.1em";
+
+            b.onclick = async () => {
+                btnBox.querySelectorAll("button").forEach(x => x.disabled = true);
+
+                const ok = i === bloque.correcta;
+                const txt = ok ? "✅ Correcto. " + bloque.explicacion : "❌ Incorrecto. " + bloque.explicacion;
+                feedback.innerHTML = txt;
+
+                await procesarTexto(txt, localAbort);
+
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = "1";
+
+                resolve();
+            };
+
+            btnBox.appendChild(b);
+        });
     });
-  });
 }
 
-/* ==================== MOSTRAR BLOQUE ==================== */
-async function mostrarBloque(bloque) {
-  if (bloque.tipo !== "respiracion") document.body.style.backgroundColor = "#020617";
-
-  switch (bloque.tipo) {
-    case "voz":
-    case "historia":
-    case "tvid":
-    case "estrategia":
-    case "visualizacion":
-    case "inteligencia_social":
-      if (bloque.texto) {
-        limpiarBloque();
-        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
-        nextBtn.style.display = "inline-block";
-      }
-      break;
-
-    case "tvid_ejercicio_largo":
-      if (Array.isArray(bloque.textos)) {
-        for (const t of bloque.textos) {
-          limpiarBloque();
-          await escribirTextoYHablar(t, bloque.color || "#ffffff");
-          await new Promise(r => setTimeout(r, 300));
-        }
-      }
-      if (bloque.duracion) await respirar("Respira y asimila lo aprendido", bloque.duracion);
-      nextBtn.style.display = "inline-block";
-      break;
-
-    case "respiracion":
-      if (bloque.texto && bloque.duracion) await respirar(bloque.texto, bloque.duracion);
-      break;
-
-    case "decision":
-      if (bloque.pregunta && Array.isArray(bloque.opciones)) await decision(bloque);
-      break;
-
-    case "cierre":
-      if (bloque.texto) {
-        limpiarBloque();
-        await escribirTextoYHablar(bloque.texto, bloque.color || "#ffffff");
-        completedSessions.push(currentSesion);
-        localStorage.setItem("completedSessions", JSON.stringify(completedSessions));
-        restartBtn.style.display = "block";
-      }
-      break;
-  }
-}
-
-/* ==================== BOTONES ==================== */
-function actualizarBotones() {
-  backBtn.style.display = currentBloque > 0 ? "block" : "none";
-  nextBtn.style.display = currentBloque < sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
-  restartBtn.style.display = currentBloque >= sesiones[currentSesion].bloques.length - 1 ? "block" : "none";
-}
-
-async function mostrarActual() {
-  if (!sesiones.length) return;
-  actualizarBotones();
-  await mostrarBloque(sesiones[currentSesion].bloques[currentBloque]);
-}
-
-/* ==================== CARGAR SESIONES ==================== */
+/* ========================= */
+/* CARGAR JSON DE SESIONES */
+/* ========================= */
 async function cargarSesiones() {
-  try {
-    const res = await fetch("/tvid_ejercicio.json");
-    const data = await res.json();
-    sesiones = data.sesiones || [];
-    let disponibles = sesiones.map((_,i)=>i).filter(i=>!completedSessions.includes(i));
-    if(!disponibles.length) { completedSessions=[]; disponibles = sesiones.map((_,i)=>i); }
-    currentSesion = disponibles[Math.floor(Math.random() * disponibles.length)];
-  } catch (e) {
-    block.innerText = "Error cargando sesiones";
-    sesiones = [{ tipo: "voz", texto: "Iniciando Maykami..." }];
-  }
+    try {
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones || [];
+    } catch (e) { console.error("Error al cargar sesiones:", e); }
 }
 
-/* ==================== EVENTOS ==================== */
+/* ========================= */
+/* MOSTRAR BLOQUES */
+/* ========================= */
+async function mostrarBloque() {
+    limpiarEstado();
+    const localAbort = abortController;
+
+    if (!sesiones[currentSesion]) return;
+    const bloques = sesiones[currentSesion].bloques;
+    const bloque = bloques[currentBloque];
+
+    backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
+    nextBtn.style.display = "inline-block";
+
+    try {
+        if (bloque.tipo === "decision") {
+            await ejecutarQuiz(bloque, localAbort);
+        } else if (bloque.tipo === "tvid_ejercicio_largo") {
+            for (let t of bloque.textos) {
+                if (localAbort.abort) break;
+                await procesarTexto(t, localAbort, 8);
+            }
+        } else if (bloque.tipo === "respiracion") {
+            await procesarTexto(bloque.texto, localAbort, bloque.duracion || 10);
+        } else {
+            await procesarTexto(bloque.texto || "", localAbort, 0);
+        }
+    } catch (e) { console.error("Error mostrando bloque:", e); }
+}
+
+/* ========================= */
+/* BOTONES DE CONTROL */
+/* ========================= */
 startBtn.onclick = async () => {
-  await cargarSesiones();
-  if (!sesiones.length) { block.innerText = "No hay sesiones disponibles"; return; }
-  startBtn.style.display = "none";
-  currentBloque = 0;
-  mostrarActual();
+    startBtn.style.display = "none";
+    nextBtn.style.display = "inline-block";
+    audio.volume = 0.15;
+    audio.play().catch(()=>{});
+    initGallery(30);
+    await cargarSesiones();
+    currentSesion = 0;
+    currentBloque = 0;
+    mostrarBloque();
 };
 
-nextBtn.onclick = async () => {
-  if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
-    currentBloque++;
-    mostrarActual();
-  }
+nextBtn.onclick = () => {
+    if (nextBtn.disabled) return;
+
+    const bloques = sesiones[currentSesion].bloques;
+    if (currentBloque < bloques.length - 1) currentBloque++;
+    else if (currentSesion < sesiones.length - 1) { currentSesion++; currentBloque = 0; }
+    else { currentSesion = 0; currentBloque = 0; initGallery(30); }
+
+    mostrarBloque();
 };
 
-backBtn.onclick = async () => {
-  if (currentBloque > 0) {
-    aplicarPenalizacion();
-    currentBloque--;
-    mostrarActual();
-  }
+backBtn.onclick = () => {
+    if (currentBloque > 0) currentBloque--;
+    else if (currentSesion > 0) { currentSesion--; currentBloque = sesiones[currentSesion].bloques.length - 1; }
+    mostrarBloque();
 };
 
-restartBtn.onclick = async () => {
-  currentBloque = 0;
-  mostrarActual();
+restartBtn.onclick = () => {
+    currentSesion = 0;
+    currentBloque = 0;
+    initGallery(30);
+    mostrarBloque();
 };
-
-/* ==================== INICIALIZACION ==================== */
-updatePanel();
