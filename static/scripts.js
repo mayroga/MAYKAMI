@@ -1,4 +1,4 @@
-/* ========================= */
+* ========================= */
 /* ELEMENTOS PRINCIPALES */
 /* ========================= */
 const gallery = document.getElementById("visual-gallery");
@@ -13,7 +13,7 @@ const audio = document.getElementById("nature-audio");
 let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
-let abortController = { abort: false }; 
+let abortController = { abort: false };
 let slideIndex = 0;
 let galleryInterval = null;
 
@@ -45,8 +45,8 @@ function initGallery(total = 30) {
 /* CONTROL DE GLOBO Y ESTADOS */
 /* ========================= */
 function limpiarEstado() {
-    abortController.abort = true; 
-    abortController = { abort: false }; 
+    abortController.abort = true;
+    abortController = { abort: false };
     speechSynthesis.cancel();
     circle.className = "";
     circle.innerText = "Respira";
@@ -75,16 +75,19 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     detectarRespiracion(texto);
     block.innerHTML = "";
 
+    // Escritura mecánica
     for (let char of texto) {
         if (localAbort.abort) return;
         block.innerHTML += char;
         await new Promise(r => setTimeout(r, 25));
     }
 
+    // Voz
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
     mensaje.rate = 0.9;
-    
+   
+    // Esperar a que la voz termine antes de seguir
     await new Promise(resolve => {
         mensaje.onend = resolve;
         speechSynthesis.speak(mensaje);
@@ -102,6 +105,7 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
         });
     }
 
+    // Pausa de asimilación para evitar solapamientos
     if (!esQuiz) await new Promise(r => setTimeout(r, 1500));
 }
 
@@ -109,10 +113,21 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 /* LÓGICA DE QUIZ INTERACTIVO */
 /* ========================= */
 async function ejecutarQuiz(bloque, localAbort) {
+    // 1. Crear contenedor visual (Estilo Kamizen)
     const container = document.createElement("div");
-    container.style.cssText = `max-width: 700px; margin: 20px auto; padding: 25px; background-color: ${bloque.color || "#1e293b"}; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.5); color: #ffffff; text-align: center;`;
+    container.style.cssText = `
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 25px;
+        background-color: ${bloque.color || "#1e293b"};
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        color: #ffffff;
+        text-align: center;
+    `;
     block.appendChild(container);
 
+    // 2. Leer pregunta y mostrarla en el cuadro
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
     const feedbackArea = document.createElement("div");
@@ -124,22 +139,32 @@ async function ejecutarQuiz(bloque, localAbort) {
     btnContainer.style.marginTop = "15px";
     container.appendChild(btnContainer);
 
+    // Bloqueamos botón Siguiente hasta responder
     nextBtn.disabled = true;
     nextBtn.style.opacity = "0.5";
 
+    // 3. Crear botones de opciones
     return new Promise(resolve => {
         bloque.opciones.forEach((opcion, index) => {
             const btn = document.createElement("button");
             btn.innerText = opcion;
             btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1.1em;";
-            
+           
             btn.onclick = async () => {
+                // Deshabilitar botones para evitar múltiples clics
                 const btns = btnContainer.querySelectorAll("button");
                 btns.forEach(b => b.disabled = true);
+
                 const esCorrecto = (index === bloque.correcta);
-                const feedback = esCorrecto ? `¡Correcto! ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
+                const feedback = esCorrecto
+                    ? `¡Correcto! ${bloque.explicacion}`
+                    : `Incorrecto. ${bloque.explicacion}`;
+               
+                // Mostrar y Hablar la explicación siempre
                 feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "❌"}</strong> ${feedback}`;
                 await procesarTexto(feedback, localAbort);
+               
+                // Habilitar avance
                 nextBtn.disabled = false;
                 nextBtn.style.opacity = "1";
                 resolve();
@@ -170,6 +195,7 @@ async function mostrarBloque() {
     const bloques = sesiones[currentSesion].bloques;
     const bloque = bloques[currentBloque];
 
+    // Lógica de visibilidad final
     const esUltimaSesion = (currentSesion === sesiones.length - 1);
     const esUltimoBloque = (currentBloque === bloques.length - 1);
 
@@ -180,13 +206,13 @@ async function mostrarBloque() {
     try {
         if (bloque.tipo === "decision") {
             await ejecutarQuiz(bloque, localAbort);
-        } 
+        }
         else if (bloque.tipo === "tvid_ejercicio_largo") {
             for (let t of bloque.textos) {
                 if (localAbort.abort) break;
                 await procesarTexto(t, localAbort, 8);
             }
-        } 
+        }
         else if (bloque.texto) {
             const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
             await procesarTexto(bloque.texto, localAbort, dur);
@@ -210,19 +236,10 @@ startBtn.onclick = async () => {
 
 nextBtn.onclick = () => {
     if (nextBtn.disabled) return;
-    
-    const bloquesActuales = sesiones[currentSesion].bloques;
-
-    if (currentBloque < bloquesActuales.length - 1) {
-        // Avanzar al siguiente bloque de la misma sesión
+    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
         currentBloque++;
     } else if (currentSesion < sesiones.length - 1) {
-        // Avanzar a la siguiente sesión, bloque inicial
         currentSesion++;
-        currentBloque = 0;
-    } else {
-        // SI ES EL FINAL DE TODO: Reiniciar al principio (Ciclo infinito)
-        currentSesion = 0;
         currentBloque = 0;
     }
     mostrarBloque();
