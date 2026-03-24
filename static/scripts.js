@@ -11,7 +11,7 @@ const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 const audio = document.getElementById("nature-audio");
 
-// Elementos de progreso (Barras)
+// Barras de progreso
 const discBar = document.getElementById("disciplina-bar");
 const clarBar = document.getElementById("claridad-bar");
 const calmaBar = document.getElementById("calma-bar");
@@ -20,15 +20,7 @@ let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
 let abortController = { abort: false };
-let slideIndex = 0;
-let galleryInterval = null;
-
-/* ==================== DATOS DE PROGRESO ==================== */
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-    disciplina: 40,
-    claridad: 50,
-    calma: 30
-};
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || { disciplina: 40, claridad: 50, calma: 30 };
 
 function updatePanel() {
     if (discBar) discBar.style.width = userData.disciplina + "%";
@@ -37,77 +29,36 @@ function updatePanel() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-function aplicarPenalizacion() {
-    userData.calma = Math.max(0, userData.calma * 0.5);
-    userData.disciplina = Math.max(0, userData.disciplina * 0.5);
-    updatePanel();
-}
-
 /* ========================= */
-/* CONTROL DE ESTADOS        */
+/* NÚCLEO DE VOZ Y ACCIÓN    */
 /* ========================= */
-function limpiarEstado() {
-    abortController.abort = true;
-    abortController = { abort: false };
-    window.speechSynthesis.cancel();
-    if(circle) {
-        circle.className = "";
-        circle.innerText = "MAYKAMI";
-    }
-    block.innerHTML = "";
-}
-
-function detectarRespiracion(texto) {
-    if(!circle) return;
-    const t = texto.toLowerCase();
-    if (["inhala", "aspira", "llena", "aire"].some(p => t.includes(p))) { 
-        circle.className = "inhale"; circle.innerText = "Inhala"; 
-    }
-    else if (["exhala", "suelta", "expulsa", "fuera"].some(p => t.includes(p))) { 
-        circle.className = "exhale"; circle.innerText = "Exhala"; 
-    }
-    else if (["retén", "retiene", "pausa", "aguanta"].some(p => t.includes(p))) { 
-        circle.className = "hold"; circle.innerText = "Retén"; 
-    }
-    else { circle.className = ""; circle.innerText = "MAYKAMI"; }
-}
-
-/* =============================== */
-/* NÚCLEO DE VOZ Y ACCIÓN (AURA)   */
-/* =============================== */
 async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     if (localAbort.abort) return;
-
     window.speechSynthesis.cancel(); 
-    detectarRespiracion(texto);
-    block.innerHTML = "";
+    
+    // Detectar respiración para mover el globo
+    const t = texto.toLowerCase();
+    if (["inhala", "aire", "llena"].some(p => t.includes(p))) circle.className = "inhale";
+    else if (["exhala", "suelta", "fuera"].some(p => t.includes(p))) circle.className = "exhale";
+    else if (["retén", "pausa"].some(p => t.includes(p))) circle.className = "hold";
+    else circle.className = "";
 
-    // Escritura mecánica del texto
-    const chars = texto.split("");
-    for (let char of chars) {
+    block.innerHTML = "";
+    for (let char of texto.split("")) {
         if (localAbort.abort) return;
         block.insertAdjacentHTML('beforeend', char);
-        await new Promise(r => setTimeout(r, 15)); // Un poco más rápido para fluidez
+        await new Promise(r => setTimeout(r, 20));
     }
 
-    // Locución de la asesoría
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
-    mensaje.rate = 0.95; 
-    mensaje.volume = 1.0; // Voz al máximo
-   
+    mensaje.rate = 0.9;
     await new Promise(resolve => {
         mensaje.onend = resolve;
-        mensaje.onerror = resolve; 
         window.speechSynthesis.speak(mensaje);
     });
 
-    if (duracion > 0 && !localAbort.abort) {
-        await iniciarContador(duracion, texto, localAbort);
-    }
-
-    // Pausa sutil entre bloques para asimilación
-    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 800));
+    if (duracion > 0) await iniciarContador(duracion, texto, localAbort);
 }
 
 async function iniciarContador(segundos, texto, localAbort) {
@@ -115,7 +66,7 @@ async function iniciarContador(segundos, texto, localAbort) {
         let t = segundos;
         const timer = setInterval(() => {
             if (localAbort.abort) { clearInterval(timer); return; }
-            block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa; display:block; margin-top:10px;">${t}s</span>`;
+            block.innerHTML = `${texto}<br><span style="font-size:50px; color:#60a5fa;">${t}s</span>`;
             if (t <= 0) { clearInterval(timer); r(); }
             t--;
         }, 1000);
@@ -123,182 +74,82 @@ async function iniciarContador(segundos, texto, localAbort) {
 }
 
 /* ========================= */
-/* LÓGICA DE QUIZ INTERACTIVO*/
+/* BOTONES DE RESPUESTA      */
 /* ========================= */
 async function ejecutarQuiz(bloque, localAbort) {
-    const container = document.createElement("div");
-    container.style.cssText = `max-width: 700px; margin: 20px auto; padding: 25px; background-color: ${bloque.color || "#1e293b"}; border-radius: 12px; color: #ffffff; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);`;
-    block.appendChild(container);
-
+    // 1. Decir la pregunta
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
-    const feedbackArea = document.createElement("div");
-    feedbackArea.style.cssText = "margin-top:20px; font-weight:bold; color:#00d2ff; min-height:1.5em; font-size: 1.1em;";
-    feedbackArea.innerText = "Selecciona la respuesta correcta:";
-    container.appendChild(feedbackArea);
+    // 2. Crear contenedor de opciones
+    const container = document.createElement("div");
+    container.style.marginTop = "20px";
+    block.appendChild(container);
 
-    const btnContainer = document.createElement("div");
-    btnContainer.style.marginTop = "20px";
-    container.appendChild(btnContainer);
-
-    nextBtn.disabled = true;
-    nextBtn.style.opacity = "0.5";
+    // Ocultar botón "Siguiente" para obligar a elegir
+    nextBtn.style.display = "none";
 
     return new Promise(resolve => {
         bloque.opciones.forEach((opcion, index) => {
             const btn = document.createElement("button");
             btn.innerText = opcion;
-            btn.style.cssText = "display:block; width:90%; margin:12px auto; padding:15px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1em; transition: 0.2s;";
+            btn.style.cssText = "display:block; width:100%; margin:10px 0; padding:15px; border-radius:10px; background:#1e293b; color:white; border:1px solid #3b82f6; cursor:pointer; font-size:1.1rem;";
             
-            btn.onmouseover = () => btn.style.background = "#475569";
-            btn.onmouseout = () => btn.style.background = "#334155";
-
             btn.onclick = async () => {
-                const btns = btnContainer.querySelectorAll("button");
-                btns.forEach(b => b.disabled = true);
-
                 const esCorrecto = (index === bloque.correcta);
-                const feedback = esCorrecto 
-                    ? `¡Correcto! ${bloque.explicacion}` 
-                    : `Incorrecto. ${bloque.explicacion}`;
+                const feedback = esCorrecto ? `Correcto. ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
                 
-                if (esCorrecto) {
-                    userData.disciplina = Math.min(100, userData.disciplina + (bloque.recompensa || 5));
-                } else {
-                    userData.calma = Math.min(100, userData.calma + 2);
-                }
+                // Actualizar progreso
+                if (esCorrecto) userData.disciplina += 5; else userData.calma += 2;
                 updatePanel();
 
-                feedbackArea.innerHTML = `<span style="font-size:1.5em;">${esCorrecto ? "✅" : "❌"}</span><br>${feedback}`;
+                container.innerHTML = `<p style="color:${esCorrecto ? '#4ade80' : '#f87171'}">${feedback}</p>`;
                 await procesarTexto(feedback, localAbort);
                 
-                nextBtn.disabled = false;
-                nextBtn.style.opacity = "1";
+                nextBtn.style.display = "inline-block"; // Mostrar siguiente tras responder
                 resolve();
             };
-            btnContainer.appendChild(btn);
+            container.appendChild(btn);
         });
     });
 }
 
 /* ========================= */
-/* NAVEGACIÓN Y CARGA        */
+/* NAVEGACIÓN                */
 /* ========================= */
-async function cargarSesiones() {
-    try {
-        const res = await fetch("/tvid_ejercicio.json");
-        const data = await res.json();
-        sesiones = data.sesiones || [];
-    } catch (e) { 
-        console.error("Error en DB MAYKAMI."); 
-        block.innerText = "Error cargando la sesión. Verifique el archivo JSON.";
+async function mostrarBloque() {
+    abortController.abort = true;
+    abortController = { abort: false };
+    const localAbort = abortController;
+
+    const sesion = sesiones[currentSesion];
+    if (!sesion) return;
+    const bloque = sesion.bloques[currentBloque];
+
+    // Control de botones de navegación
+    backBtn.style.display = (currentBloque > 0) ? "inline-block" : "none";
+    restartBtn.style.display = (currentBloque === sesion.bloques.length - 1) ? "inline-block" : "none";
+    nextBtn.style.display = (currentBloque < sesion.bloques.length - 1) ? "inline-block" : "none";
+
+    if (bloque.tipo === "decision") {
+        await ejecutarQuiz(bloque, localAbort);
+    } else if (bloque.tipo === "respiracion") {
+        await procesarTexto(bloque.texto, localAbort, bloque.duracion || 10);
+    } else {
+        await procesarTexto(bloque.texto, localAbort);
     }
 }
 
-async function mostrarBloque() {
-    limpiarEstado();
-    const localAbort = abortController;
-    nextBtn.disabled = false;
-    nextBtn.style.opacity = "1";
-
-    if (!sesiones[currentSesion]) return;
-    const bloques = sesiones[currentSesion].bloques;
-    const bloque = bloques[currentBloque];
-
-    // Gestión de botones de navegación
-    const esUltimaSesion = (currentSesion === sesiones.length - 1);
-    const esUltimoBloque = (currentBloque === bloques.length - 1);
-    
-    backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
-    nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
-    restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
-
-    try {
-        if (bloque.tipo === "decision") {
-            await ejecutarQuiz(bloque, localAbort);
-        }
-        else if (bloque.tipo === "tvid_ejercicio_largo") {
-            for (let t of bloque.textos) {
-                if (localAbort.abort) break;
-                await procesarTexto(t, localAbort, 8);
-            }
-        }
-        else {
-            const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
-            await procesarTexto(bloque.texto || "Continuando...", localAbort, dur);
-        }
-    } catch (e) { console.log("Salto de bloque."); }
-}
-
-/* ========================= */
-/* EVENTOS DE CONTROL        */
-/* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    // Música sutil de fondo (0.05 a 0.1 para que no moleste)
-    if (audio) { 
-        audio.volume = 0.08; 
-        audio.play().catch(e => console.log("Audio requiere interacción")); 
-    }
-    initGallery();
-    await cargarSesiones();
-    currentSesion = 0;
-    currentBloque = 0;
+    if (audio) { audio.volume = 0.08; audio.play(); }
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
+    sesiones = data.sesiones;
     mostrarBloque();
 };
 
-nextBtn.onclick = () => {
-    if (nextBtn.disabled) return;
-    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
-        currentBloque++;
-    } else if (currentSesion < sesiones.length - 1) {
-        currentSesion++;
-        currentBloque = 0;
-    }
-    mostrarBloque();
-};
+nextBtn.onclick = () => { currentBloque++; mostrarBloque(); };
+backBtn.onclick = () => { userData.disciplina -= 10; updatePanel(); currentBloque--; mostrarBloque(); };
+restartBtn.onclick = () => { currentBloque = 0; mostrarBloque(); };
 
-backBtn.onclick = () => {
-    aplicarPenalizacion(); 
-    if (currentBloque > 0) {
-        currentBloque--;
-    } else if (currentSesion > 0) {
-        currentSesion--;
-        currentBloque = sesiones[currentSesion].bloques.length - 1;
-    }
-    mostrarBloque();
-};
-
-restartBtn.onclick = () => {
-    currentSesion = 0;
-    currentBloque = 0;
-    mostrarBloque();
-};
-
-/* ========================= */
-/* GALERÍA DINÁMICA          */
-/* ========================= */
-function initGallery(total = 30) {
-    if (!gallery) return;
-    gallery.innerHTML = "";
-    for (let i = 0; i < total; i++) {
-        const div = document.createElement("div");
-        div.className = "slide";
-        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
-        gallery.appendChild(div);
-    }
-    const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) slides[0].classList.add("active");
-
-    if (galleryInterval) clearInterval(galleryInterval);
-    galleryInterval = setInterval(() => {
-        const currentSlides = document.querySelectorAll(".slide");
-        if (currentSlides.length === 0) return;
-        currentSlides[slideIndex].classList.remove("active");
-        slideIndex = (slideIndex + 1) % currentSlides.length;
-        currentSlides[slideIndex].classList.add("active");
-    }, 7000);
-}
-
-// Inicialización
 updatePanel();
