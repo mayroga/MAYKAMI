@@ -73,12 +73,27 @@ async function escribirTextoYHablar(texto, localAbort) {
     });
 }
 
+/* ==================== REFUERZO DEL CONTADOR INDEPENDIENTE ==================== */
+async function iniciarContador(segundos, texto, localAbort) {
+    return new Promise(r => {
+        let t = segundos;
+        const timer = setInterval(() => {
+            if (localAbort.abort) { clearInterval(timer); return; }
+            block.innerHTML = `${texto}<br><span style="font-size:55px; color:#60a5fa; font-weight:bold;">${t}s</span>`;
+            if (t <= 0) { 
+                clearInterval(timer); 
+                r(); 
+            }
+            t--;
+        }, 1000);
+    });
+}
+
 /* ==================== LOGICA DE SESIONES ==================== */
 async function cargarSesion() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        // Carga solo la sesión que corresponde (ID 1 al 21)
         sesionActualData = data.sesiones.find(s => s.id === userData.sessionId) || data.sesiones[0];
     } catch (e) {
         block.innerText = "Error cargando la base de datos MAYKAMI.";
@@ -102,13 +117,27 @@ async function mostrarBloque() {
         return;
     }
 
-    // Navegación inteligente
-    nextBtn.style.display = "none"; // Desaparece hasta que termine de leer o responda
+    // Navegación inteligente inicial
+    nextBtn.style.display = "none"; 
+    restartBtn.style.display = "none";
     backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
 
-    if (bloque.tipo === "decision") {
+    // 1. Bloques con múltiples textos (tvid_ejercicio_largo)
+    if (bloque.textos && Array.isArray(bloque.textos)) {
+        for (const frase of bloque.textos) {
+            if (localAbort.abort) return;
+            await escribirTextoYHablar(frase, localAbort);
+            await new Promise(r => setTimeout(r, 1200)); 
+        }
+        if (bloque.duracion) {
+            await iniciarContador(bloque.duracion, "Asimila la técnica...", localAbort);
+        }
+        nextBtn.style.display = "inline-block";
+    } 
+    
+    // 2. Bloques de Decisión (Quiz)
+    else if (bloque.tipo === "decision") {
         await escribirTextoYHablar(bloque.pregunta, localAbort);
-        
         const btnCont = document.createElement("div");
         btnCont.style.marginTop = "20px";
         
@@ -120,31 +149,26 @@ async function mostrarBloque() {
             btn.onclick = async () => {
                 const esCorrecto = (idx === bloque.correcta);
                 const feedback = esCorrecto ? `Correcto. ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
-                
                 await escribirTextoYHablar(feedback, localAbort);
-                
                 if (esCorrecto) userData.disciplina += 5;
                 guardarProgreso();
-                nextBtn.style.display = "inline-block"; // Reaparece tras la explicación
+                nextBtn.style.display = "inline-block";
             };
             btnCont.appendChild(btn);
         });
         block.appendChild(btnCont);
+    } 
 
-    } else {
+    // 3. Bloques de Cierre o Texto Simple
+    else if (bloque.texto) {
         await escribirTextoYHablar(bloque.texto, localAbort);
-
+        
         if (bloque.duracion) {
-            let t = bloque.duracion;
-            const timer = setInterval(() => {
-                if (localAbort.abort) { clearInterval(timer); return; }
-                block.innerHTML = `${bloque.texto}<br><span style="font-size:55px; color:#60a5fa; font-weight:bold;">${t}s</span>`;
-                if (t <= 0) {
-                    clearInterval(timer);
-                    nextBtn.style.display = "inline-block";
-                }
-                t--;
-            }, 1000);
+            await iniciarContador(bloque.duracion, bloque.texto, localAbort);
+        }
+        
+        if (bloque.tipo === "cierre") {
+            finalizarSesion();
         } else {
             nextBtn.style.display = "inline-block";
         }
@@ -152,16 +176,19 @@ async function mostrarBloque() {
 }
 
 function finalizarSesion() {
-    block.innerHTML = "<h2>Sesión Completada</h2><p>Has fortalecido tu disciplina hoy.</p>";
+    block.innerHTML = "<h2>Sesión Completada</h2><p>Has fortalecido tu disciplina hoy. El progreso ha sido guardado.</p>";
     userData.sessionId = userData.sessionId < 21 ? userData.sessionId + 1 : 1;
     userData.step = 0;
     guardarProgreso();
+    
+    // Al final, mostramos todas las opciones de navegación
+    nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
+    backBtn.style.display = "inline-block";
 }
 
 function guardarProgreso() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
-    // Actualizar barras si existen
     const dBar = document.getElementById("disciplina-bar");
     if (dBar) dBar.style.width = userData.disciplina + "%";
 }
@@ -186,18 +213,24 @@ function initGallery(total = 30) {
     }, 7000);
 }
 
+/* ==================== EVENTOS DE BOTONES ==================== */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    if (audio) { audio.volume = 0.05; audio.play(); } // Música sutil al 5%
+    if (audio) { audio.volume = 0.05; audio.play(); } 
     initGallery();
     await cargarSesion();
     mostrarBloque();
 };
 
 nextBtn.onclick = () => {
-    userData.step++;
-    guardarProgreso();
-    mostrarBloque();
+    // Si estamos en el cierre, al dar next cargamos la nueva sesión
+    if (sesionActualData.bloques[userData.step]?.tipo === "cierre" || !sesionActualData.bloques[userData.step]) {
+        cargarSesion().then(() => mostrarBloque());
+    } else {
+        userData.step++;
+        guardarProgreso();
+        mostrarBloque();
+    }
 };
 
 backBtn.onclick = () => {
@@ -214,5 +247,5 @@ restartBtn.onclick = () => {
     mostrarBloque();
 };
 
-// Cargar estado inicial de las barras
+// Inicialización de UI
 guardarProgreso();
