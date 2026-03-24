@@ -1,26 +1,32 @@
 /* ========================= */
 /* ELEMENTOS PRINCIPALES */
 /* ========================= */
+
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
+
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+
 const audio = document.getElementById("nature-audio");
 
 let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
+
 let abortController = { abort: false };
+
 let slideIndex = 0;
 let galleryInterval = null;
 
 
 /* ========================= */
-/* GALERÍA DINÁMICA */
+/* GALERÍA DINÁMICA ALEATORIA */
 /* ========================= */
+
 function initGallery(total = 30) {
 
     gallery.innerHTML = "";
@@ -37,7 +43,6 @@ function initGallery(total = 30) {
             `url(https://picsum.photos/1920/1080?nature&sig=${seedOffset + i})`;
 
         gallery.appendChild(div);
-
     }
 
     const slides = document.querySelectorAll(".slide");
@@ -49,31 +54,30 @@ function initGallery(total = 30) {
         slides.forEach(s => s.classList.remove("active"));
 
         slides[0].classList.add("active");
-
     }
 
     if (galleryInterval) clearInterval(galleryInterval);
 
     galleryInterval = setInterval(() => {
 
-        const currentSlides = document.querySelectorAll(".slide");
+        const slides = document.querySelectorAll(".slide");
 
-        if (currentSlides.length === 0) return;
+        if (slides.length === 0) return;
 
-        currentSlides[slideIndex].classList.remove("active");
+        slides[slideIndex].classList.remove("active");
 
-        slideIndex = (slideIndex + 1) % currentSlides.length;
+        slideIndex = (slideIndex + 1) % slides.length;
 
-        currentSlides[slideIndex].classList.add("active");
+        slides[slideIndex].classList.add("active");
 
     }, 7000);
-
 }
 
 
 /* ========================= */
 /* LIMPIAR ESTADO */
 /* ========================= */
+
 function limpiarEstado() {
 
     abortController.abort = true;
@@ -87,63 +91,52 @@ function limpiarEstado() {
     circle.innerText = "Respira";
 
     block.innerHTML = "";
-
 }
 
 
 /* ========================= */
-/* DETECTAR RESPIRACION */
+/* DETECTAR RESPIRACIÓN */
 /* ========================= */
+
 function detectarRespiracion(texto) {
 
     const t = texto.toLowerCase();
 
-    const inhala = ["inhala","aspira","llena","aire","dentro","oxígeno"];
-
-    const exhala = ["exhala","suelta","expulsa","fuera","vacía"];
-
-    const retiene = ["retén","retiene","pausa","aguanta"];
-
-    const general = ["respira","respiración"];
+    const inhala = ["inhala", "aspira", "aire", "llena"];
+    const exhala = ["exhala", "suelta", "fuera"];
+    const retiene = ["retén", "pausa", "aguanta"];
+    const general = ["respira", "respiración"];
 
     if (inhala.some(p => t.includes(p))) {
 
         circle.className = "inhale";
-
         circle.innerText = "Inhala";
-
     }
 
     else if (exhala.some(p => t.includes(p))) {
 
         circle.className = "exhale";
-
         circle.innerText = "Exhala";
-
     }
 
     else if (retiene.some(p => t.includes(p))) {
 
         circle.className = "hold";
-
         circle.innerText = "Retén";
-
     }
 
     else if (general.some(p => t.includes(p))) {
 
         circle.className = "inhale";
-
         circle.innerText = "Respira";
-
     }
-
 }
 
 
 /* ========================= */
 /* VOZ + TEXTO */
 /* ========================= */
+
 async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 
     if (localAbort.abort) return;
@@ -159,13 +152,11 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
         block.innerHTML += char;
 
         await new Promise(r => setTimeout(r, 25));
-
     }
 
     const mensaje = new SpeechSynthesisUtterance(texto);
 
     mensaje.lang = "es-ES";
-
     mensaje.rate = 0.9;
 
     await new Promise(resolve => {
@@ -176,6 +167,7 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 
     });
 
+
     if (duracion > 0) {
 
         await new Promise(r => {
@@ -185,11 +177,8 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
             const timer = setInterval(() => {
 
                 if (localAbort.abort) {
-
                     clearInterval(timer);
-
                     return;
-
                 }
 
                 block.innerHTML =
@@ -200,50 +189,47 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
                 if (t < 0) {
 
                     clearInterval(timer);
-
                     r();
-
                 }
 
             }, 1000);
-
         });
-
     }
 
     if (!esQuiz)
         await new Promise(r => setTimeout(r, 1500));
-
 }
 
 
 /* ========================= */
-/* QUIZ INTERACTIVO */
+/* QUIZ */
 /* ========================= */
+
 async function ejecutarQuiz(bloque, localAbort) {
 
     const container = document.createElement("div");
 
     container.style.cssText =
-        `max-width:700px;
-         margin:20px auto;
-         padding:25px;
-         background:${bloque.color || "#1e293b"};
-         border-radius:12px;
-         color:white;
-         text-align:center`;
+        `
+        max-width:700px;
+        margin:20px auto;
+        padding:25px;
+        background:${bloque.color || "#1e293b"};
+        border-radius:12px;
+        text-align:center;
+        color:white;
+        `;
 
     block.appendChild(container);
-
 
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
 
-    const feedbackArea = document.createElement("div");
+    const feedback = document.createElement("div");
 
-    feedbackArea.style.marginTop = "15px";
+    feedback.style.marginTop = "10px";
 
-    container.appendChild(feedbackArea);
+    container.appendChild(feedback);
 
 
     const btnContainer = document.createElement("div");
@@ -264,88 +250,99 @@ async function ejecutarQuiz(bloque, localAbort) {
             btn.innerText = op;
 
             btn.style.cssText =
-                "display:block;margin:10px auto;padding:10px;width:80%";
+                "display:block;width:85%;margin:10px auto;padding:10px";
 
             btn.onclick = async () => {
 
-                const ok = i === bloque.correcta;
+                btnContainer.querySelectorAll("button")
+                    .forEach(b => b.disabled = true);
 
-                const txt = ok
-                    ? `Correcto. ${bloque.explicacion}`
-                    : `Incorrecto. ${bloque.explicacion}`;
+                const correcto = (i === bloque.correcta);
 
-                feedbackArea.innerHTML =
-                    ok ? "✅ " + txt : "❌ " + txt;
+                const texto = correcto
+                    ? "Correcto. " + bloque.explicacion
+                    : "Incorrecto. " + bloque.explicacion;
 
-                await procesarTexto(txt, localAbort);
+                feedback.innerHTML = texto;
+
+                await procesarTexto(texto, localAbort);
 
                 nextBtn.disabled = false;
                 nextBtn.style.opacity = "1";
 
                 resolve();
-
             };
 
             btnContainer.appendChild(btn);
-
         });
-
     });
-
 }
 
 
 /* ========================= */
 /* CARGAR JSON */
 /* ========================= */
+
 async function cargarSesiones() {
 
-    const r = await fetch("/tvid_ejercicio.json");
+    const res = await fetch("/tvid_ejercicio.json");
 
-    const d = await r.json();
+    const data = await res.json();
 
-    sesiones = d.sesiones || [];
-
+    sesiones = data.sesiones || [];
 }
 
 
 /* ========================= */
 /* MOSTRAR BLOQUE */
 /* ========================= */
+
 async function mostrarBloque() {
 
     limpiarEstado();
 
     const localAbort = abortController;
 
-
     nextBtn.disabled = false;
     nextBtn.style.opacity = "1";
 
+    const bloques = sesiones[currentSesion].bloques;
 
-    const bloques =
-        sesiones[currentSesion].bloques;
+    const bloque = bloques[currentBloque];
 
-    const bloque =
-        bloques[currentBloque];
+
+    const ultimaSesion =
+        currentSesion === sesiones.length - 1;
+
+    const ultimoBloque =
+        currentBloque === bloques.length - 1;
+
+
+    backBtn.style.display =
+        (currentSesion === 0 && currentBloque === 0)
+            ? "none"
+            : "inline-block";
+
+
+    nextBtn.style.display = "inline-block";
+
+    restartBtn.style.display =
+        (ultimaSesion && ultimoBloque)
+            ? "inline-block"
+            : "none";
 
 
     if (bloque.tipo === "decision") {
 
         await ejecutarQuiz(bloque, localAbort);
-
     }
 
     else if (bloque.tipo === "tvid_ejercicio_largo") {
 
         for (let t of bloque.textos) {
 
-            if (localAbort.abort) break;
-
             await procesarTexto(t, localAbort, 8);
-
         }
-
     }
 
     else if (bloque.texto) {
@@ -356,9 +353,7 @@ async function mostrarBloque() {
                 : 0;
 
         await procesarTexto(bloque.texto, localAbort, dur);
-
     }
-
 }
 
 
@@ -372,7 +367,7 @@ startBtn.onclick = async () => {
 
     audio.volume = 0.15;
 
-    audio.play();
+    audio.play().catch(() => { });
 
     initGallery(30);
 
@@ -382,7 +377,6 @@ startBtn.onclick = async () => {
     currentBloque = 0;
 
     mostrarBloque();
-
 };
 
 
@@ -390,32 +384,38 @@ nextBtn.onclick = () => {
 
     if (nextBtn.disabled) return;
 
-    const b =
+    const bloques =
         sesiones[currentSesion].bloques;
 
-    if (currentBloque < b.length - 1)
+    if (currentBloque < bloques.length - 1) {
+
         currentBloque++;
+    }
+
+    else if (currentSesion < sesiones.length - 1) {
+
+        currentSesion++;
+        currentBloque = 0;
+    }
 
     else {
 
-        currentSesion =
-            (currentSesion + 1) % sesiones.length;
-
+        currentSesion = 0;
         currentBloque = 0;
 
         initGallery(30);
-
     }
 
     mostrarBloque();
-
 };
 
 
 backBtn.onclick = () => {
 
-    if (currentBloque > 0)
+    if (currentBloque > 0) {
+
         currentBloque--;
+    }
 
     else if (currentSesion > 0) {
 
@@ -423,11 +423,9 @@ backBtn.onclick = () => {
 
         currentBloque =
             sesiones[currentSesion].bloques.length - 1;
-
     }
 
     mostrarBloque();
-
 };
 
 
@@ -439,5 +437,4 @@ restartBtn.onclick = () => {
     initGallery(30);
 
     mostrarBloque();
-
 };
