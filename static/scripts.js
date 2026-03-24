@@ -75,7 +75,7 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     detectarRespiracion(texto);
     block.innerHTML = "";
 
-    // Escritura
+    // Escritura mecánica
     for (let char of texto) {
         if (localAbort.abort) return;
         block.innerHTML += char;
@@ -105,7 +105,7 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
         });
     }
 
-    // PAUSA DE ASIMILACIÓN (Seguridad para no solapar acciones)
+    // Pausa de asimilación para evitar solapamientos
     if (!esQuiz) await new Promise(r => setTimeout(r, 1500));
 }
 
@@ -113,36 +113,65 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 /* LÓGICA DE QUIZ INTERACTIVO */
 /* ========================= */
 async function ejecutarQuiz(bloque, localAbort) {
-    // 1. Leer pregunta
+    // 1. Crear contenedor visual (Estilo Kamizen)
+    const container = document.createElement("div");
+    container.style.cssText = `
+        max-width: 700px;
+        margin: 20px auto;
+        padding: 25px;
+        background-color: ${bloque.color || "#1e293b"};
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        color: #ffffff;
+        text-align: center;
+    `;
+    block.appendChild(container);
+
+    // 2. Leer pregunta y mostrarla en el cuadro
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
-    // 2. Crear botones de opciones
-    const container = document.createElement("div");
-    container.style.marginTop = "20px";
-    
-    bloque.opciones.forEach((opcion, index) => {
-        const btn = document.createElement("button");
-        btn.innerText = opcion;
-        btn.style.margin = "10px";
-        btn.onclick = async () => {
-            const esCorrecto = (index === bloque.correcta);
-            const feedback = esCorrecto ? `¡Correcto! ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
-            
-            // Limpiar botones y mostrar feedback
-            container.innerHTML = "";
-            await procesarTexto(feedback, localAbort);
-            
-            // Solo después de la explicación habilitamos el avance
-            nextBtn.disabled = false;
-            nextBtn.style.opacity = "1";
-        };
-        container.appendChild(btn);
-    });
+    const feedbackArea = document.createElement("div");
+    feedbackArea.style.cssText = "margin-top:15px; font-weight:bold; color:#00d2ff; min-height:1.5em;";
+    feedbackArea.innerText = "Selecciona una opción:";
+    container.appendChild(feedbackArea);
 
-    block.appendChild(container);
-    // Bloqueamos el botón "Siguiente" hasta que responda
+    const btnContainer = document.createElement("div");
+    btnContainer.style.marginTop = "15px";
+    container.appendChild(btnContainer);
+
+    // Bloqueamos botón Siguiente hasta responder
     nextBtn.disabled = true;
     nextBtn.style.opacity = "0.5";
+
+    // 3. Crear botones de opciones
+    return new Promise(resolve => {
+        bloque.opciones.forEach((opcion, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = opcion;
+            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1.1em;";
+            
+            btn.onclick = async () => {
+                // Deshabilitar botones para evitar múltiples clics
+                const btns = btnContainer.querySelectorAll("button");
+                btns.forEach(b => b.disabled = true);
+
+                const esCorrecto = (index === bloque.correcta);
+                const feedback = esCorrecto 
+                    ? `¡Correcto! ${bloque.explicacion}` 
+                    : `Incorrecto. ${bloque.explicacion}`;
+                
+                // Mostrar y Hablar la explicación siempre
+                feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "❌"}</strong> ${feedback}`;
+                await procesarTexto(feedback, localAbort);
+                
+                // Habilitar avance
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = "1";
+                resolve();
+            };
+            btnContainer.appendChild(btn);
+        });
+    });
 }
 
 /* ========================= */
@@ -153,7 +182,7 @@ async function cargarSesiones() {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-    } catch (e) { console.error("Error de carga."); }
+    } catch (e) { console.error("Error de carga de base de datos."); }
 }
 
 async function mostrarBloque() {
@@ -166,7 +195,7 @@ async function mostrarBloque() {
     const bloques = sesiones[currentSesion].bloques;
     const bloque = bloques[currentBloque];
 
-    // Visibilidad de botones
+    // Lógica de visibilidad final
     const esUltimaSesion = (currentSesion === sesiones.length - 1);
     const esUltimoBloque = (currentBloque === bloques.length - 1);
 
@@ -188,11 +217,11 @@ async function mostrarBloque() {
             const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
             await procesarTexto(bloque.texto, localAbort, dur);
         }
-    } catch (e) { console.log("Flujo MayKaMi activo."); }
+    } catch (e) { console.log("Error en el flujo de bloques."); }
 }
 
 /* ========================= */
-/* EVENTOS */
+/* EVENTOS DE CONTROL */
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
