@@ -13,13 +13,12 @@ const audio = document.getElementById("nature-audio");
 let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
-
 let abortController = { abort: false }; 
 let slideIndex = 0;
 let galleryInterval = null;
 
 /* ========================= */
-/* CARGAR GALERIA DE FONDOS */
+/* GALERÍA DINÁMICA */
 /* ========================= */
 function initGallery(total = 30) {
     gallery.innerHTML = "";
@@ -30,22 +29,20 @@ function initGallery(total = 30) {
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
-        slideIndex = 0;
-        slides[0].classList.add("active");
-    }
+    if (slides.length > 0) slides[0].classList.add("active");
 
     if (galleryInterval) clearInterval(galleryInterval);
     galleryInterval = setInterval(() => {
-        if (slides.length === 0) return;
-        slides[slideIndex].classList.remove("active");
-        slideIndex = (slideIndex + 1) % slides.length;
-        slides[slideIndex].classList.add("active");
+        const currentSlides = document.querySelectorAll(".slide");
+        if (currentSlides.length === 0) return;
+        currentSlides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % currentSlides.length;
+        currentSlides[slideIndex].classList.add("active");
     }, 7000);
 }
 
 /* ========================= */
-/* FUNCIONES DE ESTADO */
+/* CONTROL DE ESTADOS Y GLOBO */
 /* ========================= */
 function limpiarEstado() {
     abortController.abort = true; 
@@ -56,160 +53,138 @@ function limpiarEstado() {
     block.innerHTML = "";
 }
 
-/* ========================= */
-/* CIRCULO RESPIRACION */
-/* ========================= */
-function setInhala() {
-    circle.className = "inhale";
-    circle.innerText = "Inhala";
+function detectarRespiracion(texto) {
+    const t = texto.toLowerCase();
+    // Diccionario de disparadores para el globo
+    const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
+    const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
+    const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
+    const general = ["respira", "respiración", "pulmones", "diafragma"];
+
+    if (inhala.some(palabra => t.includes(palabra))) {
+        circle.className = "inhale";
+        circle.innerText = "Inhala";
+    } else if (exhala.some(palabra => t.includes(palabra))) {
+        circle.className = "exhale";
+        circle.innerText = "Exhala";
+    } else if (retiene.some(palabra => t.includes(palabra))) {
+        circle.className = "hold";
+        circle.innerText = "Retén";
+    } else if (general.some(palabra => t.includes(palabra))) {
+        circle.className = "inhale"; // Animación estándar
+        circle.innerText = "Respira";
+    }
 }
 
-function setExhala() {
-    circle.className = "exhale";
-    circle.innerText = "Exhala";
-}
-
-function setHold() {
-    circle.className = "hold";
-    circle.innerText = "Retén";
-}
-
 /* ========================= */
-/* ESCRITURA Y VOZ SINCRONIZADA */
+/* SISTEMA DE VOZ Y CRONÓMETRO */
 /* ========================= */
-async function mostrarTextoYVoz(texto, localAbort) {
+async function procesarTexto(texto, localAbort, duracion = 0) {
     if (localAbort.abort) return;
 
+    detectarRespiracion(texto);
+
+    // Escritura mecánica
     block.innerHTML = "";
     for (let char of texto) {
         if (localAbort.abort) return;
         block.innerHTML += char;
-        await new Promise(r => setTimeout(r, 25));
+        await new Promise(r => setTimeout(r, 20));
     }
 
-    if (localAbort.abort) return;
-    const u = new SpeechSynthesisUtterance(texto);
-    u.lang = "es-ES";
-    u.rate = 0.95;
-    speechSynthesis.speak(u);
-}
+    // Voz profesional
+    const mensaje = new SpeechSynthesisUtterance(texto);
+    mensaje.lang = "es-ES";
+    mensaje.rate = 0.9;
+    speechSynthesis.speak(mensaje);
 
-/* ========================= */
-/* RESPIRACION AUTOMATICA */
-/* ========================= */
-async function ejecutarRespiracion(bloquesResp, localAbort) {
-    for (let br of bloquesResp) {
-        if (localAbort.abort) return;
-
-        let dur = br.duracion || 4; 
-        const txtBajo = br.texto.toLowerCase();
-
-        if (txtBajo.includes("inhala")) setInhala();
-        else if (txtBajo.includes("ret") || txtBajo.includes("fija")) setHold();
-        else if (txtBajo.includes("exhala") || txtBajo.includes("expulsa")) setExhala();
-        else circle.innerText = "Respira";
-
+    // Cronómetro visual si hay duración
+    if (duracion > 0) {
         await new Promise(r => {
-            let t = dur;
-            const interval = setInterval(() => {
-                if (localAbort.abort) {
-                    clearInterval(interval);
-                    return;
-                }
-                block.innerHTML = `${br.texto}<br><span style="font-size:45px; font-weight:bold;">${t}s</span>`;
+            let t = duracion;
+            const timer = setInterval(() => {
+                if (localAbort.abort) { clearInterval(timer); return; }
+                block.innerHTML = `${texto}<br><span style="font-size:50px; font-weight:bold; color:#3b82f6;">${t}s</span>`;
                 t--;
-                if (t < 0) {
-                    clearInterval(interval);
-                    r();
-                }
+                if (t < 0) { clearInterval(timer); r(); }
             }, 1000);
         });
     }
-    circle.className = "";
-    circle.innerText = "Pausa";
 }
 
 /* ========================= */
-/* CARGAR JSON DE SESIONES */
+/* CARGA Y NAVEGACIÓN */
 /* ========================= */
 async function cargarSesiones() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-        console.log("Sistema MayKaMi: Datos cargados correctamente.");
     } catch (e) {
-        console.error("Error cargando base de datos:", e);
-        sesiones = [{
-            bloques: [{ tipo: "voz", texto: "Error crítico: No se pudo conectar con el servidor de sesiones." }]
-        }];
+        console.error("Error crítico de carga.");
     }
 }
 
-/* ========================= */
-/* MOSTRAR BLOQUE ACTUAL */
-/* ========================= */
 async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
 
     if (!sesiones[currentSesion]) return;
-    const listaBloques = sesiones[currentSesion].bloques;
-    const bloque = listaBloques[currentBloque];
+    const bloques = sesiones[currentSesion].bloques;
+    const bloque = bloques[currentBloque];
 
-    // CONTROL DE BOTONES PARA 21 SESIONES
-    // "Atrás" se muestra si no estás en el primer bloque de la primera sesión
-    backBtn.style.display = (currentBloque > 0 || currentSesion > 0) ? "inline-block" : "none";
+    // LÓGICA DE BOTONES FINAL
+    const esUltimaSesion = (currentSesion === sesiones.length - 1);
+    const esUltimoBloque = (currentBloque === bloques.length - 1);
+
+    // Botón Atrás: Siempre visible excepto en el inicio absoluto
+    backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
     
-    // "Siguiente" se muestra si hay más bloques O más sesiones por delante
-    const hayMasBloques = currentBloque < listaBloques.length - 1;
-    const hayMasSesiones = currentSesion < sesiones.length - 1;
-    nextBtn.style.display = (hayMasBloques || hayMasSesiones) ? "inline-block" : "none";
-
-    // "Reiniciar" solo aparece al final de la sesión 21 (último bloque de la última sesión)
-    restartBtn.style.display = (!hayMasBloques && !hayMasSesiones) ? "inline-block" : "none";
+    // Botón Siguiente: Desaparece SOLO al final de la sesión 21
+    nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
+    
+    // Botón Reiniciar: Solo aparece cuando el viaje termina
+    restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
 
     try {
-        if (bloque.tipo === "respiracion") {
-            await ejecutarRespiracion([bloque], localAbort);
+        if (bloque.tipo === "decision") {
+            // Lee la pregunta y las opciones para reflexión
+            const opcionesTxt = bloque.opciones.join(", ");
+            await procesarTexto(`${bloque.pregunta}. Considera estas opciones: ${opcionesTxt}`, localAbort);
         } 
         else if (bloque.tipo === "tvid_ejercicio_largo") {
-            const pasos = bloque.textos.map(txt => ({ texto: txt, duracion: 8 }));
-            await ejecutarRespiracion(pasos, localAbort);
+            for (let t of bloque.textos) {
+                if (localAbort.abort) break;
+                await procesarTexto(t, localAbort, 8);
+            }
         } 
         else if (bloque.texto) {
-            await mostrarTextoYVoz(bloque.texto, localAbort);
+            const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
+            await procesarTexto(bloque.texto, localAbort, dur);
         }
     } catch (e) {
-        console.error("Error en flujo de bloque:", e);
-        block.innerHTML = "Continuando secuencia...";
+        console.log("Flujo continuo.");
     }
 }
 
 /* ========================= */
-/* EVENTOS BOTONES */
+/* ACCIONES */
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    
     audio.volume = 0.2;
-    audio.play().catch(e => console.log("Audio requiere interacción manual adicional."));
-
+    audio.play();
     initGallery(30);
     await cargarSesiones();
-    currentSesion = 0; // Asegurar empezar en sesión 1
+    currentSesion = 0;
     currentBloque = 0;
     mostrarBloque();
 };
 
 nextBtn.onclick = () => {
-    const listaBloques = sesiones[currentSesion].bloques;
-    
-    if (currentBloque < listaBloques.length - 1) {
-        // Avanza al siguiente bloque de la misma sesión
+    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
         currentBloque++;
     } else if (currentSesion < sesiones.length - 1) {
-        // Salta a la siguiente sesión
         currentSesion++;
         currentBloque = 0;
     }
@@ -220,7 +195,6 @@ backBtn.onclick = () => {
     if (currentBloque > 0) {
         currentBloque--;
     } else if (currentSesion > 0) {
-        // Retrocede a la sesión anterior, al último bloque de esa sesión
         currentSesion--;
         currentBloque = sesiones[currentSesion].bloques.length - 1;
     }
