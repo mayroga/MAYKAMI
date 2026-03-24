@@ -42,7 +42,7 @@ function initGallery(total = 30) {
 }
 
 /* ========================= */
-/* CONTROL DE ESTADOS Y GLOBO */
+/* CONTROL DE GLOBO Y ESTADOS */
 /* ========================= */
 function limpiarEstado() {
     abortController.abort = true; 
@@ -55,50 +55,44 @@ function limpiarEstado() {
 
 function detectarRespiracion(texto) {
     const t = texto.toLowerCase();
-    // Diccionario de disparadores para el globo
     const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
     const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
     const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
     const general = ["respira", "respiración", "pulmones", "diafragma"];
 
-    if (inhala.some(palabra => t.includes(palabra))) {
-        circle.className = "inhale";
-        circle.innerText = "Inhala";
-    } else if (exhala.some(palabra => t.includes(palabra))) {
-        circle.className = "exhale";
-        circle.innerText = "Exhala";
-    } else if (retiene.some(palabra => t.includes(palabra))) {
-        circle.className = "hold";
-        circle.innerText = "Retén";
-    } else if (general.some(palabra => t.includes(palabra))) {
-        circle.className = "inhale"; // Animación estándar
-        circle.innerText = "Respira";
-    }
+    if (inhala.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Inhala"; }
+    else if (exhala.some(p => t.includes(p))) { circle.className = "exhale"; circle.innerText = "Exhala"; }
+    else if (retiene.some(p => t.includes(p))) { circle.className = "hold"; circle.innerText = "Retén"; }
+    else if (general.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Respira"; }
 }
 
 /* ========================= */
-/* SISTEMA DE VOZ Y CRONÓMETRO */
+/* NÚCLEO DE VOZ Y ACCIÓN */
 /* ========================= */
-async function procesarTexto(texto, localAbort, duracion = 0) {
+async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     if (localAbort.abort) return;
 
     detectarRespiracion(texto);
-
-    // Escritura mecánica
     block.innerHTML = "";
+
+    // Escritura
     for (let char of texto) {
         if (localAbort.abort) return;
         block.innerHTML += char;
-        await new Promise(r => setTimeout(r, 20));
+        await new Promise(r => setTimeout(r, 25));
     }
 
-    // Voz profesional
+    // Voz
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
     mensaje.rate = 0.9;
-    speechSynthesis.speak(mensaje);
+    
+    // Esperar a que la voz termine antes de seguir
+    await new Promise(resolve => {
+        mensaje.onend = resolve;
+        speechSynthesis.speak(mensaje);
+    });
 
-    // Cronómetro visual si hay duración
     if (duracion > 0) {
         await new Promise(r => {
             let t = duracion;
@@ -110,6 +104,45 @@ async function procesarTexto(texto, localAbort, duracion = 0) {
             }, 1000);
         });
     }
+
+    // PAUSA DE ASIMILACIÓN (Seguridad para no solapar acciones)
+    if (!esQuiz) await new Promise(r => setTimeout(r, 1500));
+}
+
+/* ========================= */
+/* LÓGICA DE QUIZ INTERACTIVO */
+/* ========================= */
+async function ejecutarQuiz(bloque, localAbort) {
+    // 1. Leer pregunta
+    await procesarTexto(bloque.pregunta, localAbort, 0, true);
+
+    // 2. Crear botones de opciones
+    const container = document.createElement("div");
+    container.style.marginTop = "20px";
+    
+    bloque.opciones.forEach((opcion, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opcion;
+        btn.style.margin = "10px";
+        btn.onclick = async () => {
+            const esCorrecto = (index === bloque.correcta);
+            const feedback = esCorrecto ? `¡Correcto! ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
+            
+            // Limpiar botones y mostrar feedback
+            container.innerHTML = "";
+            await procesarTexto(feedback, localAbort);
+            
+            // Solo después de la explicación habilitamos el avance
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = "1";
+        };
+        container.appendChild(btn);
+    });
+
+    block.appendChild(container);
+    // Bloqueamos el botón "Siguiente" hasta que responda
+    nextBtn.disabled = true;
+    nextBtn.style.opacity = "0.5";
 }
 
 /* ========================= */
@@ -120,37 +153,30 @@ async function cargarSesiones() {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-    } catch (e) {
-        console.error("Error crítico de carga.");
-    }
+    } catch (e) { console.error("Error de carga."); }
 }
 
 async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
 
     if (!sesiones[currentSesion]) return;
     const bloques = sesiones[currentSesion].bloques;
     const bloque = bloques[currentBloque];
 
-    // LÓGICA DE BOTONES FINAL
+    // Visibilidad de botones
     const esUltimaSesion = (currentSesion === sesiones.length - 1);
     const esUltimoBloque = (currentBloque === bloques.length - 1);
 
-    // Botón Atrás: Siempre visible excepto en el inicio absoluto
     backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
-    
-    // Botón Siguiente: Desaparece SOLO al final de la sesión 21
     nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
-    
-    // Botón Reiniciar: Solo aparece cuando el viaje termina
     restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
 
     try {
         if (bloque.tipo === "decision") {
-            // Lee la pregunta y las opciones para reflexión
-            const opcionesTxt = bloque.opciones.join(", ");
-            await procesarTexto(`${bloque.pregunta}. Considera estas opciones: ${opcionesTxt}`, localAbort);
+            await ejecutarQuiz(bloque, localAbort);
         } 
         else if (bloque.tipo === "tvid_ejercicio_largo") {
             for (let t of bloque.textos) {
@@ -162,17 +188,15 @@ async function mostrarBloque() {
             const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
             await procesarTexto(bloque.texto, localAbort, dur);
         }
-    } catch (e) {
-        console.log("Flujo continuo.");
-    }
+    } catch (e) { console.log("Flujo MayKaMi activo."); }
 }
 
 /* ========================= */
-/* ACCIONES */
+/* EVENTOS */
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    audio.volume = 0.2;
+    audio.volume = 0.15;
     audio.play();
     initGallery(30);
     await cargarSesiones();
@@ -182,6 +206,7 @@ startBtn.onclick = async () => {
 };
 
 nextBtn.onclick = () => {
+    if (nextBtn.disabled) return;
     if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
         currentBloque++;
     } else if (currentSesion < sesiones.length - 1) {
