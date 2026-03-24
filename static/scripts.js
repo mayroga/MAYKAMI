@@ -4,18 +4,17 @@
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
-
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
-const restartBtn = document.getElementById("restart-btn");
-
 const audio = document.getElementById("nature-audio");
 
+let sesionActiva = false;
+let abortController = { abort: false }; // Nuestro interruptor de seguridad
+
 /* ========================= */
-/* GALERIA DE PAISAJES */
+/* GALERIA DE PAISAJES (Optimizado) */
 /* ========================= */
-let slides = [];
 let slideIndex = 0;
 for (let i = 0; i < 20; i++) {
     const div = document.createElement("div");
@@ -23,8 +22,8 @@ for (let i = 0; i < 20; i++) {
     div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
     gallery.appendChild(div);
 }
-slides = document.querySelectorAll(".slide");
-slides[0].classList.add("active");
+const slides = document.querySelectorAll(".slide");
+if(slides.length > 0) slides[0].classList.add("active");
 
 setInterval(() => {
     slides[slideIndex].classList.remove("active");
@@ -33,83 +32,59 @@ setInterval(() => {
 }, 7000);
 
 /* ========================= */
-/* CÍRCULO DE RESPIRACIÓN */
+/* FUNCIONES DE ESTADO */
 /* ========================= */
-function setInhala() {
-    circle.className = "inhale";
-    circle.innerText = "Inhala";
-    circle.style.borderColor = "#3b82f6";
+function limpiarEstado() {
+    abortController.abort = true; // Detenemos cualquier proceso previo
+    abortController = { abort: false }; // Creamos uno nuevo
+    speechSynthesis.cancel();
+    circle.className = ""; // Limpia animaciones previas
 }
-function setExhala() {
-    circle.className = "exhale";
-    circle.innerText = "Exhala";
-    circle.style.borderColor = "#ffffff";
+
+function setInhala() { 
+    circle.className = "inhale"; 
+    circle.innerText = "Inhala"; 
 }
-function setHold() {
-    circle.className = "hold";
-    circle.innerText = "Retén";
-    circle.style.borderColor = "#34d399"; // verde menta sutil
+function setExhala() { 
+    circle.className = "exhale"; 
+    circle.innerText = "Exhala"; 
+}
+function setHold() { 
+    circle.className = "hold"; 
+    circle.innerText = "Retén"; 
 }
 
 /* ========================= */
-/* VOZ SIEMPRE DISPONIBLE */
+/* MOTOR DE TEXTO Y VOZ */
 /* ========================= */
-function getVoice() {
-    const voices = speechSynthesis.getVoices();
-    return voices.find(v => v.lang.startsWith("es")) || voices[0];
-}
-
-function hablar(texto) {
-    return new Promise(resolve => {
-        try {
-            speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(texto);
-            u.lang = "es-ES";
-            u.voice = getVoice();
-            u.rate = 0.9;
-            u.onend = resolve;
-            speechSynthesis.speak(u);
-        } catch {
-            resolve();
-        }
-    });
-}
-
-/* ========================= */
-/* FUNCIONES FLEXIBLES */
-/* ========================= */
-async function mostrarTexto(texto) {
-    if (!texto) texto = "...";
+async function hablarYMostrar(texto, localAbort) {
     block.innerHTML = "";
-    await hablar(texto);
-    for (let i = 0; i < texto.length; i++) {
-        block.innerHTML += texto[i];
-        await new Promise(r => setTimeout(r, 15));
+    if (localAbort.abort) return;
+
+    // Voz
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = "es-ES";
+    u.rate = 0.9;
+    speechSynthesis.speak(u);
+
+    // Efecto máquina de escribir
+    for (let char of texto) {
+        if (localAbort.abort) return;
+        block.innerHTML += char;
+        await new Promise(r => setTimeout(r, 30));
     }
 }
 
-async function contadorSeguro(texto, tiempo) {
-    if (!tiempo) tiempo = 5;
-    for (let i = tiempo; i > 0; i--) {
-        block.innerHTML = texto + "<br>" + i;
+async function contadorRespiracion(texto, segundos, localAbort) {
+    for (let i = segundos; i > 0; i--) {
+        if (localAbort.abort) return;
+        block.innerHTML = `${texto}<br><span style="font-size:40px">${i}</span>`;
         await new Promise(r => setTimeout(r, 1000));
     }
 }
 
-async function respirarSeguro(ciclos) {
-    if (!ciclos) ciclos = 2;
-    for (let i = 0; i < ciclos; i++) {
-        setInhala();
-        await contadorSeguro("Inhala", 4);
-        setHold();
-        await contadorSeguro("Retén", 4);
-        setExhala();
-        await contadorSeguro("Exhala", 6);
-    }
-}
-
 /* ========================= */
-/* SESIONES FLEXIBLES */
+/* LÓGICA DE SESIÓN */
 /* ========================= */
 let sesiones = [];
 let currentSesion = 0;
@@ -120,56 +95,46 @@ async function cargarSesiones() {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-    } catch {
-        sesiones = [];
-    }
-    if (!sesiones.length) {
-        sesiones = [{ bloques: [{ texto: "Bienvenido a tu sesión MayKaMi" }] }];
+    } catch (e) {
+        sesiones = [{ bloques: [{ texto: "Error al cargar sesión. Revisa el archivo JSON." }] }];
     }
 }
 
-/* ========================= */
-/* MOSTRAR BLOQUE ACTUAL */
-/* ========================= */
-async function mostrarBloque(b) {
-    nextBtn.style.display = "none";
-    backBtn.style.display = "none";
+async function mostrarBloque() {
+    limpiarEstado();
+    const localAbort = abortController; // Referencia local para este hilo
+    
+    const bloque = sesiones[currentSesion].bloques[currentBloque];
+    
+    // Control de botones
+    nextBtn.style.display = (currentBloque < sesiones[currentSesion].bloques.length - 1) ? "inline-block" : "none";
+    backBtn.style.display = (currentBloque > 0) ? "inline-block" : "none";
 
-    if (!b) {
-        await mostrarTexto("Continuar");
-    } else if (b.ciclos) {
-        await respirarSeguro(b.ciclos);
-    } else if (b.tiempo) {
-        await contadorSeguro(b.texto || "Esperando", b.tiempo);
-    } else if (b.texto) {
-        await mostrarTexto(b.texto);
+    if (bloque.ciclos) {
+        for (let i = 0; i < bloque.ciclos; i++) {
+            if (localAbort.abort) return;
+            setInhala(); await contadorRespiracion("Inhala", 4, localAbort);
+            setHold();   await contadorRespiracion("Retén", 4, localAbort);
+            setExhala(); await contadorRespiracion("Exhala", 6, localAbort);
+        }
+        circle.className = "";
+        circle.innerText = "Pausa";
+        block.innerHTML = "Ciclo completado";
     } else {
-        await mostrarTexto("...");
+        await hablarYMostrar(bloque.texto || "...", localAbort);
     }
-
-    if (currentBloque < sesiones[currentSesion].bloques.length - 1) nextBtn.style.display = "inline-block";
-    if (currentBloque > 0) backBtn.style.display = "inline-block";
 }
 
 /* ========================= */
-/* MOSTRAR SESIÓN ACTUAL */
-/* ========================= */
-async function mostrarActual() {
-    const b = sesiones[currentSesion].bloques[currentBloque];
-    await mostrarBloque(b);
-}
-
-/* ========================= */
-/* BOTONES CONTROL */
+/* EVENTOS */
 /* ========================= */
 startBtn.onclick = async () => {
-    try { audio.volume = 0.3; await audio.play(); } catch {}
-    await cargarSesiones();
     startBtn.style.display = "none";
+    try { audio.volume = 0.2; audio.play(); } catch(e) {}
+    await cargarSesiones();
     currentBloque = 0;
-    mostrarActual();
+    mostrarBloque();
 };
 
-nextBtn.onclick = () => { currentBloque++; mostrarActual(); };
-backBtn.onclick = () => { if (currentBloque > 0) { currentBloque--; mostrarActual(); } };
-restartBtn.onclick = () => { currentBloque = 0; mostrarActual(); };
+nextBtn.onclick = () => { currentBloque++; mostrarBloque(); };
+backBtn.onclick = () => { if (currentBloque > 0) { currentBloque--; mostrarBloque(); } };
