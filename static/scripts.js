@@ -1,5 +1,5 @@
 /* ========================= */
-/* ELEMENTOS PRINCIPALES */
+/* ELEMENTOS */
 /* ========================= */
 
 const gallery = document.getElementById("visual-gallery");
@@ -24,14 +24,14 @@ let galleryInterval = null;
 
 
 /* ========================= */
-/* GALERÍA DINÁMICA ALEATORIA */
+/* GALERIA */
 /* ========================= */
 
 function initGallery(total = 30) {
 
     gallery.innerHTML = "";
 
-    const seedOffset = Math.floor(Math.random() * 1000);
+    const seed = Math.floor(Math.random() * 1000);
 
     for (let i = 0; i < total; i++) {
 
@@ -40,7 +40,7 @@ function initGallery(total = 30) {
         div.className = "slide";
 
         div.style.backgroundImage =
-            `url(https://picsum.photos/1920/1080?nature&sig=${seedOffset + i})`;
+            `url(https://picsum.photos/1920/1080?nature&sig=${seed + i})`;
 
         gallery.appendChild(div);
     }
@@ -62,8 +62,6 @@ function initGallery(total = 30) {
 
         const slides = document.querySelectorAll(".slide");
 
-        if (slides.length === 0) return;
-
         slides[slideIndex].classList.remove("active");
 
         slideIndex = (slideIndex + 1) % slides.length;
@@ -75,7 +73,7 @@ function initGallery(total = 30) {
 
 
 /* ========================= */
-/* LIMPIAR ESTADO */
+/* LIMPIAR */
 /* ========================= */
 
 function limpiarEstado() {
@@ -95,38 +93,33 @@ function limpiarEstado() {
 
 
 /* ========================= */
-/* DETECTAR RESPIRACIÓN */
+/* RESPIRACION */
 /* ========================= */
 
 function detectarRespiracion(texto) {
 
     const t = texto.toLowerCase();
 
-    const inhala = ["inhala", "aspira", "aire", "llena"];
-    const exhala = ["exhala", "suelta", "fuera"];
-    const retiene = ["retén", "pausa", "aguanta"];
-    const general = ["respira", "respiración"];
-
-    if (inhala.some(p => t.includes(p))) {
-
+    if (t.includes("inhala"))
+    {
         circle.className = "inhale";
         circle.innerText = "Inhala";
     }
 
-    else if (exhala.some(p => t.includes(p))) {
-
+    else if (t.includes("exhala"))
+    {
         circle.className = "exhale";
         circle.innerText = "Exhala";
     }
 
-    else if (retiene.some(p => t.includes(p))) {
-
+    else if (t.includes("ret"))
+    {
         circle.className = "hold";
         circle.innerText = "Retén";
     }
 
-    else if (general.some(p => t.includes(p))) {
-
+    else if (t.includes("respira"))
+    {
         circle.className = "inhale";
         circle.innerText = "Respira";
     }
@@ -134,10 +127,13 @@ function detectarRespiracion(texto) {
 
 
 /* ========================= */
-/* VOZ + TEXTO */
+/* VOZ */
 /* ========================= */
 
-async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
+async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false)
+{
+
+    if (!texto) texto = "";
 
     if (localAbort.abort) return;
 
@@ -145,59 +141,60 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 
     block.innerHTML = "";
 
-    for (let char of texto) {
-
+    for (let c of texto)
+    {
         if (localAbort.abort) return;
 
-        block.innerHTML += char;
+        block.innerHTML += c;
 
         await new Promise(r => setTimeout(r, 25));
     }
 
-    const mensaje = new SpeechSynthesisUtterance(texto);
+    const msg = new SpeechSynthesisUtterance(texto);
 
-    mensaje.lang = "es-ES";
-    mensaje.rate = 0.9;
+    msg.lang = "es-ES";
+    msg.rate = 0.9;
 
-    await new Promise(resolve => {
-
-        mensaje.onend = resolve;
-
-        speechSynthesis.speak(mensaje);
-
+    await new Promise(resolve =>
+    {
+        msg.onend = resolve;
+        speechSynthesis.speak(msg);
     });
 
-
-    if (duracion > 0) {
-
-        await new Promise(r => {
+    if (duracion > 0)
+    {
+        await new Promise(r =>
+        {
 
             let t = duracion;
 
-            const timer = setInterval(() => {
+            const timer = setInterval(() =>
+            {
 
-                if (localAbort.abort) {
+                if (localAbort.abort)
+                {
                     clearInterval(timer);
                     return;
                 }
 
                 block.innerHTML =
-                    `${texto}<br><span style="font-size:50px;color:#3b82f6">${t}s</span>`;
+                    `${texto}<br><span style="font-size:50px;color:#3b82f6">${t}</span>`;
 
                 t--;
 
-                if (t < 0) {
-
+                if (t < 0)
+                {
                     clearInterval(timer);
                     r();
                 }
 
             }, 1000);
+
         });
     }
 
     if (!esQuiz)
-        await new Promise(r => setTimeout(r, 1500));
+        await new Promise(r => setTimeout(r, 1200));
 }
 
 
@@ -205,77 +202,67 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
 /* QUIZ */
 /* ========================= */
 
-async function ejecutarQuiz(bloque, localAbort) {
+async function ejecutarQuiz(bloque, localAbort)
+{
+
+    block.innerHTML = "";
 
     const container = document.createElement("div");
 
-    container.style.cssText =
-        `
-        max-width:700px;
-        margin:20px auto;
-        padding:25px;
-        background:${bloque.color || "#1e293b"};
-        border-radius:12px;
-        text-align:center;
-        color:white;
-        `;
+    container.style.maxWidth = "700px";
+    container.style.margin = "auto";
 
     block.appendChild(container);
 
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
-
     const feedback = document.createElement("div");
-
-    feedback.style.marginTop = "10px";
 
     container.appendChild(feedback);
 
+    const btnBox = document.createElement("div");
 
-    const btnContainer = document.createElement("div");
-
-    container.appendChild(btnContainer);
-
+    container.appendChild(btnBox);
 
     nextBtn.disabled = true;
-    nextBtn.style.opacity = "0.5";
 
+    return new Promise(resolve =>
+    {
 
-    return new Promise(resolve => {
+        bloque.opciones.forEach((op, i) =>
+        {
 
-        bloque.opciones.forEach((op, i) => {
+            const b = document.createElement("button");
 
-            const btn = document.createElement("button");
+            b.innerText = op;
 
-            btn.innerText = op;
+            b.onclick = async () =>
+            {
 
-            btn.style.cssText =
-                "display:block;width:85%;margin:10px auto;padding:10px";
+                btnBox.querySelectorAll("button")
+                    .forEach(x => x.disabled = true);
 
-            btn.onclick = async () => {
+                const ok = i === bloque.correcta;
 
-                btnContainer.querySelectorAll("button")
-                    .forEach(b => b.disabled = true);
+                const txt =
+                    ok
+                        ? "Correcto. " + bloque.explicacion
+                        : "Incorrecto. " + bloque.explicacion;
 
-                const correcto = (i === bloque.correcta);
+                feedback.innerHTML = txt;
 
-                const texto = correcto
-                    ? "Correcto. " + bloque.explicacion
-                    : "Incorrecto. " + bloque.explicacion;
-
-                feedback.innerHTML = texto;
-
-                await procesarTexto(texto, localAbort);
+                await procesarTexto(txt, localAbort);
 
                 nextBtn.disabled = false;
-                nextBtn.style.opacity = "1";
 
                 resolve();
             };
 
-            btnContainer.appendChild(btn);
+            btnBox.appendChild(b);
         });
+
     });
+
 }
 
 
@@ -283,8 +270,8 @@ async function ejecutarQuiz(bloque, localAbort) {
 /* CARGAR JSON */
 /* ========================= */
 
-async function cargarSesiones() {
-
+async function cargarSesiones()
+{
     const res = await fetch("/tvid_ejercicio.json");
 
     const data = await res.json();
@@ -294,28 +281,23 @@ async function cargarSesiones() {
 
 
 /* ========================= */
-/* MOSTRAR BLOQUE */
+/* MOSTRAR */
 /* ========================= */
 
-async function mostrarBloque() {
+async function mostrarBloque()
+{
 
     limpiarEstado();
 
     const localAbort = abortController;
 
     nextBtn.disabled = false;
-    nextBtn.style.opacity = "1";
 
-    const bloques = sesiones[currentSesion].bloques;
+    const bloques =
+        sesiones[currentSesion].bloques;
 
-    const bloque = bloques[currentBloque];
-
-
-    const ultimaSesion =
-        currentSesion === sesiones.length - 1;
-
-    const ultimoBloque =
-        currentBloque === bloques.length - 1;
+    const bloque =
+        bloques[currentBloque];
 
 
     backBtn.style.display =
@@ -326,48 +308,61 @@ async function mostrarBloque() {
 
     nextBtn.style.display = "inline-block";
 
-    restartBtn.style.display =
-        (ultimaSesion && ultimoBloque)
-            ? "inline-block"
-            : "none";
 
-
-    if (bloque.tipo === "decision") {
-
+    if (bloque.tipo === "decision")
+    {
         await ejecutarQuiz(bloque, localAbort);
     }
 
-    else if (bloque.tipo === "tvid_ejercicio_largo") {
+    else if (bloque.tipo === "tvid_ejercicio_largo")
+    {
 
-        for (let t of bloque.textos) {
-
+        for (let t of bloque.textos)
+        {
             await procesarTexto(t, localAbort, 8);
         }
+
     }
 
-    else if (bloque.texto) {
+    else if (bloque.tipo === "respiracion")
+    {
 
-        const dur =
-            bloque.tipo === "respiracion"
-                ? (bloque.duracion || 10)
-                : 0;
+        await procesarTexto(
+            bloque.texto,
+            localAbort,
+            bloque.duracion || 10
+        );
 
-        await procesarTexto(bloque.texto, localAbort, dur);
     }
+
+    else
+    {
+
+        await procesarTexto(
+            bloque.texto || "",
+            localAbort,
+            0
+        );
+
+    }
+
 }
 
 
 /* ========================= */
-/* EVENTOS */
+/* BOTONES */
 /* ========================= */
 
-startBtn.onclick = async () => {
+startBtn.onclick = async () =>
+{
 
     startBtn.style.display = "none";
 
+    nextBtn.style.display = "inline-block";
+
     audio.volume = 0.15;
 
-    audio.play().catch(() => { });
+    audio.play().catch(()=>{});
 
     initGallery(30);
 
@@ -380,26 +375,25 @@ startBtn.onclick = async () => {
 };
 
 
-nextBtn.onclick = () => {
+nextBtn.onclick = () =>
+{
 
     if (nextBtn.disabled) return;
 
     const bloques =
         sesiones[currentSesion].bloques;
 
-    if (currentBloque < bloques.length - 1) {
-
+    if (currentBloque < bloques.length - 1)
+    {
         currentBloque++;
     }
-
-    else if (currentSesion < sesiones.length - 1) {
-
+    else if (currentSesion < sesiones.length - 1)
+    {
         currentSesion++;
         currentBloque = 0;
     }
-
-    else {
-
+    else
+    {
         currentSesion = 0;
         currentBloque = 0;
 
@@ -410,15 +404,15 @@ nextBtn.onclick = () => {
 };
 
 
-backBtn.onclick = () => {
+backBtn.onclick = () =>
+{
 
-    if (currentBloque > 0) {
-
+    if (currentBloque > 0)
+    {
         currentBloque--;
     }
-
-    else if (currentSesion > 0) {
-
+    else if (currentSesion > 0)
+    {
         currentSesion--;
 
         currentBloque =
@@ -429,7 +423,8 @@ backBtn.onclick = () => {
 };
 
 
-restartBtn.onclick = () => {
+restartBtn.onclick = () =>
+{
 
     currentSesion = 0;
     currentBloque = 0;
