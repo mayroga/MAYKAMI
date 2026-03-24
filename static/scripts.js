@@ -10,13 +10,13 @@ const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 const audio = document.getElementById("nature-audio");
 
-let abortController = { abort: false }; // Interruptor global anti-freeze
+let abortController = { abort: false }; // Control global anti-freeze
 let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
 
 /* ========================= */
-/* GALERÍA DE PAISAJES (Optimizada) */
+/* GALERÍA DE PAISAJES */
 /* ========================= */
 let slideIndex = 0;
 for (let i = 0; i < 20; i++) {
@@ -27,8 +27,6 @@ for (let i = 0; i < 20; i++) {
 }
 const slides = document.querySelectorAll(".slide");
 if(slides.length > 0) slides[0].classList.add("active");
-
-// Cambio de paisaje cada 7 segundos
 setInterval(() => {
     slides[slideIndex].classList.remove("active");
     slideIndex = (slideIndex + 1) % slides.length;
@@ -36,46 +34,36 @@ setInterval(() => {
 }, 7000);
 
 /* ========================= */
-/* FUNCIONES DE CÍRCULO DE RESPIRACIÓN */
+/* CÍRCULO DE RESPIRACIÓN AUTOMÁTICO */
 /* ========================= */
-function setInhala() {
-    circle.className = "inhale";
-    circle.innerText = "Inhala";
-}
-function setExhala() {
-    circle.className = "exhale";
-    circle.innerText = "Exhala";
-}
-function setHold() {
-    circle.className = "hold";
-    circle.innerText = "Retén";
-}
-function limpiarEstado() {
-    abortController.abort = true; // Detener procesos previos
-    abortController = { abort: false }; // Nuevo controlador
-    speechSynthesis.cancel();       // Detener voz
-    circle.className = "";          // Limpiar animación
+function setInhala() { circle.className = "inhale"; circle.innerText = "Inhala"; }
+function setExhala() { circle.className = "exhale"; circle.innerText = "Exhala"; }
+function setHold() { circle.className = "hold"; circle.innerText = "Retén"; }
+function setPausa() { circle.className = ""; circle.innerText = "Pausa"; }
+
+async function contadorRespiracion(segundos, texto, localAbort) {
+    for (let i = segundos; i > 0; i--) {
+        if (localAbort.abort) return;
+        block.innerHTML = `${texto}<br><span style="font-size:40px">${i}</span>`;
+        await new Promise(r => setTimeout(r, 1000));
+    }
 }
 
 /* ========================= */
-/* FUNCIONES DE TEXTO Y VOZ */
+/* FUNCIONES DE VOZ Y TEXTO */
 /* ========================= */
 async function hablarYMostrar(texto, localAbort) {
     block.innerHTML = "";
     if(localAbort.abort) return;
 
-    // Voz
     const utter = new SpeechSynthesisUtterance(texto);
     utter.lang = "es-ES";
     utter.rate = 0.9;
 
-    // Esperar a que termine la voz antes de continuar con el texto
-    const vozPromise = new Promise(res => {
-        utter.onend = res;
-    });
+    const vozPromise = new Promise(res => { utter.onend = res; });
     speechSynthesis.speak(utter);
 
-    // Efecto máquina de escribir mientras habla
+    // Máquina de escribir
     for (let char of texto) {
         if(localAbort.abort) return;
         block.innerHTML += char;
@@ -85,25 +73,56 @@ async function hablarYMostrar(texto, localAbort) {
     await vozPromise;
 }
 
-async function contadorRespiracion(texto, segundos, localAbort) {
-    for (let i = segundos; i > 0; i--) {
+/* ========================= */
+/* PROCESAR TEXTO DE RESPIRACIÓN */
+/* ========================= */
+async function procesarRespiracion(texto, localAbort) {
+    if(localAbort.abort) return;
+    const regex = /Respira|Inhala:? (\d+)?|Exhala:? (\d+)?|Retiene:? (\d+)?/g;
+    let match;
+    while ((match = regex.exec(texto)) !== null) {
         if(localAbort.abort) return;
-        block.innerHTML = `${texto}<br><span style="font-size:40px">${i}</span>`;
-        await new Promise(r => setTimeout(r, 1000));
+        if(match[0].startsWith("Inhala")) {
+            const sec = match[1] ? parseInt(match[1]) : 4;
+            setInhala();
+            await contadorRespiracion(sec, "Inhala", localAbort);
+        } else if(match[0].startsWith("Exhala")) {
+            const sec = match[2] ? parseInt(match[2]) : 6;
+            setExhala();
+            await contadorRespiracion(sec, "Exhala", localAbort);
+        } else if(match[0].startsWith("Retiene")) {
+            const sec = match[3] ? parseInt(match[3]) : 4;
+            setHold();
+            await contadorRespiracion(sec, "Retén", localAbort);
+        } else if(match[0].startsWith("Respira")) {
+            block.innerHTML = "Respira profundo...";
+            await new Promise(r => setTimeout(r, 2000));
+        }
     }
+    setPausa();
 }
 
 /* ========================= */
-/* CARGA DE SESIONES JSON */
+/* LIMPIAR ESTADO PARA EVITAR FREEZE */
+/* ========================= */
+function limpiarEstado() {
+    abortController.abort = true;
+    abortController = { abort: false };
+    speechSynthesis.cancel();
+    setPausa();
+}
+
+/* ========================= */
+/* CARGAR SESIONES JSON */
 /* ========================= */
 async function cargarSesiones() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-        if(sesiones.length === 0) sesiones = [{ bloques:[{ texto: "No hay sesiones disponibles." }] }];
+        if(sesiones.length === 0) sesiones = [{ bloques:[{ texto:"No hay sesiones disponibles." }] }];
     } catch(e) {
-        sesiones = [{ bloques:[{ texto: "Error cargando JSON. Comprueba el archivo." }] }];
+        sesiones = [{ bloques:[{ texto:"Error cargando JSON." }] }];
     }
 }
 
@@ -113,27 +132,18 @@ async function cargarSesiones() {
 async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
-
     const bloque = sesiones[currentSesion].bloques[currentBloque];
 
-    // Botones visibles según contexto
+    // Botones inteligentes
     nextBtn.style.display = (currentBloque < sesiones[currentSesion].bloques.length - 1) ? "inline-block" : "none";
     backBtn.style.display = (currentBloque > 0) ? "inline-block" : "none";
-    restartBtn.style.display = (currentBloque === sesiones[currentSesion].bloques.length - 1) ? "inline-block" : "none";
+    restartBtn.style.display = (currentBloque === sesiones[currentSesion].bloques.length -1) ? "inline-block" : "none";
 
-    // Ciclos de respiración
-    if(bloque.ciclos) {
-        for (let i = 0; i < bloque.ciclos; i++) {
-            if(localAbort.abort) return;
-            setInhala(); await contadorRespiracion("Inhala", bloque.inhala || 4, localAbort);
-            setHold();   await contadorRespiracion("Retén", bloque.hold || 4, localAbort);
-            setExhala(); await contadorRespiracion("Exhala", bloque.exhala || 6, localAbort);
-        }
-        circle.className = "";
-        circle.innerText = "Pausa";
-        block.innerHTML = "Ciclo completado";
+    // Detectar si el bloque tiene respiración
+    if(bloque.texto.includes("Respira") || bloque.ciclos) {
+        await procesarRespiracion(bloque.texto, localAbort);
     } else {
-        await hablarYMostrar(bloque.texto || "...", localAbort);
+        await hablarYMostrar(bloque.texto, localAbort);
     }
 }
 
