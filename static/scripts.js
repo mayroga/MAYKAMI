@@ -9,36 +9,49 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+const pauseBtn = document.getElementById("pause-btn"); 
 const audio = document.getElementById("nature-audio");
 
-// Estado de progreso (Sesiones 1 a 21)
+// Estado de progreso: Una sesión por día (1 a 21)
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
     sessionId: 1, 
     step: 0,
     disciplina: 40,
-    claridad: 50,
-    calma: 30
+    ultimaSesion: null // Para control diario si se desea implementar bloqueo
 };
 
 let sesionActualData = null;
 let abortController = { abort: false };
+let isPaused = false;
 let slideIndex = 0;
 
-/* ==================== MOTOR DE VOZ Y GLOBO ==================== */
+/* ==================== BIENVENIDAS MOTIVADORAS (21 VARIANTES) ==================== */
+function obtenerBienvenida(id) {
+    const mensajes = {
+        1: "Bienvenido al origen de tu nueva realidad. Hoy empezamos a programar tu mente para el éxito absoluto.",
+        2: "Tu disciplina está creciendo. Hoy fortaleceremos tu capacidad de atraer abundancia.",
+        3: "La claridad mental es poder. Prepárate para ver oportunidades donde otros ven obstáculos.",
+        7: "Una semana de evolución. Tu mente ya está vibrando en la frecuencia de la riqueza.",
+        14: "Catorce días de dominio propio. Tu energía está en su punto más alto.",
+        21: "Sesión de maestría total. Has reprogramado tu destino. Disfruta de esta culminación."
+    };
+    return mensajes[id] || `Sesión ${id}: Tu compromiso con el éxito es tu mayor activo. Comencemos.`;
+}
+
+/* ==================== MOTOR DE VOZ Y GLOBO DINÁMICO ==================== */
 function hablar(texto) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(texto.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
-        utter.rate = 0.95;
+        utter.rate = 0.90; // Velocidad pausada para autoridad y peso emocional
 
-        // Globo Automático por detección de palabras
         const t = texto.toLowerCase();
-        if (["inhala", "aspira", "llena", "aire"].some(p => t.includes(p))) { 
+        if (["inhala", "aspira", "aire"].some(p => t.includes(p))) { 
             circle.className = "inhale"; circle.innerText = "Inhala"; 
-        } else if (["exhala", "suelta", "expulsa", "fuera"].some(p => t.includes(p))) { 
+        } else if (["exhala", "suelta", "fuera"].some(p => t.includes(p))) { 
             circle.className = "exhale"; circle.innerText = "Exhala"; 
-        } else if (["retén", "retiene", "pausa", "aguanta"].some(p => t.includes(p))) { 
+        } else if (["retén", "pausa", "aguanta"].some(p => t.includes(p))) { 
             circle.className = "hold"; circle.innerText = "Retén"; 
         } else { 
             circle.className = ""; circle.innerText = "MAYKAMI"; 
@@ -50,61 +63,76 @@ function hablar(texto) {
     });
 }
 
-/* ==================== EL COMANDO DE LECTURA TOTAL ==================== */
+/* ==================== LECTURA Y CONSOLIDACIÓN CON RESPIRACIÓN ==================== */
 async function escribirTextoYHablar(texto, localAbort) {
     if (localAbort.abort) return;
     block.innerHTML = "";
     
-    // 1. ESPERA A QUE LA VOZ TERMINE
     await hablar(texto);
 
-    // 2. LUEGO ESCRIBE CARÁCTER POR CARÁCTER
     let i = 0;
-    return new Promise(resolve => {
+    await new Promise(resolve => {
         const interval = setInterval(() => {
             if (localAbort.abort || i >= texto.length) {
                 clearInterval(interval);
                 resolve();
-            } else {
+            } else if (!isPaused) {
                 block.insertAdjacentHTML('beforeend', texto[i]);
                 i++;
             }
-        }, 20);
+        }, 30);
     });
+
+    // PAUSA DE CONSOLIDACIÓN RESPIRATORIA (12 SEGUNDOS)
+    if (!localAbort.abort) {
+        await iniciarContador(12, "Respira y absorbe este poder...", localAbort, true);
+    }
 }
 
-/* ==================== REFUERZO DEL CONTADOR INDEPENDIENTE ==================== */
-async function iniciarContador(segundos, texto, localAbort) {
+/* ==================== CONTADOR INDEPENDIENTE Y ASISTENTE FÍSICO ==================== */
+async function iniciarContador(segundos, texto, localAbort, esConsolidacion = false) {
     return new Promise(r => {
         let t = segundos;
         const timer = setInterval(() => {
             if (localAbort.abort) { clearInterval(timer); return; }
-            block.innerHTML = `${texto}<br><span style="font-size:55px; color:#60a5fa; font-weight:bold;">${t}s</span>`;
-            if (t <= 0) { 
-                clearInterval(timer); 
-                r(); 
+            if (!isPaused) {
+                const color = esConsolidacion ? "#10b981" : "#60a5fa"; // Verde para consolidar éxito
+                
+                // Guía de respiración durante la consolidación (4s c/u)
+                if (esConsolidacion) {
+                    if (t > 8) { circle.className = "inhale"; circle.innerText = "Inhala"; }
+                    else if (t > 4) { circle.className = "hold"; circle.innerText = "Retén"; }
+                    else { circle.className = "exhale"; circle.innerText = "Exhala"; }
+                }
+
+                block.innerHTML = `<span style="color:#94a3b8; font-size:18px;">${texto}</span><br>
+                                   <span style="font-size:55px; color:${color}; font-weight:bold;">${t}s</span>`;
+                
+                if (t <= 0) { 
+                    clearInterval(timer); 
+                    circle.className = ""; circle.innerText = "MAYKAMI";
+                    r(); 
+                }
+                t--;
             }
-            t--;
         }, 1000);
     });
 }
 
-/* ==================== LOGICA DE SESIONES ==================== */
+/* ==================== LÓGICA DE SESIONES (LOOP 1-21) ==================== */
 async function cargarSesion() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        sesionActualData = data.sesiones.find(s => s.id === userData.sessionId) || data.sesiones[0];
+        // Buscar sesión actual o reiniciar a la 1 (Loop Infinito)
+        sesionActualData = data.sesiones.find(s => s.id === userData.sessionId);
+        if (!sesionActualData) {
+            userData.sessionId = 1;
+            sesionActualData = data.sesiones[0];
+        }
     } catch (e) {
         block.innerText = "Error cargando la base de datos MAYKAMI.";
     }
-}
-
-function limpiarEstado() {
-    abortController.abort = true;
-    abortController = { abort: false };
-    window.speechSynthesis.cancel();
-    block.innerHTML = "";
 }
 
 async function mostrarBloque() {
@@ -117,35 +145,30 @@ async function mostrarBloque() {
         return;
     }
 
-    // Navegación inteligente inicial
     nextBtn.style.display = "none"; 
     restartBtn.style.display = "none";
+    pauseBtn.style.display = "inline-block";
     backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
 
-    // 1. Bloques con múltiples textos (tvid_ejercicio_largo)
+    // 1. Bloques largos (Arrays de textos TVD)
     if (bloque.textos && Array.isArray(bloque.textos)) {
         for (const frase of bloque.textos) {
             if (localAbort.abort) return;
             await escribirTextoYHablar(frase, localAbort);
-            await new Promise(r => setTimeout(r, 1200)); 
         }
-        if (bloque.duracion) {
-            await iniciarContador(bloque.duracion, "Asimila la técnica...", localAbort);
-        }
+        if (bloque.duracion) await iniciarContador(bloque.duracion, "Asimila la técnica...", localAbort);
         nextBtn.style.display = "inline-block";
     } 
     
-    // 2. Bloques de Decisión (Quiz)
+    // 2. Bloques de Decisión (Quiz de Disciplina)
     else if (bloque.tipo === "decision") {
         await escribirTextoYHablar(bloque.pregunta, localAbort);
         const btnCont = document.createElement("div");
         btnCont.style.marginTop = "20px";
-        
         bloque.opciones.forEach((opt, idx) => {
             const btn = document.createElement("button");
             btn.innerText = opt;
-            btn.style.cssText = "display:block; width:100%; margin:10px 0; padding:15px; border-radius:10px; background:#1e293b; color:white; border:1px solid #3b82f6; cursor:pointer;";
-            
+            btn.className = "quiz-btn"; // Estilo en tu CSS
             btn.onclick = async () => {
                 const esCorrecto = (idx === bloque.correcta);
                 const feedback = esCorrecto ? `Correcto. ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
@@ -159,32 +182,23 @@ async function mostrarBloque() {
         block.appendChild(btnCont);
     } 
 
-    // 3. Bloques de Cierre o Texto Simple
+    // 3. Texto Simple o Cierre
     else if (bloque.texto) {
         await escribirTextoYHablar(bloque.texto, localAbort);
-        
-        if (bloque.duracion) {
-            await iniciarContador(bloque.duracion, bloque.texto, localAbort);
-        }
-        
-        if (bloque.tipo === "cierre") {
-            finalizarSesion();
-        } else {
-            nextBtn.style.display = "inline-block";
-        }
+        if (bloque.duracion) await iniciarContador(bloque.duracion, "Realiza el ejercicio...", localAbort);
+        if (bloque.tipo === "cierre") finalizarSesion();
+        else nextBtn.style.display = "inline-block";
     }
 }
 
 function finalizarSesion() {
-    block.innerHTML = "<h2>Sesión Completada</h2><p>Has fortalecido tu disciplina hoy. El progreso ha sido guardado.</p>";
+    block.innerHTML = "<h2>Sesión Completada</h2><p>Felicidades. Has invertido en tu éxito hoy. Vuelve mañana para continuar tu ascenso.</p>";
     userData.sessionId = userData.sessionId < 21 ? userData.sessionId + 1 : 1;
     userData.step = 0;
     guardarProgreso();
     
-    // Al final, mostramos todas las opciones de navegación
     nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
-    backBtn.style.display = "inline-block";
 }
 
 function guardarProgreso() {
@@ -193,38 +207,65 @@ function guardarProgreso() {
     if (dBar) dBar.style.width = userData.disciplina + "%";
 }
 
-/* ==================== INTERFAZ Y GALERIA ==================== */
-function initGallery(total = 30) {
+function limpiarEstado() {
+    abortController.abort = true;
+    abortController = { abort: false };
+    window.speechSynthesis.cancel();
+    isPaused = false;
+    if (pauseBtn) pauseBtn.innerText = "⏸️ Pausar";
+}
+
+/* ==================== INTERFAZ Y GALERIA (30 PAISAJES) ==================== */
+function initGallery() {
     gallery.innerHTML = "";
-    for (let i = 0; i < total; i++) {
+    for (let i = 0; i < 30; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i})`;
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${i + (userData.sessionId * 40)})`;
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
     if (slides.length > 0) slides[0].classList.add("active");
+    
     setInterval(() => {
-        const currentSlides = document.querySelectorAll(".slide");
-        if (currentSlides.length === 0) return;
-        currentSlides[slideIndex].classList.remove("active");
-        slideIndex = (slideIndex + 1) % currentSlides.length;
-        currentSlides[slideIndex].classList.add("active");
-    }, 7000);
+        if (!isPaused) {
+            slides[slideIndex].classList.remove("active");
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add("active");
+        }
+    }, 8000);
 }
 
 /* ==================== EVENTOS DE BOTONES ==================== */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    if (audio) { audio.volume = 0.05; audio.play(); } 
+    if (audio) { audio.volume = 0.03; audio.play(); } 
     initGallery();
     await cargarSesion();
+
+    // Bienvenida Motivadora inicial
+    const saludo = obtenerBienvenida(userData.sessionId);
+    await escribirTextoYHablar(saludo, abortController);
+    await new Promise(r => setTimeout(r, 2000)); 
+
     mostrarBloque();
 };
 
+if (pauseBtn) {
+    pauseBtn.onclick = () => {
+        isPaused = !isPaused;
+        if (isPaused) {
+            window.speechSynthesis.pause();
+            pauseBtn.innerText = "▶️ Reanudar";
+        } else {
+            window.speechSynthesis.resume();
+            pauseBtn.innerText = "⏸️ Pausar";
+        }
+    };
+}
+
 nextBtn.onclick = () => {
-    // Si estamos en el cierre, al dar next cargamos la nueva sesión
-    if (sesionActualData.bloques[userData.step]?.tipo === "cierre" || !sesionActualData.bloques[userData.step]) {
+    if (sesionActualData.bloques[userData.step]?.tipo === "cierre") {
         cargarSesion().then(() => mostrarBloque());
     } else {
         userData.step++;
@@ -247,5 +288,4 @@ restartBtn.onclick = () => {
     mostrarBloque();
 };
 
-// Inicialización de UI
 guardarProgreso();
