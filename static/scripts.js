@@ -14,7 +14,7 @@ let sesiones = [];
 let currentSesion = 0;
 let currentBloque = 0;
 
-let abortController = { abort: false }; // Para detener cualquier proceso activo
+let abortController = { abort: false }; 
 let slideIndex = 0;
 let galleryInterval = null;
 
@@ -30,11 +30,14 @@ function initGallery(total = 30) {
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) slides[0].classList.add("active");
+    if (slides.length > 0) {
+        slideIndex = 0;
+        slides[0].classList.add("active");
+    }
 
-    // Cambiar imagen automáticamente cada 7s
     if (galleryInterval) clearInterval(galleryInterval);
     galleryInterval = setInterval(() => {
+        if (slides.length === 0) return;
         slides[slideIndex].classList.remove("active");
         slideIndex = (slideIndex + 1) % slides.length;
         slides[slideIndex].classList.add("active");
@@ -45,8 +48,8 @@ function initGallery(total = 30) {
 /* FUNCIONES DE ESTADO */
 /* ========================= */
 function limpiarEstado() {
-    abortController.abort = true; // Detener procesos activos
-    abortController = { abort: false }; // Nuevo controlador
+    abortController.abort = true; 
+    abortController = { abort: false }; 
     speechSynthesis.cancel();
     circle.className = "";
     circle.innerText = "Respira";
@@ -77,19 +80,17 @@ function setHold() {
 async function mostrarTextoYVoz(texto, localAbort) {
     if (localAbort.abort) return;
 
-    // Primero mostrar el texto letra por letra
     block.innerHTML = "";
     for (let char of texto) {
         if (localAbort.abort) return;
         block.innerHTML += char;
-        await new Promise(r => setTimeout(r, 30));
+        await new Promise(r => setTimeout(r, 25));
     }
 
-    // Luego hablar el texto
     if (localAbort.abort) return;
     const u = new SpeechSynthesisUtterance(texto);
     u.lang = "es-ES";
-    u.rate = 0.9;
+    u.rate = 0.95;
     speechSynthesis.speak(u);
 }
 
@@ -100,15 +101,14 @@ async function ejecutarRespiracion(bloquesResp, localAbort) {
     for (let br of bloquesResp) {
         if (localAbort.abort) return;
 
-        let dur = br.duracion || 4; // segundos por defecto
-        if (br.texto.toLowerCase().includes("inhala")) setInhala();
-        else if (br.texto.toLowerCase().includes("ret")) setHold();
-        else if (br.texto.toLowerCase().includes("exhala")) setExhala();
+        let dur = br.duracion || 4; 
+        const txtBajo = br.texto.toLowerCase();
+
+        if (txtBajo.includes("inhala")) setInhala();
+        else if (txtBajo.includes("ret") || txtBajo.includes("fija")) setHold();
+        else if (txtBajo.includes("exhala") || txtBajo.includes("expulsa")) setExhala();
         else circle.innerText = "Respira";
 
-        block.innerHTML = br.texto;
-
-        // Contador regresivo visual y temporizador sin bloquear
         await new Promise(r => {
             let t = dur;
             const interval = setInterval(() => {
@@ -116,9 +116,12 @@ async function ejecutarRespiracion(bloquesResp, localAbort) {
                     clearInterval(interval);
                     return;
                 }
-                block.innerHTML = `${br.texto}<br><span style="font-size:40px">${t}</span>`;
+                block.innerHTML = `${br.texto}<br><span style="font-size:45px; font-weight:bold;">${t}s</span>`;
                 t--;
-                if (t < 0) clearInterval(interval), r();
+                if (t < 0) {
+                    clearInterval(interval);
+                    r();
+                }
             }, 1000);
         });
     }
@@ -131,12 +134,14 @@ async function ejecutarRespiracion(bloquesResp, localAbort) {
 /* ========================= */
 async function cargarSesiones() {
     try {
-        const res = await fetch("/static/tvid_ejercicio.json");
+        const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
+        console.log("Sistema MayKaMi: Datos cargados correctamente.");
     } catch (e) {
+        console.error("Error cargando base de datos:", e);
         sesiones = [{
-            bloques: [{ tipo: "voz", texto: "Error al cargar sesión. Revisa el archivo JSON." }]
+            bloques: [{ tipo: "voz", texto: "Error crítico: No se pudo conectar con el servidor de sesiones." }]
         }];
     }
 }
@@ -148,23 +153,36 @@ async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
 
-    const bloque = sesiones[currentSesion].bloques[currentBloque];
+    if (!sesiones[currentSesion]) return;
+    const listaBloques = sesiones[currentSesion].bloques;
+    const bloque = listaBloques[currentBloque];
 
-    // Control de botones
-    nextBtn.style.display = (currentBloque < sesiones[currentSesion].bloques.length - 1) ? "inline-block" : "none";
-    backBtn.style.display = (currentBloque > 0) ? "inline-block" : "none";
+    // CONTROL DE BOTONES PARA 21 SESIONES
+    // "Atrás" se muestra si no estás en el primer bloque de la primera sesión
+    backBtn.style.display = (currentBloque > 0 || currentSesion > 0) ? "inline-block" : "none";
+    
+    // "Siguiente" se muestra si hay más bloques O más sesiones por delante
+    const hayMasBloques = currentBloque < listaBloques.length - 1;
+    const hayMasSesiones = currentSesion < sesiones.length - 1;
+    nextBtn.style.display = (hayMasBloques || hayMasSesiones) ? "inline-block" : "none";
+
+    // "Reiniciar" solo aparece al final de la sesión 21 (último bloque de la última sesión)
+    restartBtn.style.display = (!hayMasBloques && !hayMasSesiones) ? "inline-block" : "none";
 
     try {
-        if (bloque.tipo === "voz" || bloque.tipo === "tvid" || bloque.tipo === "estrategia" || bloque.tipo === "historia" || bloque.tipo === "visualizacion" || bloque.tipo === "recompensa" || bloque.tipo === "decision") {
-            await mostrarTextoYVoz(bloque.texto, localAbort);
-        } else if (bloque.tipo === "respiracion") {
+        if (bloque.tipo === "respiracion") {
             await ejecutarRespiracion([bloque], localAbort);
-        } else if (bloque.tipo === "tvid_ejercicio_largo") {
-            const textos = bloque.textos.map(txt => ({ texto: txt, duracion: 8 })); // 8s por cada paso
-            await ejecutarRespiracion(textos, localAbort);
+        } 
+        else if (bloque.tipo === "tvid_ejercicio_largo") {
+            const pasos = bloque.textos.map(txt => ({ texto: txt, duracion: 8 }));
+            await ejecutarRespiracion(pasos, localAbort);
+        } 
+        else if (bloque.texto) {
+            await mostrarTextoYVoz(bloque.texto, localAbort);
         }
     } catch (e) {
-        block.innerHTML = "Error en el bloque. Continuando...";
+        console.error("Error en flujo de bloque:", e);
+        block.innerHTML = "Continuando secuencia...";
     }
 }
 
@@ -173,29 +191,44 @@ async function mostrarBloque() {
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
+    
     audio.volume = 0.2;
-    audio.play();
+    audio.play().catch(e => console.log("Audio requiere interacción manual adicional."));
+
     initGallery(30);
     await cargarSesiones();
+    currentSesion = 0; // Asegurar empezar en sesión 1
     currentBloque = 0;
     mostrarBloque();
 };
 
 nextBtn.onclick = () => {
-    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+    const listaBloques = sesiones[currentSesion].bloques;
+    
+    if (currentBloque < listaBloques.length - 1) {
+        // Avanza al siguiente bloque de la misma sesión
         currentBloque++;
-        mostrarBloque();
+    } else if (currentSesion < sesiones.length - 1) {
+        // Salta a la siguiente sesión
+        currentSesion++;
+        currentBloque = 0;
     }
+    mostrarBloque();
 };
 
 backBtn.onclick = () => {
     if (currentBloque > 0) {
         currentBloque--;
-        mostrarBloque();
+    } else if (currentSesion > 0) {
+        // Retrocede a la sesión anterior, al último bloque de esa sesión
+        currentSesion--;
+        currentBloque = sesiones[currentSesion].bloques.length - 1;
     }
+    mostrarBloque();
 };
 
 restartBtn.onclick = () => {
+    currentSesion = 0;
     currentBloque = 0;
     mostrarBloque();
 };
