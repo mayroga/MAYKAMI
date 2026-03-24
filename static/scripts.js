@@ -1,6 +1,7 @@
-/* ========================= */
-/* ELEMENTOS PRINCIPALES */
-/* ========================= */
+/* ============================================================ */
+/* MAYKAMI NEUROGAME ENGINE - BY MAY ROGA LLC                   */
+/* ============================================================ */
+
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
@@ -18,7 +19,7 @@ let slideIndex = 0;
 let galleryInterval = null;
 
 /* ========================= */
-/* GALERÍA DINÁMICA */
+/* GALERÍA DINÁMICA MAYKAMI  */
 /* ========================= */
 function initGallery(total = 30) {
     gallery.innerHTML = "";
@@ -42,7 +43,7 @@ function initGallery(total = 30) {
 }
 
 /* ========================= */
-/* CONTROL DE ESTADOS */
+/* CONTROL DE ESTADOS        */
 /* ========================= */
 function limpiarEstado() {
     abortController.abort = true;
@@ -55,19 +56,19 @@ function limpiarEstado() {
 
 function detectarRespiracion(texto) {
     const t = texto.toLowerCase();
-    const inhala = ["inhala", "aspira", "llena", "aire", "dentro"];
-    const exhala = ["exhala", "suelta", "expulsa", "fuera"];
+    const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
+    const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
     const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
 
     if (inhala.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Inhala"; }
     else if (exhala.some(p => t.includes(p))) { circle.className = "exhale"; circle.innerText = "Exhala"; }
     else if (retiene.some(p => t.includes(p))) { circle.className = "hold"; circle.innerText = "Retén"; }
-    else { circle.className = "inhale"; circle.innerText = "Respira"; }
+    else { circle.className = "inhale"; circle.innerText = "MAYKAMI"; }
 }
 
-/* ========================= */
-/* NÚCLEO DE ACCIÓN (VOZ Y CONTADOR) */
-/* ========================= */
+/* =============================== */
+/* NÚCLEO DE VOZ Y ACCIÓN (AURA)   */
+/* =============================== */
 async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     if (localAbort.abort) return;
 
@@ -75,18 +76,16 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
     detectarRespiracion(texto);
     block.innerHTML = "";
 
-    // Escritura mecánica
     const chars = texto.split("");
     for (let char of chars) {
         if (localAbort.abort) return;
         block.insertAdjacentHTML('beforeend', char);
-        await new Promise(r => setTimeout(r, 20));
+        await new Promise(r => setTimeout(r, 25));
     }
 
-    // Voz profesional
     const mensaje = new SpeechSynthesisUtterance(texto);
     mensaje.lang = "es-ES";
-    mensaje.rate = 0.95;
+    mensaje.rate = 0.95; 
    
     await new Promise(resolve => {
         mensaje.onend = resolve;
@@ -94,35 +93,38 @@ async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
         window.speechSynthesis.speak(mensaje);
     });
 
-    // Contador de respiración/ejercicio
     if (duracion > 0 && !localAbort.abort) {
-        await new Promise(r => {
-            let t = duracion;
-            const timer = setInterval(() => {
-                if (localAbort.abort) { clearInterval(timer); return; }
-                block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa; text-shadow: 0 0 20px rgba(96,165,250,0.5);">${t}s</span>`;
-                if (t <= 0) { clearInterval(timer); r(); }
-                t--;
-            }, 1000);
-        });
+        await iniciarContador(duracion, texto, localAbort);
     }
 
-    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 1200));
+    if (!esQuiz && !localAbort.abort) await new Promise(r => setTimeout(r, 1500));
+}
+
+async function iniciarContador(segundos, texto, localAbort) {
+    return new Promise(r => {
+        let t = segundos;
+        const timer = setInterval(() => {
+            if (localAbort.abort) { clearInterval(timer); return; }
+            block.innerHTML = `${texto}<br><span style="font-size:55px; font-weight:bold; color:#60a5fa; text-shadow: 0 0 20px rgba(96,165,250,0.5);">${t}s</span>`;
+            if (t <= 0) { clearInterval(timer); r(); }
+            t--;
+        }, 1000);
+    });
 }
 
 /* ========================= */
-/* LÓGICA DE QUIZ */
+/* LÓGICA DE QUIZ MAYKAMI    */
 /* ========================= */
 async function ejecutarQuiz(bloque, localAbort) {
     const container = document.createElement("div");
-    container.style.cssText = `max-width:700px; margin:20px auto; padding:25px; background:${bloque.color || "#1e293b"}; border-radius:12px; color:white; text-align:center;`;
+    container.style.cssText = `max-width: 700px; margin: 20px auto; padding: 25px; background-color: ${bloque.color || "#1e293b"}; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.5); color: #ffffff; text-align: center;`;
     block.appendChild(container);
 
     await procesarTexto(bloque.pregunta, localAbort, 0, true);
 
     const feedbackArea = document.createElement("div");
     feedbackArea.style.cssText = "margin-top:15px; font-weight:bold; color:#00d2ff; min-height:1.5em;";
-    feedbackArea.innerText = "Selecciona una opción:";
+    feedbackArea.innerText = "Elija su respuesta:";
     container.appendChild(feedbackArea);
 
     const btnContainer = document.createElement("div");
@@ -136,15 +138,18 @@ async function ejecutarQuiz(bloque, localAbort) {
         bloque.opciones.forEach((opcion, index) => {
             const btn = document.createElement("button");
             btn.innerText = opcion;
-            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569;";
+            btn.style.cssText = "display:block; width:85%; margin:10px auto; padding:12px; border-radius:8px; cursor:pointer; background:#334155; color:white; border:1px solid #475569; font-size:1.1em;";
             
             btn.onclick = async () => {
                 const btns = btnContainer.querySelectorAll("button");
                 btns.forEach(b => b.disabled = true);
+
                 const esCorrecto = (index === bloque.correcta);
                 const feedback = esCorrecto ? `¡Correcto! ${bloque.explicacion}` : `Incorrecto. ${bloque.explicacion}`;
+                
                 feedbackArea.innerHTML = `<strong>${esCorrecto ? "✅" : "❌"}</strong> ${feedback}`;
                 await procesarTexto(feedback, localAbort);
+                
                 nextBtn.disabled = false;
                 nextBtn.style.opacity = "1";
                 resolve();
@@ -155,27 +160,29 @@ async function ejecutarQuiz(bloque, localAbort) {
 }
 
 /* ========================= */
-/* NAVEGACIÓN */
+/* NAVEGACIÓN Y CARGA        */
 /* ========================= */
 async function cargarSesiones() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
-    } catch (e) { console.error("Error en base de datos."); }
+    } catch (e) { console.error("Error en la base de datos MAYKAMI."); }
 }
 
 async function mostrarBloque() {
     limpiarEstado();
     const localAbort = abortController;
+    nextBtn.disabled = false;
+    nextBtn.style.opacity = "1";
 
     if (!sesiones[currentSesion]) return;
     const bloques = sesiones[currentSesion].bloques;
     const bloque = bloques[currentBloque];
 
-    // Visibilidad de botones
     const esUltimaSesion = (currentSesion === sesiones.length - 1);
     const esUltimoBloque = (currentBloque === bloques.length - 1);
+
     backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
     nextBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "none" : "inline-block";
     restartBtn.style.display = (esUltimaSesion && esUltimoBloque) ? "inline-block" : "none";
@@ -183,20 +190,22 @@ async function mostrarBloque() {
     try {
         if (bloque.tipo === "decision") {
             await ejecutarQuiz(bloque, localAbort);
-        } else if (bloque.tipo === "tvid_ejercicio_largo") {
+        }
+        else if (bloque.tipo === "tvid_ejercicio_largo") {
             for (let t of bloque.textos) {
                 if (localAbort.abort) break;
                 await procesarTexto(t, localAbort, 8);
             }
-        } else {
-            const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
-            await procesarTexto(bloque.texto || "", localAbort, dur);
         }
-    } catch (e) { console.log("Salida de bloque."); }
+        else if (bloque.texto) {
+            const dur = (bloque.tipo === "respiracion") ? (bloque.duracion || 10) : 0;
+            await procesarTexto(bloque.texto, localAbort, dur);
+        }
+    } catch (e) { console.log("Transición de bloque MAYKAMI."); }
 }
 
 /* ========================= */
-/* EVENTOS */
+/* EVENTOS                   */
 /* ========================= */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
