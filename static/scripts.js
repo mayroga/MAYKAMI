@@ -1,284 +1,164 @@
-/* ========================= */
-/* ELEMENTOS PRINCIPALES */
-/* ========================= */
+/* ==================== ELEMENTOS Y ESTADO ==================== */
 const gallery = document.getElementById("visual-gallery");
-const circle = document.getElementById("visual-circle");
-const block = document.getElementById("block");
-
+const audio = document.getElementById("nature-audio");
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+const block = document.getElementById("block");
 
-const audio = document.getElementById("nature-audio");
+const discBar = document.getElementById("disciplina-bar");
+const clarBar = document.getElementById("claridad-bar");
+const calmaBar = document.getElementById("calma-bar");
 
-let sesiones = [];
-let currentSesion = 0;
-let currentBloque = 0;
+let sesiones = [], currentBloque = 0, currentSesion = 0;
+let slideIndex = 0, galleryInterval = null, breathingInterval = null;
 
-let abortController = { abort: false };
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
+    disciplina: 40, claridad: 50, calma: 30
+};
 
-let slideIndex = 0;
-let galleryInterval = null;
-
-/* ========================= */
-/* GALERÍA DINÁMICA */
-/* ========================= */
+/* ==================== MOTOR VISUAL (GALERÍA) ==================== */
 function initGallery(total = 30) {
     gallery.innerHTML = "";
     const seed = Math.floor(Math.random() * 1000);
-
     for (let i = 0; i < total; i++) {
         const div = document.createElement("div");
         div.className = "slide";
         div.style.backgroundImage = `url(https://picsum.photos/1920/1080?nature&sig=${seed + i})`;
         gallery.appendChild(div);
     }
-
     const slides = document.querySelectorAll(".slide");
-    if (slides.length > 0) {
-        slideIndex = 0;
-        slides.forEach(s => s.classList.remove("active"));
-        slides[0].classList.add("active");
-    }
+    if (slides.length > 0) slides[0].classList.add("active");
 
     if (galleryInterval) clearInterval(galleryInterval);
     galleryInterval = setInterval(() => {
-        const slides = document.querySelectorAll(".slide");
-        slides[slideIndex].classList.remove("active");
-        slideIndex = (slideIndex + 1) % slides.length;
-        slides[slideIndex].classList.add("active");
+        const currentSlides = document.querySelectorAll(".slide");
+        if (!currentSlides.length) return;
+        currentSlides[slideIndex].classList.remove("active");
+        slideIndex = (slideIndex + 1) % currentSlides.length;
+        currentSlides[slideIndex].classList.add("active");
     }, 7000);
 }
 
-/* ========================= */
-/* LIMPIAR ESTADO */
-/* ========================= */
-function limpiarEstado() {
-    abortController.abort = true;
-    abortController = { abort: false };
-    speechSynthesis.cancel();
-    circle.className = "";
-    circle.innerText = "Respira";
-    block.innerHTML = "";
-}
+/* ==================== GLOBO Y VOZ ==================== */
+const breathCircle = document.createElement("div");
+breathCircle.id = "visual-circle"; // Reutiliza el ID del script visual
+breathCircle.style.display = "none";
+block.appendChild(breathCircle);
 
-/* ========================= */
-/* RESPIRACIÓN AUTOMÁTICA */
-/* ========================= */
-function detectarRespiracion(texto) {
-    const t = texto.toLowerCase();
-    const inhala = ["inhala", "aspira", "llena", "aire", "dentro", "oxígeno"];
-    const exhala = ["exhala", "suelta", "expulsa", "fuera", "vacía"];
-    const retiene = ["retén", "retiene", "pausa", "fija", "aguanta"];
-    const general = ["respira", "respiración", "pulmones", "diafragma"];
+const breathText = document.createElement("div");
+breathText.style.cssText = "font-size:24px; color:white; text-align:center; margin-top:20px; font-weight:bold;";
+block.appendChild(breathText);
 
-    if (inhala.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Inhala"; }
-    else if (exhala.some(p => t.includes(p))) { circle.className = "exhale"; circle.innerText = "Exhala"; }
-    else if (retiene.some(p => t.includes(p))) { circle.className = "hold"; circle.innerText = "Retén"; }
-    else if (general.some(p => t.includes(p))) { circle.className = "inhale"; circle.innerText = "Respira"; }
-}
-
-/* ========================= */
-/* ESCRITURA MECÁNICA + VOZ */
-/* ========================= */
-async function procesarTexto(texto, localAbort, duracion = 0, esQuiz = false) {
-    if (!texto) texto = "";
-    if (localAbort.abort) return;
-
-    detectarRespiracion(texto);
-
-    if (!esQuiz) block.innerHTML = "";
-
-    for (let c of texto) {
-        if (localAbort.abort) return;
-        block.innerHTML += c;
-        await new Promise(r => setTimeout(r, 25));
-    }
-
-    const msg = new SpeechSynthesisUtterance(texto);
-    msg.lang = "es-ES";
-    msg.rate = 0.9;
-
-    await new Promise(resolve => {
-        msg.onend = resolve;
-        speechSynthesis.speak(msg);
-    });
-
-    if (duracion > 0) {
-        await new Promise(r => {
-            let t = duracion;
-            const timer = setInterval(() => {
-                if (localAbort.abort) { clearInterval(timer); return; }
-                block.innerHTML = `${texto}<br><span style="font-size:50px;color:#3b82f6">${t}</span>`;
-                t--;
-                if (t < 0) { clearInterval(timer); r(); }
-            }, 1000);
-        });
-    }
-
-    if (!esQuiz) await new Promise(r => setTimeout(r, 1200));
-}
-
-/* ========================= */
-/* ESCRIBIR EN ELEMENTO (para quiz) */
-/* ========================= */
-async function escribirEn(el, texto, localAbort) {
-    el.innerHTML = "";
-    for (let c of texto) {
-        if (localAbort.abort) return;
-        el.innerHTML += c;
-        await new Promise(r => setTimeout(r, 25));
-    }
-    const msg = new SpeechSynthesisUtterance(texto);
-    msg.lang = "es-ES";
-    await new Promise(resolve => {
-        msg.onend = resolve;
-        speechSynthesis.speak(msg);
-    });
-}
-
-/* ========================= */
-/* QUIZ INTERACTIVO */
-/* ========================= */
-async function ejecutarQuiz(bloque, localAbort) {
-    block.innerHTML = "";
-
-    const container = document.createElement("div");
-    container.style.maxWidth = "700px";
-    container.style.margin = "auto";
-    container.style.textAlign = "center";
-    container.style.backgroundColor = bloque.color || "#1e293b";
-    container.style.padding = "20px";
-    container.style.borderRadius = "12px";
-    block.appendChild(container);
-
-    await escribirEn(container, bloque.pregunta, localAbort);
-
-    const feedback = document.createElement("div");
-    feedback.style.marginTop = "15px";
-    feedback.style.fontWeight = "bold";
-    feedback.style.minHeight = "1.5em";
-    container.appendChild(feedback);
-
-    const btnBox = document.createElement("div");
-    btnBox.style.marginTop = "15px";
-    container.appendChild(btnBox);
-
-    nextBtn.disabled = true;
-    nextBtn.style.opacity = "0.5";
-
+function hablar(texto) {
     return new Promise(resolve => {
-        bloque.opciones.forEach((op, i) => {
-            const b = document.createElement("button");
-            b.innerText = op;
-            b.style.display = "block";
-            b.style.width = "85%";
-            b.style.margin = "10px auto";
-            b.style.padding = "12px";
-            b.style.borderRadius = "8px";
-            b.style.cursor = "pointer";
-            b.style.background = "#334155";
-            b.style.color = "white";
-            b.style.border = "1px solid #475569";
-            b.style.fontSize = "1.1em";
-
-            b.onclick = async () => {
-                btnBox.querySelectorAll("button").forEach(x => x.disabled = true);
-
-                const ok = i === bloque.correcta;
-                const txt = ok ? "✅ Correcto. " + bloque.explicacion : "❌ Incorrecto. " + bloque.explicacion;
-                feedback.innerHTML = txt;
-
-                await procesarTexto(txt, localAbort);
-
-                nextBtn.disabled = false;
-                nextBtn.style.opacity = "1";
-
-                resolve();
-            };
-
-            btnBox.appendChild(b);
-        });
+        speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(texto.replace(/<[^>]*>/g, ""));
+        utter.lang = "es-ES";
+        utter.rate = 0.9;
+        utter.onend = resolve;
+        speechSynthesis.speak(utter);
     });
 }
 
-/* ========================= */
-/* CARGAR JSON DE SESIONES */
-/* ========================= */
-async function cargarSesiones() {
-    try {
-        const res = await fetch("/tvid_ejercicio.json");
-        const data = await res.json();
-        sesiones = data.sesiones || [];
-    } catch (e) { console.error("Error al cargar sesiones:", e); }
+/* ==================== LÓGICA DE PROGRESO ==================== */
+function updatePanel() {
+    discBar.style.width = userData.disciplina + "%";
+    clarBar.style.width = userData.claridad + "%";
+    calmaBar.style.width = userData.calma + "%";
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ========================= */
-/* MOSTRAR BLOQUES */
-/* ========================= */
 async function mostrarBloque() {
-    limpiarEstado();
-    const localAbort = abortController;
+    speechSynthesis.cancel();
+    if (breathingInterval) clearInterval(breathingInterval);
+    
+    const bloque = sesiones[currentSesion].bloques[currentBloque];
+    block.innerHTML = ""; // Limpiar
+    block.appendChild(breathCircle);
+    block.appendChild(breathText);
+    breathText.innerText = "";
+    
+    // Configurar botones
+    backBtn.style.display = (currentBloque === 0 && currentSesion === 0) ? "none" : "inline-block";
+    const esUltimo = (currentSesion === sesiones.length - 1 && currentBloque === sesiones[currentSesion].bloques.length - 1);
+    nextBtn.style.display = esUltimo ? "none" : "inline-block";
+    restartBtn.style.display = esUltimo ? "inline-block" : "none";
 
-    if (!sesiones[currentSesion]) return;
-    const bloques = sesiones[currentSesion].bloques;
-    const bloque = bloques[currentBloque];
+    // Tipo Respiración
+    if (bloque.tipo === "respiracion" || (bloque.texto && bloque.texto.toLowerCase().includes("respira"))) {
+        breathCircle.style.display = "block";
+        breathCircle.className = "inhale"; 
+        let growing = true;
+        breathingInterval = setInterval(() => {
+            breathCircle.className = growing ? "exhale" : "inhale";
+            growing = !growing;
+        }, 3000);
+    } else {
+        breathCircle.style.display = "none";
+    }
 
-    backBtn.style.display = (currentSesion === 0 && currentBloque === 0) ? "none" : "inline-block";
-    nextBtn.style.display = "inline-block";
+    // Procesar texto y voz
+    const texto = bloque.texto || bloque.pregunta || "Continúa tu camino";
+    await hablar(texto);
+    for (let char of texto) {
+        breathText.innerHTML += char;
+        await new Promise(r => setTimeout(r, 25));
+    }
 
-    try {
-        if (bloque.tipo === "decision") {
-            await ejecutarQuiz(bloque, localAbort);
-        } else if (bloque.tipo === "tvid_ejercicio_largo") {
-            for (let t of bloque.textos) {
-                if (localAbort.abort) break;
-                await procesarTexto(t, localAbort, 8);
-            }
-        } else if (bloque.tipo === "respiracion") {
-            await procesarTexto(bloque.texto, localAbort, bloque.duracion || 10);
-        } else {
-            await procesarTexto(bloque.texto || "", localAbort, 0);
-        }
-    } catch (e) { console.error("Error mostrando bloque:", e); }
+    // Si es Quiz/Decisión
+    if (bloque.tipo === "decision") {
+        const container = document.createElement("div");
+        container.style.marginTop = "20px";
+        bloque.opciones.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.innerText = opt;
+            btn.className = "quiz-btn"; // Asume que tienes este estilo en CSS
+            btn.onclick = async () => {
+                if (i === bloque.correcta) {
+                    userData.disciplina += 5;
+                    await hablar("Correcto. " + (bloque.explicacion || ""));
+                    currentBloque++;
+                    mostrarBloque();
+                } else {
+                    userData.calma += 2;
+                    hablar("Inténtalo de nuevo.");
+                }
+                updatePanel();
+            };
+            container.appendChild(btn);
+        });
+        block.appendChild(container);
+    }
 }
 
-/* ========================= */
-/* BOTONES DE CONTROL */
-/* ========================= */
+/* ==================== EVENTOS ==================== */
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    nextBtn.style.display = "inline-block";
+    initGallery();
     audio.volume = 0.15;
-    audio.play().catch(()=>{});
-    initGallery(30);
-    await cargarSesiones();
-    currentSesion = 0;
-    currentBloque = 0;
+    audio.play();
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
+    sesiones = data.sesiones;
+    updatePanel();
     mostrarBloque();
 };
 
 nextBtn.onclick = () => {
-    if (nextBtn.disabled) return;
-
-    const bloques = sesiones[currentSesion].bloques;
-    if (currentBloque < bloques.length - 1) currentBloque++;
-    else if (currentSesion < sesiones.length - 1) { currentSesion++; currentBloque = 0; }
-    else { currentSesion = 0; currentBloque = 0; initGallery(30); }
-
+    if (currentBloque < sesiones[currentSesion].bloques.length - 1) {
+        currentBloque++;
+    } else if (currentSesion < sesiones.length - 1) {
+        currentSesion++;
+        currentBloque = 0;
+    }
     mostrarBloque();
 };
 
 backBtn.onclick = () => {
+    userData.disciplina *= 0.8; // Penalización suave
+    updatePanel();
     if (currentBloque > 0) currentBloque--;
-    else if (currentSesion > 0) { currentSesion--; currentBloque = sesiones[currentSesion].bloques.length - 1; }
-    mostrarBloque();
-};
-
-restartBtn.onclick = () => {
-    currentSesion = 0;
-    currentBloque = 0;
-    initGallery(30);
     mostrarBloque();
 };
