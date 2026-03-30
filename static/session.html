@@ -31,14 +31,13 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 2s ease;
             background-size: cover;
             background-position: center;
-            filter: brightness(0.6) blur(2px);
         }
 
         .slide.active {
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         /* ==================== CONTENEDOR ==================== */
@@ -50,7 +49,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
         }
 
         /* ==================== CÍRCULO ==================== */
@@ -64,35 +62,30 @@
             justify-content: center;
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            transition: all 1.5s ease-in-out;
-            box-shadow: 0 0 25px rgba(96,165,250,0.4);
+            transition: all 1s ease-in-out;
         }
 
         .inhale {
             transform: scale(1.4);
             background: rgba(96, 165, 250, 0.25);
-            box-shadow: 0 0 40px rgba(96,165,250,0.7);
         }
 
         .exhale {
             transform: scale(0.75);
             background: rgba(239, 68, 68, 0.25);
-            box-shadow: 0 0 35px rgba(239,68,68,0.6);
         }
 
         .hold {
             transform: scale(1.1);
             background: rgba(245, 158, 11, 0.25);
-            box-shadow: 0 0 30px rgba(245,158,11,0.6);
         }
 
         /* ==================== TEXTO ==================== */
         #block {
-            max-width: 90%;
-            font-size: 1.6rem;
-            min-height: 140px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
-            line-height: 1.4;
+            max-width: 80%;
+            font-size: 1.8rem;
+            min-height: 150px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
 
         /* ==================== BOTONES ==================== */
@@ -105,17 +98,15 @@
             font-size: 1rem;
             cursor: pointer;
             border: none;
-            border-radius: 10px;
-            margin: 5px;
-            background: rgba(59, 130, 246, 0.8);
+            border-radius: 8px;
+            margin: 0 10px;
+            background: #3b82f6;
             color: white;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            transition: 0.3s;
         }
 
         button:hover {
             background: #2563eb;
-            transform: scale(1.05);
         }
 
         button:disabled {
@@ -132,7 +123,7 @@
             }
 
             #block {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -143,7 +134,6 @@
     <div id="visual-gallery"></div>
 
     <div id="ui-container">
-
         <div id="visual-circle">MAYKAMI</div>
 
         <div id="block">
@@ -156,12 +146,11 @@
             <button id="next-btn" style="display:none;">Siguiente</button>
             <button id="restart-btn" style="display:none;">Reiniciar</button>
         </div>
-
     </div>
 
-    <!-- 🎧 AUDIO RELAJANTE PROFESIONAL -->
+    <!-- 🎧 AUDIO SUAVE Y RELAJANTE (NO MOLESTA) -->
     <audio id="nature-audio" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=deep-relaxation-ambient-110624.mp3" type="audio/mpeg">
+        <source src="https://cdn.pixabay.com/download/audio/2023/03/21/audio_7baf0cfd8a.mp3?filename=soft-ambient-14594.mp3" type="audio/mpeg">
     </audio>
 
     <script src="/static/scripts.js"></script>
