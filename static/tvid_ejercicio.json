@@ -19,14 +19,14 @@
         {"tipo":"visualizacion","texto":"Visualiza terminar tu entrenamiento diario con fuerza y concentración. Siente la satisfacción de hacerlo bien.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Disciplina reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","textos":[
-          "Colócate cómodo. Respira lento y profundo.Haz 4 respiraciones en 8 segundos. Hoy entrenas disciplina en tu mente y cuerpo. Mantente presente en cada inhalación y exhalación.","duracion":20
-          "Observa tus manos, pies y respiración. Cada parte de tu cuerpo trabaja para ti. Siente fuerza y enfoque.","duracion":15
-          "Piensa en una meta que deseas lograr. Respira 2segundos. Hazla presente en tu mente y decide una acción concreta que puedas hacer ahora mismo.","duracion":20
-          "Recuerda un momento difícil que superaste. Exhala. Reconoce tu esfuerzo y repite: 'Puedo hacerlo, lo hago ahora, estoy presente'.","duracion":25
-          "Dirige tu atención a tu entorno. Cada detalle enseña disciplina. Inhala. Mira, escucha, siente y actúa con intención.","duracion":20
-          "Respira profundo por 8 segundos y repite mentalmente: 'Estoy aquí, concentrado, hago lo correcto, entreno mi disciplina'.","duracion":25
-          "Haz un pequeño movimiento físico que represente tu esfuerzo.Inhala y siente el poder. Puede ser estirarte o moverte lentamente. Siente la conexión mente-cuerpo.","duracion":15
-          "Finaliza reconociendo tu capacidad de acción.Respira por 2 segundos. La disciplina te hace fuerte, presente y consciente.","duracion":20
+          "Colócate cómodo. Respira lento y profundo.Haz 4 respiraciones en 8 segundos. Hoy entrenas disciplina en tu mente y cuerpo. Mantente presente en cada inhalación y exhalación.",
+          "Observa tus manos, pies y respiración. Cada parte de tu cuerpo trabaja para ti. Siente fuerza y enfoque.",
+          "Piensa en una meta que deseas lograr. Respira 2segundos. Hazla presente en tu mente y decide una acción concreta que puedas hacer ahora mismo.",
+          "Recuerda un momento difícil que superaste. Exhala. Reconoce tu esfuerzo y repite: 'Puedo hacerlo, lo hago ahora, estoy presente'.",
+          "Dirige tu atención a tu entorno. Cada detalle enseña disciplina. Inhala. Mira, escucha, siente y actúa con intención.",
+          "Respira profundo por 8 segundos y repite mentalmente: 'Estoy aquí, concentrado, hago lo correcto, entreno mi disciplina'.",
+          "Haz un pequeño movimiento físico que represente tu esfuerzo.Inhala y siente el poder. Puede ser estirarte o moverte lentamente. Siente la conexión mente-cuerpo.",
+          "Finaliza reconociendo tu capacidad de acción.Respira por 2 segundos. La disciplina te hace fuerte, presente y consciente.","duracion":99
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La disciplina te da libertad y fuerza para actuar. Tu evolución es tu mayor victoria. Respira por 10 segundos. Mañana a esta misma hora, el sistema te espera; sé impecable.","color":"#f87171"}
       ]
@@ -50,14 +50,14 @@
         {"tipo":"visualizacion","texto":"Visualiza responder con calma ante cualquier situación. Siente claridad y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Control mental reforzado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","textos":[
-          "Siéntate derecho y respira profundo. Hoy observas lo difícil sin reaccionar.","duracion":15
-          "Piensa en un problema actual. Observa tu reacción natural, pero no actúes de inmediato. Siente cómo surge el control.","duracion":20
-          "Recuerda una situación donde reaccionaste rápido y luego lo lamentaste. Aprende de ello. Siente la fuerza de la calma.","duracion":20
-          "Observa tu cuerpo. Cada músculo tenso puede relajarse. Inhala fuerza. Exhala impulsos.","duracion":25
-          "Piensa en alguien que te incomoda. No huyas ni respondas de inmediato. Mantente presente y consciente.","duracion":20
-          "Respira y repite mentalmente: 'Puedo manejar mis emociones, elijo calma, actúo con claridad'.","duracion":25
-          "Realiza un pequeño movimiento físico para liberar tensión. Siente la conexión mente-cuerpo.","duracion":15
-          "Finaliza observando cómo el control te da libertad para actuar con sabiduría y éxito.","duracion":15
+          "Siéntate derecho y respira profundo. Hoy observas lo difícil sin reaccionar.",
+          "Piensa en un problema actual. Observa tu reacción natural, pero no actúes de inmediato. Siente cómo surge el control.",
+          "Recuerda una situación donde reaccionaste rápido y luego lo lamentaste. Aprende de ello. Siente la fuerza de la calma.",
+          "Observa tu cuerpo. Cada músculo tenso puede relajarse. Inhala fuerza. Exhala impulsos.",
+          "Piensa en alguien que te incomoda. No huyas ni respondas de inmediato. Mantente presente y consciente.",
+          "Respira y repite mentalmente: 'Puedo manejar mis emociones, elijo calma, actúo con claridad'.",
+          "Realiza un pequeño movimiento físico para liberar tensión. Siente la conexión mente-cuerpo.",
+          "Finaliza observando cómo el control te da libertad para actuar con sabiduría y éxito.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El fuerte se controla y avanza con claridad. Tu ascenso es constante y bello. Camina con propósito y mando. Mañana volveremos a la cima; tu lugar está reservado, no faltes.","color":"#f87171"}
       ]
@@ -81,14 +81,14 @@
         {"tipo":"visualizacion","texto":"Visualiza actuar con seguridad y coraje ante retos presentes. Siente la fuerza dentro de ti.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Valor reforzado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","textos":[
-          "Adopta una posición firme y respira profundo por 7segundos. Hoy enfrentas tu miedo y lo transformas en fuerza.","duracion":18
-          "Piensa en un miedo actual. Inhala. Obsérvalo sin huir. Siente el coraje en tu pecho. Exhala.","duracion":15
-          "Recuerda un momento donde actuaste con miedo. Siente cómo lo superaste y la fuerza obtenida.","duracion":15
-          "Imagina un reto frente a ti. Respira 3veces y repite: 'Puedo, actúo, avanzo con fuerza'.","duracion":20
-          "Mueve hombros y brazos para liberar tensión. Haz 4respiraciones. Siente tu cuerpo fuerte y preparado.","duracion":25
-          "Visualiza cómo el miedo se convierte en impulso positivo para tu acción.","duracion":20
-          "Respira profundo y repite: 'Soy valiente, actúo, logro mis objetivos'.","duracion":20
-          "Finaliza reconociendo tu capacidad de enfrentar cualquier reto con coraje y decisión.","duracion":15
+          "Adopta una posición firme y respira profundo por 7segundos. Hoy enfrentas tu miedo y lo transformas en fuerza.",
+          "Piensa en un miedo actual. Inhala. Obsérvalo sin huir. Siente el coraje en tu pecho. Exhala.",
+          "Recuerda un momento donde actuaste con miedo. Siente cómo lo superaste y la fuerza obtenida.",
+          "Imagina un reto frente a ti. Respira 3veces y repite: 'Puedo, actúo, avanzo con fuerza'.",
+          "Mueve hombros y brazos para liberar tensión. Haz 4respiraciones. Siente tu cuerpo fuerte y preparado.",
+          "Visualiza cómo el miedo se convierte en impulso positivo para tu acción.",
+          "Respira profundo y repite: 'Soy valiente, actúo, logro mis objetivos'.",
+          "Finaliza reconociendo tu capacidad de enfrentar cualquier reto con coraje y decisión.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El valor te da poder para actuar y alcanzar el éxito. Tu crecimiento no conoce fronteras. Ordena tus ideas y despliega tu fuerza. Mañana a esta hora, tu evolución continúa; asiste.","color":"#f87171"}
       ]
@@ -112,14 +112,14 @@
         {"tipo":"visualizacion","texto":"Visualiza elegir la mejor acción en cada momento presente. Siente claridad y certeza.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Sabiduría reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","textos":[
-          "Ancla tu cuerpo al presente. Respira profundo por 5segundos. Hoy observas, aprendes y actúas con sabiduría.","duracion":15
-          "Piensa en una decisión reciente. Analiza opciones sin juzgar y observa las posibles consecuencias.","duracion":20
-          "Recuerda un error pasado y lo que aprendiste de él. Siente cómo la experiencia te guía.","duracion":20
-          "Imagina un reto frente a ti. Respira. Visualiza soluciones y actúa mentalmente. Decide con claridad.","duracion":20
-          "Mueve brazos y hombros para liberar tensión. Inhala 2segundos. Exhala 2. Siente cuerpo y mente conectados.","duracion":15
-          "Observa tu entorno con curiosidad. Cada detalle es enseñanza. Aprende haciendo.","duracion":20
-          "Respira profundo por 6segundos y repite: 'Observo, aprendo, actúo con sabiduría'.","duracion":20
-          "Finaliza reconociendo tu capacidad de decidir con claridad, aprender de cada experiencia y actuar con presencia.","duracion":15
+          "Ancla tu cuerpo al presente. Respira profundo por 5segundos. Hoy observas, aprendes y actúas con sabiduría.",
+          "Piensa en una decisión reciente. Analiza opciones sin juzgar y observa las posibles consecuencias.",
+          "Recuerda un error pasado y lo que aprendiste de él. Siente cómo la experiencia te guía.",
+          "Imagina un reto frente a ti. Respira. Visualiza soluciones y actúa mentalmente. Decide con claridad.",
+          "Mueve brazos y hombros para liberar tensión. Inhala 2segundos. Exhala 2. Siente cuerpo y mente conectados.",
+          "Observa tu entorno con curiosidad. Cada detalle es enseñanza. Aprende haciendo.",
+          "Respira profundo por 6segundos y repite: 'Observo, aprendo, actúo con sabiduría'.",
+          "Finaliza reconociendo tu capacidad de decidir con claridad, aprender de cada experiencia y actuar con presencia.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La sabiduría te guía hacia decisiones acertadas y éxito en cada acción. Eres la suma de tu constancia. Actúa con equilibrio y fuego interior. Mañana te espero en el umbral del éxito; mantén tu palabra.","color":"#f87171"}
       ]
@@ -143,14 +143,14 @@
         {"tipo":"visualizacion","texto":"Visualiza cuidarte a ti mismo cada día.Respirapor 2segundos. Siente orgullo y confianza en tus acciones.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Amor propio reforzado.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","textos":[
-          "Siéntate derecho.Respira 3 veces. Hoy entrenas amor y autocuidado.","duracion":20
-          "Piensa en una decisión reciente que tomaste por ti. Inhala. Siente cómo te fortaleció.","duracion":20
-          "Recuerda un momento donde dudaste de ti mismo. Exhala. Reconoce tu esfuerzo y capacidad.","duracion":20
-          "Visualiza tus hábitos positivos y cómo te generan orgullo. Retén aire positivo por 3segundos.","duracion":20
-          "Mueve suavemente brazos y hombros. Siente tu cuerpo apoyando tu mente.","duracion":20
-          "Respira profundo 5segundos y repite: 'Me cuido, me respeto, actúo con amor propio'.","duracion":20
-          "Piensa en alguien que te inspira amor y respeto. Retén por 4segunodos el aire y suelta lentamente. Ahora. Imita su presencia en tu actitud.","duracion":20
-          "Finaliza reconociendo tu valor y tu capacidad de acción consciente y amorosa.","duracion":20
+          "Siéntate derecho.Respira 3 veces. Hoy entrenas amor y autocuidado.",
+          "Piensa en una decisión reciente que tomaste por ti. Inhala. Siente cómo te fortaleció.",
+          "Recuerda un momento donde dudaste de ti mismo. Exhala. Reconoce tu esfuerzo y capacidad.",
+          "Visualiza tus hábitos positivos y cómo te generan orgullo. Retén aire positivo por 3segundos.",
+          "Mueve suavemente brazos y hombros. Siente tu cuerpo apoyando tu mente.",
+          "Respira profundo 5segundos y repite: 'Me cuido, me respeto, actúo con amor propio'.",
+          "Piensa en alguien que te inspira amor y respeto. Retén por 4segunodos el aire y suelta lentamente. Ahora. Imita su presencia en tu actitud.",
+          "Finaliza reconociendo tu valor y tu capacidad de acción consciente y amorosa.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"El amor propio te fortalece y te permite actuar con claridad y seguridad. Tu mejora es un arte cotidiano.Haz 3respiraciones. Mañana, renueva tu compromiso; no falles a tu honor.","color":"#f87171"}
       ]
@@ -174,14 +174,14 @@
         {"tipo":"visualizacion","texto":"Visualiza entender a cada persona y actuar con empatía. Siente conexión y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Empatía reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","textos":[
-          "Pies firmes. Espalda recta. Respira profundo 4segundos. Hoy entrenas empatía y comprensión hacia otros.","duracion":15
-          "Piensa en alguien con quien tuviste un malentendido. Observa su perspectiva sin reaccionar.","duracion":25
-          "Recuerda un momento donde comprendiste y ayudaste. Siente satisfacción y conexión.","duracion":15
-          "Visualiza situaciones futuras actuando con empatía. Hazlas presentes en tu mente.","duracion":20
-          "Mueve suavemente brazos y hombros para sentir apertura y receptividad.","duracion":20
-          "Respira profundo 5segundos y repite: 'Entiendo, escucho, actúo con empatía y amor'.","duracion":20
-          "Piensa en alguien que necesita tu ayuda o guía. Haz tu acción consciente.","duracion":20
-          "Finaliza reconociendo cómo la empatía fortalece tu vida y la de los demás.","duracion":15
+          "Pies firmes. Espalda recta. Respira profundo 4segundos. Hoy entrenas empatía y comprensión hacia otros.",
+          "Piensa en alguien con quien tuviste un malentendido. Observa su perspectiva sin reaccionar.",
+          "Recuerda un momento donde comprendiste y ayudaste. Siente satisfacción y conexión.",
+          "Visualiza situaciones futuras actuando con empatía. Hazlas presentes en tu mente.",
+          "Mueve suavemente brazos y hombros para sentir apertura y receptividad.",
+          "Respira profundo 5segundos y repite: 'Entiendo, escucho, actúo con empatía y amor'.",
+          "Piensa en alguien que necesita tu ayuda o guía. Haz tu acción consciente.",
+          "Finaliza reconociendo cómo la empatía fortalece tu vida y la de los demás.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La empatía te conecta y te hace un líder consciente y respetado. Ordena tu mundo, reclama tu trono. Mañana regresaremos por más grandeza; cumple tu palabra.","color":"#f87171"}
       ]
@@ -205,14 +205,14 @@
         {"tipo":"visualizacion","texto":"Visualiza tus ideas tomando forma y teniendo impacto. Siente orgullo y satisfacción.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","textos":[
-          "Alinea tu cuerpo con tu meta. Respira bien profundo. Suelta suave. Hoy exploras creatividad en acción.","duracion":20
-          "Piensa en un problema y dibuja o escribe tres soluciones posibles. Hazlo presente.","duracion":20
-          "Recuerda un momento creativo donde innovaste. Respira. Siente satisfacción y aprendizaje.","duracion":15
-          "Observa tu entorno y encuentra inspiración en detalles cotidianos.","duracion":20
-          "Mueve brazos y hombros para liberar tensión y permitir fluidez.","duracion":20
-          "Respira profundo y repite: 'Exploro, creo, aprendo y actúo con imaginación'.","duracion":20
-          "Visualiza tus ideas impactando positivamente. Siente emoción y motivación.","duracion":20
-          "Finaliza reconociendo tu capacidad de crear y transformar ideas en acción efectiva.","duracion":20
+          "Alinea tu cuerpo con tu meta. Respira bien profundo. Suelta suave. Hoy exploras creatividad en acción.",
+          "Piensa en un problema y dibuja o escribe tres soluciones posibles. Hazlo presente.",
+          "Recuerda un momento creativo donde innovaste. Respira. Siente satisfacción y aprendizaje.",
+          "Observa tu entorno y encuentra inspiración en detalles cotidianos.",
+          "Mueve brazos y hombros para liberar tensión y permitir fluidez.",
+          "Respira profundo y repite: 'Exploro, creo, aprendo y actúo con imaginación'.",
+          "Visualiza tus ideas impactando positivamente. Siente emoción y motivación.",
+          "Finaliza reconociendo tu capacidad de crear y transformar ideas en acción efectiva.","duracion":99
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La creatividad te permite generar soluciones y oportunidades constantemente. Tu evolución es el pulso de tu vida. Mañana a esta hora, el éxito pasará lista; asegúrate de estar.","color":"#f87171"}
       ]
@@ -236,14 +236,14 @@
         {"tipo":"visualizacion","texto":"Visualiza superar cada dificultad y salir más fuerte. Siente determinación y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","textos":[
-          "Prepare su sistema para la ejecución. Respira por 5segundos. Hoy entrenas resiliencia y fuerza ante obstáculos.","duracion":20
-          "Piensa en un reto actual. No huyas, enfrenta mentalmente cada paso.","duracion":15
-          "Recuerda un fracaso pasado. Analiza lo aprendido y aplícalo ahora.","duracion":20
-          "Visualiza el resultado positivo de tu acción y haz presente la sensación de éxito.","duracion":15
-          "Mueve suavemente brazos y hombros para liberar tensión y mantener energía.","duracion":20
-          "Respira profundo y repite: 'Enfrento, aprendo, avanzo, soy resiliente'.","duracion":25
-          "Imagina superar desafíos futuros con determinación y claridad.","duracion":15
-          "Finaliza reconociendo tu fuerza interior y capacidad de avanzar con éxito a pesar de dificultades.","duracion":15
+          "Prepare su sistema para la ejecución. Respira por 5segundos. Hoy entrenas resiliencia y fuerza ante obstáculos.",
+          "Piensa en un reto actual. No huyas, enfrenta mentalmente cada paso.",
+          "Recuerda un fracaso pasado. Analiza lo aprendido y aplícalo ahora.",
+          "Visualiza el resultado positivo de tu acción y haz presente la sensación de éxito.",
+          "Mueve suavemente brazos y hombros para liberar tensión y mantener energía.",
+          "Respira profundo y repite: 'Enfrento, aprendo, avanzo, soy resiliente'.",
+          "Imagina superar desafíos futuros con determinación y claridad.",
+          "Finaliza reconociendo tu fuerza interior y capacidad de avanzar con éxito a pesar de dificultades.","duracion":100
         ],"color":"#06b6d4"},
         {"tipo":"cierre","texto":"La resiliencia te hace fuerte y capaz de avanzar ante cualquier desafío. Camina con rectitud y resplandor. Mañana seguiremos puliendo tu diamante; no rompas el ciclo.","color":"#f87171"}
       ]
@@ -267,14 +267,14 @@
         {"tipo":"visualizacion","texto":"Visualiza lograr tus metas paso a paso. Siente orgullo y confianza en tu constancia.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Autodisciplina reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","textos":[
-          "Elimina distracciones del cuerpo y mente. Siéntate derecho. Respira. Respira. Respira. Hoy entrenas autodisciplina y fuerza de acción.","duracion":20
-          "Piensa en una tarea pospuesta. Realiza un paso concreto ahora.","duracion":15
-          "Recuerda un momento donde actuaste correctamente a pesar de la dificultad. Siente orgullo.","duracion":20
-          "Visualiza tus hábitos positivos consolidándose con constancia y precisión.","duracion":20
-          "Mueve suavemente brazos y hombros para liberar tensión y activar energía.","duracion":20
-          "Respira profundo y repite mentalmente: 'Actúo, cumplo, progreso, soy disciplinado'.","duracion":20
-          "Visualiza el resultado final de tu esfuerzo y hazlo presente.","duracion":20
-          "Finaliza reconociendo tu capacidad de actuar con constancia y fuerza de voluntad.","duracion":20
+          "Elimina distracciones del cuerpo y mente. Siéntate derecho. Respira. Respira. Respira. Hoy entrenas autodisciplina y fuerza de acción.",
+          "Piensa en una tarea pospuesta. Realiza un paso concreto ahora.",
+          "Recuerda un momento donde actuaste correctamente a pesar de la dificultad. Siente orgullo.",
+          "Visualiza tus hábitos positivos consolidándose con constancia y precisión.",
+          "Mueve suavemente brazos y hombros para liberar tensión y activar energía.",
+          "Respira profundo y repite mentalmente: 'Actúo, cumplo, progreso, soy disciplinado'.",
+          "Visualiza el resultado final de tu esfuerzo y hazlo presente.",
+          "Finaliza reconociendo tu capacidad de actuar con constancia y fuerza de voluntad.","duracion":100
         ],"color":"#06b6d4"},
        {"tipo":"cierre","texto":"La autodisciplina fortalece tu mente y te impulsa hacia tus metas. Tu desarrollo es una fuerza imparable. Fluye con estructura y liderazgo. Mañana tu centro de mando te espera; sé leal.","color":"#f87171"}
       ]
@@ -298,14 +298,14 @@
         {"tipo":"visualizacion","texto":"Visualiza tus emociones fluyendo y transformándose en acciones positivas. Siente paz y claridad interior.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
         {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","textos":[
-          "Siéntate cómodo. Respira. Alinea postura y mente con tu intención. Respira profundo. Hoy entrenas gestión emocional y transformación interna.","duracion":20
-          "Recuerda una emoción negativa reciente. Obsérvala sin reaccionar.","duracion":20
-          "Piensa en un momento donde controlaste tu reacción. Inhala por 2segundos. Siente satisfacción y aprendizaje.","duracion":20
-          "Visualiza tus emociones transformándose en decisiones conscientes y positivas.","duracion":20
-          "Mueve brazos y hombros para liberar tensión y mantener energía clara.","duracion":20
-          "Respira profundo y repite: 'Siento, reconozco, transformo y actúo con control'.","duracion":20
-          "Imagina escenarios futuros aplicando esta habilidad de forma efectiva.","duracion":20
-          "Finaliza reconociendo tu capacidad de gestionar emociones y mantener claridad en tus acciones.","duracion":15
+          "Siéntate cómodo. Respira. Alinea postura y mente con tu intención. Respira profundo. Hoy entrenas gestión emocional y transformación interna.",
+          "Recuerda una emoción negativa reciente. Obsérvala sin reaccionar.",
+          "Piensa en un momento donde controlaste tu reacción. Inhala por 2segundos. Siente satisfacción y aprendizaje.",
+          "Visualiza tus emociones transformándose en decisiones conscientes y positivas.",
+          "Mueve brazos y hombros para liberar tensión y mantener energía clara.",
+          "Respira profundo y repite: 'Siento, reconozco, transformo y actúo con control'.",
+          "Imagina escenarios futuros aplicando esta habilidad de forma efectiva.",
+          "Finaliza reconociendo tu capacidad de gestionar emociones y mantener claridad en tus acciones.","duracion":100
         ],"color":"#06b6d4"},
        {"tipo":"cierre","texto":"La gestión emocional te permite actuar con calma, claridad y efectividad. Construye tu vida con método y dominio. Mañana volveremos a activar tu motor; mantente firme.","color":"#f87171"}
      ]
@@ -329,14 +329,14 @@
        {"tipo":"visualizacion","texto":"Visualiza tus metas alcanzadas y el orgullo de tu esfuerzo. Siente entusiasmo y claridad.","color":"#a78bfa"},
        {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","textos":[
-         "Siéntate cómodo. Cuerpo relajado, mente alerta. Respira profundo. Hoy entrenas motivación y energía positiva.","duracion":15
-         "Piensa en tu meta más importante de hoy. Realiza un paso concreto hacia ella.","duracion":20
-         "Recuerda un momento donde lograste algo difícil. Siente orgullo y satisfacción.","duracion":20
-         "Visualiza tu esfuerzo dando resultados positivos y cómo te sientes al lograrlo.","duracion":20
-         "Mueve brazos y hombros para liberar energía y activar impulso.","duracion":20
-         "Respira profundo por 4 segundos y repite: 'Actúo, progreso, me enfoco, mantengo motivación'.","duracion":15
-         "Imagina escenarios futuros donde tu motivación te guía y fortalece.","duracion":20
-         "Finaliza reconociendo tu capacidad de actuar con entusiasmo y logro constante.","duracion":20
+         "Siéntate cómodo. Cuerpo relajado, mente alerta. Respira profundo. Hoy entrenas motivación y energía positiva.",
+         "Piensa en tu meta más importante de hoy. Realiza un paso concreto hacia ella.",
+         "Recuerda un momento donde lograste algo difícil. Siente orgullo y satisfacción.",
+         "Visualiza tu esfuerzo dando resultados positivos y cómo te sientes al lograrlo.",
+         "Mueve brazos y hombros para liberar energía y activar impulso.",
+         "Respira profundo por 4 segundos y repite: 'Actúo, progreso, me enfoco, mantengo motivación'.",
+         "Imagina escenarios futuros donde tu motivación te guía y fortalece.",
+         "Finaliza reconociendo tu capacidad de actuar con entusiasmo y logro constante.",""duracion":100
        ],"color":"#06b6d4"},
       {"tipo":"cierre","texto":"La motivación te impulsa a actuar con energía, enfoque y satisfacción. Tu avance es la melodía del éxito. Ejecuta con orden y precisión. Mañana, tu potencial volverá a pasar lista; asiste con orgullo.","color":"#f87171"}
     ]
@@ -360,14 +360,14 @@
       {"tipo":"visualizacion","texto":"Visualiza tus acciones confiadas y el reconocimiento que generan. Siente seguridad y orgullo interior.","color":"#a78bfa"},
       {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
       {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","textos":[
-        "Siéntate cómodo. Toma el mando de tu espacio. Respira profundo por 3segundos. Hoy entrenas confianza y seguridad en ti mismo.","duracion":20
-        "Recuerda un momento de duda y rehace mentalmente la acción con firmeza.","duracion":20
-        "Visualiza postura segura y voz clara proyectando confianza.","duracion":20
-        "Mueve brazos y hombros para reforzar seguridad y presencia.","duracion":20
-        "Respira 3veces y repite: 'Soy seguro, actúo firme, proyectando confianza'.","duracion":20
-        "Imagina escenarios futuros donde tu confianza genera resultados positivos.","duracion":20
-        "Siente cómo mente y cuerpo actúan con seguridad y coherencia.","duracion":20
-        "Finaliza reconociendo tu capacidad de actuar con confianza y claridad en cualquier situación.","duracion":20
+        "Siéntate cómodo. Toma el mando de tu espacio. Respira profundo por 3segundos. Hoy entrenas confianza y seguridad en ti mismo.",
+        "Recuerda un momento de duda y rehace mentalmente la acción con firmeza.",
+        "Visualiza postura segura y voz clara proyectando confianza.",
+        "Mueve brazos y hombros para reforzar seguridad y presencia.",
+        "Respira 3veces y repite: 'Soy seguro, actúo firme, proyectando confianza'.",
+        "Imagina escenarios futuros donde tu confianza genera resultados positivos.",
+        "Siente cómo mente y cuerpo actúan con seguridad y coherencia.",
+        "Finaliza reconociendo tu capacidad de actuar con confianza y claridad en cualquier situación.","duracion":100
       ],"color":"#06b6d4"},
      {"tipo":"cierre","texto":"La confianza te permite actuar con seguridad, claridad y liderazgo. Tu transformación es evidente. Actúa con precisión y coraje. Respira hondo. Mañana continuaremos la arquitectura de tu paz; te espero aquí.","color":"#f87171"}
    ]
@@ -391,14 +391,14 @@
     {"tipo":"visualizacion","texto":"Visualiza superar tus retos y sentir orgullo por tu esfuerzo. Siente fuerza y claridad.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","textos":[
-      "Posición alfa. Postura lista. Respira profundo. Hoy entrenas resiliencia y fortaleza mental.","duracion":20
-      "Piensa en un desafío reciente. Analízalo y da un paso positivo para superarlo.","duracion":15
-      "Recuerda momentos donde superaste dificultades. Siente orgullo y aprendizaje.","duracion":20
-      "Visualiza obstáculos transformándose en oportunidades y fortalezas.","duracion":20
-      "Mueve brazos y hombros para liberar tensión y activar fuerza interior.","duracion":20
-      "Respira 4veces y repite mentalmente: 'Actúo, aprendo, supero y avanzo'.","duracion":20
-      "Imagina escenarios futuros donde tu resiliencia te protege y fortalece.","duracion":20
-      "Finaliza reconociendo tu capacidad de enfrentar y superar cualquier dificultad.","duracion":20
+      "Posición alfa. Postura lista. Respira profundo. Hoy entrenas resiliencia y fortaleza mental.",
+      "Piensa en un desafío reciente. Analízalo y da un paso positivo para superarlo.",
+      "Recuerda momentos donde superaste dificultades. Siente orgullo y aprendizaje.",
+      "Visualiza obstáculos transformándose en oportunidades y fortalezas.",
+      "Mueve brazos y hombros para liberar tensión y activar fuerza interior.",
+      "Respira 4veces y repite mentalmente: 'Actúo, aprendo, supero y avanzo'.",
+      "Imagina escenarios futuros donde tu resiliencia te protege y fortalece.",
+      "Finaliza reconociendo tu capacidad de enfrentar y superar cualquier dificultad.","duracion":99
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La resiliencia te permite actuar con fuerza, claridad y confianza en cualquier situación. Eleva tu ser. Habita el orden, ejerce el poder. Mañana a esta hora, tu silla de mando te espera; no me falles.","color":"#f87171"}
   ]
@@ -422,14 +422,14 @@
     {"tipo":"visualizacion","texto":"Visualiza soluciones creativas y cómo tus ideas fluyen naturalmente. Siente libertad y entusiasmo.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","textos":[
-      "Fije su centro. No se mueva y siéntese cómodo. Respira profundo por 5segundos. Hoy entrenas creatividad y exploración mental.","duracion":20
-      "Piensa en un reto reciente. Genera 3 soluciones posibles.","duracion":20
-      "Recuerda un momento donde una idea inesperada te ayudó. Siente alegría y aprendizaje.","duracion":20
-      "Visualiza tus ideas tomando forma y generando resultados positivos.","duracion":20
-      "Mueve brazos y hombros para liberar tensión y estimular pensamiento creativo.","duracion":20
-      "Respira 3. Exhala 3 y repite mentalmente: 'Exploro, creo, juego, innovo'.","duracion":20
-      "Imagina escenarios futuros donde tu creatividad genera impacto positivo.","duracion":20
-      "Finaliza reconociendo tu capacidad de pensar libre y generar soluciones innovadoras. Respira.","duracion":20
+      "Fije su centro. No se mueva y siéntese cómodo. Respira profundo por 5segundos. Hoy entrenas creatividad y exploración mental.",
+      "Piensa en un reto reciente. Genera 3 soluciones posibles.",
+      "Recuerda un momento donde una idea inesperada te ayudó. Siente alegría y aprendizaje.",
+      "Visualiza tus ideas tomando forma y generando resultados positivos.",
+      "Mueve brazos y hombros para liberar tensión y estimular pensamiento creativo.",
+      "Respira 3. Exhala 3 y repite mentalmente: 'Exploro, creo, juego, innovo'.",
+      "Imagina escenarios futuros donde tu creatividad genera impacto positivo.",
+      "Finaliza reconociendo tu capacidad de pensar libre y generar soluciones innovadoras. Respira.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La creatividad te permite resolver, innovar y actuar con libertad y confianza. Tu progreso es un cauce constante. Navega con estrategia y voluntad. Mañana desbloquearemos un nuevo nivel; honra tu camino.","color":"#f87171"}
   ]
@@ -453,14 +453,14 @@
     {"tipo":"visualizacion","texto":"Visualiza completar tus tareas con éxito y tranquilidad. Siente control y logro.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Gestión del tiempo reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","textos":[
-      "Siéntate. Asuma su lugar de poder. Respira profundo ahora. Hoy entrenas gestión del tiempo y eficiencia.","duracion":20
-      "Identifica la tarea más importante y da un paso concreto para iniciarla.","duracion":20
-      "Recuerda un momento donde actuaste organizado y eficiente. Siente satisfacción.","duracion":20
-      "Visualiza tus tareas fluyendo y concluyendo con éxito.","duracion":20
-      "Mueve brazos y hombros para liberar tensión y activar energía de acción.","duracion":20
-      "Respira profundo y repite: 'Actúo con enfoque, planifico, ejecuto y logro'.","duracion":20
-      "Imagina escenarios futuros donde tu gestión del tiempo genera éxito y tranquilidad.","duracion":20
-      "Finaliza reconociendo tu capacidad de actuar organizada y eficientemente cada día.","duracion":15
+      "Siéntate. Asuma su lugar de poder. Respira profundo ahora. Hoy entrenas gestión del tiempo y eficiencia.",
+      "Identifica la tarea más importante y da un paso concreto para iniciarla.",
+      "Recuerda un momento donde actuaste organizado y eficiente. Siente satisfacción.",
+      "Visualiza tus tareas fluyendo y concluyendo con éxito.",
+      "Mueve brazos y hombros para liberar tensión y activar energía de acción.",
+      "Respira profundo y repite: 'Actúo con enfoque, planifico, ejecuto y logro'.",
+      "Imagina escenarios futuros donde tu gestión del tiempo genera éxito y tranquilidad.","
+      "Finaliza reconociendo tu capacidad de actuar organizada y eficientemente cada día.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La gestión del tiempo te permite actuar con eficiencia, claridad y resultados positivos. Estás floreciendo con disciplina. Viste tu día de orden y potencia. Mañana tu evolución reclama tu presencia; llega puntual.","color":"#f87171"}
   ]
@@ -484,14 +484,14 @@
     {"tipo":"visualizacion","texto":"Visualiza tus emociones y pensamientos claramente, aceptándolos y aprendiendo de ellos.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Autoconocimiento reforzado.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","textos":[
-      "Siéntate. Pies firmes. Espalda recta. Respira 3veces. Hoy entrenas autoconocimiento y claridad interior.","duracion":20
-      "Observa un pensamiento recurrente o emoción frecuente sin juzgar.","duracion":20
-      "Recuerda momentos donde actuar consciente mejoró tu bienestar.Respira 5veces y retén conocimiento. Siente aprendizaje.","duracion":20
-      "Visualiza tus emociones y pensamientos fluyendo sin resistencia.","duracion":20
-      "Mueve brazos y hombros para liberar tensiones internas y energías bloqueadas.","duracion":20
-      "Respira profundo y repite: 'Observo, comprendo, aprendo, actúo consciente'.","duracion":20
-      "Imagina escenarios futuros donde tu autoconocimiento guía tus decisiones y relaciones.","duracion":20
-      "Finaliza reconociendo tu capacidad de observarte, aprender y actuar con claridad.","duracion":20
+      "Siéntate. Pies firmes. Espalda recta. Respira 3veces. Hoy entrenas autoconocimiento y claridad interior.",
+      "Observa un pensamiento recurrente o emoción frecuente sin juzgar.",
+      "Recuerda momentos donde actuar consciente mejoró tu bienestar.Respira 5veces y retén conocimiento. Siente aprendizaje.",
+      "Visualiza tus emociones y pensamientos fluyendo sin resistencia.",
+      "Mueve brazos y hombros para liberar tensiones internas y energías bloqueadas.",
+      "Respira profundo y repite: 'Observo, comprendo, aprendo, actúo consciente'.",
+      "Imagina escenarios futuros donde tu autoconocimiento guía tus decisiones y relaciones.",
+      "Finaliza reconociendo tu capacidad de observarte, aprender y actuar con claridad.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"El autoconocimiento te permite actuar con claridad, equilibrio y decisión consciente. Tu evolución brilla con luz propia. Conduce tu vida con grandeza. Mañana a esta hora, el compromiso es contigo; cumple.","color":"#f87171"}
   ]
@@ -515,14 +515,14 @@
     {"tipo":"visualizacion","texto":"Visualiza tu objetivo alcanzado y siente orgullo y satisfacción por tu esfuerzo.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","textos":[
-      "Siéntate cómodo. Respira profundo. Hoy entrenas motivación y constancia.","duracion":20
-      "Piensa en una meta actual y da un paso concreto hacia ella.","duracion":20
-      "Recuerda momentos donde actuar con determinación te llevó a un logro.","duracion":20
-      "Visualiza tu objetivo completado y celebra mentalmente tu esfuerzo.","duracion":20
-      "Mueve brazos y hombros para liberar tensiones y activar energía de acción.","duracion":20
-      "Respira profundo y repite: 'Actúo con motivación, enfoque y constancia'.","duracion":20
-      "Imagina escenarios futuros donde tu motivación te lleva a alcanzar más logros.","duracion":20
-      "Finaliza reconociendo tu capacidad de actuar con energía cada día.","duracion":20
+      "Siéntate cómodo. Respira profundo. Hoy entrenas motivación y constancia.",
+      "Piensa en una meta actual y da un paso concreto hacia ella.",
+      "Recuerda momentos donde actuar con determinación te llevó a un logro.",
+      "Visualiza tu objetivo completado y celebra mentalmente tu esfuerzo.",
+      "Mueve brazos y hombros para liberar tensiones y activar energía de acción.",
+      "Respira profundo y repite: 'Actúo con motivación, enfoque y constancia'.",
+      "Imagina escenarios futuros donde tu motivación te lleva a alcanzar más logros.",
+      "Finaliza reconociendo tu capacidad de actuar con energía cada día.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La motivación te permite actuar con energía, enfoque y constancia. Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a nuestra cita.","color":"#f87171"}
   ]
@@ -546,14 +546,14 @@
     {"tipo":"visualizacion","texto":"Visualiza tu tarea completada con eficiencia y claridad. Siente control y satisfacción.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Concentración reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","textos":[
-      "Siéntate cómodo y toma posición de control. Hoy entrenas concentración.","duracion":20
-      "Elige una tarea y ejecútala con enfoque total.","duracion":20
-      "Recuerda momentos donde tu atención generó resultados positivos.","duracion":20
-      "Visualiza tus acciones claras y eficientes.","duracion":20
-      "Mueve brazos y hombros para activar energía mental.","duracion":20
-      "Respira profundo y repite: 'Actúo concentrado y claro'.","duracion":20
-      "Imagina tu futuro con máxima atención.","duracion":20
-      "Finaliza reconociendo tu capacidad de enfocarte.","duracion":20
+      "Siéntate cómodo y toma posición de control. Hoy entrenas concentración.",
+      "Elige una tarea y ejecútala con enfoque total.",
+      "Recuerda momentos donde tu atención generó resultados positivos.",
+      "Visualiza tus acciones claras y eficientes.",
+      "Mueve brazos y hombros para activar energía mental.",
+      "Respira profundo y repite: 'Actúo concentrado y claro'.",
+      "Imagina tu futuro con máxima atención.",
+      "Finaliza reconociendo tu capacidad de enfocarte.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La concentración te permite actuar con atención y control. La excelencia ya habita en ti. Mañana continuamos.","color":"#f87171"}
   ]
@@ -577,14 +577,14 @@
     {"tipo":"visualizacion","texto":"Visualiza calma.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo","textos":[
-      "Respira profundamente y centra tu atención.","duracion":20
-      "Observa la emoción que surge sin juicio.","duracion":20
-      "Transforma esa emoción en aprendizaje y fuerza.","duracion":20
-      "Actúa con decisión guiado por tu conciencia. Respira.","duracion":20
-      "Libera tensiones físicas y emocionales acumuladas. Exhala.","duracion":20
-      "Repite el ciclo: inhalar, retener, exhalar con intención.","duracion":20
-      "Equilibra tu energía y emociones con cada respiración.","duracion":20
-      "Finaliza reconociendo tu capacidad de mantener calma y control.","duracion":20
+      "Respira profundamente y centra tu atención.",
+      "Observa la emoción que surge sin juicio.",
+      "Transforma esa emoción en aprendizaje y fuerza.",
+      "Actúa con decisión guiado por tu conciencia. Respira.",
+      "Libera tensiones físicas y emocionales acumuladas. Exhala.",
+      "Repite el ciclo: inhalar, retener, exhalar con intención.",
+      "Equilibra tu energía y emociones con cada respiración.",
+      "Finaliza reconociendo tu capacidad de mantener calma y control.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"Equilibrio logrado.La gestión emocional te permite actuar con claridad, control y aprendizaje constante.","color":"#f87171"}
   ]
@@ -608,14 +608,14 @@
     {"tipo":"visualizacion","texto":"Visualiza éxito.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo","textos":[
-      "Siéntate derecho y centra tu atención. Respira 5veces","duracion":20
-      "Piensa en una acción y actúa con seguridad.","duracion":20
-      "Recuerda momentos donde la confianza generó resultados positivos.","duracion":20
-      "Visualiza tu acción completada con éxito y reconocimiento.","duracion":20
-      "Muévete para liberar tensión y activar energía de seguridad.","duracion":20
-      "Respira profundo y repite: 'Actúo con seguridad, firmeza y claridad'.","duracion":20
-      "Imagina escenarios futuros donde tu confianza guía tus decisiones.","duracion":20
-      "Finaliza reconociendo tu capacidad de actuar seguro y presente en cualquier situación.","duracion":20
+      "Siéntate derecho y centra tu atención. Respira 5veces",
+      "Piensa en una acción y actúa con seguridad.",
+      "Recuerda momentos donde la confianza generó resultados positivos.",
+      "Visualiza tu acción completada con éxito y reconocimiento.",
+      "Muévete para liberar tensión y activar energía de seguridad.",
+      "Respira profundo y repite: 'Actúo con seguridad, firmeza y claridad'.",
+      "Imagina escenarios futuros donde tu confianza guía tus decisiones.",
+      "Finaliza reconociendo tu capacidad de actuar seguro y presente en cualquier situación.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"Confianza activa. Cada acción refuerza tu liderazgo y seguridad interior.","color":"#f87171"}
   ]
@@ -639,14 +639,14 @@
     {"tipo":"visualizacion","texto":"Visualiza energía.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Explicación: Esta respiración profunda arranca el metabolismo y genera energía instantánea.","color":"#10b981"},
     {"tipo":"tvid_ejercicio_largo","tecnica":"TDK","titulo":"Ejercicio profundo","textos":[
-      "Respira profundo y repite: 'Actúo con energía, fuerza y vitalidad'.","duracion":20
-      "Muévete con intención y alegría.","duracion":20
-      "Activa tu energía.","duracion":20
-      "Realiza movimientos que activen tu cuerpo. ","duracion":20
-      "Visualiza tu cuerpo lleno de fuerza y mente alerta.","duracion":20
-      "Respira profundo y repite: 'Actúo con energía, fuerza y vitalidad'. ","duracion":20
-      "Imagina escenarios futuros donde tu energía maximiza tu rendimiento.","duracion":20
-      "Finaliza reconociendo tu capacidad de actuar con fuerza y entusiasmo cada día.","duracion":20
+      "Respira profundo y repite: 'Actúo con energía, fuerza y vitalidad'.",
+      "Muévete con intención y alegría.",
+      "Activa tu energía.",
+      "Realiza movimientos que activen tu cuerpo. ",
+      "Visualiza tu cuerpo lleno de fuerza y mente alerta.",
+      "Respira profundo y repite: 'Actúo con energía, fuerza y vitalidad'. ",
+      "Imagina escenarios futuros donde tu energía maximiza tu rendimiento.",
+      "Finaliza reconociendo tu capacidad de actuar con fuerza y entusiasmo cada día.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"Energía activa. Tu vitalidad te permite actuar con fuerza y entusiasmo cada momento.","color":"#f87171"}
   ]
