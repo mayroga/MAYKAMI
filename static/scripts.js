@@ -109,13 +109,14 @@ function hasHold(text) {
     );
 }
 
-/* ================= RESPIRACIÓN ================= */
+/* ================= RESPIRACIÓN REAL HUMANA ================= */
+/* 16–22 ciclos/min => 2.7s a 3.7s por ciclo */
 
 function startBreathing(seconds = null, forceHold = false) {
 
     clearInterval(engine.breathLoop);
 
-    const cycle = 3400;
+    const cycle = 3400; // 🔥 promedio fisiológico humano
     const inhaleTime = cycle * 0.4;
     const holdTime   = cycle * 0.2;
     const exhaleTime = cycle * 0.4;
@@ -126,6 +127,7 @@ function startBreathing(seconds = null, forceHold = false) {
     function loop() {
 
         if (engine.abort) return;
+
         if (Date.now() - start >= duration) return;
 
         circle.className = "inhale";
@@ -153,66 +155,234 @@ function startBreathing(seconds = null, forceHold = false) {
     loop();
 }
 
-/* ================= RESTO DE TU ENGINE (NO TOCADO) ================= */
+/* ================= TEXTO ================= */
 
-/* ... TODO TU CÓDIGO SIGUE IGUAL ... */
+async function typeText(text) {
 
-/* ================= STRIPE PAGO (AGREGADO) ================= */
+    block.innerHTML = "";
 
-async function pagar() {
-    try {
-        const res = await fetch("/create-checkout-session", {
-            method: "POST"
-        });
+    for (let i = 0; i < text.length; i++) {
 
-        const data = await res.json();
+        if (engine.abort) return;
 
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            alert("Error creando pago");
-        }
+        block.innerHTML += text[i];
 
-    } catch (err) {
-        console.error(err);
-        alert("Error con Stripe");
-    }
-}
-/* =========================
-   STRIPE PAYMENT BOTÓN
-========================= */
-
-async function pagarServicio() {
-    try {
-        const res = await fetch("/create-checkout-session", {
-            method: "POST"
-        });
-
-        const data = await res.json();
-
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            alert("Error creando pago");
-        }
-
-    } catch (err) {
-        console.error("Error pago:", err);
+        await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-/* =========================
-   DETECTAR PAGO EXITOSO
-========================= */
+/* ================= LOAD SESSION ================= */
 
-(function () {
-    const params = new URLSearchParams(window.location.search);
+async function loadSession() {
 
-    if (params.get("success") === "true") {
-        alert("Pago realizado correctamente ✔");
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
+
+    if (userData.sessionId > 21) userData.sessionId = 1;
+
+    engine.session =
+        data.sesiones.find(s => s.id === userData.sessionId)
+        || data.sesiones[0];
+}
+
+/* ================= CORE ================= */
+
+async function runStep() {
+
+    if (engine.locked) return;
+    engine.locked = true;
+
+    resetEngine();
+    engine.abort = false;
+
+    const step = engine.session?.bloques?.[userData.step];
+
+    if (!step) {
+        finish();
+        return;
     }
 
-    if (params.get("canceled") === "true") {
-        alert("Pago cancelado");
+    nextBtn.style.display = "inline-block";
+    restartBtn.style.display = "inline-block";
+    backBtn.style.display = "inline-block";
+
+    /* MULTI TEXTO */
+    if (step.textos?.length) {
+
+        for (const t of step.textos) {
+
+            const seconds = extractSeconds(t);
+            const hold = hasHold(t);
+
+            await speak(t);
+            await typeText(t);
+
+            if (
+                t.toLowerCase().includes("respira") ||
+                t.toLowerCase().includes("inhala") ||
+                t.toLowerCase().includes("exhala")
+            ) {
+                startBreathing(seconds, hold);
+            }
+
+            await new Promise(r => safeTimeout(r, 400));
+        }
     }
-})();
+
+    /* DECISION */
+    else if (step.tipo === "decision") {
+
+        await speak(step.pregunta);
+        await typeText(step.pregunta);
+
+        const box = document.createElement("div");
+
+        step.opciones.forEach((opt, i) => {
+
+            const btn = document.createElement("button");
+            btn.textContent = opt;
+
+            btn.style.display = "block";
+            btn.style.width = "100%";
+            btn.style.margin = "10px 0";
+
+            btn.onclick = async () => {
+
+                const ok = i === step.correcta;
+
+                const msg = ok
+                    ? "Correcto. " + step.explicacion
+                    : "Incorrecto. " + step.explicacion;
+
+                await speak(msg);
+                await typeText(msg);
+
+                if (ok) userData.disciplina += 5;
+
+                save();
+            };
+
+            box.appendChild(btn);
+        });
+
+        block.appendChild(box);
+    }
+
+    /* SIMPLE */
+    else if (step.texto) {
+
+        const seconds = extractSeconds(step.texto);
+        const hold = hasHold(step.texto);
+
+        await speak(step.texto);
+        await typeText(step.texto);
+
+        if (
+            step.texto.toLowerCase().includes("respira") ||
+            step.texto.toLowerCase().includes("inhala") ||
+            step.texto.toLowerCase().includes("exhala")
+        ) {
+            startBreathing(seconds, hold);
+        }
+    }
+
+    engine.locked = false;
+}
+
+/* ================= FIN FIX ================= */
+
+async function finish() {
+
+    block.innerHTML = "Sesión completada";
+
+    userData.sessionId++;
+
+    if (userData.sessionId > 21) userData.sessionId = 1;
+
+    userData.step = 0;
+
+    save();
+
+    await loadSession();
+
+    engine.locked = false;
+}
+
+/* ================= SAVE ================= */
+
+function save() {
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
+}
+
+/* ================= GALERÍA ================= */
+
+function initGallery() {
+
+    gallery.innerHTML = "";
+
+    for (let i = 0; i < 20; i++) {
+
+        const div = document.createElement("div");
+        div.className = "slide";
+
+        div.style.backgroundImage =
+            `url(https://picsum.photos/1920/1080?random=${i})`;
+
+        gallery.appendChild(div);
+    }
+
+    const slides = document.querySelectorAll(".slide");
+
+    if (slides[0]) slides[0].classList.add("active");
+
+    setInterval(() => {
+
+        const all = document.querySelectorAll(".slide");
+
+        all.forEach(s => s.classList.remove("active"));
+
+        slideIndex = (slideIndex + 1) % all.length;
+
+        all[slideIndex].classList.add("active");
+
+    }, 7000);
+}
+
+/* ================= BOTONES ================= */
+
+startBtn.onclick = async () => {
+
+    startBtn.style.display = "none";
+
+    playMusic();
+
+    userData.step = 0;
+
+    initGallery();
+
+    startBreathing();
+
+    await loadSession();
+
+    runStep();
+};
+
+nextBtn.onclick = () => {
+    userData.step++;
+    save();
+    runStep();
+};
+
+backBtn.onclick = () => {
+    if (userData.step > 0) userData.step--;
+    save();
+    runStep();
+};
+
+restartBtn.onclick = () => {
+    userData.step = 0;
+    save();
+    runStep();
+};
+
+save();
