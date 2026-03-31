@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE - STABLE FINAL FIX
+   MAYKAMI NEUROGAME ENGINE V8 FIX STABLE FINAL
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,11 +11,21 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
+/* ================= AUDIO (FIX MÓVIL) ================= */
+
 const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
 bgMusic.loop = true;
 bgMusic.volume = 0.06;
 
-/* ================= STATE ================= */
+function playMusic() {
+    bgMusic.play().catch(() => {
+        document.body.addEventListener("click", () => {
+            bgMusic.play();
+        }, { once: true });
+    });
+}
+
+/* ================= ENGINE ================= */
 
 let engine = {
     locked: false,
@@ -46,13 +56,17 @@ function safeTimeout(fn, t) {
 /* ================= RESET ================= */
 
 function resetEngine() {
+
     engine.abort = true;
+
     window.speechSynthesis.cancel();
 
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
 
     block.innerHTML = "";
+
+    startBreathing(null, false);
 }
 
 /* ================= VOZ ================= */
@@ -76,12 +90,35 @@ function speak(text) {
     });
 }
 
-/* ================= RESPIRACIÓN ================= */
+/* ================= TIMER EXACTO DESDE TEXTO ================= */
 
-function startBreathing(seconds = null) {
+function extractSeconds(text) {
+    const match = text.match(/(\d{1,3})\s*(segundos|seg|s)/i);
+    return match ? parseInt(match[1]) : null;
+}
 
-    const cycle = 3400;
+/* ================= DETECTAR RETÉN ================= */
+
+function hasHold(text) {
+    const t = text.toLowerCase();
+    return (
+        t.includes("reten") ||
+        t.includes("retener") ||
+        t.includes("pausa") ||
+        t.includes("hold")
+    );
+}
+
+/* ================= RESPIRACIÓN REAL HUMANA ================= */
+/* 16–22 ciclos/min => 2.7s a 3.7s por ciclo */
+
+function startBreathing(seconds = null, forceHold = false) {
+
+    clearInterval(engine.breathLoop);
+
+    const cycle = 3400; // 🔥 promedio fisiológico humano
     const inhaleTime = cycle * 0.4;
+    const holdTime   = cycle * 0.2;
     const exhaleTime = cycle * 0.4;
 
     const start = Date.now();
@@ -90,6 +127,7 @@ function startBreathing(seconds = null) {
     function loop() {
 
         if (engine.abort) return;
+
         if (Date.now() - start >= duration) return;
 
         circle.className = "inhale";
@@ -97,10 +135,19 @@ function startBreathing(seconds = null) {
 
         safeTimeout(() => {
 
-            circle.className = "exhale";
-            circle.textContent = "Exhala";
+            if (forceHold) {
+                circle.className = "hold";
+                circle.textContent = "Retén";
+            }
 
-            safeTimeout(loop, exhaleTime);
+            safeTimeout(() => {
+
+                circle.className = "exhale";
+                circle.textContent = "Exhala";
+
+                safeTimeout(loop, exhaleTime);
+
+            }, forceHold ? holdTime : 0);
 
         }, inhaleTime);
     }
@@ -108,7 +155,7 @@ function startBreathing(seconds = null) {
     loop();
 }
 
-/* ================= TYPE TEXT ================= */
+/* ================= TEXTO ================= */
 
 async function typeText(text) {
 
@@ -120,11 +167,11 @@ async function typeText(text) {
 
         block.innerHTML += text[i];
 
-        await new Promise(r => safeTimeout(r, 10));
+        await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-/* ================= LOAD JSON ================= */
+/* ================= LOAD SESSION ================= */
 
 async function loadSession() {
 
@@ -159,25 +206,30 @@ async function runStep() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
+    /* MULTI TEXTO */
     if (step.textos?.length) {
 
         for (const t of step.textos) {
 
-            const seconds = (t.match(/(\d{1,3})\s*(seg|segundos|s)/i) || [])[1];
+            const seconds = extractSeconds(t);
+            const hold = hasHold(t);
 
             await speak(t);
             await typeText(t);
 
-            if (t.toLowerCase().includes("respira") ||
+            if (
+                t.toLowerCase().includes("respira") ||
                 t.toLowerCase().includes("inhala") ||
-                t.toLowerCase().includes("exhala")) {
-                startBreathing(seconds ? parseInt(seconds) : null);
+                t.toLowerCase().includes("exhala")
+            ) {
+                startBreathing(seconds, hold);
             }
 
-            await new Promise(r => safeTimeout(r, 300));
+            await new Promise(r => safeTimeout(r, 400));
         }
     }
 
+    /* DECISION */
     else if (step.tipo === "decision") {
 
         await speak(step.pregunta);
@@ -189,6 +241,10 @@ async function runStep() {
 
             const btn = document.createElement("button");
             btn.textContent = opt;
+
+            btn.style.display = "block";
+            btn.style.width = "100%";
+            btn.style.margin = "10px 0";
 
             btn.onclick = async () => {
 
@@ -212,30 +268,35 @@ async function runStep() {
         block.appendChild(box);
     }
 
+    /* SIMPLE */
     else if (step.texto) {
+
+        const seconds = extractSeconds(step.texto);
+        const hold = hasHold(step.texto);
 
         await speak(step.texto);
         await typeText(step.texto);
 
-        const seconds = (step.texto.match(/(\d{1,3})\s*(seg|segundos|s)/i) || [])[1];
-
-        if (step.texto.toLowerCase().includes("respira") ||
+        if (
+            step.texto.toLowerCase().includes("respira") ||
             step.texto.toLowerCase().includes("inhala") ||
-            step.texto.toLowerCase().includes("exhala")) {
-            startBreathing(seconds ? parseInt(seconds) : null);
+            step.texto.toLowerCase().includes("exhala")
+        ) {
+            startBreathing(seconds, hold);
         }
     }
 
     engine.locked = false;
 }
 
-/* ================= FIN ================= */
+/* ================= FIN FIX ================= */
 
 async function finish() {
 
     block.innerHTML = "Sesión completada";
 
     userData.sessionId++;
+
     if (userData.sessionId > 21) userData.sessionId = 1;
 
     userData.step = 0;
@@ -259,7 +320,7 @@ function initGallery() {
 
     gallery.innerHTML = "";
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
 
         const div = document.createElement("div");
         div.className = "slide";
@@ -287,19 +348,19 @@ function initGallery() {
     }, 7000);
 }
 
-/* ================= BUTTONS ================= */
+/* ================= BOTONES ================= */
 
 startBtn.onclick = async () => {
 
     startBtn.style.display = "none";
 
-    bgMusic.play().catch(() => {
-        document.body.addEventListener("click", () => bgMusic.play(), { once: true });
-    });
+    playMusic();
 
     userData.step = 0;
 
     initGallery();
+
+    startBreathing();
 
     await loadSession();
 
