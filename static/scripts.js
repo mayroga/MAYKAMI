@@ -35,14 +35,18 @@ if (urlParams.get('pago') === 'exitoso') {
     console.log("Acceso premium confirmado por pago.");
 }
 
-/* ================= AUDIO (FIX MÓVIL) ================= */
+/* ================= AUDIO ANTI-STRESS (FIX MÓVIL) ================= */
 
-const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
+// Pista: "Soft Relaxation Piano" - Volumen optimizado para no tapar la voz
+const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.06;
+
+// Volumen al 4% (0.04) para que sea música de fondo relajante
+bgMusic.volume = 0.04; 
 
 function playMusic() {
     bgMusic.play().catch(() => {
+        // En móviles, el audio solo inicia tras la primera interacción del usuario
         document.body.addEventListener("click", () => {
             bgMusic.play();
         }, { once: true });
@@ -86,12 +90,18 @@ function resetEngine() {
     startBreathing(null, false);
 }
 
+/* ================= VOZ PROFESIONAL CALMADA ================= */
+
 function speak(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
-        utter.rate = 0.92;
+        
+        // Velocidad pausada y tono cálido para efecto anti-stress
+        utter.rate = 0.88; 
+        utter.pitch = 0.95;
+
         utter.onend = resolve;
         utter.onerror = resolve;
         window.speechSynthesis.speak(utter);
