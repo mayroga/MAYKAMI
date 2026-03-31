@@ -18,7 +18,7 @@
         {"tipo":"decision","pregunta":"¿Sientes que puedes continuar con disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La práctica constante fortalece la disciplina.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza terminar tu entrenamiento diario con fuerza y concentración. Siente la satisfacción de hacerlo bien.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Disciplina reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":20,"textos":[
           "Colócate cómodo. Respira lento y profundo.Haz 4 respiraciones en 8 segundos. Hoy entrenas disciplina en tu mente y cuerpo. Mantente presente en cada inhalación y exhalación.",
           "Observa tus manos, pies y respiración. Cada parte de tu cuerpo trabaja para ti. Siente fuerza y enfoque.",
           "Piensa en una meta que deseas lograr. Respira 2segundos. Hazla presente en tu mente y decide una acción concreta que puedas hacer ahora mismo.",
@@ -49,7 +49,7 @@
         {"tipo":"decision","pregunta":"¿Puedes mantener la calma ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"El control se refuerza con práctica consciente.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza responder con calma ante cualquier situación. Siente claridad y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Control mental reforzado.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":20,"textos":[
           "Siéntate derecho y respira profundo. Hoy observas lo difícil sin reaccionar.",
           "Piensa en un problema actual. Observa tu reacción natural, pero no actúes de inmediato. Siente cómo surge el control.",
           "Recuerda una situación donde reaccionaste rápido y luego lo lamentaste. Aprende de ello. Siente la fuerza de la calma.",
@@ -80,7 +80,7 @@
         {"tipo":"decision","pregunta":"¿Sientes fuerza para actuar con valor?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"El valor se fortalece con acción consciente.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza actuar con seguridad y coraje ante retos presentes. Siente la fuerza dentro de ti.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Valor reforzado.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":20,"textos":[
           "Adopta una posición firme y respira profundo por 7segundos. Hoy enfrentas tu miedo y lo transformas en fuerza.",
           "Piensa en un miedo actual. Inhala. Obsérvalo sin huir. Siente el coraje en tu pecho. Exhala.",
           "Recuerda un momento donde actuaste con miedo. Siente cómo lo superaste y la fuerza obtenida.",
@@ -111,7 +111,7 @@
         {"tipo":"decision","pregunta":"¿Puedes observar y decidir ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La práctica refuerza la sabiduría y la toma de decisiones.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza elegir la mejor acción en cada momento presente. Siente claridad y certeza.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Sabiduría reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":20,"textos":[
           "Ancla tu cuerpo al presente. Respira profundo por 5segundos. Hoy observas, aprendes y actúas con sabiduría.",
           "Piensa en una decisión reciente. Analiza opciones sin juzgar y observa las posibles consecuencias.",
           "Recuerda un error pasado y lo que aprendiste de él. Siente cómo la experiencia te guía.",
@@ -142,7 +142,7 @@
         {"tipo":"decision","pregunta":"¿Sientes amor y cuidado por ti mismo?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"El amor propio se fortalece con práctica consciente.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza cuidarte a ti mismo cada día.Respirapor 2segundos. Siente orgullo y confianza en tus acciones.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Amor propio reforzado.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":20,"textos":[
           "Siéntate derecho.Respira 3 veces. Hoy entrenas amor y autocuidado.",
           "Piensa en una decisión reciente que tomaste por ti. Inhala. Siente cómo te fortaleció.",
           "Recuerda un momento donde dudaste de ti mismo. Exhala. Reconoce tu esfuerzo y capacidad.",
@@ -173,7 +173,7 @@
         {"tipo":"decision","pregunta":"¿Puedes comprender y empatizar ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La empatía se refuerza con práctica consciente y observación.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza entender a cada persona y actuar con empatía. Siente conexión y claridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Empatía reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDMM","titulo":"Ejercicio profundo de la Técnica de la Madre","duracion":20,"textos":[
           "Pies firmes. Espalda recta. Respira profundo 4segundos. Hoy entrenas empatía y comprensión hacia otros.",
           "Piensa en alguien con quien tuviste un malentendido. Observa su perspectiva sin reaccionar.",
           "Recuerda un momento donde comprendiste y ayudaste. Siente satisfacción y conexión.",
@@ -204,7 +204,7 @@
         {"tipo":"decision","pregunta":"¿Puedes generar nuevas ideas ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La creatividad se refuerza al experimentar y actuar.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza tus ideas tomando forma y teniendo impacto. Siente orgullo y satisfacción.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":20,"textos":[
           "Alinea tu cuerpo con tu meta. Respira bien profundo. Suelta suave. Hoy exploras creatividad en acción.",
           "Piensa en un problema y dibuja o escribe tres soluciones posibles. Hazlo presente.",
           "Recuerda un momento creativo donde innovaste. Respira. Siente satisfacción y aprendizaje.",
@@ -235,7 +235,7 @@
         {"tipo":"decision","pregunta":"¿Puedes enfrentar este desafío ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La resiliencia se fortalece enfrentando y aprendiendo de cada obstáculo.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza superar cada dificultad y salir más fuerte. Siente determinación y seguridad.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":20,"textos":[
           "Prepare su sistema para la ejecución. Respira por 5segundos. Hoy entrenas resiliencia y fuerza ante obstáculos.",
           "Piensa en un reto actual. No huyas, enfrenta mentalmente cada paso.",
           "Recuerda un fracaso pasado. Analiza lo aprendido y aplícalo ahora.",
@@ -266,7 +266,7 @@
         {"tipo":"decision","pregunta":"¿Puedes ejecutar tu acción ahora con disciplina?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La autodisciplina se fortalece con práctica consciente y repetida.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza lograr tus metas paso a paso. Siente orgullo y confianza en tu constancia.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Autodisciplina reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":20,"textos":[
           "Elimina distracciones del cuerpo y mente. Siéntate derecho. Respira. Respira. Respira. Hoy entrenas autodisciplina y fuerza de acción.",
           "Piensa en una tarea pospuesta. Realiza un paso concreto ahora.",
           "Recuerda un momento donde actuaste correctamente a pesar de la dificultad. Siente orgullo.",
@@ -297,7 +297,7 @@
         {"tipo":"decision","pregunta":"¿Puedes transformar esta emoción ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La gestión emocional requiere reconocer y actuar conscientemente sobre tus sentimientos.","recompensa":10,"color":"#22c55e"},
         {"tipo":"visualizacion","texto":"Visualiza tus emociones fluyendo y transformándose en acciones positivas. Siente paz y claridad interior.","color":"#a78bfa"},
         {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
-        {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":80,"textos":[
+        {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo de la Técnica del Mal","duracion":20,"textos":[
           "Siéntate cómodo. Respira. Alinea postura y mente con tu intención. Respira profundo. Hoy entrenas gestión emocional y transformación interna.",
           "Recuerda una emoción negativa reciente. Obsérvala sin reaccionar.",
           "Piensa en un momento donde controlaste tu reacción. Inhala por 2segundos. Siente satisfacción y aprendizaje.",
@@ -328,7 +328,7 @@
        {"tipo":"decision","pregunta":"¿Puedes tomar acción ahora con motivación?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La motivación se fortalece con acción y enfoque consciente.","recompensa":10,"color":"#22c55e"},
        {"tipo":"visualizacion","texto":"Visualiza tus metas alcanzadas y el orgullo de tu esfuerzo. Siente entusiasmo y claridad.","color":"#a78bfa"},
        {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
-       {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":80,"textos":[
+       {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":20,"textos":[
          "Siéntate cómodo. Cuerpo relajado, mente alerta. Respira profundo. Hoy entrenas motivación y energía positiva.",
          "Piensa en tu meta más importante de hoy. Realiza un paso concreto hacia ella.",
          "Recuerda un momento donde lograste algo difícil. Siente orgullo y satisfacción.",
@@ -359,7 +359,7 @@
       {"tipo":"decision","pregunta":"¿Puedes actuar con confianza ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La confianza se refuerza con práctica consciente y acción repetida.","recompensa":10,"color":"#22c55e"},
       {"tipo":"visualizacion","texto":"Visualiza tus acciones confiadas y el reconocimiento que generan. Siente seguridad y orgullo interior.","color":"#a78bfa"},
       {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
-      {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":80,"textos":[
+      {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo de la Técnica del Padre","duracion":20,"textos":[
         "Siéntate cómodo. Toma el mando de tu espacio. Respira profundo por 3segundos. Hoy entrenas confianza y seguridad en ti mismo.",
         "Recuerda un momento de duda y rehace mentalmente la acción con firmeza.",
         "Visualiza postura segura y voz clara proyectando confianza.",
@@ -390,7 +390,7 @@
     {"tipo":"decision","pregunta":"¿Puedes enfrentar tu desafío ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La resiliencia se fortalece actuando frente a dificultades y aprendiendo de ellas.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza superar tus retos y sentir orgullo por tu esfuerzo. Siente fuerza y claridad.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Resiliencia reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":20,"textos":[
       "Posición alfa. Postura lista. Respira profundo. Hoy entrenas resiliencia y fortaleza mental.",
       "Piensa en un desafío reciente. Analízalo y da un paso positivo para superarlo.",
       "Recuerda momentos donde superaste dificultades. Siente orgullo y aprendizaje.",
@@ -421,7 +421,7 @@
     {"tipo":"decision","pregunta":"¿Puedes generar al menos una idea nueva ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La creatividad se fortalece explorando ideas sin miedo.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza soluciones creativas y cómo tus ideas fluyen naturalmente. Siente libertad y entusiasmo.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Creatividad reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":20,"textos":[
       "Fije su centro. No se mueva y siéntese cómodo. Respira profundo por 5segundos. Hoy entrenas creatividad y exploración mental.",
       "Piensa en un reto reciente. Genera 3 soluciones posibles.",
       "Recuerda un momento donde una idea inesperada te ayudó. Siente alegría y aprendizaje.",
@@ -452,7 +452,7 @@
     {"tipo":"decision","pregunta":"¿Puedes iniciar tu tarea principal ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La gestión del tiempo se refuerza con acción y enfoque consciente.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza completar tus tareas con éxito y tranquilidad. Siente control y logro.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Gestión del tiempo reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":20,"textos":[
       "Siéntate. Asuma su lugar de poder. Respira profundo ahora. Hoy entrenas gestión del tiempo y eficiencia.",
       "Identifica la tarea más importante y da un paso concreto para iniciarla.",
       "Recuerda un momento donde actuaste organizado y eficiente. Siente satisfacción.",
@@ -483,7 +483,7 @@
     {"tipo":"decision","pregunta":"¿Puedes observar tus pensamientos y emociones ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"El autoconocimiento se refuerza con atención consciente y reflexión sobre uno mismo.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza tus emociones y pensamientos claramente, aceptándolos y aprendiendo de ellos.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Autoconocimiento reforzado.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDN","titulo":"Ejercicio profundo de la Técnica del Niño","duracion":20,"textos":[
       "Siéntate. Pies firmes. Espalda recta. Respira 3veces. Hoy entrenas autoconocimiento y claridad interior.",
       "Observa un pensamiento recurrente o emoción frecuente sin juzgar.",
       "Recuerda momentos donde actuar consciente mejoró tu bienestar.Respira 5veces y retén conocimiento. Siente aprendizaje.",
@@ -514,7 +514,7 @@
     {"tipo":"decision","pregunta":"¿Puedes avanzar hacia tu meta ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La motivación se refuerza actuando con intención y constancia.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza tu objetivo alcanzado y siente orgullo y satisfacción por tu esfuerzo.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien","duracion":20,"textos":[
       "Siéntate cómodo. Respira profundo. Hoy entrenas motivación y constancia.",
       "Piensa en una meta actual y da un paso concreto hacia ella.",
       "Recuerda momentos donde actuar con determinación te llevó a un logro.",
@@ -545,7 +545,7 @@
     {"tipo":"decision","pregunta":"¿Puedes concentrarte en tu tarea ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La concentración se fortalece actuando con atención plena.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza tu tarea completada con eficiencia y claridad. Siente control y satisfacción.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Concentración reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra","duracion":20,"textos":[
       "Siéntate cómodo y toma posición de control. Hoy entrenas concentración.",
       "Elige una tarea y ejecútala con enfoque total.",
       "Recuerda momentos donde tu atención generó resultados positivos.",
@@ -576,7 +576,7 @@
     {"tipo":"decision","pregunta":"¿Puedes transformarla ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"Observa y transforma.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza calma.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo","duracion":20,"textos":[
       "Respira profundamente y centra tu atención.",
       "Observa la emoción que surge sin juicio.",
       "Transforma esa emoción en aprendizaje y fuerza.",
@@ -607,7 +607,7 @@
     {"tipo":"decision","pregunta":"¿Actúas ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"Actúa seguro.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza éxito.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Confianza reforzada.","puntos":20,"color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDP","titulo":"Ejercicio profundo","duracion":20,"textos":[
       "Siéntate derecho y centra tu atención. Respira 5veces",
       "Piensa en una acción y actúa con seguridad.",
       "Recuerda momentos donde la confianza generó resultados positivos.",
@@ -638,7 +638,7 @@
     {"tipo":"decision","pregunta":"¿Activas energía?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"Muévete.","recompensa":10,"color":"#22c55e"},
     {"tipo":"visualizacion","texto":"Visualiza energía.","color":"#a78bfa"},
     {"tipo":"recompensa","texto":"Explicación: Esta respiración profunda arranca el metabolismo y genera energía instantánea.","color":"#10b981"},
-    {"tipo":"tvid_ejercicio_largo","tecnica":"TDK","titulo":"Ejercicio profundo","duracion":80,"textos":[
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDK","titulo":"Ejercicio profundo","duracion":20,"textos":[
       "Respira profundo y repite: 'Actúo con energía, fuerza y vitalidad'.",
       "Muévete con intención y alegría.",
       "Activa tu energía.",
