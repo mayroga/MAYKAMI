@@ -1,10 +1,22 @@
-from fastapi import FastAPI
+import os
+import json
+import stripe
+from fastapi import FastAPI, Request, Header, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-import json
 from pathlib import Path
 
+# =========================
+# APP INIT
+# =========================
 app = FastAPI(title="MayKaMi NeuroGame Engine")
+
+# =========================
+# STRIPE KEYS (RENDER ENV VARIABLES)
+# =========================
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 
 # =========================
 # PATHS
@@ -13,19 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-# =========================
-# STRIPE CONFIG (TU LINK)
-# =========================
-STRIPE_PAYMENT_URL = "https://buy.stripe.com/tu_link_15_99"  # 🔴 TU LINK REAL
-
-# =========================
-# STATIC FILES
-# =========================
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-
 # =========================
-# LOAD DATABASE
+# DATABASE LOAD
 # =========================
 def cargar_db():
     try:
@@ -41,12 +44,11 @@ def cargar_db():
         return data
 
     except Exception as e:
-        print("ERROR JSON:", e)
+        print("DB ERROR:", e)
         return {"sesiones": []}
 
-
 # =========================
-# MAIN APP
+# HOME
 # =========================
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -58,9 +60,8 @@ async def home():
     with open(html_path, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
-
 # =========================
-# JSON DATA
+# GET DB
 # =========================
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
@@ -69,53 +70,92 @@ async def get_sessions():
     if not db["sesiones"]:
         return JSONResponse(
             status_code=404,
-            content={"error": "Base de datos vacía o no encontrada"}
+            content={"error": "Base de datos vacía"}
         )
 
     return JSONResponse(content=db)
 
+# =========================
+# STRIPE CHECKOUT SESSION
+# =========================
+@app.post("/create-checkout-session")
+async def create_checkout_session():
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": "MayKaMi NeuroGame Service"
+                        },
+                        "unit_amount": 1599,  # $15.99
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url="https://maykami.onrender.com?success=true",
+            cancel_url="https://maykami.onrender.com?canceled=true",
+        )
+
+        return {"url": session.url}
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 # =========================
-# STRIPE VERIFY (SEGURIDAD BASE)
+# STRIPE WEBHOOK (SEGURIDAD REAL)
 # =========================
-@app.get("/verify-payment")
-async def verify_payment():
-    """
-    🔐 SISTEMA PRO
-    Aquí luego conectamos Stripe Webhook REAL
-    Por ahora: control básico por token local o upgrade futuro
-    """
+@app.post("/webhook")
+async def stripe_webhook(request: Request, stripe_signature: str = Header(None)):
+    payload = await request.body()
 
-    # 🔥 MODO SIMPLE (puedes cambiar a webhook real después)
-    return JSONResponse({
-        "paid": True,
-        "product": "maykami_session",
-        "price": 15.99,
-        "status": "approved"
-    })
+    try:
+        event = stripe.Webhook.construct_event(
+            payload,
+            stripe_signature,
+            STRIPE_WEBHOOK_SECRET
+        )
 
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid payload")
 
-# =========================
-# STRIPE REDIRECT HELPER
-# =========================
-@app.get("/pay")
-async def pay():
-    """
-    Redirección directa a Stripe Checkout
-    """
-    return JSONResponse({
-        "url": STRIPE_PAYMENT_URL
-    })
+    except stripe.error.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="Invalid signature")
 
+    # =========================
+    # PAGO CONFIRMADO
+    # =========================
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+
+        email = session.get("customer_email", "unknown")
+
+        print("✔ PAGO CONFIRMADO:", email)
+
+        # Aquí puedes activar acceso real:
+        # guardar en DB, archivo o memoria
+        # ejemplo simple:
+        paid_file = BASE_DIR / "paid_users.json"
+
+        if paid_file.exists():
+            with open(paid_file, "r") as f:
+                data = json.load(f)
+        else:
+            data = []
+
+        data.append(email)
+
+        with open(paid_file, "w") as f:
+            json.dump(data, f)
+
+    return {"status": "ok"}
 
 # =========================
 # HEALTH CHECK
 # =========================
 @app.get("/health")
 async def health():
-    return {
-        "status": "ok",
-        "engine": "MayKaMi NeuroGame",
-        "stripe": "enabled",
-        "payment": "15.99 single session"
-    }
+    return {"status": "ok", "engine": "MayKaMi NeuroGame"}
