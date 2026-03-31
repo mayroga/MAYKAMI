@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V4 - BREATH SYNC UPGRADE
+   MAYKAMI NEUROGAME ENGINE V5 - MASTER FINAL (BREATH + AUDIO)
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,6 +11,12 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
+/* ================= AUDIO ================= */
+
+const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=relaxing-meditation-ambient-110397.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.25;
+
 /* ================= ENGINE STATE ================= */
 
 let engine = {
@@ -18,7 +24,7 @@ let engine = {
     abort: false,
     speaking: false,
     timers: new Set(),
-    breathing: false,
+    breathing: true,
     breathLoop: null,
     session: null
 };
@@ -53,12 +59,9 @@ function resetEngine() {
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
 
-    stopBreathing();
-
-    engine.locked = false;
-    engine.speaking = false;
-
     block.innerHTML = "";
+
+    startBreathing("normal"); // 🔥 SIEMPRE ACTIVO
 }
 
 /* ================= VOZ ================= */
@@ -76,7 +79,7 @@ function speak(text) {
         );
 
         utter.lang = "es-ES";
-        utter.rate = 0.95;
+        utter.rate = 0.92;
 
         utter.onend = () => {
             engine.speaking = false;
@@ -93,56 +96,49 @@ function speak(text) {
     });
 }
 
-/* ================= BREATH ENGINE (CORE FIX) ================= */
+/* ================= BREATH ENGINE REAL ================= */
 
 function startBreathing(mode = "normal") {
 
-    engine.breathing = true;
-
-    let states = ["inhale", "hold", "exhale"];
-    let index = 0;
-
     clearInterval(engine.breathLoop);
 
-    engine.breathLoop = setInterval(() => {
+    let inhaleTime = mode === "deep" ? 4000 : 2500;
+    let holdTime   = mode === "deep" ? 2000 : 1200;
+    let exhaleTime = mode === "deep" ? 4000 : 2500;
 
-        if (!engine.breathing) return;
+    function cycle() {
 
-        circle.className = "";
+        if (engine.abort) return;
 
-        const state = states[index];
+        // INHALA
+        circle.className = "inhale";
+        circle.textContent = "Inhala";
 
-        if (state === "inhale") {
-            circle.classList.add("inhale");
-            circle.textContent = "Inhala";
-        }
+        safeTimeout(() => {
 
-        if (state === "hold") {
-            circle.classList.add("hold");
+            // HOLD
+            circle.className = "hold";
             circle.textContent = "Retén";
-        }
 
-        if (state === "exhale") {
-            circle.classList.add("exhale");
-            circle.textContent = "Exhala";
-        }
+            safeTimeout(() => {
 
-        index = (index + 1) % states.length;
+                // EXHALA
+                circle.className = "exhale";
+                circle.textContent = "Exhala";
 
-    }, mode === "slow" ? 2500 : 1800);
+                safeTimeout(cycle, exhaleTime);
+
+            }, holdTime);
+
+        }, inhaleTime);
+    }
+
+    cycle();
 }
 
-function stopBreathing() {
-    engine.breathing = false;
-    clearInterval(engine.breathLoop);
-    engine.breathLoop = null;
-    circle.textContent = "MAYKAMI";
-    circle.className = "";
-}
+/* ================= DETECTOR INTELIGENTE ================= */
 
-/* ================= BREATH DETECTOR ================= */
-
-function breathSync(text) {
+function detectBreathingMode(text) {
 
     const t = text.toLowerCase();
 
@@ -150,9 +146,13 @@ function breathSync(text) {
         t.includes("respir") ||
         t.includes("inhala") ||
         t.includes("exhala") ||
-        t.includes("retén")
+        t.includes("ret") ||
+        t.includes("aire") ||
+        t.includes("pulmon") ||
+        t.includes("oxigen") ||
+        t.includes("respira")
     ) {
-        startBreathing("slow");
+        startBreathing("deep"); // 🔥 modo terapia
     } else {
         startBreathing("normal");
     }
@@ -181,6 +181,11 @@ async function loadSession() {
     const res = await fetch("/tvid_ejercicio.json");
     const data = await res.json();
 
+    // 🔥 CONTROL TOTAL DE NO REPETICIÓN
+    if (userData.sessionId > data.sesiones.length) {
+        userData.sessionId = 1;
+    }
+
     engine.session =
         data.sesiones.find(s => s.id === userData.sessionId)
         || data.sesiones[0];
@@ -207,14 +212,12 @@ async function runStep() {
     restartBtn.style.display = "none";
     backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
 
-    /* MULTI TEXT */
+    /* MULTI TEXTO */
     if (step.textos?.length) {
 
         for (const t of step.textos) {
 
-            if (engine.abort) return;
-
-            breathSync(t);
+            detectBreathingMode(t);
 
             await speak(t);
             await typeText(t);
@@ -228,7 +231,7 @@ async function runStep() {
     /* DECISION */
     else if (step.tipo === "decision") {
 
-        stopBreathing();
+        detectBreathingMode(step.pregunta);
 
         await speak(step.pregunta);
         await typeText(step.pregunta);
@@ -238,7 +241,6 @@ async function runStep() {
         step.opciones.forEach((opt, i) => {
 
             const btn = document.createElement("button");
-
             btn.textContent = opt;
 
             btn.onclick = async () => {
@@ -249,7 +251,7 @@ async function runStep() {
                     ? "Correcto. " + step.explicacion
                     : "Incorrecto. " + step.explicacion;
 
-                breathSync(msg);
+                detectBreathingMode(msg);
 
                 await speak(msg);
                 await typeText(msg);
@@ -270,7 +272,7 @@ async function runStep() {
     /* SIMPLE */
     else if (step.texto) {
 
-        breathSync(step.texto);
+        detectBreathingMode(step.texto);
 
         await speak(step.texto);
         await typeText(step.texto);
@@ -285,12 +287,13 @@ async function runStep() {
 
 function finish() {
 
-    stopBreathing();
-
     block.innerHTML = "Sesión completada";
 
-    userData.sessionId =
-        userData.sessionId < 21 ? userData.sessionId + 1 : 1;
+    userData.sessionId++;
+
+    if (userData.sessionId > 21) {
+        userData.sessionId = 1;
+    }
 
     userData.step = 0;
 
@@ -353,6 +356,10 @@ startBtn.onclick = async () => {
     userData.step = 0;
 
     initGallery();
+
+    bgMusic.play(); // 🔥 MUSICA INICIA
+
+    startBreathing("normal"); // 🔥 RESPIRACIÓN SIEMPRE
 
     await loadSession();
 
