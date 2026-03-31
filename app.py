@@ -3,43 +3,36 @@ import os
 
 app = Flask(__name__)
 
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "")
+# VARIABLES DE RENDER (ADMIN LOGIN)
+ADMIN_USERNAME = (os.getenv("ADMIN_USERNAME", "") or "").strip()
+ADMIN_PASSWORD = (os.getenv("ADMIN_PASSWORD", "") or "").strip()
 
 
+# =========================
+# HOME
+# =========================
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
+# =========================
+# LOGIN
+# =========================
 @app.route("/login", methods=["POST"])
 def login():
-    data = request.get_json()
+    data = request.get_json() or {}
 
     username = (data.get("username") or "").strip()
     password = (data.get("password") or "").strip()
 
-    admin_user = (ADMIN_USERNAME or "").strip()
-    admin_pass = (ADMIN_PASSWORD or "").strip()
-
+    # DEBUG (Render logs)
     print("DEBUG USER:", username)
     print("DEBUG PASS:", password)
-    print("ENV USER:", admin_user)
-    print("ENV PASS:", admin_pass)
+    print("ENV USER:", ADMIN_USERNAME)
+    print("ENV PASS:", ADMIN_PASSWORD)
 
-    if username == admin_user and password == admin_pass:
-        return jsonify({
-            "success": True,
-            "access": "free",
-            "paid": True
-        })
-
-    return jsonify({
-        "success": False,
-        "access": "denied",
-        "paid": False
-    })
-    # ACCESO GRATIS SI COINCIDE CON ADMIN EN RENDER
+    # VALIDACIÓN PRINCIPAL
     if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
         return jsonify({
             "success": True,
@@ -47,7 +40,6 @@ def login():
             "paid": True
         })
 
-    # SI NO COINCIDE → BLOQUEADO O PAGO
     return jsonify({
         "success": False,
         "access": "denied",
@@ -55,17 +47,23 @@ def login():
     })
 
 
-# VERIFICACIÓN NORMAL (SI QUIERES EXTENDER PAGO DESPUÉS)
+# =========================
+# VERIFY ACCESS
+# =========================
 @app.route("/verify-access")
 def verify_access():
-    username = request.args.get("username")
-    password = request.args.get("password")
+    username = (request.args.get("username") or "").strip()
+    password = (request.args.get("password") or "").strip()
 
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        return jsonify({"paid": True})
+    paid = (username == ADMIN_USERNAME and password == ADMIN_PASSWORD)
 
-    return jsonify({"paid": False})
+    return jsonify({
+        "paid": paid
+    })
 
 
+# =========================
+# RUN LOCAL (IGNORADO EN RENDER)
+# =========================
 if __name__ == "__main__":
     app.run(debug=True)
