@@ -336,7 +336,7 @@
          "Mueve brazos y hombros para liberar energía y activar impulso.",
          "Respira profundo por 4 segundos y repite: 'Actúo, progreso, me enfoco, mantengo motivación'.",
          "Imagina escenarios futuros donde tu motivación te guía y fortalece.",
-         "Finaliza reconociendo tu capacidad de actuar con entusiasmo y logro constante.",""duracion":100
+         "Finaliza reconociendo tu capacidad de actuar con entusiasmo y logro constante.","duracion":100
        ],"color":"#06b6d4"},
       {"tipo":"cierre","texto":"La motivación te impulsa a actuar con energía, enfoque y satisfacción. Tu avance es la melodía del éxito. Ejecuta con orden y precisión. Mañana, tu potencial volverá a pasar lista; asiste con orgullo.","color":"#f87171"}
     ]
@@ -459,7 +459,7 @@
       "Visualiza tus tareas fluyendo y concluyendo con éxito.",
       "Mueve brazos y hombros para liberar tensión y activar energía de acción.",
       "Respira profundo y repite: 'Actúo con enfoque, planifico, ejecuto y logro'.",
-      "Imagina escenarios futuros donde tu gestión del tiempo genera éxito y tranquilidad.","
+      "Imagina escenarios futuros donde tu gestión del tiempo genera éxito y tranquilidad.",
       "Finaliza reconociendo tu capacidad de actuar organizada y eficientemente cada día.","duracion":100
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"La gestión del tiempo te permite actuar con eficiencia, claridad y resultados positivos. Estás floreciendo con disciplina. Viste tu día de orden y potencia. Mañana tu evolución reclama tu presencia; llega puntual.","color":"#f87171"}
