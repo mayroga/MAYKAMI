@@ -47,7 +47,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 80px; /* 🔥 espacio para botones */
+    bottom: 80px; 
     
     display: flex;
     flex-direction: column;
@@ -95,7 +95,7 @@ body {
     max-width: 700px;
     height: 180px;
 
-    overflow-y: auto; /* 🔥 SCROLL CONTROLADO */
+    overflow-y: auto; 
 
     font-size: 1.3rem;
     text-align: center;
@@ -145,6 +145,17 @@ button:hover {
     background: #1d4ed8;
 }
 
+/* Estilo especial para el botón de pago */
+#pay-btn {
+    background: #f59e0b; /* Color Ambar / Oro */
+    color: #000;
+    font-weight: bold;
+}
+
+#pay-btn:hover {
+    background: #d97706;
+}
+
 /* ================= MOBILE EXTRA ================= */
 
 @media (max-width: 600px) {
@@ -161,8 +172,9 @@ button:hover {
     }
 
     button {
-        font-size: 0.9rem;
-        padding: 10px;
+        font-size: 0.8rem; /* Un poco más pequeño para que quepan 5 botones */
+        padding: 8px;
+        margin: 2px;
     }
 }
 
@@ -181,8 +193,8 @@ button:hover {
 
 </div>
 
-<!-- 🔥 BOTONES SIEMPRE VISIBLES -->
 <div class="controls">
+    <button id="pay-btn" onclick="iniciarPago()">Acceso Premium</button>
     <button id="start-btn">Iniciar</button>
     <button id="back-btn">Atrás</button>
     <button id="next-btn">Siguiente</button>
