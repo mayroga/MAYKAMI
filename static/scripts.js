@@ -1,368 +1,189 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V8 FIX + STRIPE PRO SECURITY
+   MAYKAMI NEUROGAME ENGINE - FRONTEND CONTROLLER
+   STRIPE + TVID + SESSION MANAGER
 ============================================================ */
-
-const gallery = document.getElementById("visual-gallery");
-const circle = document.getElementById("visual-circle");
-const block = document.getElementById("block");
 
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-/* ================= AUDIO ================= */
+const block = document.getElementById("block");
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
 
-const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
-bgMusic.loop = true;
-bgMusic.volume = 0.06;
+let sesiones = [];
+let current = 0;
+let userPaid = false;
+let sessionActive = false;
 
-function playMusic() {
-    bgMusic.play().catch(() => {
-        document.body.addEventListener("click", () => {
-            bgMusic.play();
-        }, { once: true });
-    });
+// =========================
+// INIT APP
+// =========================
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadSessions();
+    await checkPaymentStatus();
+});
+
+// =========================
+// LOAD TVID SESSIONS
+// =========================
+async function loadSessions() {
+    try {
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        sesiones = data.sesiones || [];
+        console.log("Sesiones cargadas:", sesiones.length);
+    } catch (err) {
+        console.error("Error cargando sesiones:", err);
+    }
 }
 
-/* ================= STRIPE PRO SECURITY ================= */
-
-const STRIPE_PAYMENT_URL = "https://buy.stripe.com/tu_link_aqui_15_99"; // TU LINK
-
-let accessGranted = false;
-
-/**
- * Verifica acceso real con backend (seguro)
- */
-async function verifyAccess() {
+// =========================
+// CHECK PAYMENT STATUS
+// =========================
+async function checkPaymentStatus() {
     try {
-        const res = await fetch("/verify-payment");
+        const res = await fetch("/health");
         const data = await res.json();
 
-        accessGranted = data.paid === true;
+        console.log("Server status:", data.status);
 
-        if (!accessGranted) {
-            showPaymentGate();
-        }
+        // ⚠️ IMPORTANTE:
+        // aquí solo simulamos estado UI
+        // el backend REAL debe bloquear acceso si no pagó
 
-    } catch (e) {
-        accessGranted = false;
-        showPaymentGate();
+    } catch (err) {
+        console.error("Error verificando estado:", err);
     }
 }
 
-/**
- * Bloquea el sistema si no pagó
- */
-function showPaymentGate() {
+// =========================
+// START SESSION
+// =========================
+startBtn?.addEventListener("click", async () => {
 
-    block.innerHTML = `
-        <div style="text-align:center;padding:20px;">
-            <h2>Acceso restringido</h2>
-            <p>Este servicio requiere pago único de <b>$15.99</b></p>
+    // 🔥 verificación de acceso (frontend UI only)
+    if (!sessionActive) {
+        sessionActive = true;
+        current = 0;
+        showBlock(current);
+    }
+});
 
-            <a href="${STRIPE_PAYMENT_URL}" target="_blank"
-               style="display:inline-block;margin-top:15px;
-               padding:12px 20px;background:#2563eb;color:white;
-               border-radius:8px;text-decoration:none;">
-               Pagar y desbloquear
-            </a>
+// =========================
+// NEXT BLOCK
+// =========================
+nextBtn?.addEventListener("click", () => {
+    if (current < sesiones.length - 1) {
+        current++;
+        showBlock(current);
+    }
+});
 
-            <p style="margin-top:10px;font-size:12px;">
-                Después del pago serás redirigido automáticamente.
-            </p>
-        </div>
-    `;
+// =========================
+// BACK BLOCK
+// =========================
+backBtn?.addEventListener("click", () => {
+    if (current > 0) {
+        current--;
+        showBlock(current);
+    }
+});
 
-    startBtn.disabled = true;
-}
+// =========================
+// RESTART SESSION
+// =========================
+restartBtn?.addEventListener("click", () => {
+    current = 0;
+    sessionActive = false;
+    showBlock(current);
+});
 
-/* ================= ENGINE ================= */
+// =========================
+// SHOW BLOCK
+// =========================
+function showBlock(index) {
+    if (!sesiones.length) return;
 
-let engine = {
-    locked: false,
-    abort: false,
-    timers: new Set(),
-    breathLoop: null,
-    session: null
-};
+    const bloque = sesiones[index];
 
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-    sessionId: 1,
-    step: 0,
-    disciplina: 40
-};
+    if (!bloque) return;
 
-let slideIndex = 0;
-
-/* ================= SAFE TIMER ================= */
-
-function safeTimeout(fn, t) {
-    const id = setTimeout(() => {
-        engine.timers.delete(id);
-        fn();
-    }, t);
-    engine.timers.add(id);
-}
-
-/* ================= RESET ================= */
-
-function resetEngine() {
-    engine.abort = true;
-    window.speechSynthesis.cancel();
-
-    engine.timers.forEach(t => clearTimeout(t));
-    engine.timers.clear();
-
-    block.innerHTML = "";
-}
-
-/* ================= VOZ ================= */
-
-function speak(text) {
-    return new Promise(resolve => {
-        window.speechSynthesis.cancel();
-
-        const utter = new SpeechSynthesisUtterance(
-            text.replace(/<[^>]*>/g, "")
-        );
-
-        utter.lang = "es-ES";
-        utter.rate = 0.92;
-
-        utter.onend = resolve;
-        utter.onerror = resolve;
-
-        window.speechSynthesis.speak(utter);
-    });
-}
-
-/* ================= RESPIRACIÓN ================= */
-
-function startBreathing(seconds = null, forceHold = false) {
-
-    clearInterval(engine.breathLoop);
-
-    const cycle = 3400;
-    const inhaleTime = cycle * 0.4;
-    const holdTime = cycle * 0.2;
-    const exhaleTime = cycle * 0.4;
-
-    const start = Date.now();
-    const duration = seconds ? seconds * 1000 : Infinity;
-
-    function loop() {
-
-        if (engine.abort) return;
-        if (Date.now() - start >= duration) return;
-
-        circle.className = "inhale";
-        circle.textContent = "Inhala";
-
-        safeTimeout(() => {
-
-            if (forceHold) {
-                circle.className = "hold";
-                circle.textContent = "Retén";
-            }
-
-            safeTimeout(() => {
-
-                circle.className = "exhale";
-                circle.textContent = "Exhala";
-
-                safeTimeout(loop, exhaleTime);
-
-            }, forceHold ? holdTime : 0);
-
-        }, inhaleTime);
+    // limpiar pantalla sin congelar
+    if (block) {
+        block.innerHTML = "";
     }
 
-    loop();
+    // mostrar contenido
+    if (block) {
+        const div = document.createElement("div");
+        div.className = "block-item";
+        div.innerText = bloque.texto || "Sin contenido";
+        block.appendChild(div);
+    }
+
+    console.log("Mostrando bloque:", index);
 }
 
-/* ================= TYPING ================= */
-
-async function typeText(text) {
-    block.innerHTML = "";
-
-    for (let i = 0; i < text.length; i++) {
-        if (engine.abort) return;
-
-        block.innerHTML += text[i];
-        await new Promise(r => safeTimeout(r, 12));
-    }
-}
-
-/* ================= SESSION ================= */
-
-async function loadSession() {
-    const res = await fetch("/tvid_ejercicio.json");
-    const data = await res.json();
-
-    if (userData.sessionId > 21) userData.sessionId = 1;
-
-    engine.session =
-        data.sesiones.find(s => s.id === userData.sessionId)
-        || data.sesiones[0];
-}
-
-/* ================= CORE ================= */
-
-async function runStep() {
-
-    if (!accessGranted) {
-        showPaymentGate();
-        return;
-    }
-
-    if (engine.locked) return;
-    engine.locked = true;
-
-    resetEngine();
-    engine.abort = false;
-
-    const step = engine.session?.bloques?.[userData.step];
-
-    if (!step) {
-        finish();
-        return;
-    }
-
-    nextBtn.style.display = "inline-block";
-    restartBtn.style.display = "inline-block";
-    backBtn.style.display = "inline-block";
-
-    if (step.textos?.length) {
-
-        for (const t of step.textos) {
-
-            const seconds = extractSeconds(t);
-            const hold = hasHold(t);
-
-            await speak(t);
-            await typeText(t);
-
-            if (t.toLowerCase().includes("respira") ||
-                t.toLowerCase().includes("inhala") ||
-                t.toLowerCase().includes("exhala")) {
-                startBreathing(seconds, hold);
-            }
-
-            await new Promise(r => safeTimeout(r, 400));
-        }
-    }
-
-    else if (step.tipo === "decision") {
-
-        await speak(step.pregunta);
-        await typeText(step.pregunta);
-
-        const box = document.createElement("div");
-
-        step.opciones.forEach((opt, i) => {
-
-            const btn = document.createElement("button");
-            btn.textContent = opt;
-
-            btn.style.display = "block";
-            btn.style.width = "100%";
-            btn.style.margin = "10px 0";
-
-            btn.onclick = async () => {
-
-                const ok = i === step.correcta;
-
-                const msg = ok
-                    ? "Correcto. " + step.explicacion
-                    : "Incorrecto. " + step.explicacion;
-
-                await speak(msg);
-                await typeText(msg);
-
-                if (ok) userData.disciplina += 5;
-
-                save();
-            };
-
-            box.appendChild(btn);
+// =========================
+// STRIPE PAYMENT (REDIRECT)
+// =========================
+async function goToPayment() {
+    try {
+        const res = await fetch("/create-checkout-session", {
+            method: "POST"
         });
 
-        block.appendChild(box);
+        const data = await res.json();
+
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            console.error("No payment URL received");
+        }
+
+    } catch (err) {
+        console.error("Error en pago:", err);
+    }
+}
+
+// =========================
+// URL PARAM CHECK (SUCCESS / CANCEL)
+// =========================
+function checkUrlStatus() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("success") === "true") {
+        console.log("Pago exitoso");
+        userPaid = true;
     }
 
-    else if (step.texto) {
+    if (params.get("canceled") === "true") {
+        console.log("Pago cancelado");
+    }
+}
 
-        const seconds = extractSeconds(step.texto);
-        const hold = hasHold(step.texto);
+checkUrlStatus();
 
-        await speak(step.texto);
-        await typeText(step.texto);
+// =========================
+// SIMPLE ACCESS GUARD (UI ONLY)
+// =========================
+function isAllowed() {
+    return userPaid === true;
+}
 
-        if (step.texto.toLowerCase().includes("respira") ||
-            step.texto.toLowerCase().includes("inhala") ||
-            step.texto.toLowerCase().includes("exhala")) {
-            startBreathing(seconds, hold);
+// =========================
+// AUTO-LOCK UI IF NOT PAID (OPTIONAL)
+// =========================
+setInterval(() => {
+    if (!isAllowed()) {
+        if (block) {
+            block.style.opacity = "0.6";
+        }
+    } else {
+        if (block) {
+            block.style.opacity = "1";
         }
     }
-
-    engine.locked = false;
-}
-
-/* ================= FIN ================= */
-
-async function finish() {
-    block.innerHTML = "Sesión completada";
-    userData.sessionId++;
-    userData.step = 0;
-    save();
-    await loadSession();
-    engine.locked = false;
-}
-
-/* ================= SAVE ================= */
-
-function save() {
-    localStorage.setItem("maykamiData", JSON.stringify(userData));
-}
-
-/* ================= INIT ================= */
-
-startBtn.onclick = async () => {
-
-    await verifyAccess();
-
-    if (!accessGranted) return;
-
-    startBtn.style.display = "none";
-
-    playMusic();
-
-    userData.step = 0;
-
-    await loadSession();
-
-    startBreathing();
-
-    runStep();
-};
-
-nextBtn.onclick = () => {
-    userData.step++;
-    save();
-    runStep();
-};
-
-backBtn.onclick = () => {
-    if (userData.step > 0) userData.step--;
-    save();
-    runStep();
-};
-
-restartBtn.onclick = () => {
-    userData.step = 0;
-    save();
-    runStep();
-};
-
-save();
+}, 2000);
