@@ -81,3 +81,60 @@ async def get_sessions():
 @app.get("/health")
 async def health():
     return {"status": "ok", "engine": "MayKaMi NeuroGame"}
+   # =========================
+# STRIPE SOLO COBRO (SEGURO)
+# =========================
+import os
+import stripe
+from fastapi import Request, Header, HTTPException
+
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+@app.post("/create-checkout-session")
+async def create_checkout_session():
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "usd",
+                    "product_data": {
+                        "name": "MayKaMi NeuroGame Service"
+                    },
+                    "unit_amount": 1599,
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url="https://maykami.onrender.com?success=true",
+            cancel_url="https://maykami.onrender.com?canceled=true",
+        )
+
+        return {"url": session.url}
+
+    except Exception as e:
+        return {"error": str(e)}
+
+# =========================
+# WEBHOOK STRIPE
+# =========================
+@app.post("/webhook")
+async def stripe_webhook(request: Request, stripe_signature: str = Header(None)):
+
+    payload = await request.body()
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload,
+            stripe_signature,
+            STRIPE_WEBHOOK_SECRET
+        )
+
+    except Exception:
+        raise HTTPException(status_code=400, detail="Webhook error")
+
+    if event["type"] == "checkout.session.completed":
+        print("PAGO CONFIRMADO ✔")
+
+    return {"status": "ok"} 
