@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V6 - PRO MOBILE + BREATH + VIBRATION
+   MAYKAMI NEUROGAME ENGINE V7 - PRO MOBILE FINAL
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,11 +11,11 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-/* ================= AUDIO ================= */
+/* ================= AUDIO SUAVE ================= */
 
 const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.2;
+bgMusic.volume = 0.08; // 🔥 MUY BAJO (no molesta)
 
 /* ================= ENGINE ================= */
 
@@ -83,14 +83,6 @@ function speak(text) {
     });
 }
 
-/* ================= VIBRACIÓN ================= */
-
-function vibrate(pattern) {
-    if (navigator.vibrate) {
-        navigator.vibrate(pattern);
-    }
-}
-
 /* ================= RESPIRACIÓN REAL ================= */
 
 function startBreathing(mode = "normal") {
@@ -108,7 +100,6 @@ function startBreathing(mode = "normal") {
         // INHALA
         circle.className = "inhale";
         circle.textContent = "Inhala";
-        vibrate(50);
 
         safeTimeout(() => {
 
@@ -121,7 +112,6 @@ function startBreathing(mode = "normal") {
                 // EXHALA
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
-                vibrate([30, 50, 30]);
 
                 safeTimeout(cycle, exhale);
 
@@ -133,39 +123,39 @@ function startBreathing(mode = "normal") {
     cycle();
 }
 
-/* ================= DETECTOR AVANZADO ================= */
+/* ================= DETECTOR INTELIGENTE ================= */
 
 function detectBreathingMode(text) {
 
     const t = text.toLowerCase();
 
-    const palabrasRespiracion = [
+    const palabras = [
         "respira","respiración","respirar","aire","oxígeno","pulmón",
         "inhala","inhalar","aspira","llenar",
         "exhala","exhalar","suelta","expulsa",
         "retén","retener","pausa","aguanta"
     ];
 
-    const esRespiracion = palabrasRespiracion.some(p => t.includes(p));
+    const esRespiracion = palabras.some(p => t.includes(p));
 
     if (esRespiracion) {
-        startBreathing("deep");
+        startBreathing("deep"); // 🔥 modo terapia
     } else {
         startBreathing("normal");
     }
 }
 
-/* ================= TYPE ================= */
+/* ================= TYPE LIMPIO (NO ACUMULA TEXTO) ================= */
 
 async function typeText(text) {
 
-    block.textContent = "";
+    block.innerHTML = ""; // 🔥 LIMPIA SIEMPRE
 
     for (let i = 0; i < text.length; i++) {
 
         if (engine.abort) return;
 
-        block.textContent += text[i];
+        block.innerHTML += text[i];
 
         await new Promise(r => safeTimeout(r, 12));
     }
@@ -202,10 +192,10 @@ async function runStep() {
         return;
     }
 
-    /* 🔥 BOTONES SIEMPRE VISIBLES (MÓVIL FIX) */
+    /* 🔥 BOTONES FIJOS SIEMPRE VISIBLES */
     nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
-    backBtn.style.display = userData.step > 0 ? "inline-block" : "inline-block";
+    backBtn.style.display = "inline-block";
 
     /* MULTI TEXTO */
     if (step.textos?.length) {
@@ -298,7 +288,7 @@ function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ================= GALLERY ================= */
+/* ================= GALERÍA ================= */
 
 function initGallery() {
 
