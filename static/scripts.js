@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V5 - MASTER FINAL (BREATH + AUDIO)
+   MAYKAMI NEUROGAME ENGINE V6 - PRO MOBILE + BREATH + VIBRATION
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -13,18 +13,16 @@ const restartBtn = document.getElementById("restart-btn");
 
 /* ================= AUDIO ================= */
 
-const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=relaxing-meditation-ambient-110397.mp3");
+const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.25;
+bgMusic.volume = 0.2;
 
-/* ================= ENGINE STATE ================= */
+/* ================= ENGINE ================= */
 
 let engine = {
     locked: false,
     abort: false,
-    speaking: false,
     timers: new Set(),
-    breathing: true,
     breathLoop: null,
     session: null
 };
@@ -36,7 +34,6 @@ let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
 };
 
 let slideIndex = 0;
-let galleryTimer = null;
 
 /* ================= SAFE TIMER ================= */
 
@@ -67,12 +64,9 @@ function resetEngine() {
 /* ================= VOZ ================= */
 
 function speak(text) {
-
     return new Promise(resolve => {
 
         if (engine.abort) return resolve();
-
-        engine.speaking = true;
 
         const utter = new SpeechSynthesisUtterance(
             text.replace(/<[^>]*>/g, "")
@@ -81,30 +75,31 @@ function speak(text) {
         utter.lang = "es-ES";
         utter.rate = 0.92;
 
-        utter.onend = () => {
-            engine.speaking = false;
-            resolve();
-        };
-
-        utter.onerror = () => {
-            engine.speaking = false;
-            resolve();
-        };
+        utter.onend = resolve;
+        utter.onerror = resolve;
 
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utter);
     });
 }
 
-/* ================= BREATH ENGINE REAL ================= */
+/* ================= VIBRACIÓN ================= */
+
+function vibrate(pattern) {
+    if (navigator.vibrate) {
+        navigator.vibrate(pattern);
+    }
+}
+
+/* ================= RESPIRACIÓN REAL ================= */
 
 function startBreathing(mode = "normal") {
 
     clearInterval(engine.breathLoop);
 
-    let inhaleTime = mode === "deep" ? 4000 : 2500;
-    let holdTime   = mode === "deep" ? 2000 : 1200;
-    let exhaleTime = mode === "deep" ? 4000 : 2500;
+    let inhale = mode === "deep" ? 4000 : 2500;
+    let hold   = mode === "deep" ? 2000 : 1200;
+    let exhale = mode === "deep" ? 4000 : 2500;
 
     function cycle() {
 
@@ -113,6 +108,7 @@ function startBreathing(mode = "normal") {
         // INHALA
         circle.className = "inhale";
         circle.textContent = "Inhala";
+        vibrate(50);
 
         safeTimeout(() => {
 
@@ -125,34 +121,35 @@ function startBreathing(mode = "normal") {
                 // EXHALA
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
+                vibrate([30, 50, 30]);
 
-                safeTimeout(cycle, exhaleTime);
+                safeTimeout(cycle, exhale);
 
-            }, holdTime);
+            }, hold);
 
-        }, inhaleTime);
+        }, inhale);
     }
 
     cycle();
 }
 
-/* ================= DETECTOR INTELIGENTE ================= */
+/* ================= DETECTOR AVANZADO ================= */
 
 function detectBreathingMode(text) {
 
     const t = text.toLowerCase();
 
-    if (
-        t.includes("respir") ||
-        t.includes("inhala") ||
-        t.includes("exhala") ||
-        t.includes("ret") ||
-        t.includes("aire") ||
-        t.includes("pulmon") ||
-        t.includes("oxigen") ||
-        t.includes("respira")
-    ) {
-        startBreathing("deep"); // 🔥 modo terapia
+    const palabrasRespiracion = [
+        "respira","respiración","respirar","aire","oxígeno","pulmón",
+        "inhala","inhalar","aspira","llenar",
+        "exhala","exhalar","suelta","expulsa",
+        "retén","retener","pausa","aguanta"
+    ];
+
+    const esRespiracion = palabrasRespiracion.some(p => t.includes(p));
+
+    if (esRespiracion) {
+        startBreathing("deep");
     } else {
         startBreathing("normal");
     }
@@ -174,17 +171,14 @@ async function typeText(text) {
     }
 }
 
-/* ================= LOAD SESSION ================= */
+/* ================= LOAD ================= */
 
 async function loadSession() {
 
     const res = await fetch("/tvid_ejercicio.json");
     const data = await res.json();
 
-    // 🔥 CONTROL TOTAL DE NO REPETICIÓN
-    if (userData.sessionId > data.sesiones.length) {
-        userData.sessionId = 1;
-    }
+    if (userData.sessionId > 21) userData.sessionId = 1;
 
     engine.session =
         data.sesiones.find(s => s.id === userData.sessionId)
@@ -208,9 +202,10 @@ async function runStep() {
         return;
     }
 
-    nextBtn.style.display = "none";
-    restartBtn.style.display = "none";
-    backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
+    /* 🔥 BOTONES SIEMPRE VISIBLES (MÓVIL FIX) */
+    nextBtn.style.display = "inline-block";
+    restartBtn.style.display = "inline-block";
+    backBtn.style.display = userData.step > 0 ? "inline-block" : "inline-block";
 
     /* MULTI TEXTO */
     if (step.textos?.length) {
@@ -224,8 +219,6 @@ async function runStep() {
 
             await new Promise(r => safeTimeout(r, 400));
         }
-
-        nextBtn.style.display = "inline-block";
     }
 
     /* DECISION */
@@ -243,6 +236,11 @@ async function runStep() {
             const btn = document.createElement("button");
             btn.textContent = opt;
 
+            btn.style.display = "block";
+            btn.style.width = "100%";
+            btn.style.margin = "10px 0";
+            btn.style.padding = "15px";
+
             btn.onclick = async () => {
 
                 const ok = i === step.correcta;
@@ -259,8 +257,6 @@ async function runStep() {
                 if (ok) userData.disciplina += 5;
 
                 save();
-
-                nextBtn.style.display = "inline-block";
             };
 
             box.appendChild(btn);
@@ -276,8 +272,6 @@ async function runStep() {
 
         await speak(step.texto);
         await typeText(step.texto);
-
-        nextBtn.style.display = "inline-block";
     }
 
     engine.locked = false;
@@ -291,19 +285,11 @@ function finish() {
 
     userData.sessionId++;
 
-    if (userData.sessionId > 21) {
-        userData.sessionId = 1;
-    }
+    if (userData.sessionId > 21) userData.sessionId = 1;
 
     userData.step = 0;
 
     save();
-
-    nextBtn.style.display = "inline-block";
-    restartBtn.style.display = "inline-block";
-    backBtn.style.display = "inline-block";
-
-    engine.locked = false;
 }
 
 /* ================= SAVE ================= */
@@ -321,7 +307,6 @@ function initGallery() {
     for (let i = 0; i < 20; i++) {
 
         const div = document.createElement("div");
-
         div.className = "slide";
 
         div.style.backgroundImage =
@@ -332,9 +317,9 @@ function initGallery() {
 
     const slides = document.querySelectorAll(".slide");
 
-    slides[0].classList.add("active");
+    if (slides[0]) slides[0].classList.add("active");
 
-    galleryTimer = setInterval(() => {
+    setInterval(() => {
 
         const all = document.querySelectorAll(".slide");
 
@@ -347,19 +332,19 @@ function initGallery() {
     }, 7000);
 }
 
-/* ================= BUTTONS ================= */
+/* ================= BOTONES ================= */
 
 startBtn.onclick = async () => {
 
     startBtn.style.display = "none";
 
+    bgMusic.play();
+
     userData.step = 0;
 
     initGallery();
 
-    bgMusic.play(); // 🔥 MUSICA INICIA
-
-    startBreathing("normal"); // 🔥 RESPIRACIÓN SIEMPRE
+    startBreathing("normal");
 
     await loadSession();
 
