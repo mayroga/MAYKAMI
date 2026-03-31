@@ -1,259 +1,112 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+import os
 import json
+import stripe
 from pathlib import Path
+from fastapi import FastAPI, Request, Header, Depends, HTTPException, status
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
+# Configuración de Motor y Rutas
 app = FastAPI(title="MayKaMi NeuroGame Engine")
+security = HTTPBasic()
 
-# Configuración de rutas
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-# Montaje de archivos estáticos
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
+# Configuración Stripe (Valores desde Render)
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+# Credenciales Admin (Valores desde Render)
+ADMIN_USER = os.getenv("ADMIN_USERNAME")
+ADMIN_PASS = os.getenv("ADMIN_PASSWORD")
+
+# --- LÓGICA DE AUTENTICACIÓN ---
+def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
+    if credentials.username != ADMIN_USER or credentials.password != ADMIN_PASS:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Acceso Denegado",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
+
+# --- ENDPOINTS DE CARGA ---
 def cargar_db():
-    """Carga y ordena las sesiones de entrenamiento."""
     try:
-        if not JSON_PATH.exists():
-            print("Error: No existe el archivo tvid_ejercicio.json")
-            return {"sesiones": []}
-       
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-       
-        # Ordenar por ID para mantener la jerarquía del entrenamiento
-        if "sesiones" in data:
-            data["sesiones"].sort(key=lambda x: x.get("id", 0))
-        return data
-    except Exception as e:
-        print(f"Error crítico en lectura de JSON: {e}")
+            if "sesiones" in data:
+                data["sesiones"].sort(key=lambda x: x.get("id", 0))
+            return data
+    except Exception:
         return {"sesiones": []}
 
+# --- RUTAS PRINCIPALES ---
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    """Punto de entrada de la aplicación MayKaMi."""
     html_path = STATIC_DIR / "session.html"
-    if not html_path.exists():
-        return HTMLResponse("<h1>Error: session.html no encontrado en static/</h1>", status_code=404)
-   
     with open(html_path, "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_panel(user: str = Depends(get_current_user)):
+    """Acceso gratuito para administradores."""
+    return f"<h1>Bienvenido {user} al panel de MayKaMi</h1><p>Acceso concedido.</p>"
+
+# --- INTEGRACIÓN STRIPE ---
+@app.post("/create-checkout-session")
+async def create_checkout():
+    """Crea la sesión de pago para el usuario."""
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {'name': 'MayKaMi Full Access'},
+                    'unit_amount': 2500,  # $25.00
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='https://tu-app-en-render.com/static/session.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url='https://tu-app-en-render.com/',
+        )
+        return JSONResponse({"url": checkout_session.url})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+@app.post("/webhook")
+async def stripe_webhook(request: Request):
+    """Maneja la confirmación del pago desde Stripe."""
+    payload = await request.body()
+    sig_header = request.headers.get("stripe-signature")
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, STRIPE_WEBHOOK_SECRET
+        )
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+        # Aquí puedes activar el acceso en tu base de datos para el cliente
+        print(f"Pago exitoso para: {session.customer_details.email}")
+
+    return JSONResponse({"status": "success"})
+
+# --- DATA ---
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
-    """Endpoint para obtener la base de datos de ejercicios con validación."""
     db = cargar_db()
-    if not db["sesiones"]:
-        return JSONResponse(
-            status_code=404,
-            content={"error": "Base de datos de sesiones no encontrada o vacía"}
-        )
     return JSONResponse(content=db)
 
 @app.get("/health")
 async def health():
-    """Verificación de estado del servidor."""
     return {"status": "ok", "engine": "MayKaMi NeuroGame"}
-
-
-
-static/session.html
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>MAYKAMI NeuroGame Engine</title>
-
-<style>
-/* ================= BASE ================= */
-
-body {
-    margin: 0;
-    background: #000;
-    font-family: Arial, sans-serif;
-    color: white;
-    overflow: hidden;
-}
-
-/* ================= GALERÍA ================= */
-
-#visual-gallery {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 2s;
-    background-size: cover;
-    background-position: center;
-}
-
-.slide.active {
-    opacity: 0.4;
-}
-
-/* ================= UI ================= */
-
-#ui {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 80px; /* 🔥 espacio para botones */
-   
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ================= CÍRCULO ================= */
-
-#visual-circle {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    border: 4px solid #60a5fa;
-   
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 1.4rem;
-    margin-bottom: 20px;
-
-    transition: all 1s ease;
-}
-
-.inhale {
-    transform: scale(1.4);
-    background: rgba(96,165,250,0.2);
-}
-
-.exhale {
-    transform: scale(0.7);
-    background: rgba(239,68,68,0.2);
-}
-
-.hold {
-    transform: scale(1.1);
-    background: rgba(245,158,11,0.2);
-}
-
-/* ================= TEXTO ================= */
-
-#block {
-    width: 90%;
-    max-width: 700px;
-    height: 180px;
-
-    overflow-y: auto; /* 🔥 SCROLL CONTROLADO */
-
-    font-size: 1.3rem;
-    text-align: center;
-
-    padding: 10px;
-
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-}
-
-/* ================= CONTROLES FIJOS ================= */
-
-.controls {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-   
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    background: rgba(0,0,0,0.8);
-    padding: 10px;
-
-    z-index: 999;
-}
-
-/* ================= BOTONES ================= */
-
-button {
-    flex: 1;
-    margin: 5px;
-    padding: 12px;
-
-    border: none;
-    border-radius: 8px;
-
-    background: #2563eb;
-    color: white;
-
-    font-size: 1rem;
-
-    cursor: pointer;
-}
-
-button:hover {
-    background: #1d4ed8;
-}
-
-/* ================= MOBILE EXTRA ================= */
-
-@media (max-width: 600px) {
-
-    #visual-circle {
-        width: 140px;
-        height: 140px;
-        font-size: 1.1rem;
-    }
-
-    #block {
-        height: 150px;
-        font-size: 1.1rem;
-    }
-
-    button {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="visual-gallery"></div>
-
-<div id="ui">
-
-    <div id="visual-circle">MAYKAMI</div>
-
-    <div id="block">Listo para iniciar sesión</div>
-
-</div>
-
-<!-- 🔥 BOTONES SIEMPRE VISIBLES -->
-<div class="controls">
-    <button id="start-btn">Iniciar</button>
-    <button id="back-btn">Atrás</button>
-    <button id="next-btn">Siguiente</button>
-    <button id="restart-btn">Reiniciar</button>
-</div>
-
-<script src="/static/scripts.js"></script>
-
-</body>
-</html>
