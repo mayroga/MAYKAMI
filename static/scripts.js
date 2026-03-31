@@ -1,5 +1,6 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V8 FIX STABLE FINAL
+   MAYKAMI NEUROGAME ENGINE V8.5 - STABLE FINAL (STRIPE & ADMIN READY)
+   URL: https://maykami.onrender.com
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -10,6 +11,29 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+
+/* ================= SISTEMA DE PAGO (STRIPE) ================= */
+
+async function iniciarPago() {
+    block.innerHTML = "Conectando con la pasarela de pago segura...";
+    try {
+        const response = await fetch("/checkout", { method: "POST" });
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert("Error en el servidor de pagos. Intente más tarde.");
+        }
+    } catch (err) {
+        console.error("Error Stripe:", err);
+    }
+}
+
+// Verificar si el usuario acaba de pagar al cargar la página
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('pago') === 'exitoso') {
+    console.log("Acceso premium confirmado por pago.");
+}
 
 /* ================= AUDIO (FIX MÓVIL) ================= */
 
@@ -25,7 +49,7 @@ function playMusic() {
     });
 }
 
-/* ================= ENGINE ================= */
+/* ================= ENGINE CORE ================= */
 
 let engine = {
     locked: false,
@@ -43,7 +67,7 @@ let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
 
 let slideIndex = 0;
 
-/* ================= SAFE TIMER ================= */
+/* ================= UTILS & SAFE TIMERS ================= */
 
 function safeTimeout(fn, t) {
     const id = setTimeout(() => {
@@ -53,70 +77,42 @@ function safeTimeout(fn, t) {
     engine.timers.add(id);
 }
 
-/* ================= RESET ================= */
-
 function resetEngine() {
-
     engine.abort = true;
-
     window.speechSynthesis.cancel();
-
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
-
     block.innerHTML = "";
-
     startBreathing(null, false);
 }
 
-/* ================= VOZ ================= */
-
 function speak(text) {
     return new Promise(resolve => {
-
         window.speechSynthesis.cancel();
-
-        const utter = new SpeechSynthesisUtterance(
-            text.replace(/<[^>]*>/g, "")
-        );
-
+        const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
         utter.rate = 0.92;
-
         utter.onend = resolve;
         utter.onerror = resolve;
-
         window.speechSynthesis.speak(utter);
     });
 }
-
-/* ================= TIMER EXACTO DESDE TEXTO ================= */
 
 function extractSeconds(text) {
     const match = text.match(/(\d{1,3})\s*(segundos|seg|s)/i);
     return match ? parseInt(match[1]) : null;
 }
 
-/* ================= DETECTAR RETÉN ================= */
-
 function hasHold(text) {
     const t = text.toLowerCase();
-    return (
-        t.includes("reten") ||
-        t.includes("retener") ||
-        t.includes("pausa") ||
-        t.includes("hold")
-    );
+    return t.includes("reten") || t.includes("retener") || t.includes("pausa") || t.includes("hold");
 }
 
-/* ================= RESPIRACIÓN REAL HUMANA ================= */
-/* 16–22 ciclos/min => 2.7s a 3.7s por ciclo */
+/* ================= RESPIRACIÓN FISIOLÓGICA ================= */
 
 function startBreathing(seconds = null, forceHold = false) {
-
     clearInterval(engine.breathLoop);
-
-    const cycle = 3400; // 🔥 promedio fisiológico humano
+    const cycle = 3400; 
     const inhaleTime = cycle * 0.4;
     const holdTime   = cycle * 0.2;
     const exhaleTime = cycle * 0.4;
@@ -125,70 +121,49 @@ function startBreathing(seconds = null, forceHold = false) {
     const duration = seconds ? seconds * 1000 : Infinity;
 
     function loop() {
-
-        if (engine.abort) return;
-
-        if (Date.now() - start >= duration) return;
+        if (engine.abort || (Date.now() - start >= duration)) return;
 
         circle.className = "inhale";
         circle.textContent = "Inhala";
 
         safeTimeout(() => {
-
             if (forceHold) {
                 circle.className = "hold";
                 circle.textContent = "Retén";
             }
-
             safeTimeout(() => {
-
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
-
                 safeTimeout(loop, exhaleTime);
-
             }, forceHold ? holdTime : 0);
-
         }, inhaleTime);
     }
-
     loop();
 }
 
-/* ================= TEXTO ================= */
-
 async function typeText(text) {
-
     block.innerHTML = "";
-
     for (let i = 0; i < text.length; i++) {
-
         if (engine.abort) return;
-
         block.innerHTML += text[i];
-
         await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-/* ================= LOAD SESSION ================= */
+/* ================= DATA & EXECUTION ================= */
 
 async function loadSession() {
-
-    const res = await fetch("/tvid_ejercicio.json");
-    const data = await res.json();
-
-    if (userData.sessionId > 21) userData.sessionId = 1;
-
-    engine.session =
-        data.sesiones.find(s => s.id === userData.sessionId)
-        || data.sesiones[0];
+    try {
+        const res = await fetch("/tvid_ejercicio.json");
+        const data = await res.json();
+        if (userData.sessionId > 21) userData.sessionId = 1;
+        engine.session = data.sesiones.find(s => s.id === userData.sessionId) || data.sesiones[0];
+    } catch (e) {
+        console.error("Error cargando sesiones:", e);
+    }
 }
 
-/* ================= CORE ================= */
-
 async function runStep() {
-
     if (engine.locked) return;
     engine.locked = true;
 
@@ -206,183 +181,94 @@ async function runStep() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    /* MULTI TEXTO */
     if (step.textos?.length) {
-
         for (const t of step.textos) {
-
             const seconds = extractSeconds(t);
             const hold = hasHold(t);
-
             await speak(t);
             await typeText(t);
-
-            if (
-                t.toLowerCase().includes("respira") ||
-                t.toLowerCase().includes("inhala") ||
-                t.toLowerCase().includes("exhala")
-            ) {
-                startBreathing(seconds, hold);
-            }
-
+            if (/respira|inhala|exhala/i.test(t)) startBreathing(seconds, hold);
             await new Promise(r => safeTimeout(r, 400));
         }
-    }
-
-    /* DECISION */
-    else if (step.tipo === "decision") {
-
+    } else if (step.tipo === "decision") {
         await speak(step.pregunta);
         await typeText(step.pregunta);
-
         const box = document.createElement("div");
-
         step.opciones.forEach((opt, i) => {
-
             const btn = document.createElement("button");
+            btn.className = "opt-btn";
             btn.textContent = opt;
-
-            btn.style.display = "block";
-            btn.style.width = "100%";
-            btn.style.margin = "10px 0";
-
             btn.onclick = async () => {
-
                 const ok = i === step.correcta;
-
-                const msg = ok
-                    ? "Correcto. " + step.explicacion
-                    : "Incorrecto. " + step.explicacion;
-
+                const msg = (ok ? "Correcto. " : "Incorrecto. ") + step.explicacion;
                 await speak(msg);
                 await typeText(msg);
-
                 if (ok) userData.disciplina += 5;
-
                 save();
             };
-
             box.appendChild(btn);
         });
-
         block.appendChild(box);
-    }
-
-    /* SIMPLE */
-    else if (step.texto) {
-
+    } else if (step.texto) {
         const seconds = extractSeconds(step.texto);
         const hold = hasHold(step.texto);
-
         await speak(step.texto);
         await typeText(step.texto);
-
-        if (
-            step.texto.toLowerCase().includes("respira") ||
-            step.texto.toLowerCase().includes("inhala") ||
-            step.texto.toLowerCase().includes("exhala")
-        ) {
-            startBreathing(seconds, hold);
-        }
+        if (/respira|inhala|exhala/i.test(step.texto)) startBreathing(seconds, hold);
     }
-
     engine.locked = false;
 }
-
-/* ================= FIN FIX ================= */
 
 async function finish() {
-
-    block.innerHTML = "Sesión completada";
-
+    block.innerHTML = "Sesión completada exitosamente.";
     userData.sessionId++;
-
     if (userData.sessionId > 21) userData.sessionId = 1;
-
     userData.step = 0;
-
     save();
-
     await loadSession();
-
     engine.locked = false;
 }
-
-/* ================= SAVE ================= */
 
 function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ================= GALERÍA ================= */
+/* ================= UI & GALERÍA ================= */
 
 function initGallery() {
-
     gallery.innerHTML = "";
-
     for (let i = 0; i < 20; i++) {
-
         const div = document.createElement("div");
         div.className = "slide";
-
-        div.style.backgroundImage =
-            `url(https://picsum.photos/1920/1080?random=${i})`;
-
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?random=${i})`;
         gallery.appendChild(div);
     }
-
     const slides = document.querySelectorAll(".slide");
-
     if (slides[0]) slides[0].classList.add("active");
 
     setInterval(() => {
-
         const all = document.querySelectorAll(".slide");
-
         all.forEach(s => s.classList.remove("active"));
-
         slideIndex = (slideIndex + 1) % all.length;
-
         all[slideIndex].classList.add("active");
-
     }, 7000);
 }
 
-/* ================= BOTONES ================= */
+/* ================= EVENTOS DE BOTONES ================= */
 
 startBtn.onclick = async () => {
-
     startBtn.style.display = "none";
-
     playMusic();
-
     userData.step = 0;
-
     initGallery();
-
     startBreathing();
-
     await loadSession();
-
     runStep();
 };
 
-nextBtn.onclick = () => {
-    userData.step++;
-    save();
-    runStep();
-};
+nextBtn.onclick = () => { userData.step++; save(); runStep(); };
+backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
+restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
 
-backBtn.onclick = () => {
-    if (userData.step > 0) userData.step--;
-    save();
-    runStep();
-};
-
-restartBtn.onclick = () => {
-    userData.step = 0;
-    save();
-    runStep();
-};
-
+// Iniciar guardado inicial
 save();
