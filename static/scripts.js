@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V7 - PRO MOBILE FINAL
+   MAYKAMI NEUROGAME ENGINE V8 PRO FIX FINAL
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,11 +11,20 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-/* ================= AUDIO SUAVE ================= */
+/* ================= AUDIO FIX REAL ================= */
 
 const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.08; // 🔥 MUY BAJO (no molesta)
+bgMusic.volume = 0.05;
+
+function playMusic() {
+    bgMusic.play().catch(() => {
+        // 🔥 fallback para móviles
+        document.body.addEventListener("click", () => {
+            bgMusic.play();
+        }, { once: true });
+    });
+}
 
 /* ================= ENGINE ================= */
 
@@ -58,7 +67,7 @@ function resetEngine() {
 
     block.innerHTML = "";
 
-    startBreathing("normal"); // 🔥 SIEMPRE ACTIVO
+    startBreathing("normal");
 }
 
 /* ================= VOZ ================= */
@@ -83,7 +92,7 @@ function speak(text) {
     });
 }
 
-/* ================= RESPIRACIÓN REAL ================= */
+/* ================= RESPIRACIÓN ================= */
 
 function startBreathing(mode = "normal") {
 
@@ -97,19 +106,16 @@ function startBreathing(mode = "normal") {
 
         if (engine.abort) return;
 
-        // INHALA
         circle.className = "inhale";
         circle.textContent = "Inhala";
 
         safeTimeout(() => {
 
-            // HOLD
             circle.className = "hold";
             circle.textContent = "Retén";
 
             safeTimeout(() => {
 
-                // EXHALA
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
 
@@ -123,33 +129,31 @@ function startBreathing(mode = "normal") {
     cycle();
 }
 
-/* ================= DETECTOR INTELIGENTE ================= */
+/* ================= DETECTOR ================= */
 
 function detectBreathingMode(text) {
 
     const t = text.toLowerCase();
 
     const palabras = [
-        "respira","respiración","respirar","aire","oxígeno","pulmón",
-        "inhala","inhalar","aspira","llenar",
-        "exhala","exhalar","suelta","expulsa",
-        "retén","retener","pausa","aguanta"
+        "respira","respiración","aire","oxígeno","pulmón",
+        "inhala","aspira",
+        "exhala","suelta",
+        "retén","pausa"
     ];
 
-    const esRespiracion = palabras.some(p => t.includes(p));
-
-    if (esRespiracion) {
-        startBreathing("deep"); // 🔥 modo terapia
+    if (palabras.some(p => t.includes(p))) {
+        startBreathing("deep");
     } else {
         startBreathing("normal");
     }
 }
 
-/* ================= TYPE LIMPIO (NO ACUMULA TEXTO) ================= */
+/* ================= TYPE ================= */
 
 async function typeText(text) {
 
-    block.innerHTML = ""; // 🔥 LIMPIA SIEMPRE
+    block.innerHTML = "";
 
     for (let i = 0; i < text.length; i++) {
 
@@ -159,6 +163,37 @@ async function typeText(text) {
 
         await new Promise(r => safeTimeout(r, 12));
     }
+}
+
+/* ================= ⏱ CONTADOR RESTAURADO ================= */
+
+async function countdown(seconds, text = "Asimila la técnica") {
+
+    return new Promise(resolve => {
+
+        let t = seconds;
+
+        const interval = setInterval(() => {
+
+            if (engine.abort) {
+                clearInterval(interval);
+                return;
+            }
+
+            block.innerHTML = `
+                ${text}<br>
+                <span style="font-size:50px;color:#60a5fa;">${t}</span>
+            `;
+
+            if (t <= 0) {
+                clearInterval(interval);
+                resolve();
+            }
+
+            t--;
+
+        }, 1000);
+    });
 }
 
 /* ================= LOAD ================= */
@@ -192,7 +227,6 @@ async function runStep() {
         return;
     }
 
-    /* 🔥 BOTONES FIJOS SIEMPRE VISIBLES */
     nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
@@ -209,12 +243,14 @@ async function runStep() {
 
             await new Promise(r => safeTimeout(r, 400));
         }
+
+        if (step.duracion) {
+            await countdown(step.duracion);
+        }
     }
 
     /* DECISION */
     else if (step.tipo === "decision") {
-
-        detectBreathingMode(step.pregunta);
 
         await speak(step.pregunta);
         await typeText(step.pregunta);
@@ -229,7 +265,6 @@ async function runStep() {
             btn.style.display = "block";
             btn.style.width = "100%";
             btn.style.margin = "10px 0";
-            btn.style.padding = "15px";
 
             btn.onclick = async () => {
 
@@ -238,8 +273,6 @@ async function runStep() {
                 const msg = ok
                     ? "Correcto. " + step.explicacion
                     : "Incorrecto. " + step.explicacion;
-
-                detectBreathingMode(msg);
 
                 await speak(msg);
                 await typeText(msg);
@@ -262,14 +295,18 @@ async function runStep() {
 
         await speak(step.texto);
         await typeText(step.texto);
+
+        if (step.duracion) {
+            await countdown(step.duracion, step.texto);
+        }
     }
 
     engine.locked = false;
 }
 
-/* ================= FIN ================= */
+/* ================= FIN (FIX FREEZE) ================= */
 
-function finish() {
+async function finish() {
 
     block.innerHTML = "Sesión completada";
 
@@ -280,6 +317,11 @@ function finish() {
     userData.step = 0;
 
     save();
+
+    // 🔥 RECARGA AUTOMÁTICA
+    await loadSession();
+
+    engine.locked = false;
 }
 
 /* ================= SAVE ================= */
@@ -328,7 +370,7 @@ startBtn.onclick = async () => {
 
     startBtn.style.display = "none";
 
-    bgMusic.play();
+    playMusic(); // 🔥 FIX AUDIO
 
     userData.step = 0;
 
