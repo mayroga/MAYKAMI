@@ -3,19 +3,47 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 import json
 from pathlib import Path
+import stripe
+import os
 
 app = FastAPI(title="MayKaMi NeuroGame Engine")
 
-# Configuración de rutas
+# ================= STRIPE =================
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+YOUR_DOMAIN = "https://maykami.onrender.com"
+
+@app.post("/create-checkout-session")
+async def create_checkout_session():
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "usd",
+                    "product_data": {
+                        "name": "MayKaMi Servicio"
+                    },
+                    "unit_amount": 1599,
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=YOUR_DOMAIN + "?success=true",
+            cancel_url=YOUR_DOMAIN + "?canceled=true",
+        )
+        return {"url": session.url}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+# ================= TU CÓDIGO ORIGINAL =================
+
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-# Montaje de archivos estáticos
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 def cargar_db():
-    """Carga y ordena las sesiones de entrenamiento."""
     try:
         if not JSON_PATH.exists():
             print("Error: No existe el archivo tvid_ejercicio.json")
@@ -24,7 +52,6 @@ def cargar_db():
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
        
-        # Ordenar por ID para mantener la jerarquía del entrenamiento
         if "sesiones" in data:
             data["sesiones"].sort(key=lambda x: x.get("id", 0))
         return data
@@ -34,7 +61,6 @@ def cargar_db():
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    """Punto de entrada de la aplicación MayKaMi."""
     html_path = STATIC_DIR / "session.html"
     if not html_path.exists():
         return HTMLResponse("<h1>Error: session.html no encontrado en static/</h1>", status_code=404)
@@ -44,7 +70,6 @@ async def home():
 
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
-    """Endpoint para obtener la base de datos de ejercicios con validación."""
     db = cargar_db()
     if not db["sesiones"]:
         return JSONResponse(
@@ -55,5 +80,4 @@ async def get_sessions():
 
 @app.get("/health")
 async def health():
-    """Verificación de estado del servidor."""
     return {"status": "ok", "engine": "MayKaMi NeuroGame"}
