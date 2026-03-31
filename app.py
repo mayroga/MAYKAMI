@@ -12,14 +12,33 @@ def home():
     return render_template("index.html")
 
 
-# LOGIN GRATIS (USANDO RENDER KEYS)
 @app.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
 
-    username = data.get("username")
-    password = data.get("password")
+    username = (data.get("username") or "").strip()
+    password = (data.get("password") or "").strip()
 
+    admin_user = (ADMIN_USERNAME or "").strip()
+    admin_pass = (ADMIN_PASSWORD or "").strip()
+
+    print("DEBUG USER:", username)
+    print("DEBUG PASS:", password)
+    print("ENV USER:", admin_user)
+    print("ENV PASS:", admin_pass)
+
+    if username == admin_user and password == admin_pass:
+        return jsonify({
+            "success": True,
+            "access": "free",
+            "paid": True
+        })
+
+    return jsonify({
+        "success": False,
+        "access": "denied",
+        "paid": False
+    })
     # ACCESO GRATIS SI COINCIDE CON ADMIN EN RENDER
     if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
         return jsonify({
