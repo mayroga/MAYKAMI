@@ -178,3 +178,41 @@ async function pagar() {
         alert("Error con Stripe");
     }
 }
+/* =========================
+   STRIPE PAYMENT BOTÓN
+========================= */
+
+async function pagarServicio() {
+    try {
+        const res = await fetch("/create-checkout-session", {
+            method: "POST"
+        });
+
+        const data = await res.json();
+
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert("Error creando pago");
+        }
+
+    } catch (err) {
+        console.error("Error pago:", err);
+    }
+}
+
+/* =========================
+   DETECTAR PAGO EXITOSO
+========================= */
+
+(function () {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("success") === "true") {
+        alert("Pago realizado correctamente ✔");
+    }
+
+    if (params.get("canceled") === "true") {
+        alert("Pago cancelado");
+    }
+})();
