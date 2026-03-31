@@ -1,263 +1,296 @@
-/* ============================================================
-   MAYKAMI NEUROGAME ENGINE - FRONTEND CONTROLLER
-   STRIPE + TVID + SESSION MANAGER
-   VERSION: PRO SECURE PATCH (NO BREAK CHANGES)
-============================================================ */
-
 "use strict";
+
+/* =========================
+   MAYKAMI V8 + PRO SECURITY PATCH
+========================= */
+
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
+const block = document.getElementById("block");
 
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
-const payBtn = document.getElementById("pay-btn");
 
-const block = document.getElementById("block");
-const gallery = document.getElementById("visual-gallery");
-const circle = document.getElementById("visual-circle");
+const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.06;
 
-let sesiones = [];
-let current = 0;
+function playMusic() {
+    bgMusic.play().catch(() => {
+        document.body.addEventListener("click", () => bgMusic.play(), { once: true });
+    });
+}
 
-// =========================
-// PRO SECURITY LAYER (NEW)
-// =========================
-let userPaid = false;
-let sessionActive = false;
-let userEmail = null;
+/* =========================
+   ENGINE ORIGINAL
+========================= */
 
-// =========================
-// INIT APP
-// =========================
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadSessions();
+let engine = {
+    locked: false,
+    abort: false,
+    timers: new Set(),
+    breathLoop: null,
+    session: null
+};
 
-    loadEmailFromStorage();
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
+    sessionId: 1,
+    step: 0,
+    disciplina: 40
+};
 
-    await checkPaymentStatus();
+let userEmail = localStorage.getItem("maykami_email");
+let accessGranted = false;
 
-    checkUrlStatus();
-});
+/* =========================
+   SAFE TIMER
+========================= */
 
-// =========================
-// LOAD EMAIL (NEW SAFE LAYER)
-// =========================
-function loadEmailFromStorage() {
-    try {
-        userEmail = localStorage.getItem("maykami_email") || null;
-    } catch (e) {
-        userEmail = null;
+function safeTimeout(fn, t) {
+    const id = setTimeout(() => {
+        engine.timers.delete(id);
+        fn();
+    }, t);
+    engine.timers.add(id);
+}
+
+/* =========================
+   RESET
+========================= */
+
+function resetEngine() {
+    engine.abort = true;
+    window.speechSynthesis.cancel();
+
+    engine.timers.forEach(t => clearTimeout(t));
+    engine.timers.clear();
+
+    block.innerHTML = "";
+}
+
+/* =========================
+   SPEAK
+========================= */
+
+function speak(text) {
+    return new Promise(resolve => {
+        window.speechSynthesis.cancel();
+
+        const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
+        utter.lang = "es-ES";
+        utter.rate = 0.92;
+
+        utter.onend = resolve;
+        utter.onerror = resolve;
+
+        window.speechSynthesis.speak(utter);
+    });
+}
+
+/* =========================
+   BREATH
+========================= */
+
+function startBreathing() {
+    clearInterval(engine.breathLoop);
+
+    const cycle = 3400;
+    const inhale = cycle * 0.4;
+    const hold = cycle * 0.2;
+    const exhale = cycle * 0.4;
+
+    function loop() {
+        if (engine.abort) return;
+
+        circle.className = "inhale";
+        circle.textContent = "Inhala";
+
+        safeTimeout(() => {
+            circle.className = "exhale";
+            circle.textContent = "Exhala";
+            safeTimeout(loop, exhale);
+        }, inhale + hold);
+    }
+
+    loop();
+}
+
+/* =========================
+   TYPE TEXT
+========================= */
+
+async function typeText(text) {
+    block.innerHTML = "";
+
+    for (let i = 0; i < text.length; i++) {
+        if (engine.abort) return;
+        block.innerHTML += text[i];
+        await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-// =========================
-// LOAD TVID SESSIONS (UNCHANGED)
-// =========================
-async function loadSessions() {
-    try {
-        const res = await fetch("/tvid_ejercicio.json");
-        const data = await res.json();
-        sesiones = data.sesiones || [];
-        console.log("Sesiones cargadas:", sesiones.length);
-    } catch (err) {
-        console.error("Error cargando sesiones:", err);
-    }
+/* =========================
+   LOAD SESSION
+========================= */
+
+async function loadSession() {
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
+
+    engine.session =
+        data.sesiones.find(s => s.id === userData.sessionId)
+        || data.sesiones[0];
 }
 
-// =========================
-// CHECK PAYMENT STATUS (ENHANCED, NOT REMOVED)
-// =========================
-async function checkPaymentStatus() {
-    try {
-        const res = await fetch("/health");
-        const data = await res.json();
+/* =========================
+   VERIFY ACCESS (PRO PATCH)
+========================= */
 
-        console.log("Server status:", data.status);
+async function verifyAccess() {
+    if (!userEmail) return;
 
-        // =========================
-        // PRO SECURITY ADDITION
-        // =========================
-        if (userEmail) {
-            await verifyAccess(userEmail);
-        }
+    const res = await fetch(`/verify-access?email=${encodeURIComponent(userEmail)}`);
+    const data = await res.json();
 
-    } catch (err) {
-        console.error("Error verificando estado:", err);
-    }
+    accessGranted = data.paid === true;
 }
 
-// =========================
-// VERIFY ACCESS (NEW PRO LAYER)
-// =========================
-async function verifyAccess(email) {
-    try {
-        const res = await fetch(`/verify-access?email=${encodeURIComponent(email)}`);
-        const data = await res.json();
+/* =========================
+   CORE
+========================= */
 
-        userPaid = data.paid === true;
+async function runStep() {
 
-        console.log("Access status:", userPaid);
+    if (engine.locked) return;
+    engine.locked = true;
 
-    } catch (err) {
-        console.error("Access verify error:", err);
-        userPaid = false;
-    }
-}
+    resetEngine();
+    engine.abort = false;
 
-// =========================
-// START SESSION (UNCHANGED + PRO CHECK)
-// =========================
-startBtn?.addEventListener("click", async () => {
+    const step = engine.session?.bloques?.[userData.step];
 
-    // PRO SECURITY CHECK
-    if (!userPaid) {
-        alert("❌ Acceso denegado. Debes completar el pago.");
+    if (!step) {
+        finish();
         return;
     }
 
-    if (!sessionActive) {
-        sessionActive = true;
-        current = 0;
-        showBlock(current);
-    }
-});
+    if (step.textos?.length) {
+        for (const t of step.textos) {
+            await speak(t);
+            await typeText(t);
 
-// =========================
-// NEXT BLOCK (UNCHANGED + GUARD)
-// =========================
-nextBtn?.addEventListener("click", () => {
-    if (!userPaid) return;
-
-    if (current < sesiones.length - 1) {
-        current++;
-        showBlock(current);
-    }
-});
-
-// =========================
-// BACK BLOCK (UNCHANGED + GUARD)
-// =========================
-backBtn?.addEventListener("click", () => {
-    if (!userPaid) return;
-
-    if (current > 0) {
-        current--;
-        showBlock(current);
-    }
-});
-
-// =========================
-// RESTART SESSION (UNCHANGED + GUARD)
-// =========================
-restartBtn?.addEventListener("click", () => {
-    if (!userPaid) return;
-
-    current = 0;
-    sessionActive = false;
-    showBlock(current);
-});
-
-// =========================
-// SHOW BLOCK (UNCHANGED)
-// =========================
-function showBlock(index) {
-    if (!sesiones.length) return;
-
-    const bloque = sesiones[index];
-    if (!bloque) return;
-
-    if (block) {
-        block.innerHTML = "";
+            if (t.includes("respira") || t.includes("inhala") || t.includes("exhala")) {
+                startBreathing();
+            }
+        }
     }
 
-    if (block) {
-        const div = document.createElement("div");
-        div.className = "block-item";
-        div.innerText = bloque.texto || "Sin contenido";
-        block.appendChild(div);
+    else if (step.texto) {
+        await speak(step.texto);
+        await typeText(step.texto);
+
+        if (step.texto.includes("respira")) {
+            startBreathing();
+        }
     }
 
-    console.log("Mostrando bloque:", index);
-}
+    else if (step.tipo === "decision") {
 
-// =========================
-// STRIPE PAYMENT (UNCHANGED)
-// =========================
-async function goToPayment() {
-    try {
-        const res = await fetch("/create-checkout-session", {
-            method: "POST"
+        await speak(step.pregunta);
+        await typeText(step.pregunta);
+
+        const box = document.createElement("div");
+
+        step.opciones.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.textContent = opt;
+
+            btn.onclick = async () => {
+                const ok = i === step.correcta;
+
+                const msg = ok
+                    ? "Correcto. " + step.explicacion
+                    : "Incorrecto. " + step.explicacion;
+
+                await speak(msg);
+                await typeText(msg);
+
+                if (ok) userData.disciplina += 5;
+
+                save();
+            };
+
+            box.appendChild(btn);
         });
 
-        const data = await res.json();
-
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            console.error("No payment URL received");
-        }
-
-    } catch (err) {
-        console.error("Error en pago:", err);
+        block.appendChild(box);
     }
+
+    engine.locked = false;
 }
 
-// =========================
-// URL PARAM CHECK (UNCHANGED + ENHANCED)
-// =========================
-function checkUrlStatus() {
-    const params = new URLSearchParams(window.location.search);
+/* =========================
+   FIN
+========================= */
 
-    if (params.get("success") === "true") {
-        console.log("Pago exitoso");
+async function finish() {
+    block.innerHTML = "Sesión completada";
 
-        // PRO FIX: revalidar acceso real
-        if (userEmail) {
-            verifyAccess(userEmail);
-        }
-    }
+    userData.sessionId++;
+    userData.step = 0;
 
-    if (params.get("canceled") === "true") {
-        console.log("Pago cancelado");
-    }
+    save();
+    await loadSession();
 }
 
-checkUrlStatus();
+/* =========================
+   SAVE
+========================= */
 
-// =========================
-// SIMPLE ACCESS GUARD (NOW REAL)
-// =========================
-function isAllowed() {
-    return userPaid === true;
+function save() {
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-// =========================
-// AUTO-LOCK UI IF NOT PAID (UNCHANGED LOGIC + SAFE)
-// =========================
-setInterval(() => {
-    if (!isAllowed()) {
-        if (block) {
-            block.style.opacity = "0.6";
-        }
-    } else {
-        if (block) {
-            block.style.opacity = "1";
-        }
+/* =========================
+   BUTTONS + PRO SECURITY
+========================= */
+
+startBtn.onclick = async () => {
+
+    await verifyAccess();
+
+    if (!accessGranted) {
+        alert("Acceso bloqueado");
+        return;
     }
-}, 2000);
 
-// =========================
-// NEW SAFE HELPER (OPTIONAL)
-// =========================
-function setUserEmail(email) {
-    try {
-        localStorage.setItem("maykami_email", email);
-        userEmail = email;
+    startBtn.style.display = "none";
 
-        // auto verify after setting email
-        verifyAccess(email);
+    playMusic();
 
-    } catch (e) {
-        console.error("Email save error:", e);
-    }
-}
+    userData.step = 0;
+
+    await loadSession();
+
+    runStep();
+};
+
+nextBtn.onclick = () => {
+    userData.step++;
+    save();
+    runStep();
+};
+
+backBtn.onclick = () => {
+    if (userData.step > 0) userData.step--;
+    save();
+    runStep();
+};
+
+restartBtn.onclick = () => {
+    userData.step = 0;
+    save();
+    runStep();
+};
