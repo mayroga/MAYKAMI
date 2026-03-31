@@ -1,22 +1,21 @@
 import os
 import json
 import stripe
-from fastapi import FastAPI, Request, Header, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 # =========================
-# APP INIT
+# APP
 # =========================
-app = FastAPI(title="MayKaMi NeuroGame Engine")
+app = FastAPI(title="MayKaMi PRO Engine")
 
 # =========================
-# STRIPE KEYS (RENDER ENV VARIABLES)
+# STRIPE KEYS
 # =========================
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
-STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
+WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 # =========================
 # PATHS
@@ -24,28 +23,22 @@ STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
+PAID_FILE = BASE_DIR / "paid_users.json"
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 # =========================
-# DATABASE LOAD
+# DB
 # =========================
 def cargar_db():
-    try:
-        if not JSON_PATH.exists():
-            return {"sesiones": []}
-
-        with open(JSON_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        if "sesiones" in data:
-            data["sesiones"].sort(key=lambda x: x.get("id", 0))
-
-        return data
-
-    except Exception as e:
-        print("DB ERROR:", e)
+    if not JSON_PATH.exists():
         return {"sesiones": []}
+
+    with open(JSON_PATH, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    data["sesiones"].sort(key=lambda x: x.get("id", 0))
+    return data
 
 # =========================
 # HOME
@@ -53,109 +46,98 @@ def cargar_db():
 @app.get("/", response_class=HTMLResponse)
 async def home():
     html_path = STATIC_DIR / "session.html"
-
-    if not html_path.exists():
-        return HTMLResponse("<h1>session.html no encontrado</h1>", status_code=404)
-
-    with open(html_path, "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
+    return HTMLResponse(open(html_path, "r", encoding="utf-8").read())
 
 # =========================
-# GET DB
+# DATA
 # =========================
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
-    db = cargar_db()
-
-    if not db["sesiones"]:
-        return JSONResponse(
-            status_code=404,
-            content={"error": "Base de datos vacía"}
-        )
-
-    return JSONResponse(content=db)
+    return cargar_db()
 
 # =========================
-# STRIPE CHECKOUT SESSION
+# CREATE STRIPE SESSION
 # =========================
 @app.post("/create-checkout-session")
-async def create_checkout_session():
-    try:
-        session = stripe.checkout.Session.create(
-            payment_method_types=["card"],
-            line_items=[
-                {
-                    "price_data": {
-                        "currency": "usd",
-                        "product_data": {
-                            "name": "MayKaMi NeuroGame Service"
-                        },
-                        "unit_amount": 1599,  # $15.99
-                    },
-                    "quantity": 1,
-                }
-            ],
-            mode="payment",
-            success_url="https://maykami.onrender.com?success=true",
-            cancel_url="https://maykami.onrender.com?canceled=true",
-        )
+async def checkout():
+    session = stripe.checkout.Session.create(
+        payment_method_types=["card"],
+        mode="payment",
+        line_items=[{
+            "price_data": {
+                "currency": "usd",
+                "product_data": {"name": "MayKaMi PRO Access"},
+                "unit_amount": 1599,
+            },
+            "quantity": 1
+        }],
+        success_url="https://maykami.onrender.com?success=true",
+        cancel_url="https://maykami.onrender.com?canceled=true",
+    )
 
-        return {"url": session.url}
-
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+    return {"url": session.url}
 
 # =========================
-# STRIPE WEBHOOK (SEGURIDAD REAL)
+# VERIFY ACCESS (PRO SECURITY)
+# =========================
+@app.get("/verify-access")
+async def verify_access(email: str):
+    if not PAID_FILE.exists():
+        return {"paid": False}
+
+    with open(PAID_FILE, "r") as f:
+        data = json.load(f)
+
+    return {"paid": email in data}
+
+# =========================
+# WEBHOOK STRIPE (PRO FIXED)
 # =========================
 @app.post("/webhook")
-async def stripe_webhook(request: Request, stripe_signature: str = Header(None)):
+async def webhook(request: Request):
     payload = await request.body()
+    sig_header = request.headers.get("stripe-signature")
+
+    if not sig_header:
+        raise HTTPException(status_code=400, detail="Missing Stripe signature")
 
     try:
         event = stripe.Webhook.construct_event(
             payload,
-            stripe_signature,
-            STRIPE_WEBHOOK_SECRET
+            sig_header,
+            WEBHOOK_SECRET
         )
-
-    except ValueError:
-        raise HTTPException(status_code=400, detail="Invalid payload")
-
-    except stripe.error.SignatureVerificationError:
-        raise HTTPException(status_code=400, detail="Invalid signature")
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid webhook")
 
     # =========================
-    # PAGO CONFIRMADO
+    # PAYMENT SUCCESS
     # =========================
     if event["type"] == "checkout.session.completed":
         session = event["data"]["object"]
 
-        email = session.get("customer_email", "unknown")
+        email = session.get("customer_details", {}).get("email")
 
-        print("✔ PAGO CONFIRMADO:", email)
+        if email:
+            if PAID_FILE.exists():
+                with open(PAID_FILE, "r") as f:
+                    users = json.load(f)
+            else:
+                users = []
 
-        # Aquí puedes activar acceso real:
-        # guardar en DB, archivo o memoria
-        # ejemplo simple:
-        paid_file = BASE_DIR / "paid_users.json"
+            if email not in users:
+                users.append(email)
 
-        if paid_file.exists():
-            with open(paid_file, "r") as f:
-                data = json.load(f)
-        else:
-            data = []
+            with open(PAID_FILE, "w") as f:
+                json.dump(users, f)
 
-        data.append(email)
-
-        with open(paid_file, "w") as f:
-            json.dump(data, f)
+            print("✔ Pago registrado:", email)
 
     return {"status": "ok"}
 
 # =========================
-# HEALTH CHECK
+# HEALTH
 # =========================
 @app.get("/health")
 async def health():
-    return {"status": "ok", "engine": "MayKaMi NeuroGame"}
+    return {"status": "ok", "engine": "MayKaMi PRO"}
