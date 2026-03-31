@@ -11,3 +11,4 @@ pydantic
 openai
 json5
 pytz
+Flask
