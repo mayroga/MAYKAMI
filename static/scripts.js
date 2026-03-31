@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V4 - FINAL STABLE CORE
+   MAYKAMI NEUROGAME ENGINE V4 - BREATH SYNC UPGRADE
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,13 +11,15 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-/* ================= STATE ================= */
+/* ================= ENGINE STATE ================= */
 
 let engine = {
     locked: false,
     abort: false,
     speaking: false,
     timers: new Set(),
+    breathing: false,
+    breathLoop: null,
     session: null
 };
 
@@ -37,11 +39,10 @@ function safeTimeout(fn, t) {
         engine.timers.delete(id);
         fn();
     }, t);
-
     engine.timers.add(id);
 }
 
-/* ================= RESET ENGINE ================= */
+/* ================= RESET ================= */
 
 function resetEngine() {
 
@@ -51,6 +52,8 @@ function resetEngine() {
 
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
+
+    stopBreathing();
 
     engine.locked = false;
     engine.speaking = false;
@@ -90,28 +93,68 @@ function speak(text) {
     });
 }
 
-/* ================= RESPIRACIÓN ================= */
+/* ================= BREATH ENGINE (CORE FIX) ================= */
 
-function breath(text) {
+function startBreathing(mode = "normal") {
+
+    engine.breathing = true;
+
+    let states = ["inhale", "hold", "exhale"];
+    let index = 0;
+
+    clearInterval(engine.breathLoop);
+
+    engine.breathLoop = setInterval(() => {
+
+        if (!engine.breathing) return;
+
+        circle.className = "";
+
+        const state = states[index];
+
+        if (state === "inhale") {
+            circle.classList.add("inhale");
+            circle.textContent = "Inhala";
+        }
+
+        if (state === "hold") {
+            circle.classList.add("hold");
+            circle.textContent = "Retén";
+        }
+
+        if (state === "exhale") {
+            circle.classList.add("exhale");
+            circle.textContent = "Exhala";
+        }
+
+        index = (index + 1) % states.length;
+
+    }, mode === "slow" ? 2500 : 1800);
+}
+
+function stopBreathing() {
+    engine.breathing = false;
+    clearInterval(engine.breathLoop);
+    engine.breathLoop = null;
+    circle.textContent = "MAYKAMI";
+    circle.className = "";
+}
+
+/* ================= BREATH DETECTOR ================= */
+
+function breathSync(text) {
 
     const t = text.toLowerCase();
 
-    circle.className = "";
-
-    if (t.includes("inhala")) {
-        circle.classList.add("inhale");
-        circle.textContent = "Inhala";
-    }
-    else if (t.includes("exhala")) {
-        circle.classList.add("exhale");
-        circle.textContent = "Exhala";
-    }
-    else if (t.includes("retén")) {
-        circle.classList.add("hold");
-        circle.textContent = "Retén";
-    }
-    else {
-        circle.textContent = "MAYKAMI";
+    if (
+        t.includes("respir") ||
+        t.includes("inhala") ||
+        t.includes("exhala") ||
+        t.includes("retén")
+    ) {
+        startBreathing("slow");
+    } else {
+        startBreathing("normal");
     }
 }
 
@@ -127,7 +170,7 @@ async function typeText(text) {
 
         block.textContent += text[i];
 
-        await new Promise(r => safeTimeout(r, 15));
+        await new Promise(r => safeTimeout(r, 12));
     }
 }
 
@@ -164,19 +207,19 @@ async function runStep() {
     restartBtn.style.display = "none";
     backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
 
-    /* MULTI TEXTO */
+    /* MULTI TEXT */
     if (step.textos?.length) {
 
         for (const t of step.textos) {
 
             if (engine.abort) return;
 
-            breath(t);
+            breathSync(t);
 
             await speak(t);
             await typeText(t);
 
-            await new Promise(r => safeTimeout(r, 500));
+            await new Promise(r => safeTimeout(r, 400));
         }
 
         nextBtn.style.display = "inline-block";
@@ -184,6 +227,8 @@ async function runStep() {
 
     /* DECISION */
     else if (step.tipo === "decision") {
+
+        stopBreathing();
 
         await speak(step.pregunta);
         await typeText(step.pregunta);
@@ -204,6 +249,8 @@ async function runStep() {
                     ? "Correcto. " + step.explicacion
                     : "Incorrecto. " + step.explicacion;
 
+                breathSync(msg);
+
                 await speak(msg);
                 await typeText(msg);
 
@@ -223,7 +270,7 @@ async function runStep() {
     /* SIMPLE */
     else if (step.texto) {
 
-        breath(step.texto);
+        breathSync(step.texto);
 
         await speak(step.texto);
         await typeText(step.texto);
@@ -237,6 +284,8 @@ async function runStep() {
 /* ================= FIN ================= */
 
 function finish() {
+
+    stopBreathing();
 
     block.innerHTML = "Sesión completada";
 
@@ -327,7 +376,5 @@ restartBtn.onclick = () => {
     save();
     runStep();
 };
-
-/* INIT */
 
 save();
