@@ -1,69 +1,60 @@
-from flask import Flask, request, jsonify, render_template
-import os
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+import json
+from pathlib import Path
 
-app = Flask(__name__)
+app = FastAPI(title="MayKaMi NeuroGame Engine")
 
-# VARIABLES DE RENDER (ADMIN LOGIN)
-ADMIN_USERNAME = (os.getenv("ADMIN_USERNAME", "") or "").strip()
-ADMIN_PASSWORD = (os.getenv("ADMIN_PASSWORD", "") or "").strip()
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-
-# =========================
-# HOME
-# =========================
-@app.route("/")
-def home():
-    return render_template("index.html")
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 
-# =========================
-# LOGIN
-# =========================
-@app.route("/login", methods=["POST"])
-def login():
-    data = request.get_json() or {}
+def cargar_db():
+    try:
+        if not JSON_PATH.exists():
+            return {"sesiones": []}
 
-    username = (data.get("username") or "").strip()
-    password = (data.get("password") or "").strip()
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
 
-    # DEBUG (Render logs)
-    print("DEBUG USER:", username)
-    print("DEBUG PASS:", password)
-    print("ENV USER:", ADMIN_USERNAME)
-    print("ENV PASS:", ADMIN_PASSWORD)
+        if "sesiones" in data:
+            data["sesiones"].sort(key=lambda x: x.get("id", 0))
 
-    # VALIDACIÓN PRINCIPAL
-    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        return jsonify({
-            "success": True,
-            "access": "free",
-            "paid": True
-        })
+        return data
 
-    return jsonify({
-        "success": False,
-        "access": "denied",
-        "paid": False
-    })
+    except Exception as e:
+        print("ERROR JSON:", e)
+        return {"sesiones": []}
 
 
-# =========================
-# VERIFY ACCESS
-# =========================
-@app.route("/verify-access")
-def verify_access():
-    username = (request.args.get("username") or "").strip()
-    password = (request.args.get("password") or "").strip()
+@app.get("/", response_class=HTMLResponse)
+async def home():
+    html_path = STATIC_DIR / "session.html"
 
-    paid = (username == ADMIN_USERNAME and password == ADMIN_PASSWORD)
+    if not html_path.exists():
+        return HTMLResponse("<h1>session.html no encontrado</h1>", status_code=404)
 
-    return jsonify({
-        "paid": paid
-    })
+    with open(html_path, "r", encoding="utf-8") as f:
+        return HTMLResponse(f.read())
 
 
-# =========================
-# RUN LOCAL (IGNORADO EN RENDER)
-# =========================
-if __name__ == "__main__":
-    app.run(debug=True)
+@app.get("/tvid_ejercicio.json")
+async def get_sessions():
+    db = cargar_db()
+
+    if not db["sesiones"]:
+        return JSONResponse(
+            status_code=404,
+            content={"error": "Sin sesiones"}
+        )
+
+    return JSONResponse(content=db)
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "engine": "MayKaMi"}
