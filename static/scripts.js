@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V8 FIX STABLE FINAL
+   MAYKAMI NEUROGAME ENGINE V8 FIX + STRIPE PRO SECURITY
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,7 +11,7 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-/* ================= AUDIO (FIX MÓVIL) ================= */
+/* ================= AUDIO ================= */
 
 const bgMusic = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3");
 bgMusic.loop = true;
@@ -23,6 +23,58 @@ function playMusic() {
             bgMusic.play();
         }, { once: true });
     });
+}
+
+/* ================= STRIPE PRO SECURITY ================= */
+
+const STRIPE_PAYMENT_URL = "https://buy.stripe.com/tu_link_aqui_15_99"; // TU LINK
+
+let accessGranted = false;
+
+/**
+ * Verifica acceso real con backend (seguro)
+ */
+async function verifyAccess() {
+    try {
+        const res = await fetch("/verify-payment");
+        const data = await res.json();
+
+        accessGranted = data.paid === true;
+
+        if (!accessGranted) {
+            showPaymentGate();
+        }
+
+    } catch (e) {
+        accessGranted = false;
+        showPaymentGate();
+    }
+}
+
+/**
+ * Bloquea el sistema si no pagó
+ */
+function showPaymentGate() {
+
+    block.innerHTML = `
+        <div style="text-align:center;padding:20px;">
+            <h2>Acceso restringido</h2>
+            <p>Este servicio requiere pago único de <b>$15.99</b></p>
+
+            <a href="${STRIPE_PAYMENT_URL}" target="_blank"
+               style="display:inline-block;margin-top:15px;
+               padding:12px 20px;background:#2563eb;color:white;
+               border-radius:8px;text-decoration:none;">
+               Pagar y desbloquear
+            </a>
+
+            <p style="margin-top:10px;font-size:12px;">
+                Después del pago serás redirigido automáticamente.
+            </p>
+        </div>
+    `;
+
+    startBtn.disabled = true;
 }
 
 /* ================= ENGINE ================= */
@@ -56,24 +108,19 @@ function safeTimeout(fn, t) {
 /* ================= RESET ================= */
 
 function resetEngine() {
-
     engine.abort = true;
-
     window.speechSynthesis.cancel();
 
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
 
     block.innerHTML = "";
-
-    startBreathing(null, false);
 }
 
 /* ================= VOZ ================= */
 
 function speak(text) {
     return new Promise(resolve => {
-
         window.speechSynthesis.cancel();
 
         const utter = new SpeechSynthesisUtterance(
@@ -90,35 +137,15 @@ function speak(text) {
     });
 }
 
-/* ================= TIMER EXACTO DESDE TEXTO ================= */
-
-function extractSeconds(text) {
-    const match = text.match(/(\d{1,3})\s*(segundos|seg|s)/i);
-    return match ? parseInt(match[1]) : null;
-}
-
-/* ================= DETECTAR RETÉN ================= */
-
-function hasHold(text) {
-    const t = text.toLowerCase();
-    return (
-        t.includes("reten") ||
-        t.includes("retener") ||
-        t.includes("pausa") ||
-        t.includes("hold")
-    );
-}
-
-/* ================= RESPIRACIÓN REAL HUMANA ================= */
-/* 16–22 ciclos/min => 2.7s a 3.7s por ciclo */
+/* ================= RESPIRACIÓN ================= */
 
 function startBreathing(seconds = null, forceHold = false) {
 
     clearInterval(engine.breathLoop);
 
-    const cycle = 3400; // 🔥 promedio fisiológico humano
+    const cycle = 3400;
     const inhaleTime = cycle * 0.4;
-    const holdTime   = cycle * 0.2;
+    const holdTime = cycle * 0.2;
     const exhaleTime = cycle * 0.4;
 
     const start = Date.now();
@@ -127,7 +154,6 @@ function startBreathing(seconds = null, forceHold = false) {
     function loop() {
 
         if (engine.abort) return;
-
         if (Date.now() - start >= duration) return;
 
         circle.className = "inhale";
@@ -155,26 +181,22 @@ function startBreathing(seconds = null, forceHold = false) {
     loop();
 }
 
-/* ================= TEXTO ================= */
+/* ================= TYPING ================= */
 
 async function typeText(text) {
-
     block.innerHTML = "";
 
     for (let i = 0; i < text.length; i++) {
-
         if (engine.abort) return;
 
         block.innerHTML += text[i];
-
         await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-/* ================= LOAD SESSION ================= */
+/* ================= SESSION ================= */
 
 async function loadSession() {
-
     const res = await fetch("/tvid_ejercicio.json");
     const data = await res.json();
 
@@ -188,6 +210,11 @@ async function loadSession() {
 /* ================= CORE ================= */
 
 async function runStep() {
+
+    if (!accessGranted) {
+        showPaymentGate();
+        return;
+    }
 
     if (engine.locked) return;
     engine.locked = true;
@@ -206,7 +233,6 @@ async function runStep() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    /* MULTI TEXTO */
     if (step.textos?.length) {
 
         for (const t of step.textos) {
@@ -217,11 +243,9 @@ async function runStep() {
             await speak(t);
             await typeText(t);
 
-            if (
-                t.toLowerCase().includes("respira") ||
+            if (t.toLowerCase().includes("respira") ||
                 t.toLowerCase().includes("inhala") ||
-                t.toLowerCase().includes("exhala")
-            ) {
+                t.toLowerCase().includes("exhala")) {
                 startBreathing(seconds, hold);
             }
 
@@ -229,7 +253,6 @@ async function runStep() {
         }
     }
 
-    /* DECISION */
     else if (step.tipo === "decision") {
 
         await speak(step.pregunta);
@@ -268,7 +291,6 @@ async function runStep() {
         block.appendChild(box);
     }
 
-    /* SIMPLE */
     else if (step.texto) {
 
         const seconds = extractSeconds(step.texto);
@@ -277,11 +299,9 @@ async function runStep() {
         await speak(step.texto);
         await typeText(step.texto);
 
-        if (
-            step.texto.toLowerCase().includes("respira") ||
+        if (step.texto.toLowerCase().includes("respira") ||
             step.texto.toLowerCase().includes("inhala") ||
-            step.texto.toLowerCase().includes("exhala")
-        ) {
+            step.texto.toLowerCase().includes("exhala")) {
             startBreathing(seconds, hold);
         }
     }
@@ -289,22 +309,14 @@ async function runStep() {
     engine.locked = false;
 }
 
-/* ================= FIN FIX ================= */
+/* ================= FIN ================= */
 
 async function finish() {
-
     block.innerHTML = "Sesión completada";
-
     userData.sessionId++;
-
-    if (userData.sessionId > 21) userData.sessionId = 1;
-
     userData.step = 0;
-
     save();
-
     await loadSession();
-
     engine.locked = false;
 }
 
@@ -314,43 +326,13 @@ function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ================= GALERÍA ================= */
-
-function initGallery() {
-
-    gallery.innerHTML = "";
-
-    for (let i = 0; i < 20; i++) {
-
-        const div = document.createElement("div");
-        div.className = "slide";
-
-        div.style.backgroundImage =
-            `url(https://picsum.photos/1920/1080?random=${i})`;
-
-        gallery.appendChild(div);
-    }
-
-    const slides = document.querySelectorAll(".slide");
-
-    if (slides[0]) slides[0].classList.add("active");
-
-    setInterval(() => {
-
-        const all = document.querySelectorAll(".slide");
-
-        all.forEach(s => s.classList.remove("active"));
-
-        slideIndex = (slideIndex + 1) % all.length;
-
-        all[slideIndex].classList.add("active");
-
-    }, 7000);
-}
-
-/* ================= BOTONES ================= */
+/* ================= INIT ================= */
 
 startBtn.onclick = async () => {
+
+    await verifyAccess();
+
+    if (!accessGranted) return;
 
     startBtn.style.display = "none";
 
@@ -358,11 +340,9 @@ startBtn.onclick = async () => {
 
     userData.step = 0;
 
-    initGallery();
+    await loadSession();
 
     startBreathing();
-
-    await loadSession();
 
     runStep();
 };
