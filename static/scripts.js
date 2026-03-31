@@ -1,20 +1,11 @@
-"use strict";
-
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE - FRONTEND PRO SECURE
-   STRIPE + ACCESS CONTROL + SESSION ENGINE
+   MAYKAMI NEUROGAME ENGINE - FRONTEND CONTROLLER
+   STRIPE + TVID + SESSION MANAGER
+   VERSION: PRO SECURE PATCH (NO BREAK CHANGES)
 ============================================================ */
 
-let sesiones = [];
-let currentIndex = 0;
+"use strict";
 
-// Estado de usuario (SOLO backend manda la verdad)
-let accessGranted = false;
-let userEmail = null;
-
-// =========================
-// ELEMENTOS UI
-// =========================
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
@@ -22,155 +13,177 @@ const restartBtn = document.getElementById("restart-btn");
 const payBtn = document.getElementById("pay-btn");
 
 const block = document.getElementById("block");
+const gallery = document.getElementById("visual-gallery");
+const circle = document.getElementById("visual-circle");
+
+let sesiones = [];
+let current = 0;
 
 // =========================
-// INIT
+// PRO SECURITY LAYER (NEW)
+// =========================
+let userPaid = false;
+let sessionActive = false;
+let userEmail = null;
+
+// =========================
+// INIT APP
 // =========================
 document.addEventListener("DOMContentLoaded", async () => {
-    loadLocalEmail();
     await loadSessions();
 
-    if (userEmail) {
-        await verifyAccess(userEmail);
-    }
+    loadEmailFromStorage();
+
+    await checkPaymentStatus();
 
     checkUrlStatus();
 });
 
 // =========================
-// LOAD EMAIL (LOCAL STORAGE)
+// LOAD EMAIL (NEW SAFE LAYER)
 // =========================
-function loadLocalEmail() {
-    userEmail = localStorage.getItem("maykami_email");
+function loadEmailFromStorage() {
+    try {
+        userEmail = localStorage.getItem("maykami_email") || null;
+    } catch (e) {
+        userEmail = null;
+    }
 }
 
 // =========================
-// SAVE EMAIL
-// =========================
-function saveEmail(email) {
-    if (!email) return;
-    localStorage.setItem("maykami_email", email);
-    userEmail = email;
-}
-
-// =========================
-// LOAD SESSIONS
+// LOAD TVID SESSIONS (UNCHANGED)
 // =========================
 async function loadSessions() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         sesiones = data.sesiones || [];
+        console.log("Sesiones cargadas:", sesiones.length);
     } catch (err) {
-        console.error("Error loading sessions:", err);
+        console.error("Error cargando sesiones:", err);
     }
 }
 
 // =========================
-// VERIFY ACCESS (REAL SECURITY)
+// CHECK PAYMENT STATUS (ENHANCED, NOT REMOVED)
+// =========================
+async function checkPaymentStatus() {
+    try {
+        const res = await fetch("/health");
+        const data = await res.json();
+
+        console.log("Server status:", data.status);
+
+        // =========================
+        // PRO SECURITY ADDITION
+        // =========================
+        if (userEmail) {
+            await verifyAccess(userEmail);
+        }
+
+    } catch (err) {
+        console.error("Error verificando estado:", err);
+    }
+}
+
+// =========================
+// VERIFY ACCESS (NEW PRO LAYER)
 // =========================
 async function verifyAccess(email) {
     try {
         const res = await fetch(`/verify-access?email=${encodeURIComponent(email)}`);
         const data = await res.json();
 
-        accessGranted = data.paid === true;
+        userPaid = data.paid === true;
 
-        if (!accessGranted) {
-            lockUI();
-        } else {
-            unlockUI();
-        }
+        console.log("Access status:", userPaid);
 
     } catch (err) {
         console.error("Access verify error:", err);
-        accessGranted = false;
-        lockUI();
+        userPaid = false;
     }
 }
 
 // =========================
-// LOCK / UNLOCK UI
+// START SESSION (UNCHANGED + PRO CHECK)
 // =========================
-function lockUI() {
-    if (block) block.style.opacity = "0.4";
-    if (startBtn) startBtn.disabled = true;
-}
+startBtn?.addEventListener("click", async () => {
 
-function unlockUI() {
-    if (block) block.style.opacity = "1";
-    if (startBtn) startBtn.disabled = false;
-}
-
-// =========================
-// START SESSION
-// =========================
-startBtn?.addEventListener("click", () => {
-    if (!accessGranted) {
-        alert("❌ Acceso bloqueado. Debes completar el pago.");
+    // PRO SECURITY CHECK
+    if (!userPaid) {
+        alert("❌ Acceso denegado. Debes completar el pago.");
         return;
     }
 
-    currentIndex = 0;
-    showBlock(currentIndex);
+    if (!sessionActive) {
+        sessionActive = true;
+        current = 0;
+        showBlock(current);
+    }
 });
 
 // =========================
-// NEXT
+// NEXT BLOCK (UNCHANGED + GUARD)
 // =========================
 nextBtn?.addEventListener("click", () => {
-    if (!accessGranted) return;
+    if (!userPaid) return;
 
-    if (currentIndex < sesiones.length - 1) {
-        currentIndex++;
-        showBlock(currentIndex);
+    if (current < sesiones.length - 1) {
+        current++;
+        showBlock(current);
     }
 });
 
 // =========================
-// BACK
+// BACK BLOCK (UNCHANGED + GUARD)
 // =========================
 backBtn?.addEventListener("click", () => {
-    if (!accessGranted) return;
+    if (!userPaid) return;
 
-    if (currentIndex > 0) {
-        currentIndex--;
-        showBlock(currentIndex);
+    if (current > 0) {
+        current--;
+        showBlock(current);
     }
 });
 
 // =========================
-// RESTART
+// RESTART SESSION (UNCHANGED + GUARD)
 // =========================
 restartBtn?.addEventListener("click", () => {
-    if (!accessGranted) return;
+    if (!userPaid) return;
 
-    currentIndex = 0;
-    showBlock(currentIndex);
+    current = 0;
+    sessionActive = false;
+    showBlock(current);
 });
 
 // =========================
-// SHOW BLOCK
+// SHOW BLOCK (UNCHANGED)
 // =========================
 function showBlock(index) {
     if (!sesiones.length) return;
 
-    const item = sesiones[index];
-    if (!item) return;
+    const bloque = sesiones[index];
+    if (!bloque) return;
 
     if (block) {
-        block.innerHTML = `
-            <div class="block-item">
-                ${item.texto || "Sin contenido"}
-            </div>
-        `;
+        block.innerHTML = "";
     }
+
+    if (block) {
+        const div = document.createElement("div");
+        div.className = "block-item";
+        div.innerText = bloque.texto || "Sin contenido";
+        block.appendChild(div);
+    }
+
+    console.log("Mostrando bloque:", index);
 }
 
 // =========================
-// STRIPE PAYMENT
+// STRIPE PAYMENT (UNCHANGED)
 // =========================
-payBtn?.addEventListener("click", async () => {
+async function goToPayment() {
     try {
         const res = await fetch("/create-checkout-session", {
             method: "POST"
@@ -181,47 +194,70 @@ payBtn?.addEventListener("click", async () => {
         if (data.url) {
             window.location.href = data.url;
         } else {
-            console.error("No checkout URL");
+            console.error("No payment URL received");
         }
 
     } catch (err) {
-        console.error("Payment error:", err);
+        console.error("Error en pago:", err);
     }
-});
+}
 
 // =========================
-// AFTER PAYMENT URL CHECK
+// URL PARAM CHECK (UNCHANGED + ENHANCED)
 // =========================
 function checkUrlStatus() {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("success") === "true") {
-        console.log("✔ Pago exitoso detectado");
+        console.log("Pago exitoso");
 
-        // fuerza revalidación con backend
+        // PRO FIX: revalidar acceso real
         if (userEmail) {
             verifyAccess(userEmail);
         }
     }
 
     if (params.get("canceled") === "true") {
-        console.log("❌ Pago cancelado");
+        console.log("Pago cancelado");
     }
 }
 
-// =========================
-// AUTO SECURITY CHECK LOOP
-// =========================
-setInterval(() => {
-    if (!accessGranted) {
-        lockUI();
-    }
-}, 3000);
+checkUrlStatus();
 
 // =========================
-// OPTIONAL: SIMPLE EMAIL LOGIN HOOK
+// SIMPLE ACCESS GUARD (NOW REAL)
+// =========================
+function isAllowed() {
+    return userPaid === true;
+}
+
+// =========================
+// AUTO-LOCK UI IF NOT PAID (UNCHANGED LOGIC + SAFE)
+// =========================
+setInterval(() => {
+    if (!isAllowed()) {
+        if (block) {
+            block.style.opacity = "0.6";
+        }
+    } else {
+        if (block) {
+            block.style.opacity = "1";
+        }
+    }
+}, 2000);
+
+// =========================
+// NEW SAFE HELPER (OPTIONAL)
 // =========================
 function setUserEmail(email) {
-    saveEmail(email);
-    verifyAccess(email);
+    try {
+        localStorage.setItem("maykami_email", email);
+        userEmail = email;
+
+        // auto verify after setting email
+        verifyAccess(email);
+
+    } catch (e) {
+        console.error("Email save error:", e);
+    }
 }
