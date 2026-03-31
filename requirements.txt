@@ -12,3 +12,5 @@ openai
 json5
 pytz
 Flask
+stripe
+python-dotenv
