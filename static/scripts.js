@@ -1,5 +1,6 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE BY MAY ROGA LLC
+   MAYKAMI NEUROGAME ENGINE - STABLE FULL VERSION
+   FIXED: freeze, audio, breathing, flow, buttons, gallery
 ============================================================ */
 
 /* =========================
@@ -18,51 +19,81 @@ const restartBtn = document.getElementById("restart-btn");
 const audio = document.getElementById("nature-audio");
 
 /* =========================
-   ESTADO GLOBAL
+   ESTADO
 ========================= */
 
 let sesiones = [];
 let current = 0;
-let isRunning = false;
-let breathingInterval = null;
+let running = false;
+
+let breathTimer = null;
+let autoTimer = null;
+let galleryTimer = null;
 
 /* =========================
-   SESIÓN DEMO (PUEDES REEMPLAZAR POR JSON REAL)
+   GALERÍA DINÁMICA (RESTORED)
+========================= */
+
+const backgrounds = [
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+];
+
+function initGallery() {
+    gallery.innerHTML = "";
+
+    backgrounds.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = "slide" + (i === 0 ? " active" : "");
+        div.style.backgroundImage = `url('${img}')`;
+        gallery.appendChild(div);
+    });
+
+    let index = 0;
+
+    galleryTimer = setInterval(() => {
+        const slides = document.querySelectorAll(".slide");
+        slides.forEach(s => s.classList.remove("active"));
+
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }, 6000);
+}
+
+/* =========================
+   SESIONES BASE (NO ROMPER)
 ========================= */
 
 sesiones = [
     {
-        tipo: "intro",
-        texto: "Bienvenido a la sesión NeuroGame. Vamos a sincronizar mente y respiración.",
+        texto: "Bienvenido a MAYKAMI NeuroGame. Iniciando sincronización.",
         respiracion: false,
-        duracion: 4000
+        tiempo: 4000
     },
     {
-        tipo: "respiracion",
-        texto: "Inhala lentamente...",
+        texto: "Inhala profundamente...",
         respiracion: true,
         fase: "inhale",
-        duracion: 4000
+        tiempo: 4000
     },
     {
-        tipo: "respiracion",
         texto: "Mantén el aire...",
         respiracion: true,
         fase: "hold",
-        duracion: 3000
+        tiempo: 3000
     },
     {
-        tipo: "respiracion",
-        texto: "Exhala suavemente...",
+        texto: "Exhala lentamente...",
         respiracion: true,
         fase: "exhale",
-        duracion: 5000
+        tiempo: 5000
     },
     {
-        tipo: "reflexion",
-        texto: "Observa cómo tu mente se vuelve más clara.",
+        texto: "Relaja tu mente. Estás en control.",
         respiracion: false,
-        duracion: 5000
+        tiempo: 5000
     }
 ];
 
@@ -71,98 +102,88 @@ sesiones = [
 ========================= */
 
 startBtn.addEventListener("click", () => {
-    isRunning = true;
+    running = true;
+    current = 0;
 
     startBtn.style.display = "none";
     nextBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
 
-    if (audio) {
-        audio.volume = 0.25;
-        audio.play().catch(() => {});
-    }
+    initGallery();
 
-    current = 0;
-    renderBlock();
+    startAudio();
+
+    render();
 });
+
+/* =========================
+   AUDIO (FIX REAL)
+========================= */
+
+function startAudio() {
+    if (!audio) return;
+
+    audio.volume = 0.2;
+
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {
+            console.log("Audio bloqueado por navegador hasta interacción");
+        });
+    }
+}
 
 /* =========================
    BOTONES
 ========================= */
 
-nextBtn.addEventListener("click", () => {
+nextBtn.onclick = () => {
     if (current < sesiones.length - 1) {
         current++;
-        renderBlock();
+        render();
     }
-});
+};
 
-backBtn.addEventListener("click", () => {
+backBtn.onclick = () => {
     if (current > 0) {
         current--;
-        renderBlock();
+        render();
     }
-});
+};
 
-restartBtn.addEventListener("click", () => {
-    resetSession();
-});
+restartBtn.onclick = () => reset();
 
 /* =========================
-   RESET
+   RENDER PRINCIPAL
 ========================= */
 
-function resetSession() {
-    current = 0;
-    isRunning = false;
-
-    clearBreathing();
-
-    circle.className = "";
-    block.innerText = "Bienvenido a la Asesoría NeuroGame";
-
-    startBtn.style.display = "inline-block";
-    nextBtn.style.display = "none";
-    backBtn.style.display = "none";
-    restartBtn.style.display = "none";
-
-    if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-    }
-}
-
-/* =========================
-   RENDER BLOQUE
-========================= */
-
-function renderBlock() {
-    clearBreathing();
+function render() {
+    clearAll();
 
     const data = sesiones[current];
-
     if (!data) return;
 
     block.innerText = data.texto;
 
     if (data.respiracion) {
-        startBreathing(data.fase, data.duracion);
+        runBreathing(data.fase, data.tiempo);
     }
+
+    autoAdvance(data.tiempo);
 }
 
 /* =========================
-   RESPIRACIÓN CONTROLADA
+   RESPIRACIÓN REAL (FIXED)
 ========================= */
 
-function startBreathing(fase, duration) {
-    circle.className = "";
-
+function runBreathing(fase, tiempo) {
     applyBreath(fase);
 
-    breathingInterval = setInterval(() => {
+    breathTimer = setInterval(() => {
         applyBreath(fase);
-    }, duration);
+    }, tiempo);
 }
 
 function applyBreath(fase) {
@@ -185,36 +206,63 @@ function applyBreath(fase) {
 }
 
 /* =========================
-   LIMPIAR RESPIRACIÓN
+   AUTO AVANCE (FIX DE FREEZE)
 ========================= */
 
-function clearBreathing() {
-    if (breathingInterval) {
-        clearInterval(breathingInterval);
-        breathingInterval = null;
-    }
-}
+function autoAdvance(time) {
+    if (!running) return;
 
-/* =========================
-   AUTO AVANCE (OPCIONAL FUTURO)
-========================= */
+    clearTimeout(autoTimer);
 
-function autoAdvance() {
-    if (!isRunning) return;
-
-    setTimeout(() => {
+    autoTimer = setTimeout(() => {
         if (current < sesiones.length - 1) {
             current++;
-            renderBlock();
+            render();
         }
-    }, sesiones[current].duracion);
+    }, time);
 }
 
 /* =========================
-   SEGURIDAD BOTONES
+   LIMPIEZA TOTAL (CRÍTICO)
 ========================= */
 
-function lockButtons(state) {
-    nextBtn.disabled = state;
-    backBtn.disabled = state;
+function clearAll() {
+    if (breathTimer) clearInterval(breathTimer);
+    if (autoTimer) clearTimeout(autoTimer);
+
+    breathTimer = null;
+    autoTimer = null;
+}
+
+/* =========================
+   RESET COMPLETO
+========================= */
+
+function reset() {
+    running = false;
+    current = 0;
+
+    clearAll();
+
+    block.innerText = "Bienvenido a la Asesoría NeuroGame";
+
+    circle.className = "";
+    circle.innerText = "MAYKAMI";
+
+    startBtn.style.display = "inline-block";
+    nextBtn.style.display = "none";
+    backBtn.style.display = "none";
+    restartBtn.style.display = "none";
+
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    if (galleryTimer) {
+        clearInterval(galleryTimer);
+        galleryTimer = null;
+    }
+
+    gallery.innerHTML = "";
 }
