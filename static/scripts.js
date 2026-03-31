@@ -1,9 +1,6 @@
-/* ============================================================ */
-/* MAYKAMI NEUROGAME ENGINE V4 - STABLE STATE MACHINE CORE      */
-/* BY MAY ROGA LLC                                              */
-/* ============================================================ */
-
-/* ===================== ELEMENTOS ===================== */
+/* ============================================================
+   MAYKAMI NEUROGAME ENGINE V4 - FINAL STABLE CORE
+============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
@@ -14,64 +11,62 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 
-const audio = document.getElementById("nature-audio");
+/* ================= STATE ================= */
 
-/* ===================== STATE MACHINE ===================== */
-
-let state = {
-    running: false,
+let engine = {
     locked: false,
-    session: null,
-    step: 0,
-    abort: false
+    abort: false,
+    speaking: false,
+    timers: new Set(),
+    session: null
 };
 
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
     sessionId: 1,
     step: 0,
-    disciplina: 40,
-    claridad: 50,
-    calma: 30
+    disciplina: 40
 };
 
-/* ===================== CLEAN ENGINE CONTROL ===================== */
-
-let timers = [];
 let slideIndex = 0;
 let galleryTimer = null;
 
-/* ===================== SAFE TIMER ===================== */
+/* ================= SAFE TIMER ================= */
 
-function setSafeTimeout(fn, time) {
-    const t = setTimeout(fn, time);
-    timers.push(t);
-    return t;
+function safeTimeout(fn, t) {
+    const id = setTimeout(() => {
+        engine.timers.delete(id);
+        fn();
+    }, t);
+
+    engine.timers.add(id);
 }
 
-/* ===================== SAFE CLEAR ===================== */
+/* ================= RESET ENGINE ================= */
 
-function clearEngine() {
-    state.abort = true;
+function resetEngine() {
+
+    engine.abort = true;
 
     window.speechSynthesis.cancel();
 
-    timers.forEach(t => clearTimeout(t));
-    timers = [];
+    engine.timers.forEach(t => clearTimeout(t));
+    engine.timers.clear();
 
-    if (galleryTimer) {
-        clearInterval(galleryTimer);
-        galleryTimer = null;
-    }
+    engine.locked = false;
+    engine.speaking = false;
 
-    state.locked = false;
+    block.innerHTML = "";
 }
 
-/* ===================== VOZ ESTABLE ===================== */
+/* ================= VOZ ================= */
 
 function speak(text) {
+
     return new Promise(resolve => {
 
-        if (state.abort) return resolve();
+        if (engine.abort) return resolve();
+
+        engine.speaking = true;
 
         const utter = new SpeechSynthesisUtterance(
             text.replace(/<[^>]*>/g, "")
@@ -80,92 +75,88 @@ function speak(text) {
         utter.lang = "es-ES";
         utter.rate = 0.95;
 
-        utter.onend = resolve;
-        utter.onerror = resolve;
+        utter.onend = () => {
+            engine.speaking = false;
+            resolve();
+        };
+
+        utter.onerror = () => {
+            engine.speaking = false;
+            resolve();
+        };
 
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utter);
     });
 }
 
-/* ===================== RESPIRACIÓN ===================== */
+/* ================= RESPIRACIÓN ================= */
 
-function setBreath(text) {
+function breath(text) {
+
     const t = text.toLowerCase();
 
     circle.className = "";
 
-    if (t.includes("inhala") || t.includes("aire")) {
+    if (t.includes("inhala")) {
         circle.classList.add("inhale");
-        circle.innerText = "Inhala";
+        circle.textContent = "Inhala";
     }
-    else if (t.includes("exhala") || t.includes("suelta")) {
+    else if (t.includes("exhala")) {
         circle.classList.add("exhale");
-        circle.innerText = "Exhala";
+        circle.textContent = "Exhala";
     }
-    else if (t.includes("retén") || t.includes("pausa")) {
+    else if (t.includes("retén")) {
         circle.classList.add("hold");
-        circle.innerText = "Retén";
+        circle.textContent = "Retén";
     }
     else {
-        circle.innerText = "MAYKAMI";
+        circle.textContent = "MAYKAMI";
     }
 }
 
-/* ===================== TYPE + SPEAK ===================== */
+/* ================= TYPE ================= */
 
-async function sayAndWrite(text) {
+async function typeText(text) {
 
-    if (state.abort) return;
-
-    block.innerHTML = "";
-
-    setBreath(text);
-
-    await speak(text);
-
-    if (state.abort) return;
+    block.textContent = "";
 
     for (let i = 0; i < text.length; i++) {
 
-        if (state.abort) return;
+        if (engine.abort) return;
 
-        block.innerHTML += text[i];
+        block.textContent += text[i];
 
-        await new Promise(r => setTimeout(r, 15));
+        await new Promise(r => safeTimeout(r, 15));
     }
 }
 
-/* ===================== SESSION LOADER ===================== */
+/* ================= LOAD SESSION ================= */
 
 async function loadSession() {
-    try {
-        const res = await fetch("/tvid_ejercicio.json");
-        const data = await res.json();
 
-        state.session =
-            data.sesiones.find(s => s.id === userData.sessionId)
-            || data.sesiones[0];
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
 
-    } catch (e) {
-        block.innerText = "Error cargando sesión MAYKAMI";
-    }
+    engine.session =
+        data.sesiones.find(s => s.id === userData.sessionId)
+        || data.sesiones[0];
 }
 
-/* ===================== ENGINE CORE ===================== */
+/* ================= CORE ================= */
 
 async function runStep() {
 
-    if (state.locked) return;
-    state.locked = true;
+    if (engine.locked) return;
+    engine.locked = true;
 
-    clearEngine();
-    state.abort = false;
+    resetEngine();
+    engine.abort = false;
 
-    const stepData = state.session?.bloques?.[userData.step];
+    const step = engine.session?.bloques?.[userData.step];
 
-    if (!stepData) {
-        finishSession();
+    if (!step) {
+        finish();
         return;
     }
 
@@ -173,50 +164,48 @@ async function runStep() {
     restartBtn.style.display = "none";
     backBtn.style.display = userData.step > 0 ? "inline-block" : "none";
 
-    /* ================= MULTI TEXT ================= */
+    /* MULTI TEXTO */
+    if (step.textos?.length) {
 
-    if (stepData.textos?.length) {
+        for (const t of step.textos) {
 
-        for (const t of stepData.textos) {
-            if (state.abort) return;
-            await sayAndWrite(t);
-            await new Promise(r => setSafeTimeout(r, 600));
-        }
+            if (engine.abort) return;
 
-        if (stepData.duracion) {
-            await countdown(stepData.duracion);
+            breath(t);
+
+            await speak(t);
+            await typeText(t);
+
+            await new Promise(r => safeTimeout(r, 500));
         }
 
         nextBtn.style.display = "inline-block";
     }
 
-    /* ================= DECISION ================= */
+    /* DECISION */
+    else if (step.tipo === "decision") {
 
-    else if (stepData.tipo === "decision") {
-
-        await sayAndWrite(stepData.pregunta);
+        await speak(step.pregunta);
+        await typeText(step.pregunta);
 
         const box = document.createElement("div");
-        box.style.marginTop = "20px";
 
-        stepData.opciones.forEach((opt, i) => {
+        step.opciones.forEach((opt, i) => {
 
             const btn = document.createElement("button");
 
-            btn.innerText = opt;
-
-            btn.style.cssText =
-                "display:block;width:100%;margin:10px 0;padding:15px;background:#1e293b;color:white;border-radius:10px;";
+            btn.textContent = opt;
 
             btn.onclick = async () => {
 
-                const ok = i === stepData.correcta;
+                const ok = i === step.correcta;
 
                 const msg = ok
-                    ? `Correcto. ${stepData.explicacion}`
-                    : `Incorrecto. ${stepData.explicacion}`;
+                    ? "Correcto. " + step.explicacion
+                    : "Incorrecto. " + step.explicacion;
 
-                await sayAndWrite(msg);
+                await speak(msg);
+                await typeText(msg);
 
                 if (ok) userData.disciplina += 5;
 
@@ -231,47 +220,25 @@ async function runStep() {
         block.appendChild(box);
     }
 
-    /* ================= SIMPLE ================= */
+    /* SIMPLE */
+    else if (step.texto) {
 
-    else if (stepData.texto) {
+        breath(step.texto);
 
-        await sayAndWrite(stepData.texto);
-
-        if (stepData.duracion) {
-            await countdown(stepData.duracion);
-        }
+        await speak(step.texto);
+        await typeText(step.texto);
 
         nextBtn.style.display = "inline-block";
     }
 
-    state.locked = false;
+    engine.locked = false;
 }
 
-/* ===================== COUNTDOWN ===================== */
+/* ================= FIN ================= */
 
-async function countdown(sec) {
+function finish() {
 
-    for (let i = sec; i >= 0; i--) {
-
-        if (state.abort) return;
-
-        block.innerHTML = `
-        <div>${state.session?.nombre || "MAYKAMI"}</div>
-        <div style="font-size:50px;color:#60a5fa">${i}s</div>
-        `;
-
-        await new Promise(r => setSafeTimeout(r, 1000));
-    }
-}
-
-/* ===================== FINAL ===================== */
-
-function finishSession() {
-
-    block.innerHTML = `
-    <h2>Sesión completada</h2>
-    <p>Progreso guardado correctamente</p>
-    `;
+    block.innerHTML = "Sesión completada";
 
     userData.sessionId =
         userData.sessionId < 21 ? userData.sessionId + 1 : 1;
@@ -284,22 +251,22 @@ function finishSession() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    state.locked = false;
+    engine.locked = false;
 }
 
-/* ===================== SAVE ===================== */
+/* ================= SAVE ================= */
 
 function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ===================== GALLERY ===================== */
+/* ================= GALLERY ================= */
 
 function initGallery() {
 
     gallery.innerHTML = "";
 
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 20; i++) {
 
         const div = document.createElement("div");
 
@@ -312,8 +279,6 @@ function initGallery() {
     }
 
     const slides = document.querySelectorAll(".slide");
-
-    if (!slides.length) return;
 
     slides[0].classList.add("active");
 
@@ -330,18 +295,13 @@ function initGallery() {
     }, 7000);
 }
 
-/* ===================== BUTTONS ===================== */
+/* ================= BUTTONS ================= */
 
 startBtn.onclick = async () => {
 
     startBtn.style.display = "none";
 
     userData.step = 0;
-
-    if (audio) {
-        audio.volume = 0.05;
-        audio.play().catch(() => {});
-    }
 
     initGallery();
 
@@ -351,37 +311,23 @@ startBtn.onclick = async () => {
 };
 
 nextBtn.onclick = () => {
-
-    const b = state.session?.bloques?.[userData.step];
-
-    if (b?.tipo === "cierre" || !b) {
-        loadSession().then(() => runStep());
-        return;
-    }
-
     userData.step++;
-
     save();
-
     runStep();
 };
 
 backBtn.onclick = () => {
-
-    if (userData.step > 0) {
-        userData.step--;
-        save();
-        runStep();
-    }
+    if (userData.step > 0) userData.step--;
+    save();
+    runStep();
 };
 
 restartBtn.onclick = () => {
-
     userData.step = 0;
     save();
     runStep();
 };
 
-/* ===================== INIT ===================== */
+/* INIT */
 
 save();
