@@ -1,60 +1,93 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
-import json
 from pathlib import Path
+import os
 
-app = FastAPI(title="MayKaMi NeuroGame Engine")
+app = FastAPI()
 
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
-JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
-app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+# =========================
+# ADMIN CREDENTIALS (RENDER ENV)
+# =========================
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "1234")
 
-def cargar_db():
-    try:
-        if not JSON_PATH.exists():
-            return {"sesiones": []}
+# =========================
+# SIMPLE SESSION MEMORY
+# =========================
+active_sessions = set()
 
-        with open(JSON_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-
-        if "sesiones" in data:
-            data["sesiones"].sort(key=lambda x: x.get("id", 0))
-
-        return data
-
-    except Exception as e:
-        print("ERROR JSON:", e)
-        return {"sesiones": []}
-
-
-@app.get("/", response_class=HTMLResponse)
-async def home():
-    html_path = STATIC_DIR / "session.html"
-
-    if not html_path.exists():
-        return HTMLResponse("<h1>session.html no encontrado</h1>", status_code=404)
-
-    with open(html_path, "r", encoding="utf-8") as f:
-        return HTMLResponse(f.read())
+# =========================
+# HOME
+# =========================
+@app.get("/")
+def home():
+    return FileResponse(STATIC_DIR / "index.html")
 
 
+# =========================
+# LOGIN VERIFY
+# =========================
+@app.post("/login")
+async def login(request: Request):
+    data = await request.json()
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        raise HTTPException(status_code=400, detail="Missing credentials")
+
+    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        token = f"session_{username}"
+        active_sessions.add(token)
+
+        return JSONResponse({
+            "status": "ok",
+            "token": token
+        })
+
+    raise HTTPException(status_code=403, detail="Acceso denegado")
+
+
+# =========================
+# CHECK ACCESS
+# =========================
+@app.post("/verify-access")
+async def verify_access(request: Request):
+    data = await request.json()
+    token = data.get("token")
+
+    if not token:
+        raise HTTPException(status_code=403, detail="Acceso denegado")
+
+    if token not in active_sessions:
+        raise HTTPException(status_code=403, detail="Acceso denegado")
+
+    return {"status": "ok"}
+
+
+# =========================
+# JSON DATA
+# =========================
 @app.get("/tvid_ejercicio.json")
-async def get_sessions():
-    db = cargar_db()
+def get_data():
+    file_path = STATIC_DIR / "tvid_ejercicio.json"
 
-    if not db["sesiones"]:
-        return JSONResponse(
-            status_code=404,
-            content={"error": "Sin sesiones"}
-        )
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="JSON no encontrado")
 
-    return JSONResponse(content=db)
+    return FileResponse(file_path)
 
 
+# =========================
+# HEALTH
+# =========================
 @app.get("/health")
-async def health():
-    return {"status": "ok", "engine": "MayKaMi"}
+def health():
+    return {"status": "running"}
