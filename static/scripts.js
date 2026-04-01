@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE - V9.0 (ADMIN BYPASS & 10MIN PRE-PAY)
+   MAYKAMI NEUROGAME ENGINE - V8.8 STABLE (ADMIN & TIME READY)
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -13,30 +13,16 @@ const restartBtn = document.getElementById("restart-btn");
 const payBtn = document.getElementById("pay-btn");
 
 const params = new URLSearchParams(window.location.search);
-let isAdmin = params.get('auth') === 'admin';
+const isAdmin = params.get('auth') === 'admin';
 const isPagoOk = params.get('pago') === 'exitoso';
 
-/* ================= ACCESO ADMINISTRATIVO (SIEMPRE DISPONIBLE) ================= */
-
-// Si haces clic en el círculo central, se activa el prompt de Admin
-circle.onclick = () => {
-    if (confirm("¿Desea ingresar como Administrador?")) {
-        window.location.href = "/admin";
-    }
-};
+/* ================= LÓGICA DE ACCESO TEMPORAL ================= */
 
 function checkAccess() {
     if (isAdmin) {
-        block.innerHTML = "MODO ADMINISTRADOR ACTIVADO<br><small>Acceso libre sin restricciones.</small>";
+        block.innerHTML = "MODO ADMINISTRADOR: Acceso libre activado.";
         payBtn.style.display = "none";
         startBtn.style.display = "inline-block";
-        return true;
-    }
-
-    if (isPagoOk) {
-        payBtn.style.display = "none";
-        startBtn.style.display = "inline-block";
-        block.innerHTML = "Pago verificado. Listo para iniciar.";
         return true;
     }
 
@@ -44,18 +30,23 @@ function checkAccess() {
     const h = ahora.getHours();
     const m = ahora.getMinutes();
 
-    // Ventana de cobro y acceso: 8:50-9:15 y 20:50-21:15
-    const esAM = (h === 8 && m >= 50) || (h === 9 && m <= 15);
-    const esPM = (h === 20 && m >= 50) || (h === 21 && m <= 15);
+    // Ventanas: 9:00-9:15 y 21:00-21:15
+    const esAM = (h === 9 && m <= 15);
+    const esPM = (h === 21 && m <= 15);
+
+    if (isPagoOk) {
+        payBtn.style.display = "none";
+        startBtn.style.display = "inline-block";
+        return true;
+    }
 
     if (!esAM && !esPM) {
-        block.innerHTML = "SISTEMA CERRADO.<br><small>Cobro disponible 10 min antes de las 9:00 AM/PM.</small>";
+        block.innerHTML = "SISTEMA CERRADO.<br><small>Próxima apertura: 9:00 AM / 9:00 PM (Acceso limitado a 15 min).</small>";
         payBtn.style.display = "none";
         startBtn.style.display = "none";
         return false;
     }
 
-    block.innerHTML = "TAQUILLA ABIERTA.<br><small>Sesión disponible en breve.</small>";
     payBtn.style.display = "inline-block";
     startBtn.style.display = "none";
     return false;
@@ -64,7 +55,7 @@ function checkAccess() {
 /* ================= PASARELA DE PAGO ================= */
 
 async function iniciarPago() {
-    block.innerHTML = "Conectando con Stripe...";
+    block.innerHTML = "Verificando disponibilidad de cupo...";
     try {
         const response = await fetch("/checkout", { method: "POST" });
         const data = await response.json();
@@ -74,13 +65,16 @@ async function iniciarPago() {
             alert(data.error);
             block.innerHTML = data.error;
         }
-    } catch (err) { console.error("Error:", err); }
+    } catch (err) {
+        console.error("Stripe Error:", err);
+    }
 }
 
 /* ================= ENGINE CORE ================= */
 
 let engine = { locked: false, abort: false, timers: new Set(), session: null };
-let userData = { step: 0 };
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || { sessionId: 1, step: 0 };
+let slideIndex = 0;
 
 const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
@@ -104,6 +98,7 @@ function speak(text) {
         const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
         utter.rate = 0.88; 
+        utter.pitch = 0.95;
         utter.onend = resolve;
         utter.onerror = resolve;
         window.speechSynthesis.speak(utter);
@@ -143,8 +138,8 @@ async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        engine.session = data.sesiones[0];
-    } catch (e) { console.error(e); }
+        engine.session = data.sesiones[0]; // El servidor filtra la sesión del día
+    } catch (e) { console.error("Load Error:", e); }
 }
 
 async function runStep() {
@@ -155,19 +150,24 @@ async function runStep() {
 
     const step = engine.session?.bloques?.[userData.step];
     if (!step) { 
-        block.innerHTML = "Sesión finalizada. ¡Buen trabajo!";
-        userData.step = 0; return; 
+        block.innerHTML = "Sesión diaria finalizada. Regresa mañana para el nuevo contenido.";
+        userData.step = 0; save(); return; 
     }
+
+    nextBtn.style.display = "inline-block";
+    backBtn.style.display = "inline-block";
 
     if (step.textos) {
         for (const t of step.textos) {
             await speak(t); await typeText(t);
-            if (/respira|inhala|exhala/i.test(t)) startBreathing(10, t.includes("retén"));
+            if (/respira|inhala|exhala/i.test(t)) startBreathing(12, t.includes("retén"));
             await new Promise(r => safeTimeout(r, 500));
         }
     }
     engine.locked = false;
 }
+
+function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }
 
 function initGallery() {
     gallery.innerHTML = "";
@@ -197,10 +197,10 @@ startBtn.onclick = async () => {
     runStep();
 };
 
-nextBtn.onclick = () => { userData.step++; runStep(); };
-backBtn.onclick = () => { if (userData.step > 0) userData.step--; runStep(); };
-restartBtn.onclick = () => { userData.step = 0; runStep(); };
+nextBtn.onclick = () => { userData.step++; save(); runStep(); };
+backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
+restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
 
-// Inicio
+// Verificación inicial y cíclica
 checkAccess();
 setInterval(checkAccess, 60000);
