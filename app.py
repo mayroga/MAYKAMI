@@ -25,7 +25,7 @@ ADMIN_USER = os.getenv("ADMIN_USERNAME")
 ADMIN_PASS = os.getenv("ADMIN_PASSWORD")
 APP_URL = "https://maykami.onrender.com"
 
-# --- REGLAS DE NEGOCIO ---
+# --- REGLAS DE TIEMPO ---
 TIMEZONE = pytz.timezone("America/New_York")
 MAX_CUPOS = 400
 registro_sesion = {"id_actual": "", "contador": 0}
@@ -33,23 +33,17 @@ registro_sesion = {"id_actual": "", "contador": 0}
 def obtener_info_tiempo():
     ahora = datetime.now(TIMEZONE)
     h, m = ahora.hour, ahora.minute
-    
-    # Cobro inicia 10 min antes (8:50 a 9:15) y (20:50 a 21:15)
+    # Ventana de cobro 10 min antes: 8:50-9:15 y 20:50-21:15
     es_ventana_am = (h == 8 and m >= 50) or (h == 9 and m <= 15)
     es_ventana_pm = (h == 20 and m >= 50) or (h == 21 and m <= 15)
-    
     turno = "AM" if (h == 8 or h == 9) else "PM" if (h == 20 or h == 21) else None
     id_unico_turno = f"{ahora.strftime('%Y-%m-%d')}_{turno}"
     return turno, id_unico_turno
 
-# --- SEGURIDAD: ENTRADA GRATIS ADMIN ---
+# --- SEGURIDAD ADMIN ---
 def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
     if credentials.username != ADMIN_USER or credentials.password != ADMIN_PASS:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Acceso Denegado",
-            headers={"WWW-Authenticate": "Basic"},
-        )
+        raise HTTPException(status_code=401, detail="No autorizado", headers={"WWW-Authenticate": "Basic"})
     return True
 
 # --- RUTAS ---
@@ -60,36 +54,26 @@ async def home():
 
 @app.get("/admin")
 async def acceso_admin(es_admin: bool = Depends(autenticar_admin)):
-    """Redirección directa del servidor al servicio con bypass de pago."""
-    return RedirectResponse(url="/static/session.html?auth=admin")
+    # Redirecciona forzando el parámetro auth=admin para activar el JS
+    return RedirectResponse(url="/?auth=admin")
 
 @app.post("/checkout")
 async def create_checkout_session():
     turno, id_turno = obtener_info_tiempo()
     global registro_sesion
-
     if not turno:
-        return JSONResponse({"error": "La taquilla abre a las 8:50 AM/PM (10 min antes de la sesión)."}, status_code=403)
-
+        return JSONResponse({"error": "Cobro disponible 10 min antes de las 9:00 AM/PM."}, status_code=403)
     if registro_sesion["id_actual"] != id_turno:
         registro_sesion = {"id_actual": id_turno, "contador": 0}
-
     if registro_sesion["contador"] >= MAX_CUPOS:
-        return JSONResponse({"error": "Cupo de 400 personas agotado."}, status_code=403)
+        return JSONResponse({"error": "Cupo agotado."}, status_code=403)
 
     try:
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
-            line_items=[{
-                'price_data': {
-                    'currency': 'usd',
-                    'product_data': {'name': f'Sesión MAYKAMI - Turno {turno}'},
-                    'unit_amount': 2500,
-                },
-                'quantity': 1,
-            }],
+            line_items=[{'price_data': {'currency': 'usd', 'product_data': {'name': f'MAYKAMI {turno}'}, 'unit_amount': 2500}, 'quantity': 1}],
             mode='payment',
-            success_url=f"{APP_URL}/static/session.html?pago=exitoso",
+            success_url=f"{APP_URL}/?pago=exitoso",
             cancel_url=f"{APP_URL}/",
         )
         registro_sesion["contador"] += 1
@@ -104,7 +88,5 @@ async def get_sessions():
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-            sesion_hoy = [s for s in data["sesiones"] if s["id"] == session_id]
-            return {"sesiones": sesion_hoy}
-    except:
-        return {"sesiones": []}
+            return {"sesiones": [s for s in data["sesiones"] if s["id"] == session_id]}
+    except: return {"sesiones": []}
