@@ -59,7 +59,7 @@ async def home():
 
 @app.get("/admin")
 async def login_gratis(user: str = Depends(autenticar_admin)):
-    """Redirección directa: Al poner user/pass te manda con la llave ?auth=admin"""
+    """Redirección directa del servidor al servicio."""
     return RedirectResponse(url="/static/session.html?auth=admin")
 
 @app.post("/checkout")
@@ -82,7 +82,7 @@ async def create_checkout_session():
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
-                    'product_data': {'name': f'MayKaMi - Sesión {turno}'},
+                    'product_data': {'name': f'MayKaMi - Turno {turno}'},
                     'unit_amount': 2500,
                 },
                 'quantity': 1,
@@ -98,7 +98,6 @@ async def create_checkout_session():
 
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
-    """Servidor entrega todas las sesiones, el script filtra la del día."""
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             return json.load(f)
