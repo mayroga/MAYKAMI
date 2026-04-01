@@ -54,6 +54,7 @@ def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
 # --- RUTAS ---
 @app.get("/", response_class=HTMLResponse)
 async def home():
+    # Cargar el HTML principal desde la carpeta static
     with open(STATIC_DIR / "session.html", "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
