@@ -1,6 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V8.5 - STABLE FINAL (STRIPE & ADMIN READY)
-   URL: https://maykami.onrender.com
+   MAYKAMI NEUROGAME ENGINE - ACTUALIZADO: REGLAS 9AM/9PM
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -11,73 +10,68 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+const payBtn = document.getElementById("pay-btn");
 
-/* ================= SISTEMA DE PAGO (STRIPE) ================= */
+const urlParams = new URLSearchParams(window.location.search);
+const isAdmin = urlParams.get('admin') === 'true';
+const pagoExitoso = urlParams.get('pago') === 'exitoso';
+
+/* ================= VALIDACIÓN DE ACCESO ================= */
+
+function verificarHorario() {
+    if (isAdmin) return true; // El admin salta las reglas de tiempo
+
+    const ahora = new Date();
+    const h = ahora.getHours();
+    const m = ahora.getMinutes();
+
+    const esVentanaAM = (h === 9 && m <= 15);
+    const esVentanaPM = (h === 21 && m <= 15);
+
+    if (!esVentanaAM && !esVentanaPM && !pagoExitoso) {
+        block.innerHTML = "SISTEMA CERRADO<br><small>Próxima sesión: 9:00 AM y 9:00 PM (Ventana de 15 min)</small>";
+        startBtn.style.display = "none";
+        payBtn.style.display = "inline-block";
+        return false;
+    }
+    
+    if (pagoExitoso || isAdmin) {
+        payBtn.style.display = "none";
+        startBtn.style.display = "inline-block";
+    }
+    return true;
+}
+
+/* ================= SISTEMA DE PAGO ================= */
 
 async function iniciarPago() {
-    block.innerHTML = "Conectando con la pasarela de pago segura...";
+    block.innerHTML = "Validando cupo y horario...";
     try {
         const response = await fetch("/checkout", { method: "POST" });
         const data = await response.json();
         if (data.url) {
             window.location.href = data.url;
         } else {
-            alert("Error en el servidor de pagos. Intente más tarde.");
+            alert(data.error || "Error en el servidor de pagos.");
+            block.innerHTML = data.error || "Intente en el próximo turno.";
         }
     } catch (err) {
         console.error("Error Stripe:", err);
     }
 }
 
-// Verificar si el usuario acaba de pagar al cargar la página
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('pago') === 'exitoso') {
-    console.log("Acceso premium confirmado por pago.");
-}
-
-/* ================= AUDIO ANTI-STRESS (FIX MÓVIL) ================= */
-
-// Pista: "Soft Relaxation Piano" - Volumen optimizado para no tapar la voz
-const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
-bgMusic.loop = true;
-
-// Volumen al 4% (0.04) para que sea música de fondo relajante
-bgMusic.volume = 0.04; 
-
-function playMusic() {
-    bgMusic.play().catch(() => {
-        // En móviles, el audio solo inicia tras la primera interacción del usuario
-        document.body.addEventListener("click", () => {
-            bgMusic.play();
-        }, { once: true });
-    });
-}
-
 /* ================= ENGINE CORE ================= */
 
-let engine = {
-    locked: false,
-    abort: false,
-    timers: new Set(),
-    breathLoop: null,
-    session: null
-};
-
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-    sessionId: 1,
-    step: 0,
-    disciplina: 40
-};
-
+let engine = { locked: false, abort: false, timers: new Set(), session: null };
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || { sessionId: 1, step: 0, disciplina: 40 };
 let slideIndex = 0;
 
-/* ================= UTILS & SAFE TIMERS ================= */
+const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.04; 
 
 function safeTimeout(fn, t) {
-    const id = setTimeout(() => {
-        engine.timers.delete(id);
-        fn();
-    }, t);
+    const id = setTimeout(() => { engine.timers.delete(id); fn(); }, t);
     engine.timers.add(id);
 }
 
@@ -87,60 +81,36 @@ function resetEngine() {
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
     block.innerHTML = "";
-    startBreathing(null, false);
 }
-
-/* ================= VOZ PROFESIONAL CALMADA ================= */
 
 function speak(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
-        
-        // Velocidad pausada y tono cálido para efecto anti-stress
         utter.rate = 0.88; 
         utter.pitch = 0.95;
-
         utter.onend = resolve;
         utter.onerror = resolve;
         window.speechSynthesis.speak(utter);
     });
 }
 
-function extractSeconds(text) {
-    const match = text.match(/(\d{1,3})\s*(segundos|seg|s)/i);
-    return match ? parseInt(match[1]) : null;
-}
-
-function hasHold(text) {
-    const t = text.toLowerCase();
-    return t.includes("reten") || t.includes("retener") || t.includes("pausa") || t.includes("hold");
-}
-
-/* ================= RESPIRACIÓN FISIOLÓGICA ================= */
-
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
     const cycle = 3400; 
     const inhaleTime = cycle * 0.4;
-    const holdTime   = cycle * 0.2;
+    const holdTime = cycle * 0.2;
     const exhaleTime = cycle * 0.4;
-
     const start = Date.now();
     const duration = seconds ? seconds * 1000 : Infinity;
 
     function loop() {
         if (engine.abort || (Date.now() - start >= duration)) return;
-
         circle.className = "inhale";
         circle.textContent = "Inhala";
-
         safeTimeout(() => {
-            if (forceHold) {
-                circle.className = "hold";
-                circle.textContent = "Retén";
-            }
+            if (forceHold) { circle.className = "hold"; circle.textContent = "Retén"; }
             safeTimeout(() => {
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
@@ -160,90 +130,47 @@ async function typeText(text) {
     }
 }
 
-/* ================= DATA & EXECUTION ================= */
-
 async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        if (userData.sessionId > 21) userData.sessionId = 1;
-        engine.session = data.sesiones.find(s => s.id === userData.sessionId) || data.sesiones[0];
-    } catch (e) {
-        console.error("Error cargando sesiones:", e);
-    }
+        // El servidor ya devuelve la sesión única del día
+        engine.session = data.sesiones[0];
+    } catch (e) { console.error("Error:", e); }
 }
 
 async function runStep() {
     if (engine.locked) return;
     engine.locked = true;
-
     resetEngine();
     engine.abort = false;
 
     const step = engine.session?.bloques?.[userData.step];
-
-    if (!step) {
-        finish();
-        return;
-    }
+    if (!step) { finish(); return; }
 
     nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    if (step.textos?.length) {
+    if (step.textos) {
         for (const t of step.textos) {
-            const seconds = extractSeconds(t);
-            const hold = hasHold(t);
-            await speak(t);
-            await typeText(t);
-            if (/respira|inhala|exhala/i.test(t)) startBreathing(seconds, hold);
+            await speak(t); await typeText(t);
+            if (/respira|inhala|exhala/i.test(t)) startBreathing(10, t.includes("retén"));
             await new Promise(r => safeTimeout(r, 400));
         }
-    } else if (step.tipo === "decision") {
-        await speak(step.pregunta);
-        await typeText(step.pregunta);
-        const box = document.createElement("div");
-        step.opciones.forEach((opt, i) => {
-            const btn = document.createElement("button");
-            btn.className = "opt-btn";
-            btn.textContent = opt;
-            btn.onclick = async () => {
-                const ok = i === step.correcta;
-                const msg = (ok ? "Correcto. " : "Incorrecto. ") + step.explicacion;
-                await speak(msg);
-                await typeText(msg);
-                if (ok) userData.disciplina += 5;
-                save();
-            };
-            box.appendChild(btn);
-        });
-        block.appendChild(box);
     } else if (step.texto) {
-        const seconds = extractSeconds(step.texto);
-        const hold = hasHold(step.texto);
-        await speak(step.texto);
-        await typeText(step.texto);
-        if (/respira|inhala|exhala/i.test(step.texto)) startBreathing(seconds, hold);
+        await speak(step.texto); await typeText(step.texto);
     }
     engine.locked = false;
 }
 
-async function finish() {
-    block.innerHTML = "Sesión completada exitosamente.";
-    userData.sessionId++;
-    if (userData.sessionId > 21) userData.sessionId = 1;
+function finish() {
+    block.innerHTML = "Sesión diaria completada. Te esperamos mañana 9:00 AM.";
     userData.step = 0;
     save();
-    await loadSession();
-    engine.locked = false;
 }
 
-function save() {
-    localStorage.setItem("maykamiData", JSON.stringify(userData));
-}
-
-/* ================= UI & GALERÍA ================= */
+function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }
 
 function initGallery() {
     gallery.innerHTML = "";
@@ -255,7 +182,6 @@ function initGallery() {
     }
     const slides = document.querySelectorAll(".slide");
     if (slides[0]) slides[0].classList.add("active");
-
     setInterval(() => {
         const all = document.querySelectorAll(".slide");
         all.forEach(s => s.classList.remove("active"));
@@ -264,14 +190,13 @@ function initGallery() {
     }, 7000);
 }
 
-/* ================= EVENTOS DE BOTONES ================= */
+/* ================= EVENTOS ================= */
 
 startBtn.onclick = async () => {
+    if (!verificarHorario()) return;
     startBtn.style.display = "none";
-    playMusic();
-    userData.step = 0;
+    bgMusic.play();
     initGallery();
-    startBreathing();
     await loadSession();
     runStep();
 };
@@ -280,5 +205,6 @@ nextBtn.onclick = () => { userData.step++; save(); runStep(); };
 backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
 restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
 
-// Iniciar guardado inicial
-save();
+// Verificación inicial
+verificarHorario();
+setInterval(verificarHorario, 30000); // Re-verificar cada 30 segundos
