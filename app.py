@@ -9,42 +9,40 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-app = FastAPI(title="MayKaMi NeuroGame Engine")
+app = FastAPI(title="MAYKAMI NeuroGame Engine")
 security = HTTPBasic()
 
-# Configuración de directorios
+# --- CONFIGURACIÓN DE RUTAS ---
 BASE_DIR = Path(__file__).resolve().parent
 STATIC_DIR = BASE_DIR / "static"
 JSON_PATH = STATIC_DIR / "tvid_ejercicio.json"
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-# Configuración de Entorno (Render)
+# --- VARIABLES DE ENTORNO (Render) ---
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 ADMIN_USER = os.getenv("ADMIN_USERNAME")
 ADMIN_PASS = os.getenv("ADMIN_PASSWORD")
 APP_URL = "https://maykami.onrender.com"
+
+# --- REGLAS DE NEGOCIO ---
 TIMEZONE = pytz.timezone("America/New_York")
+MAX_CUPOS = 400
+# Contador volátil (se reinicia si el servidor hace redeploy o duerme)
+registro_sesion = {"id_actual": "", "contador": 0}
 
-# Estado Global de Cupos (400 personas por turno)
-# En Render esto se reinicia si la app entra en sleep, lo cual es ideal para limpiar turnos
-estado_cupos = {"dia_turno": "", "contador": 0}
-
-def verificar_ventana_acceso():
-    """Valida si estamos en el rango de 9:00-9:15 AM/PM."""
+def obtener_info_tiempo():
     ahora = datetime.now(TIMEZONE)
     h, m = ahora.hour, ahora.minute
+    es_ventana_am = (h == 9 and 0 <= m <= 15)
+    es_ventana_pm = (h == 21 and 0 <= m <= 15)
     
-    # Ventanas: 9:00 a 9:15 (AM es 9, PM es 21)
-    es_am = (h == 9 and 0 <= m <= 15)
-    es_pm = (h == 21 and 0 <= m <= 15)
-    
-    turno = "AM" if es_am else "PM" if es_pm else None
-    id_turno = f"{ahora.date()}_{turno}"
-    
-    return turno is not None, turno, id_turno
+    turno = "AM" if es_ventana_am else "PM" if es_ventana_pm else None
+    id_unico_turno = f"{ahora.strftime('%Y-%m-%d')}_{turno}"
+    return turno, id_unico_turno
 
-# --- SEGURIDAD ADMIN ---
+# --- SEGURIDAD: ENTRADA GRATIS ADMIN ---
 def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
     if credentials.username != ADMIN_USER or credentials.password != ADMIN_PASS:
         raise HTTPException(
@@ -52,37 +50,36 @@ def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
             detail="Acceso Denegado",
             headers={"WWW-Authenticate": "Basic"},
         )
-    return credentials.username
+    return True
 
-# --- RUTAS ---
+# --- RUTAS PRINCIPALES ---
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    html_path = STATIC_DIR / "session.html"
-    with open(html_path, "r", encoding="utf-8") as f:
+    with open(STATIC_DIR / "session.html", "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
 @app.get("/admin")
-async def login_admin(user: str = Depends(autenticar_admin)):
-    """El administrador entra sin restricciones de hora ni pago."""
+async def acceso_admin(es_admin: bool = Depends(autenticar_admin)):
+    """Ruta para entrar sin pagar y sin restricción de horario."""
     return JSONResponse({
-        "status": "Acceso concedido", 
-        "redirect": "/static/session.html?admin=true"
+        "status": "Acceso Total Concedido",
+        "redirect": "/static/session.html?auth=admin"
     })
 
 @app.post("/checkout")
 async def create_checkout_session():
-    abierto, turno, id_turno = verificar_ventana_acceso()
-    global estado_cupos
+    turno, id_turno = obtener_info_tiempo()
+    global registro_sesion
 
-    if not abierto:
-        return JSONResponse({"error": "Servicio disponible solo a las 9:00 AM y 9:00 PM (15 min)."}, status_code=403)
+    if not turno:
+        return JSONResponse({"error": "La taquilla abre solo a las 9:00 AM y 9:00 PM por 15 min."}, status_code=403)
 
-    # Reiniciar contador si es un turno nuevo
-    if estado_cupos["dia_turno"] != id_turno:
-        estado_cupos = {"dia_turno": id_turno, "contador": 0}
+    # Resetear contador si es un nuevo turno/día
+    if registro_sesion["id_actual"] != id_turno:
+        registro_sesion = {"id_actual": id_turno, "contador": 0}
 
-    if estado_cupos["contador"] >= 400:
-        return JSONResponse({"error": "Cupo agotado (máximo 400 personas)."}, status_code=403)
+    if registro_sesion["contador"] >= MAX_CUPOS:
+        return JSONResponse({"error": "Lo sentimos, cupo de 400 personas agotado para este turno."}, status_code=403)
 
     try:
         session = stripe.checkout.Session.create(
@@ -90,7 +87,7 @@ async def create_checkout_session():
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
-                    'product_data': {'name': f'Sesión MayKaMi {turno}'},
+                    'product_data': {'name': f'Sesión MAYKAMI - Turno {turno}'},
                     'unit_amount': 2500, # $25.00
                 },
                 'quantity': 1,
@@ -99,22 +96,22 @@ async def create_checkout_session():
             success_url=f"{APP_URL}/static/session.html?pago=exitoso&t={id_turno}",
             cancel_url=f"{APP_URL}/",
         )
-        estado_cupos["contador"] += 1
+        registro_sesion["contador"] += 1
         return {"url": session.url}
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=400)
 
 @app.get("/tvid_ejercicio.json")
 async def get_sessions():
-    """Entrega la sesión del día (id 1-21) para AM y PM."""
+    """Sirve la sesión diaria. La de las 9 PM es repetición de la de las 9 AM."""
     ahora = datetime.now(TIMEZONE)
-    # Calculamos el ID de sesión basado en el día del año para que cambie a las 9 AM de mañana
+    # Selecciona una sesión (1-21) basada en el día del año para que cambie cada día
     session_id = (ahora.timetuple().tm_yday % 21) + 1
     
     try:
         with open(JSON_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-            # Filtramos para que AM y PM vean lo mismo hoy
+            # Filtramos para que AM y PM consuman la misma ID hoy
             sesion_hoy = [s for s in data["sesiones"] if s["id"] == session_id]
             return {"sesiones": sesion_hoy}
     except:
