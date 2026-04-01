@@ -172,7 +172,6 @@ async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        // Sincronización por ID de día para las 21 sesiones
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
         engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
@@ -240,15 +239,19 @@ function finish() {
 
 function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }
 
-/* ================= UI & GALERÍA VISUAL ================= */
+/* ================= UI & GALERÍA VISUAL (MÁS LUZ Y CLARIDAD) ================= */
 
 function initGallery() {
     gallery.innerHTML = "";
+    // Temáticas de luz: naturaleza, cosmos, luz blanca, arquitectura limpia
+    const themes = ["nature", "sunlight", "calm", "bright", "zen", "sky", "nebula"];
+    
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        // Uso de imágenes de alta resolución para que no se vea oscuro/opaco
-        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?random=${i})`;
+        const theme = themes[i % themes.length];
+        // Se añade auto=format para mejor carga y filtros de brillo/contraste
+        div.style.backgroundImage = `url(https://source.unsplash.com/featured/1920x1080?${theme}&sig=${i}&auto=format&q=80&bri=10)`;
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
@@ -259,7 +262,7 @@ function initGallery() {
         all.forEach(s => s.classList.remove("active"));
         slideIndex = (slideIndex + 1) % all.length;
         if (all[slideIndex]) all[slideIndex].classList.add("active");
-    }, 7000); // Cambio rítmico cada 7 segundos
+    }, 7000); 
 }
 
 /* ================= EVENTOS ================= */
@@ -268,7 +271,7 @@ startBtn.onclick = async () => {
     startBtn.style.display = "none";
     playMusic();
     userData.step = 0;
-    initGallery(); // Inicia la galería visual
+    initGallery(); 
     await loadSession();
     runStep();
 };
