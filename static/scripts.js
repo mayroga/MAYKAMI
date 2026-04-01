@@ -1,5 +1,5 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE - V9.1 (SERVER REDIRECT & BYPASS)
+   MAYKAMI NEUROGAME ENGINE - V10.0 (FULL ACCESS RESTORED)
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -16,77 +16,52 @@ const params = new URLSearchParams(window.location.search);
 const isAdmin = params.get('auth') === 'admin';
 const isPagoOk = params.get('pago') === 'exitoso';
 
-/* ================= ACCESO ADMINISTRATIVO ================= */
+let engine = { locked: false, abort: false, timers: new Set(), session: null };
+let userData = { step: 0 };
+let slideIndex = 0;
 
-// Clic en el círculo para forzar login de administrador en cualquier momento
-circle.onclick = () => {
-    if (confirm("¿Ingresar credenciales de administrador?")) {
-        window.location.href = "/admin";
-    }
-};
+const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.05;
+
+/* ================= CONTROL DE INTERFAZ ================= */
 
 function checkAccess() {
-    // Si el servidor nos mandó con ?auth=admin, saltamos todo
     if (isAdmin) {
-        block.innerHTML = "BIENVENIDO ADMINISTRADOR<br><small>Acceso total ilimitado.</small>";
+        block.innerHTML = "ADMINISTRADOR RECONOCIDO.<br><small>Pulse INICIAR para probar el sistema.</small>";
         payBtn.style.display = "none";
         startBtn.style.display = "inline-block";
         return true;
     }
 
-    // Si viene de un pago exitoso
     if (isPagoOk) {
         payBtn.style.display = "none";
         startBtn.style.display = "inline-block";
-        block.innerHTML = "Acceso Premium verificado.";
+        block.innerHTML = "Acceso Premium Concedido.";
         return true;
     }
 
-    const ahora = new Date();
-    const h = ahora.getHours();
-    const m = ahora.getMinutes();
-
-    // Ventana 8:50-9:15 y 20:50-21:15
+    const h = new Date().getHours();
+    const m = new Date().getMinutes();
     const esAM = (h === 8 && m >= 50) || (h === 9 && m <= 15);
     const esPM = (h === 20 && m >= 50) || (h === 21 && m <= 15);
 
     if (!esAM && !esPM) {
-        block.innerHTML = "SISTEMA CERRADO.<br><small>Disponible 10 min antes de las 9:00 AM/PM.</small>";
+        block.innerHTML = "SISTEMA CERRADO.<br><small>9:00 AM/PM (Cobro 10 min antes).</small>";
         payBtn.style.display = "none";
         startBtn.style.display = "none";
         return false;
     }
 
-    block.innerHTML = "SISTEMA LISTO.<br><small>Adquiera su acceso para comenzar.</small>";
+    block.innerHTML = "SISTEMA ABIERTO.<br><small>Adquiera su acceso para participar.</small>";
     payBtn.style.display = "inline-block";
     startBtn.style.display = "none";
     return false;
 }
 
-/* ================= PASARELA DE PAGO ================= */
+circle.onclick = () => { if(!isAdmin) window.location.href = "/admin"; };
 
-async function iniciarPago() {
-    block.innerHTML = "Conectando con Stripe...";
-    try {
-        const response = await fetch("/checkout", { method: "POST" });
-        const data = await response.json();
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            alert(data.error);
-            block.innerHTML = data.error;
-        }
-    } catch (err) { console.error("Error Checkout:", err); }
-}
-
-/* ================= ENGINE CORE ================= */
-
-let engine = { locked: false, abort: false, timers: new Set(), session: null };
-let userData = { step: 0 };
-
-const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
-bgMusic.loop = true;
-bgMusic.volume = 0.04; 
+/* ================= FUNCIONES DEL MOTOR ================= */
 
 function safeTimeout(fn, t) {
     const id = setTimeout(() => { engine.timers.delete(id); fn(); }, t);
@@ -105,7 +80,7 @@ function speak(text) {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
-        utter.rate = 0.88; 
+        utter.rate = 0.9;
         utter.onend = resolve;
         utter.onerror = resolve;
         window.speechSynthesis.speak(utter);
@@ -113,8 +88,7 @@ function speak(text) {
 }
 
 function startBreathing(seconds = null, hold = false) {
-    clearInterval(engine.breathLoop);
-    const cycle = 3400; 
+    const cycle = 3400;
     const start = Date.now();
     const duration = seconds ? seconds * 1000 : Infinity;
 
@@ -141,14 +115,6 @@ async function typeText(text) {
     }
 }
 
-async function loadSession() {
-    try {
-        const res = await fetch("/tvid_ejercicio.json");
-        const data = await res.json();
-        engine.session = data.sesiones[0];
-    } catch (e) { console.error(e); }
-}
-
 async function runStep() {
     if (engine.locked) return;
     engine.locked = true;
@@ -157,15 +123,20 @@ async function runStep() {
 
     const step = engine.session?.bloques?.[userData.step];
     if (!step) { 
-        block.innerHTML = "Has completado la sesión de hoy.";
-        userData.step = 0; return; 
+        block.innerHTML = "Sesión finalizada."; 
+        userData.step = 0; 
+        engine.locked = false;
+        return; 
     }
+
+    nextBtn.style.display = "inline-block";
+    backBtn.style.display = "inline-block";
 
     if (step.textos) {
         for (const t of step.textos) {
             await speak(t); await typeText(t);
             if (/respira|inhala|exhala/i.test(t)) startBreathing(10, t.includes("retén"));
-            await new Promise(r => safeTimeout(r, 500));
+            await new Promise(r => safeTimeout(r, 600));
         }
     }
     engine.locked = false;
@@ -173,7 +144,7 @@ async function runStep() {
 
 function initGallery() {
     gallery.innerHTML = "";
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 10; i++) {
         const div = document.createElement("div");
         div.className = "slide";
         div.style.backgroundImage = `url(https://picsum.photos/1920/1080?random=${i})`;
@@ -186,16 +157,18 @@ function initGallery() {
         all.forEach(s => s.classList.remove("active"));
         slideIndex = (slideIndex + 1) % all.length;
         all[slideIndex].classList.add("active");
-    }, 8000);
+    }, 7000);
 }
 
-/* ================= EVENTOS ================= */
+/* ================= EVENTOS PRINCIPALES ================= */
 
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
-    bgMusic.play();
+    bgMusic.play().catch(() => {});
     initGallery();
-    await loadSession();
+    const res = await fetch("/tvid_ejercicio.json");
+    const data = await res.json();
+    engine.session = data.sesiones[0];
     runStep();
 };
 
@@ -203,6 +176,13 @@ nextBtn.onclick = () => { userData.step++; runStep(); };
 backBtn.onclick = () => { if (userData.step > 0) userData.step--; runStep(); };
 restartBtn.onclick = () => { userData.step = 0; runStep(); };
 
-// Inicio de ciclo
+payBtn.onclick = () => iniciarPago();
+
+async function iniciarPago() {
+    block.innerHTML = "Cargando Stripe...";
+    const res = await fetch("/checkout", { method: "POST" });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url; else alert(data.error);
+}
+
 checkAccess();
-setInterval(checkAccess, 60000);
