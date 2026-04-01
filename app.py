@@ -59,7 +59,7 @@ async def home():
 
 @app.get("/admin")
 async def login_gratis(user: str = Depends(autenticar_admin)):
-    """Redirección directa del servidor al servicio."""
+    """Redirección directa del servidor: al autenticar, manda a la app con el bypass"""
     return RedirectResponse(url="/static/session.html?auth=admin")
 
 @app.post("/checkout")
@@ -74,7 +74,7 @@ async def create_checkout_session():
         registro_sesion = {"id_actual": id_turno, "contador": 0}
 
     if registro_sesion["contador"] >= MAX_CUPOS:
-        return JSONResponse({"error": "Cupo de 400 personas agotado."}, status_code=403)
+        return JSONResponse({"error": "Cupo agotado para este turno."}, status_code=403)
 
     try:
         session = stripe.checkout.Session.create(
