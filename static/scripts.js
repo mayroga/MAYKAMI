@@ -142,18 +142,22 @@ function startBreathing(seconds = null, forceHold = false) {
         if (engine.abort || (Date.now() - start >= duration)) return;
         circle.className = "inhale";
         circle.textContent = "Inhala";
+
         safeTimeout(() => {
             if (forceHold) {
                 circle.className = "hold";
                 circle.textContent = "Retén";
             }
+
             safeTimeout(() => {
                 circle.className = "exhale";
                 circle.textContent = "Exhala";
                 safeTimeout(loop, cycle * 0.4);
             }, forceHold ? cycle * 0.2 : 0);
+
         }, cycle * 0.4);
     }
+
     loop();
 }
 
@@ -172,11 +176,14 @@ async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
-        // Sincronización por ID de día para las 21 sesiones
+
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
+
         engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
-    } catch (e) { console.error("Error JSON:", e); }
+    } catch (e) {
+        console.error("Error JSON:", e);
+    }
 }
 
 async function runStep() {
@@ -195,68 +202,104 @@ async function runStep() {
     if (step.textos?.length) {
         for (const t of step.textos) {
             if (engine.abort) break;
+
             const sec = extractSeconds(t);
             const hold = t.toLowerCase().includes("retén") || t.toLowerCase().includes("retiene");
+
             await speak(t);
             await typeText(t);
+
             if (/respira|inhala|exhala/i.test(t)) startBreathing(sec || 8, hold);
+
             await new Promise(r => safeTimeout(r, 600));
         }
     } else if (step.tipo === "decision") {
         await speak(step.pregunta);
         await typeText(step.pregunta);
+
         const box = document.createElement("div");
         box.className = "decision-box";
+
         step.opciones.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "opt-btn";
             btn.textContent = opt;
+
             btn.onclick = async () => {
                 const ok = i === step.correcta;
                 const msg = (ok ? "Correcto. " : "Incorrecto. ") + step.explicacion;
+
                 await speak(msg);
                 await typeText(msg);
+
                 if (ok) userData.disciplina += 5;
                 save();
             };
+
             box.appendChild(btn);
         });
+
         block.appendChild(box);
     } else if (step.texto) {
         const sec = extractSeconds(step.texto);
         const hold = step.texto.toLowerCase().includes("retén") || step.texto.toLowerCase().includes("retiene");
+
         await speak(step.texto);
         await typeText(step.texto);
+
         if (/respira|inhala|exhala/i.test(step.texto)) startBreathing(sec || 8, hold);
     }
+
     engine.locked = false;
 }
 
 function finish() {
     block.innerHTML = "Sesión completada exitosamente. Hasta mañana.";
-    userData.step = 0; save();
+    userData.step = 0;
+    save();
     engine.locked = false;
 }
 
-function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }
+function save() {
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
+}
 
 /* ================= UI & GALERÍA VISUAL ================= */
 
 function initGallery() {
     gallery.innerHTML = "";
+
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        // Uso de imágenes de alta resolución para que no se vea oscuro/opaco
-        div.style.backgroundImage = `
-linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)),
-url(https://picsum.photos/1920/1080?random=${i})
-`;
 
-div.style.backgroundSize = "cover";
-div.style.backgroundPosition = "center";
-div.style.filter = "brightness(1.15) contrast(1.1) saturate(1.1)";
-    }, 7000); // Cambio rítmico cada 7 segundos
+        // 🔥 IMAGEN MÁS CLARA Y SUAVE
+        div.style.backgroundImage = `
+        linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)),
+        url(https://picsum.photos/1920/1080?random=${i})
+        `;
+
+        div.style.backgroundSize = "cover";
+        div.style.backgroundPosition = "center";
+
+        div.style.filter = "brightness(1.18) contrast(1.08) saturate(1.1)";
+
+        gallery.appendChild(div);
+    }
+
+    const slides = document.querySelectorAll(".slide");
+    if (slides[0]) slides[0].classList.add("active");
+
+    setInterval(() => {
+        const all = document.querySelectorAll(".slide");
+
+        all.forEach(s => s.classList.remove("active"));
+
+        slideIndex = (slideIndex + 1) % all.length;
+
+        if (all[slideIndex]) all[slideIndex].classList.add("active");
+
+    }, 7000);
 }
 
 /* ================= EVENTOS ================= */
@@ -265,7 +308,7 @@ startBtn.onclick = async () => {
     startBtn.style.display = "none";
     playMusic();
     userData.step = 0;
-    initGallery(); // Inicia la galería visual
+    initGallery();
     await loadSession();
     runStep();
 };
