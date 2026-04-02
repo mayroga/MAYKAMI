@@ -248,17 +248,14 @@ function initGallery() {
         const div = document.createElement("div");
         div.className = "slide";
         // Uso de imágenes de alta resolución para que no se vea oscuro/opaco
-        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?random=${i})`;
-        gallery.appendChild(div);
-    }
-    const slides = document.querySelectorAll(".slide");
-    if (slides[0]) slides[0].classList.add("active");
+        div.style.backgroundImage = `
+linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)),
+url(https://picsum.photos/1920/1080?random=${i})
+`;
 
-    setInterval(() => {
-        const all = document.querySelectorAll(".slide");
-        all.forEach(s => s.classList.remove("active"));
-        slideIndex = (slideIndex + 1) % all.length;
-        if (all[slideIndex]) all[slideIndex].classList.add("active");
+div.style.backgroundSize = "cover";
+div.style.backgroundPosition = "center";
+div.style.filter = "brightness(1.15) contrast(1.1) saturate(1.1)";
     }, 7000); // Cambio rítmico cada 7 segundos
 }
 
