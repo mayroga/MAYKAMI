@@ -36,7 +36,7 @@ def obtener_info_tiempo():
     # Ventana de cobro: 10 min antes (8:50-9:15 y 20:50-21:15)
     es_ventana_am = (h == 8 and m >= 50) or (h == 9 and m <= 15)
     es_ventana_pm = (h == 20 and m >= 50) or (h == 21 and m <= 15)
-    
+   
     turno = "AM" if (h == 8 or h == 9) else "PM" if (h == 20 or h == 21) else None
     id_unico_turno = f"{ahora.strftime('%Y-%m-%d')}_{turno}"
     return turno, id_unico_turno
@@ -54,7 +54,6 @@ def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
 # --- RUTAS ---
 @app.get("/", response_class=HTMLResponse)
 async def home():
-    # Cargar el HTML principal desde la carpeta static
     with open(STATIC_DIR / "session.html", "r", encoding="utf-8") as f:
         return HTMLResponse(f.read())
 
