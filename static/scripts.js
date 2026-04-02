@@ -11,7 +11,7 @@ const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
-const payBtn = document.getElementById("pay-btn"); 
+const payBtn = document.getElementById("pay-btn");
 
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
@@ -70,7 +70,7 @@ async function iniciarPago() {
 
 const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.04; 
+bgMusic.volume = 0.04;
 
 function playMusic() {
     bgMusic.play().catch(() => {
@@ -119,7 +119,7 @@ function speak(text) {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = "es-ES";
-        utter.rate = 0.88; 
+        utter.rate = 0.88;
         utter.pitch = 0.95;
         utter.onend = resolve;
         utter.onerror = resolve;
@@ -134,7 +134,7 @@ function extractSeconds(text) {
 
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
-    const cycle = 3400; 
+    const cycle = 3400;
     const start = Date.now();
     const duration = seconds ? seconds * 1000 : Infinity;
 
@@ -172,6 +172,7 @@ async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
+        // Sincronización por ID de día para las 21 sesiones
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
         engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
@@ -239,19 +240,15 @@ function finish() {
 
 function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }
 
-/* ================= UI & GALERÍA VISUAL (MÁS LUZ Y CLARIDAD) ================= */
+/* ================= UI & GALERÍA VISUAL ================= */
 
 function initGallery() {
     gallery.innerHTML = "";
-    // Temáticas de luz: naturaleza, cosmos, luz blanca, arquitectura limpia
-    const themes = ["nature", "sunlight", "calm", "bright", "zen", "sky", "nebula"];
-    
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        const theme = themes[i % themes.length];
-        // Se añade auto=format para mejor carga y filtros de brillo/contraste
-        div.style.backgroundImage = `url(https://source.unsplash.com/featured/1920x1080?${theme}&sig=${i}&auto=format&q=80&bri=10)`;
+        // Uso de imágenes de alta resolución para que no se vea oscuro/opaco
+        div.style.backgroundImage = `url(https://picsum.photos/1920/1080?random=${i})`;
         gallery.appendChild(div);
     }
     const slides = document.querySelectorAll(".slide");
@@ -262,7 +259,7 @@ function initGallery() {
         all.forEach(s => s.classList.remove("active"));
         slideIndex = (slideIndex + 1) % all.length;
         if (all[slideIndex]) all[slideIndex].classList.add("active");
-    }, 7000); 
+    }, 7000); // Cambio rítmico cada 7 segundos
 }
 
 /* ================= EVENTOS ================= */
@@ -271,7 +268,7 @@ startBtn.onclick = async () => {
     startBtn.style.display = "none";
     playMusic();
     userData.step = 0;
-    initGallery(); 
+    initGallery(); // Inicia la galería visual
     await loadSession();
     runStep();
 };
