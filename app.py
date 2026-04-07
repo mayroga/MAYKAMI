@@ -83,7 +83,7 @@ async def create_checkout_session():
                 'price_data': {
                     'currency': 'usd',
                     'product_data': {'name': f'MayKaMi - Turno {turno}'},
-                    'unit_amount': 2500,
+                    'unit_amount': 599,
                 },
                 'quantity': 1,
             }],
