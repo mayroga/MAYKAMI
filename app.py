@@ -27,7 +27,7 @@ APP_URL = "https://maykami.onrender.com"
 
 # --- REGLAS DE NEGOCIO ---
 TIMEZONE = pytz.timezone("America/New_York")
-MAX_CUPOS = 400
+MAX_CUPOS = 135
 registro_sesion = {"id_actual": "", "contador": 0}
 
 def obtener_info_tiempo():
