@@ -1,4 +1,8 @@
-/* static/scripts.js */
+/* ============================================================
+   MAYKAMI NEUROGAME ENGINE V8.5 - FULL RESTORED
+   URL: https://maykami.onrender.com
+============================================================ */
+
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
@@ -14,11 +18,15 @@ const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
 const isPagoOk = urlParams.get('pago') === 'exitoso';
 
+// --- CONFIGURACIÓN DE IDIOMA ---
 let currentLang = localStorage.getItem("maykamiLang") || "es";
 
 const translations = {
     es: {
+        circle_title: "MAYKAMI",
         ready: "Listo para iniciar sesión",
+        admin_access: "¿Ingresar como Administrador?",
+        unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
         closed: "SISTEMA CERRADO.<br><small>Apertura: 9:00 AM/PM (Cobro 10 min antes).</small>",
         taquilla: "TAQUILLA ABIERTA.<br><small>Adquiera su acceso para comenzar.</small>",
         connecting: "Conectando con la pasarela de pago segura...",
@@ -32,13 +40,14 @@ const translations = {
         next: "Siguiente",
         restart: "Reiniciar",
         pay: "Acceso Premium",
-        lang: "English",
-        admin_prompt: "¿Ingresar como Administrador?",
-        unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
+        lang_label: "English",
         lang_changed: "Idioma cambiado a español"
     },
     en: {
+        circle_title: "MAYKAMI",
         ready: "Ready to start session",
+        admin_access: "Login as Administrator?",
+        unlocked: "SYSTEM UNLOCKED (ADMIN)",
         closed: "SYSTEM CLOSED.<br><small>Opening: 9:00 AM/PM (Checkout 10 min prior).</small>",
         taquilla: "BOX OFFICE OPEN.<br><small>Acquire your access to begin.</small>",
         connecting: "Connecting to secure payment gateway...",
@@ -52,9 +61,7 @@ const translations = {
         next: "Next",
         restart: "Restart",
         pay: "Premium Access",
-        lang: "Español",
-        admin_prompt: "Login as Administrator?",
-        unlocked: "SYSTEM UNLOCKED (ADMIN)",
+        lang_label: "Español",
         lang_changed: "Language changed to English"
     }
 };
@@ -69,10 +76,9 @@ function updateUItexts() {
     if (nextBtn) nextBtn.textContent = t("next");
     if (restartBtn) restartBtn.textContent = t("restart");
     if (payBtn) payBtn.textContent = t("pay");
-    if (langBtn) langBtn.textContent = t("lang");
-    if (circle.textContent === "MAYKAMI" || circle.textContent === "Inhala" || circle.textContent === "Exhala" || circle.textContent === "Retén" || circle.textContent === "Inhale" || circle.textContent === "Exhale" || circle.textContent === "Hold") {
-        // Keep circle title or dynamic state
-    }
+    if (langBtn) langBtn.textContent = t("lang_label");
+    if (circle) circle.textContent = t("circle_title");
+    
     if (block.textContent.includes("Listo") || block.textContent.includes("Ready")) {
         block.innerHTML = t("ready");
     }
@@ -85,8 +91,10 @@ function toggleLanguage() {
     speak(t("lang_changed"));
 }
 
+/* ================= ACCESO Y SEGURIDAD ================= */
+
 circle.onclick = () => {
-    if (confirm(t("admin_prompt"))) {
+    if (confirm(t("admin_access"))) {
         window.location.href = "/admin";
     }
 };
@@ -117,6 +125,8 @@ function checkAccess() {
     return false;
 }
 
+/* ================= SISTEMA DE PAGO (STRIPE) ================= */
+
 async function iniciarPago() {
     block.innerHTML = t("connecting");
     try {
@@ -130,6 +140,8 @@ async function iniciarPago() {
     } catch (err) { console.error("Error Stripe:", err); }
 }
 
+/* ================= AUDIO ANTI-STRESS ================= */
+
 const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
 bgMusic.volume = 0.04;
@@ -141,6 +153,8 @@ function playMusic() {
         }, { once: true });
     });
 }
+
+/* ================= ENGINE CORE ================= */
 
 let engine = {
     locked: false,
@@ -230,12 +244,16 @@ async function typeText(text) {
     }
 }
 
+/* ================= DATA EXECUTION ================= */
+
 async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
+
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
+
         engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
     } catch (e) {
         console.error("Error JSON:", e);
@@ -261,32 +279,41 @@ async function runStep() {
     }
 
     if (step.textos?.length) {
-        for (const tItem of step.textos) {
+        for (let tItem of step.textos) {
             if (engine.abort) break;
+
+            if (currentLang === "en" && step.textos_en && step.textos_en[step.textos.indexOf(tItem)]) {
+                tItem = step.textos_en[step.textos.indexOf(tItem)];
+            }
+
             const sec = extractSeconds(tItem);
-            const hold = tItem.toLowerCase().includes("retén") || tItem.toLowerCase().includes("hold");
+            const hold = tItem.toLowerCase().includes("retén") || tItem.toLowerCase().includes("retiene") || tItem.toLowerCase().includes("hold");
 
             await speak(tItem);
             await typeText(tItem);
 
             if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(tItem)) startBreathing(sec || 8, hold);
+
             await new Promise(r => safeTimeout(r, 600));
         }
     } else if (step.tipo === "decision") {
-        await speak(step.pregunta);
-        await typeText(step.pregunta);
+        let pregMostrar = currentLang === "en" && step.pregunta_en ? step.pregunta_en : step.pregunta;
+        await speak(pregMostrar);
+        await typeText(pregMostrar);
 
         const box = document.createElement("div");
         box.className = "decision-box";
 
-        step.opciones.forEach((opt, i) => {
+        let opcionesMostrar = currentLang === "en" && step.opciones_en ? step.opciones_en : step.opciones;
+        opcionesMostrar.forEach((opt, i) => {
             const btn = document.createElement("button");
             btn.className = "opt-btn";
             btn.textContent = opt;
 
             btn.onclick = async () => {
                 const ok = i === step.correcta;
-                const msg = (ok ? "Correcto. " : "Incorrecto. ") + step.explicacion;
+                let expMostrar = currentLang === "en" && step.explicacion_en ? step.explicacion_en : step.explicacion;
+                const msg = (currentLang === "es" ? (ok ? "Correcto. " : "Incorrecto. ") : (ok ? "Correct. " : "Incorrect. ")) + expMostrar;
 
                 await speak(msg);
                 await typeText(msg);
@@ -301,7 +328,7 @@ async function runStep() {
         block.appendChild(box);
     } else if (textoMostrar) {
         const sec = extractSeconds(textoMostrar);
-        const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("hold");
+        const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("retiene") || textoMostrar.toLowerCase().includes("hold");
 
         await speak(textoMostrar);
         await typeText(textoMostrar);
@@ -323,18 +350,25 @@ function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
+/* ================= UI & GALERÍA VISUAL ================= */
+
 function initGallery() {
     gallery.innerHTML = "";
+
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
+
         div.style.backgroundImage = `
         linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)),
         url(https://picsum.photos/1920/1080?random=${i})
         `;
+
         div.style.backgroundSize = "cover";
         div.style.backgroundPosition = "center";
+
         div.style.filter = "brightness(1.18) contrast(1.08) saturate(1.1)";
+
         gallery.appendChild(div);
     }
 
@@ -343,11 +377,17 @@ function initGallery() {
 
     setInterval(() => {
         const all = document.querySelectorAll(".slide");
+
         all.forEach(s => s.classList.remove("active"));
+
         slideIndex = (slideIndex + 1) % all.length;
+
         if (all[slideIndex]) all[slideIndex].classList.add("active");
+
     }, 7000);
 }
+
+/* ================= EVENTOS ================= */
 
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
