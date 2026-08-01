@@ -1,6 +1,9 @@
 /* ============================================================
-   MAYKAMI NEUROGAME ENGINE V9.0 - OPEN THAN GO INTEGRATED
-   URL: https://maykami.onrender.com
+   FRONTEND LOGIC (static/scripts.js) ACTUALIZADO
+   - Traducción total de texto y voz desde el inicio mediante botón.
+   - Movimiento circular de respiración natural restaurado.
+   - Sincronización estricta: la voz se emite estrictamente DESPUÉS de completarse el tipeo en pantalla.
+   - Integración con Open Than Go como aplicación madre.
 ============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
@@ -12,18 +15,19 @@ const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 const payBtn = document.getElementById("pay-btn");
-const openThanGoBtn = document.getElementById("open-than-go-btn");
 const langBtn = document.getElementById("lang-btn");
+const motherAppBtn = document.getElementById("mother-app-btn");
 
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
 const isPagoOk = urlParams.get('pago') === 'exitoso';
 
-// Estado de Idioma (Por defecto Español, soporte Inglés)
+// Idioma por defecto en Español
 let currentLang = localStorage.getItem("maykamiLang") || "es";
 
 const translations = {
     es: {
+        circle_title: "MAYKAMI",
         ready: "Listo para iniciar sesión",
         admin_access: "¿Ingresar como Administrador?",
         unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
@@ -39,9 +43,12 @@ const translations = {
         back: "Atrás",
         next: "Siguiente",
         restart: "Reiniciar",
-        stripe_btn: "Stripe ($5.99)"
+        stripe_btn: "Stripe ($5.99)",
+        lang_label: "Idioma: ES / EN",
+        lang_changed: "Idioma cambiado a español"
     },
     en: {
+        circle_title: "MAYKAMI",
         ready: "Ready to start session",
         admin_access: "Login as Administrator?",
         unlocked: "SYSTEM UNLOCKED (ADMIN)",
@@ -57,7 +64,9 @@ const translations = {
         back: "Back",
         next: "Next",
         restart: "Restart",
-        stripe_btn: "Stripe ($5.99)"
+        stripe_btn: "Stripe ($5.99)",
+        lang_label: "Language: EN / ES",
+        lang_changed: "Language changed to English"
     }
 };
 
@@ -71,6 +80,9 @@ function updateUItexts() {
     if (nextBtn) nextBtn.textContent = t("next");
     if (restartBtn) restartBtn.textContent = t("restart");
     if (payBtn) payBtn.textContent = t("stripe_btn");
+    if (langBtn) langBtn.textContent = t("lang_label");
+    if (circle) circle.textContent = t("circle_title");
+    
     if (block.textContent.includes("Listo") || block.textContent.includes("Ready")) {
         block.innerHTML = t("ready");
     }
@@ -80,10 +92,10 @@ function toggleLanguage() {
     currentLang = currentLang === "es" ? "en" : "es";
     localStorage.setItem("maykamiLang", currentLang);
     updateUItexts();
-    speak(currentLang === "es" ? "Idioma cambiado a español" : "Language changed to English");
+    speak(t("lang_changed"));
 }
 
-/* ================= ACCESO Y SEGURIDAD ================= */
+/* ================= CONTROL DE ACCESO & APP MADRE ================= */
 
 circle.onclick = () => {
     if (confirm(t("admin_access"))) {
@@ -91,8 +103,8 @@ circle.onclick = () => {
     }
 };
 
-function irOpenThanGo() {
-    window.location.href = "/open-than-go-access";
+function irAppMadre() {
+    window.location.href = "https://openthango.com";
 }
 
 function checkAccess() {
@@ -121,8 +133,6 @@ function checkAccess() {
     return false;
 }
 
-/* ================= SISTEMA DE PAGO (STRIPE) ================= */
-
 async function iniciarPago() {
     block.innerHTML = t("connecting");
     try {
@@ -136,7 +146,7 @@ async function iniciarPago() {
     } catch (err) { console.error("Error Stripe:", err); }
 }
 
-/* ================= AUDIO ANTI-STRESS ================= */
+/* ================= AUDIO & ENGINE CORE ================= */
 
 const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
@@ -149,8 +159,6 @@ function playMusic() {
         }, { once: true });
     });
 }
-
-/* ================= ENGINE CORE ================= */
 
 let engine = {
     locked: false,
@@ -184,6 +192,7 @@ function resetEngine() {
     startBreathing(null, false);
 }
 
+/* 🔊 VOZ EJECUTADA ESTRICTAMENTE DESPUÉS DE LAS LETRAS */
 function speak(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
@@ -203,7 +212,7 @@ function extractSeconds(text) {
     return match ? parseInt(match[1]) : null;
 }
 
-/* ================= ANIMACIÓN PULMÓN HUMANO ================= */
+/* ================= MOVIMIENTO DE RESPIRACIÓN NATURAL (CÍRCULO ORIGINAL) ================= */
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
     const cycle = 3400;
@@ -213,19 +222,17 @@ function startBreathing(seconds = null, forceHold = false) {
     function loop() {
         if (engine.abort || (Date.now() - start >= duration)) return;
         
-        // Inhalación (Expansión natural de los pulmones)
-        circle.className = "inhale-lung";
+        circle.className = "inhale";
         circle.textContent = t("inhale");
 
         safeTimeout(() => {
             if (forceHold) {
-                circle.className = "hold-lung";
+                circle.className = "hold";
                 circle.textContent = t("hold");
             }
 
             safeTimeout(() => {
-                // Exhalación (Contracción natural de los pulmones)
-                circle.className = "exhale-lung";
+                circle.className = "exhale";
                 circle.textContent = t("exhale");
                 safeTimeout(loop, cycle * 0.4);
             }, forceHold ? cycle * 0.2 : 0);
@@ -244,8 +251,6 @@ async function typeText(text) {
         await new Promise(r => safeTimeout(r, 12));
     }
 }
-
-/* ================= DATA EXECUTION ================= */
 
 async function loadSession() {
     try {
@@ -278,23 +283,27 @@ async function runStep() {
     }
 
     if (step.textos?.length) {
-        for (const t of step.textos) {
+        for (const tItem of step.textos) {
             if (engine.abort) break;
-            const sec = extractSeconds(t);
-            const hold = t.toLowerCase().includes("retén") || t.toLowerCase().includes("retiene") || t.toLowerCase().includes("hold");
+            const sec = extractSeconds(tItem);
+            const hold = tItem.toLowerCase().includes("retén") || tItem.toLowerCase().includes("hold");
 
-            await speak(t);
-            await typeText(t);
+            // 1. PRIMERO APARECEN LAS LETRAS EN PANTALLA
+            await typeText(tItem);
+            // 2. DESPUÉS SE REPRODUCE LA VOZ
+            await speak(tItem);
 
-            if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(t)) startBreathing(sec || 8, hold);
+            if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(tItem)) startBreathing(sec || 8, hold);
             await new Promise(r => safeTimeout(r, 600));
         }
     } else if (textoMostrar) {
         const sec = extractSeconds(textoMostrar);
-        const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("retiene") || textoMostrar.toLowerCase().includes("hold");
+        const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("hold");
 
-        await speak(textoMostrar);
+        // 1. PRIMERO APARECEN LAS LETRAS
         await typeText(textoMostrar);
+        // 2. DESPUÉS HABLA LA VOZ
+        await speak(textoMostrar);
 
         if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(textoMostrar)) startBreathing(sec || 8, hold);
     }
@@ -312,8 +321,6 @@ function finish() {
 function save() {
     localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
-
-/* ================= UI & GALERÍA VISUAL ================= */
 
 function initGallery() {
     gallery.innerHTML = "";
@@ -340,8 +347,6 @@ function initGallery() {
         if (all[slideIndex]) all[slideIndex].classList.add("active");
     }, 7000);
 }
-
-/* ================= EVENTOS ================= */
 
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
