@@ -248,4 +248,97 @@ async function runStep() {
                 save();
             };
             box.appendChild(btn);
-});block.appendChild(box);} else if (step.texto) {await typeText(step.texto);await speak(step.texto);}engine.locked = false;}function finish() {const endMsg = translations["Sesión completada exitosamente. Hasta mañana."];block.innerHTML = currentLang === "ESP" ? endMsg : translations[endMsg];userData.step = 0;save();engine.locked = false;}function save() { localStorage.setItem("maykamiData", JSON.stringify(userData)); }/* ================= CAMBIO DE IDIOMA POR SOFTWARE ================= */langBtn.onclick = () => {if (currentLang === "ESP") {currentLang = "ENG";langBtn.textContent = "ESP";disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";} else {currentLang = "ESP";langBtn.textContent = "ENG";disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";}// Traduce los botones de control visiblesstartBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";// Si la sesión no ha iniciado, actualiza el estado del bloque de seguridadif(startBtn.style.display !== "none" && userData.step === 0) {block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");}};/* ================= UI & GALERÍA VISUAL ================= */function initGallery() {gallery.innerHTML = "";for (let i = 0; i < 20; i++) {const div = document.createElement("div");div.className = "slide";div.style.backgroundImage = linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)), url(https://picsum.photos{i});div.style.backgroundSize = "cover";div.style.backgroundPosition = "center";div.style.filter = "brightness(1.18) contrast(1.08) saturate(1.1)";gallery.appendChild(div);}const slides = document.querySelectorAll(".slide");if (slides[0]) slides[0].classList.add("active");setInterval(() => {const all = document.querySelectorAll(".slide");all.forEach(s => s.classList.remove("active"));slideIndex = (slideIndex + 1) % all.length;if (all[slideIndex]) all[slideIndex].classList.add("active");}, 7000);}/* ================= EVENTOS DE BOTONES ================= */startBtn.onclick = async () => {startBtn.style.display = "none";playMusic();userData.step = 0;initGallery();await loadSession();runStep();};nextBtn.onclick = () => { userData.step++; save(); runStep(); };backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };// Ejecución inicial de seguridadcheckAccess();save();
+            });
+            block.appendChild(box);
+        } else if (step.texto) {
+            await typeText(step.texto);
+            await speak(step.texto);
+        }
+        engine.locked = false;
+    }
+}
+
+function finish() {
+    const endMsg = translations["Sesión completada exitosamente. Hasta mañana."];
+    block.innerHTML = currentLang === "ESP" ? endMsg : translations[endMsg];
+    userData.step = 0;
+    save();
+    engine.locked = false;
+}
+
+function save() { 
+    localStorage.setItem("maykamiData", JSON.stringify(userData)); 
+}
+
+/* ================= CAMBIO DE IDIOMA POR SOFTWARE ================= */
+langBtn.onclick = () => {
+    if (currentLang === "ESP") {
+        currentLang = "ENG";
+        langBtn.textContent = "ESP";
+        disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
+    } else {
+        currentLang = "ESP";
+        langBtn.textContent = "ENG";
+        disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
+    }
+    
+    // Traduce los botones de control visibles
+    startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
+    backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
+    nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
+    restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
+    
+    // Si la sesión no ha iniciado, actualiza el estado del bloque de seguridad
+    if(startBtn.style.display !== "none" && userData.step === 0) {
+        block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
+    }
+};
+
+/* ================= UI & GALERÍA VISUAL CORREGIDA ================= */
+function initGallery() {
+    gallery.innerHTML = "";
+    for (let i = 0; i < 20; i++) {
+        const div = document.createElement("div");
+        div.className = "slide";
+        // Corrección de comillas y formato en el string del background
+        div.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)), url(https://picsum.photos{i})`;
+        div.style.backgroundSize = "cover";
+        div.style.backgroundPosition = "center";
+        div.style.filter = "brightness(1.18) contrast(1.08) saturate(1.1)";
+        gallery.appendChild(div);
+    }
+    
+    const slides = document.querySelectorAll(".slide");
+    // Asignación segura del estado activo inicial
+    if (slides.length > 0 && slides[0]) {
+        slides[0].classList.add("active");
+    }
+
+    setInterval(() => {
+        const all = document.querySelectorAll(".slide");
+        if (all.length === 0) return;
+        all.forEach(s => s.classList.remove("active"));
+        slideIndex = (slideIndex + 1) % all.length;
+        if (all[slideIndex]) {
+            all[slideIndex].classList.add("active");
+        }
+    }, 7000);
+}
+
+/* ================= EVENTOS DE BOTONES ================= */
+startBtn.onclick = async () => {
+    startBtn.style.display = "none";
+    playMusic();
+    userData.step = 0;
+    initGallery();
+    await loadSession();
+    runStep();
+};
+
+nextBtn.onclick = () => { userData.step++; save(); runStep(); };
+backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
+restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
+
+// Ejecución inicial de seguridad ininterrumpida
+checkAccess();
+save();
