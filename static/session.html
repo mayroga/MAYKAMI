@@ -1,4 +1,3 @@
-<!-- static/session.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +7,8 @@
 <title>MAYKAMI NeuroGame Engine</title>
 
 <style>
+/* ================= BASE ================= */
+
 body {
     margin: 0;
     background: #000;
@@ -15,6 +16,8 @@ body {
     color: white;
     overflow: hidden;
 }
+
+/* ================= GALERÍA ================= */
 
 #visual-gallery {
     position: fixed;
@@ -37,28 +40,36 @@ body {
     opacity: 0.4;
 }
 
+/* ================= UI ================= */
+
 #ui {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 80px;
+   
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+/* ================= CÍRCULO ================= */
+
 #visual-circle {
     width: 180px;
     height: 180px;
     border-radius: 50%;
     border: 4px solid #60a5fa;
+   
     display: flex;
     align-items: center;
     justify-content: center;
+
     font-size: 1.4rem;
     margin-bottom: 20px;
+
     transition: all 1s ease;
 }
 
@@ -77,39 +88,56 @@ body {
     background: rgba(245,158,11,0.2);
 }
 
+/* ================= TEXTO ================= */
+
 #block {
     width: 90%;
     max-width: 700px;
     height: 180px;
+
     overflow-y: auto;
+
     font-size: 1.3rem;
     text-align: center;
+
     padding: 10px;
+
     text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
 }
+
+/* ================= CONTROLES FIJOS ================= */
 
 .controls {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
+   
     display: flex;
     justify-content: space-around;
     align-items: center;
+
     background: rgba(0,0,0,0.8);
     padding: 10px;
+
     z-index: 999;
 }
+
+/* ================= BOTONES ================= */
 
 button {
     flex: 1;
     margin: 5px;
     padding: 12px;
+
     border: none;
     border-radius: 8px;
+
     background: #2563eb;
     color: white;
+
     font-size: 1rem;
+
     cursor: pointer;
 }
 
@@ -117,8 +145,9 @@ button:hover {
     background: #1d4ed8;
 }
 
+/* Estilo especial para el botón de pago */
 #pay-btn {
-    background: #f59e0b;
+    background: #f59e0b; /* Color Ambar / Oro */
     color: #000;
     font-weight: bold;
 }
@@ -127,30 +156,38 @@ button:hover {
     background: #d97706;
 }
 
+/* Estilo especial para el botón de idioma */
 #lang-btn {
-    background: #4b5563;
+    background: #4b5563; /* Gris */
+    color: white;
 }
 
 #lang-btn:hover {
     background: #374151;
 }
 
+/* ================= MOBILE EXTRA ================= */
+
 @media (max-width: 600px) {
+
     #visual-circle {
         width: 140px;
         height: 140px;
         font-size: 1.1rem;
     }
+
     #block {
         height: 150px;
         font-size: 1.1rem;
     }
+
     button {
         font-size: 0.75rem;
         padding: 6px;
         margin: 2px;
     }
 }
+
 </style>
 </head>
 
@@ -159,17 +196,20 @@ button:hover {
 <div id="visual-gallery"></div>
 
 <div id="ui">
+
     <div id="visual-circle">MAYKAMI</div>
+
     <div id="block">Listo para iniciar sesión</div>
+
 </div>
 
 <div class="controls">
     <button id="pay-btn" onclick="iniciarPago()">Acceso Premium</button>
-    <button id="lang-btn">English</button>
     <button id="start-btn">Iniciar</button>
     <button id="back-btn">Atrás</button>
     <button id="next-btn">Siguiente</button>
     <button id="restart-btn">Reiniciar</button>
+    <button id="lang-btn" onclick="toggleLanguage()">English</button>
 </div>
 
 <script src="/static/scripts.js"></script>
