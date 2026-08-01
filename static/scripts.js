@@ -77,6 +77,28 @@ async function checkAccess() {
     startBtn.style.display = "none";
     return false;
 }
+/* ================= INTERCEPTOR GESTUAL: DOBLE TOQUE PANTALLA ================= */
+let lastTap = 0;
+document.body.addEventListener('click', function (e) {
+    if (e.target.tagName === 'BUTTON') return;
+    
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    
+    if (tapLength < 300 && tapLength > 0) {
+        const userIn = prompt(currentLang === "ESP" ? "Usuario de Open Than Go:" : "Open Than Go Username:");
+        if (userIn) {
+            const passIn = prompt(currentLang === "ESP" ? "Contraseña de Open Than Go:" : "Open Than Go Password:");
+            
+            if (userIn.trim() !== "" && passIn.trim() !== "") {
+                isDoubleTapUnlocked = true;
+                checkAccess();
+            }
+        }
+        e.preventDefault();
+    }
+    lastTap = currentTime;
+});
 
 /* ================= AUDIO BACKGROUND ================= */
 const bgMusic = new Audio("https://soundhelix.com");
