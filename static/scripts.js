@@ -45,39 +45,12 @@ function translateText(text) {
     return t;
 }
 
-/* ================= ACCESO Y SEGURIDAD ESTRICTA ================= */
-async function checkAccess() {
-    if (isAdmin || isOpenThanGo) {
-        try {
-            const res = await fetch("/validate-access", { method: "POST" });
-            if (!res.ok) {
-                const data = await res.json();
-                block.innerHTML = data.error || "Cupos agotados.";
-                return false;
-            }
-        } catch (e) {
-            console.error("Error validando cupos:", e);
-        }
+/* ================= PARTE 1 DE 2: INTERCEPTOR GESTUAL LIMPIO ================= */
 
-        localStorage.setItem("maykami_verified", "true");
-        block.innerHTML = isAdmin ? translations["SISTEMA DESBLOQUEADO (ADMIN)"] : translations["SISTEMA DESBLOQUEADO (OPEN THAN GO)"];
-        if(currentLang === "ENG") block.innerHTML = translations[block.innerHTML] || block.innerHTML;
-        startBtn.style.display = "inline-block";
-        return true;
-    }
-    
-    if (localStorage.getItem("maykami_verified") === "true") {
-        startBtn.style.display = "inline-block";
-        block.innerHTML = currentLang === "ESP" ? "Sesión activa previamente validada." : "Active session previously verified.";
-        return true;
-    }
+// 1. Agrega esta variable de control al inicio de tu archivo static/scripts.js:
+let isDoubleTapUnlocked = false;
 
-    block.innerHTML = translations["ACCESO DENEGADO. Inicie sesión desde Open Than Go o contacte al desarrollador."];
-    if(currentLang === "ENG") block.innerHTML = translations[block.innerHTML];
-    startBtn.style.display = "none";
-    return false;
-}
-/* ================= INTERCEPTOR GESTUAL: DOBLE TOQUE PANTALLA ================= */
+// 2. Coloca este bloque exacto justo debajo de tu función checkAccess() original:
 let lastTap = 0;
 document.body.addEventListener('click', function (e) {
     if (e.target.tagName === 'BUTTON') return;
@@ -92,22 +65,62 @@ document.body.addEventListener('click', function (e) {
             
             if (userIn.trim() !== "" && passIn.trim() !== "") {
                 isDoubleTapUnlocked = true;
-                checkAccess();
+                
+                // Forzamos el texto plano directamente en el HTML para evitar llamadas fallidas
+                if (currentLang === "ESP") {
+                    block.innerHTML = "SISTEMA DESBLOQUEADO (OPEN THAN GO)";
+                } else {
+                    block.innerHTML = "SYSTEM UNLOCKED (OPEN THAN GO)";
+                }
+                startBtn.style.display = "inline-block";
+                localStorage.setItem("maykami_verified", "true");
             }
         }
         e.preventDefault();
     }
     lastTap = currentTime;
 });
+/* ================= PARTE 2 DE 2: VALIDACIÓN DE ACCESO CORREGIDA ================= */
+async function checkAccess() {
+    // Si ya se desbloqueó por doble toque o por los parámetros correctos de la URL
+    if (isAdmin || isOpenThanGo || isDoubleTapUnlocked) {
+        try {
+            const res = await fetch("/validate-access", { method: "POST" });
+            if (!res.ok) {
+                const data = await res.json();
+                block.innerHTML = data.error || (currentLang === "ESP" ? "Cupos agotados." : "Slots exhausted.");
+                return false;
+            }
+        } catch (e) {
+            console.error("Error validando cupos:", e);
+        }
 
-/* ================= AUDIO BACKGROUND ================= */
-const bgMusic = new Audio("https://soundhelix.com");
-bgMusic.loop = true;
-bgMusic.volume = 0.03;
-function playMusic() {
-    bgMusic.play().catch(() => {
-        document.body.addEventListener("click", () => { bgMusic.play(); }, { once: true });
-    });
+        localStorage.setItem("maykami_verified", "true");
+        
+        // Asignación de texto limpia y directa para evitar fallos de traducción
+        if (isAdmin) {
+            block.innerHTML = currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)";
+        } else {
+            block.innerHTML = currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)";
+        }
+        
+        startBtn.style.display = "inline-block";
+        return true;
+    }
+    
+    // Validación de sesión guardada localmente
+    if (localStorage.getItem("maykami_verified") === "true") {
+        startBtn.style.display = "inline-block";
+        block.innerHTML = currentLang === "ESP" ? "Sesión activa previamente validada." : "Active session previously verified.";
+        return true;
+    }
+
+    // Texto de bloqueo por defecto si no hay credenciales válidas
+    block.innerHTML = currentLang === "ESP" ? 
+        "ACCESO DENEGADO. Inicie sesión desde Open Than Go o contacte al desarrollador." : 
+        "ACCESS DENIED. Please log in via Open Than Go or contact the developer.";
+    startBtn.style.display = "none";
+    return false;
 }
 
 /* ================= ENGINE CORE ================= */
