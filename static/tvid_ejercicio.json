@@ -10,8 +10,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Conectando contigo... Tu presencia es un claro signo de tu compromiso con el éxito. Bienvenido. Deja de lado las distracciones del exterior. En este momento, tú eres tu tesoro más valioso. Hoy entrenamos disciplina. Prepara tu mente y tu cuerpo. Mantente presente.",
-            "en": "Connecting with you... Your presence is a clear sign of your commitment to success. Welcome. Set aside external distractions. At this moment, you are your most valuable asset. Today we train discipline. Prepare your mind and body. Stay present."
+            "es": "Bienvenido. Su presencia confirma su compromiso con el éxito. Por favor, aleje las distracciones externas. En este momento, usted es su activo más valioso. Hoy entrenamos disciplina. Prepara tu mente y tu cuerpo. Mantente presente.",
+            "en": "Welcome. Your presence confirms your commitment to success. Please quiet any external noise. In this moment, you are your most valuable asset. Today, we train discipline. Prepare your mind and body. Stay present."
           },
           "color": "#2563eb"
         },
@@ -20,11 +20,11 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Técnica del Bien",
-            "en": "The Well-being Technique"
+            "en": "The Good Technique"
           },
           "texto": {
             "es": "Haz lo correcto ahora. Entrena tu mente con acciones concretas, incluso cuando nadie observe.",
-            "en": "Do what is right, right now. Train your mind with concrete actions, even when no one is watching."
+            "en": "Do what is right now. Train your mind with concrete actions, even when no one is watching."
           },
           "color": "#06b6d4"
         },
@@ -40,7 +40,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Identifica lo que más te cuesta. Hazlo una vez ahora, sin excusas, y repítelo. Siente cómo lo difícil se vuelve fácil con la práctica.",
-            "en": "Identify what challenges you the most. Do it once now, without excuses, and repeat it. Feel how difficult things become easy with practice."
+            "en": "Identify what costs you the most effort. Do it once now, without excuses, and repeat it. Feel how difficulty becomes easy with practice."
           },
           "color": "#14b8a6"
         },
@@ -48,15 +48,15 @@
           "tipo": "historia",
           "texto": {
             "es": "Carla corría cuando nadie la veía. No buscaba aplausos, buscaba resistencia. El mundo solo vio el éxito final, pero ella lo construyó en la soledad de la playa. Moraleja: Lo que haces en la oscuridad te hace brillar en la luz.",
-            "en": "Carla ran when no one was watching. She wasn't seeking applause; she was building resilience. The world only saw her final success, but she built it in the solitude of the beach. Moral: What you do in the dark makes you shine in the light."
+            "en": "Carla ran when no one saw her. She wasn't seeking applause; she was seeking endurance. The world only saw the final success, but she built it in the solitude of the beach. Moral: What you do in the dark makes you shine in the light."
           },
           "color": "#34d399"
         },
         {
           "tipo": "voz",
           "texto": {
-            "es": "Respira profundo. Inhala: 5 segundos. Retén por 3 segundos. Exhala: 5 segundos. Hoy cada acción cuenta. Hazlo con conciencia y fuerza.",
-            "en": "Take a deep breath. Inhale: 5 seconds. Hold for 3 seconds. Exhale: 5 seconds. Today, every action counts. Do it with awareness and strength."
+            "es": "Respira profundo. Inhala: 5 segundos. Retiene por 3 segundos. Exhala: 5 segundos. Hoy cada acción cuenta. Hazlo con conciencia y fuerza.",
+            "en": "Breathe deeply. Inhale: 5 seconds. Hold for 3 seconds. Exhale: 5 seconds. Today, every action counts. Do it with awareness and strength."
           },
           "color": "#2563eb"
         },
@@ -65,7 +65,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Respiración del Bien",
-            "en": "Breath of Well-being"
+            "en": "The Good Breathing"
           },
           "texto": {
             "es": "Inhala disciplina. Exhala dudas. Siente tu cuerpo activo y presente.",
@@ -77,7 +77,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Inhala: 14 segundos. Inhala disciplina y orden.",
-            "en": "Inhale: 14 seconds. Breathe in discipline and a sense of calm order."
+            "en": "Inhale: 14 seconds. Inhale discipline and order."
           },
           "duracion": 8,
           "color": "#60a5fa"
@@ -85,8 +85,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Fija la estructura en tu mente.",
-            "en": "Hold: 5 seconds. Let structure settle firmly in your mind."
+            "es": "Retiene: 5 segundos. Fija la estructura en tu mente.",
+            "en": "Hold: 5 seconds. Fix the structure in your mind."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -95,7 +95,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Exhala: 14 segundos. Expulsa la pereza y el caos.",
-            "en": "Exhale: 14 seconds. Release laziness and chaos."
+            "en": "Exhale: 14 seconds. Expel laziness and chaos."
           },
           "duracion": 8,
           "color": "#60a5fa"
@@ -104,7 +104,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Esta respiración ayuda a equilibrar el cortisol, para que tu mente deje de buscar excusas y comience a buscar soluciones.",
-            "en": "Objective: This breathing technique helps balance cortisol, so your mind stops looking for excuses and starts finding solutions."
+            "en": "Objective: This breathing technique helps balance cortisol, so your mind stops looking for excuses and starts looking for solutions."
           },
           "color": "#2563eb"
         },
@@ -140,7 +140,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza terminar tu entrenamiento diario con fuerza y concentración. Siente la satisfacción de hacerlo bien.",
-            "en": "Visualize finishing your daily training with strength and focus. Feel the satisfaction of doing it well."
+            "en": "Visualize finishing your daily training with strength and concentration. Feel the satisfaction of doing it well."
           },
           "color": "#a78bfa"
         },
@@ -148,7 +148,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Disciplina reforzada.",
-            "en": "Discipline strengthened."
+            "en": "Discipline reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -158,13 +158,13 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Bien",
-            "en": "Deep Exercise of the Well-being Technique"
+            "en": "Deep Exercise of The Good Technique"
           },
           "duracion": 20,
           "textos": [
             {
               "es": "Colócate cómodo. Respira lento y profundo. Haz 4 respiraciones en 8 segundos. Hoy entrenas disciplina en tu mente y cuerpo. Mantente presente en cada inhalación y exhalación.",
-              "en": "Get comfortable. Breathe slowly and deeply. Take 4 breaths in 8 seconds. Today, you train discipline in your mind and body. Stay present with each inhale and exhale."
+              "en": "Get comfortable. Breathe slowly and deeply. Take 4 breaths in 8 seconds. Today, you train discipline in your mind and body. Stay present with each inhalation and exhalation."
             },
             {
               "es": "Observa tus manos, pies y respiración. Cada parte de tu cuerpo trabaja para ti. Siente fuerza y enfoque.",
@@ -172,11 +172,11 @@
             },
             {
               "es": "Piensa en una meta que deseas lograr. Respira 2 segundos. Hazla presente en tu mente y decide una acción concreta que puedas hacer ahora mismo.",
-              "en": "Think of a goal you wish to achieve. Breathe for 2 seconds. Make it present in your mind and decide on a concrete action you can take right now."
+              "en": "Think of a goal you want to achieve. Breathe for 2 seconds. Make it present in your mind and decide on a concrete action you can take right now."
             },
             {
               "es": "Recuerda un momento difícil que superaste. Exhala. Reconoce tu esfuerzo y repite: 'Puedo hacerlo, lo hago ahora, estoy presente'.",
-              "en": "Recall a difficult moment you overcame. Exhale. Acknowledge your effort and repeat: 'I can do it, I am doing it now, I am present'."
+              "en": "Recall a difficult moment you overcame. Exhale. Acknowledge your effort and repeat: 'I can do it, I'm doing it now, I am present'."
             },
             {
               "es": "Dirige tu atención a tu entorno. Cada detalle enseña disciplina. Inhala. Mira, escucha, siente y actúa con intención.",
@@ -192,7 +192,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de acción. Respira por 2 segundos. La disciplina te hace fuerte, presente y consciente.",
-              "en": "Conclude by recognizing your capacity for action. Breathe for 2 seconds. Discipline makes you strong, present, and aware."
+              "en": "Finish by recognizing your capacity for action. Breathe for 2 seconds. Discipline makes you strong, present, and aware."
             }
           ],
           "color": "#06b6d4"
@@ -200,8 +200,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La disciplina te da libertad y fuerza para actuar. Tu evolución es tu mayor victoria. Respira por 10 segundos. Mañana a esta misma hora, te esperamos con entusiasmo para seguir construyendo tu grandeza; sé impecable con tu compromiso.",
-            "en": "Discipline gives you freedom and strength to act. Your evolution is your greatest victory. Breathe for 10 seconds. Tomorrow at the same time, we eagerly await you to continue building your greatness; be impeccable with your commitment."
+            "es": "La disciplina te da libertad y fuerza para actuar. Tu evolución es tu mayor victoria. Respira por 10 segundos. Mañana a esta misma hora, el sistema te espera; sé impecable.",
+            "en": "Discipline gives you freedom and strength to act. Your evolution is your greatest victory. Breathe for 10 seconds. Tomorrow at this same time, the system awaits you; be impeccable."
           },
           "color": "#f87171"
         }
@@ -217,8 +217,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Estamos listos. Tu compromiso es fuerte. Silencia el mundo a tu alrededor. Eres tu prioridad principal. Hoy entrenamos control mental. Observa tus emociones y actúa con calma.",
-            "en": "We are ready. Your commitment is strong. Silence the world around you. You are your main priority. Today we train mental control. Observe your emotions and act with calm."
+            "es": "Hola. Su compromiso es evidente. Por favor, silencia tu entorno. Tú eres tu prioridad absoluta. Hoy entrenamos control mental. Observa tus emociones y actúa con calma.",
+            "en": "Hello. Your commitment is clear. Please silence your surroundings. You are your absolute priority. Today, we train mental control. Observe your emotions and act with calm."
           },
           "color": "#2563eb"
         },
@@ -227,11 +227,11 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Técnica del Mal",
-            "en": "The Control Technique"
+            "en": "The Bad Technique"
           },
           "texto": {
             "es": "Reconoce impulsos negativos y no los sigas. Transforma cada reacción en fuerza y claridad.",
-            "en": "Recognize negative impulses and do not follow them. Transform every reaction into strength and clarity."
+            "en": "Recognize negative impulses and don't follow them. Transform every reaction into strength and clarity."
           },
           "color": "#06b6d4"
         },
@@ -255,7 +255,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Miguel recibió un insulto y no devolvió el golpe. Respiró y dejó que el agresor se hundiera en su propia ira. Respondió con frialdad y tomó el mando del equipo. Moraleja: Si te alteras, pierdes el derecho a liderar.",
-            "en": "Miguel received an insult and did not retaliate. He breathed and let the aggressor sink into his own anger. He responded calmly and took command of the team. Moral: If you lose your temper, you lose the right to lead."
+            "en": "Miguel received an insult and didn't hit back. He breathed and let the aggressor sink into his own anger. He responded with coolness and took command of the team. Moral: If you get agitated, you lose the right to lead."
           },
           "color": "#34d399"
         },
@@ -263,7 +263,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Inhala por 6 segundos. Retén 2. Exhala 4. Controla tus reacciones. Entrena tu mente a responder, no a reaccionar.",
-            "en": "Take a deep breath. Inhale for 6 seconds. Hold for 2. Exhale for 4. Control your reactions. Train your mind to respond, not to react."
+            "en": "Breathe deeply. Inhale for 6 seconds. Hold 2. Exhale 4. Control your reactions. Train your mind to respond, not react."
           },
           "color": "#2563eb"
         },
@@ -272,7 +272,7 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Respiración del Mal",
-            "en": "Breath of Control"
+            "en": "The Bad Breathing"
           },
           "texto": {
             "es": "Inhala calma, exhala impulsos. Siente el control que surge en cada respiración.",
@@ -292,7 +292,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 7 segundos. Observa el impulso sin moverte.",
+            "es": "Retiene: 7 segundos. Observa el impulso sin moverte.",
             "en": "Hold: 7 seconds. Observe the impulse without moving."
           },
           "duracion": 5,
@@ -311,7 +311,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Al alargar la inhalación, el sistema nervioso se calma, permitiendo que la lógica domine sobre la emoción.",
-            "en": "Objective: By extending the inhalation, the nervous system calms down, allowing logic to dominate over emotion."
+            "en": "Objective: By lengthening the inhalation, the nervous system calms down, allowing logic to dominate over emotion."
           },
           "color": "#2563eb"
         },
@@ -319,7 +319,7 @@
           "tipo": "decision",
           "pregunta": {
             "es": "¿Puedes mantener la calma ahora?",
-            "en": "Can you maintain calm now?"
+            "en": "Can you remain calm now?"
           },
           "opciones": [
             {
@@ -338,7 +338,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "El control se refuerza con práctica consciente.",
-            "en": "Control is strengthened with conscious practice."
+            "en": "Control is reinforced with conscious practice."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -355,7 +355,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Control mental reforzado.",
-            "en": "Mental control strengthened."
+            "en": "Mental control reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -365,13 +365,13 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Mal",
-            "en": "Deep Exercise of the Control Technique"
+            "en": "Deep Exercise of The Bad Technique"
           },
           "duracion": 20,
           "textos": [
             {
               "es": "Siéntate derecho y respira profundo. Hoy observas lo difícil sin reaccionar.",
-              "en": "Sit upright and breathe deeply. Today you observe difficulty without reacting."
+              "en": "Sit upright and breathe deeply. Today, you observe what is difficult without reacting."
             },
             {
               "es": "Piensa en un problema actual. Observa tu reacción natural, pero no actúes de inmediato. Siente cómo surge el control.",
@@ -399,7 +399,7 @@
             },
             {
               "es": "Finaliza observando cómo el control te da libertad para actuar con sabiduría y éxito.",
-              "en": "Conclude by observing how control gives you the freedom to act with wisdom and success."
+              "en": "Finish by observing how control gives you freedom to act with wisdom and success."
             }
           ],
           "color": "#06b6d4"
@@ -407,8 +407,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "El fuerte se controla y avanza con claridad. Tu ascenso es constante y bello. Camina con propósito y mando. Mañana volveremos a la cima; tu lugar te espera, no faltes.",
-            "en": "The strong one controls themselves and moves forward with clarity. Your ascent is constant and beautiful. Walk with purpose and command. Tomorrow we will return to the top; your place is reserved, do not miss it."
+            "es": "El fuerte se controla y avanza con claridad. Tu ascenso es constante y bello. Camina con propósito y mando. Mañana volveremos a la cima; tu lugar está reservado, no faltes.",
+            "en": "The strong control themselves and advance with clarity. Your ascent is constant and beautiful. Walk with purpose and command. Tomorrow we will return to the top; your place is reserved, do not miss it."
           },
           "color": "#f87171"
         }
@@ -424,8 +424,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Acceso total. Estamos optimizando tu potencial. Deja de lado el ruido. Tu éxito comienza justo ahora. Hoy entrenas valor. Haz lo que temes, actúa de inmediato.",
-            "en": "Full access. We are optimizing your potential. Set aside the noise. Your success begins right now. Today you train courage. Do what you fear, act immediately."
+            "es": "Acceso concedido. Optimización en marcha. Por favor, aleja el ruido. Tu éxito comienza ahora. Hoy entrenas valor. Haz lo que temes, actúa de inmediato.",
+            "en": "Access granted. Optimization in progress. Please quiet the noise. Your success begins now. Today, you train courage. Do what you fear, act immediately."
           },
           "color": "#2563eb"
         },
@@ -434,7 +434,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Técnica de la Guerra",
-            "en": "The Warrior's Technique"
+            "en": "The War Technique"
           },
           "texto": {
             "es": "Enfrenta tus miedos. Transfórmalos en fuerza y decisión.",
@@ -446,7 +446,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "El valor se refleja en palabras y acciones. Hoy elige actuar con coraje.",
-            "en": "Courage is reflected in words and actions. Today choose to act with courage."
+            "en": "Courage is reflected in words and actions. Today, choose to act with courage."
           },
           "color": "#0ea5e9"
         },
@@ -462,7 +462,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Sofía odiaba el escenario. No buscó valor, buscó repetición. Se expuso hasta que el miedo se rindió. Hoy motiva a miles porque no evitó el fuego, lo atravesó. Moraleja: El valor es el residuo de la acción constante.",
-            "en": "Sofía hated the stage. She didn't seek courage; she sought repetition. She exposed herself until fear surrendered. Today she motivates thousands because she didn't avoid the fire; she walked through it. Moral: Courage is the residue of constant action."
+            "en": "Sofia hated the stage. She didn't seek courage, she sought repetition. She exposed herself until fear surrendered. Today she motivates thousands because she didn't avoid the fire, she went through it. Moral: Courage is the residue of constant action."
           },
           "color": "#34d399"
         },
@@ -470,7 +470,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Hazlo durante 5 segundos. Siente tu coraje. Hoy actúas sin miedo.",
-            "en": "Take a deep breath. Do it for 5 seconds. Feel your courage. Today you act without fear."
+            "en": "Breathe deeply. Do it for 5 seconds. Feel your courage. Today, you act without fear."
           },
           "color": "#2563eb"
         },
@@ -479,7 +479,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Respiración de la Guerra",
-            "en": "Warrior's Breath"
+            "en": "The War Breathing"
           },
           "texto": {
             "es": "Inhala valentía, exhala miedo. Respira por 5 segundos. Siente la fuerza interior.",
@@ -499,7 +499,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 7 segundos. Siente la presión del éxito.",
+            "es": "Retiene: 7 segundos. Siente la presión del éxito.",
             "en": "Hold: 7 seconds. Feel the pressure of success."
           },
           "duracion": 5,
@@ -509,7 +509,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Exhala: 15 segundos. Quema el miedo.",
-            "en": "Exhale: 15 seconds. Burn away fear."
+            "en": "Exhale: 15 seconds. Burn off fear."
           },
           "duracion": 8,
           "color": "#60a5fa"
@@ -518,7 +518,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Mejora la oxigenación celular para preparar tu cuerpo y cerebro para la acción inmediata.",
-            "en": "Objective: Improves cellular oxygenation to prepare your body and brain for immediate action."
+            "en": "Objective: Improve cellular oxygenation to prepare your body and brain for immediate action."
           },
           "color": "#2563eb"
         },
@@ -554,7 +554,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza actuar con seguridad y coraje ante retos presentes. Siente la fuerza dentro de ti.",
-            "en": "Visualize acting with confidence and courage in the face of current challenges. Feel the strength within you."
+            "en": "Visualize acting with confidence and courage in present challenges. Feel the strength within you."
           },
           "color": "#a78bfa"
         },
@@ -562,7 +562,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Valor reforzado.",
-            "en": "Courage strengthened."
+            "en": "Courage reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -572,21 +572,21 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica de la Guerra",
-            "en": "Deep Exercise of the Warrior's Technique"
+            "en": "Deep Exercise of The War Technique"
           },
           "duracion": 20,
           "textos": [
             {
               "es": "Adopta una posición firme y respira profundo por 7 segundos. Hoy enfrentas tu miedo y lo transformas en fuerza.",
-              "en": "Adopt a firm position and breathe deeply for 7 seconds. Today you face your fear and transform it into strength."
+              "en": "Adopt a firm position and breathe deeply for 7 seconds. Today, you face your fear and transform it into strength."
             },
             {
               "es": "Piensa en un miedo actual. Inhala. Obsérvalo sin huir. Siente el coraje en tu pecho. Exhala.",
-              "en": "Think of a current fear. Inhale. Observe it without running away. Feel the courage in your chest. Exhale."
+              "en": "Think of a current fear. Inhale. Observe it without fleeing. Feel the courage in your chest. Exhale."
             },
             {
               "es": "Recuerda un momento donde actuaste con miedo. Siente cómo lo superaste y la fuerza obtenida.",
-              "en": "Recall a moment where you acted with fear. Feel how you overcame it and the strength you gained."
+              "en": "Recall a moment where you acted with fear. Feel how you overcame it and the strength gained."
             },
             {
               "es": "Imagina un reto frente a ti. Respira 3 veces y repite: 'Puedo, actúo, avanzo con fuerza'.",
@@ -594,7 +594,7 @@
             },
             {
               "es": "Mueve hombros y brazos para liberar tensión. Haz 4 respiraciones. Siente tu cuerpo fuerte y preparado.",
-              "en": "Move shoulders and arms to release tension. Take 4 breaths. Feel your body strong and ready."
+              "en": "Move your shoulders and arms to release tension. Take 4 breaths. Feel your body strong and prepared."
             },
             {
               "es": "Visualiza cómo el miedo se convierte en impulso positivo para tu acción.",
@@ -606,7 +606,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de enfrentar cualquier reto con coraje y decisión.",
-              "en": "Conclude by recognizing your ability to face any challenge with courage and decision."
+              "en": "Finish by recognizing your ability to face any challenge with courage and decision."
             }
           ],
           "color": "#06b6d4"
@@ -614,8 +614,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "El valor te da poder para actuar y alcanzar el éxito. Tu crecimiento no conoce fronteras. Ordena tus ideas y despliega tu fuerza. Mañana a esta hora, tu evolución sigue adelante; te esperamos.",
-            "en": "Courage gives you the power to act and achieve success. Your growth knows no bounds. Organize your ideas and unleash your strength. Tomorrow at this time, your evolution continues; we await you."
+            "es": "El valor te da poder para actuar y alcanzar el éxito. Tu crecimiento no conoce fronteras. Ordena tus ideas y despliega tu fuerza. Mañana a esta hora, tu evolución continúa; asiste.",
+            "en": "Courage gives you the power to act and achieve success. Your growth knows no bounds. Organize your ideas and unleash your strength. Tomorrow at this time, your evolution continues; be present."
           },
           "color": "#f87171"
         }
@@ -631,8 +631,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Conectando usuario... Tu nivel de enfoque es máximo. Desconéctate del mundo externo. Tú mandas aquí. Hoy entrenamos sabiduría. Observa, reflexiona y actúa con claridad.",
-            "en": "Connecting user... Your focus level is maximum. Disconnect from the external world. You are in charge here. Today we train wisdom. Observe, reflect, and act with clarity."
+            "es": "Usuario identificado. Nivel de enfoque: máximo. Desconecta el mundo externo. Tú mandas aquí. Hoy entrenamos sabiduría. Observa, reflexiona y actúa con claridad.",
+            "en": "User identified. Focus level: maximum. Close off the external world. You are in command here. Today, we train wisdom. Observe, reflect, and act with clarity."
           },
           "color": "#2563eb"
         },
@@ -653,7 +653,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "Aprender de cada experiencia te hace sabio. Hoy observa y actúa con intención.",
-            "en": "Learning from every experience makes you wise. Today observe and act with intention."
+            "en": "Learning from every experience makes you wise. Today, observe and act with intention."
           },
           "color": "#0ea5e9"
         },
@@ -669,7 +669,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Lucas no aceptaba órdenes a ciegas. Preguntaba el 'porqué' para entender el sistema. Combinó la duda con la ejecución rápida y hoy es el dueño del juego. Moraleja: La sabiduría sin acción es inútil; la acción sin sabiduría es peligrosa.",
-            "en": "Lucas didn't accept orders blindly. He asked 'why' to understand the system. He combined doubt with swift execution and today he owns the game. Moral: Wisdom without action is useless; action without wisdom is dangerous."
+            "en": "Lucas didn't accept orders blindly. He asked 'why' to understand the system. He combined doubt with quick execution and today he owns the game. Moral: Wisdom without action is useless; action without wisdom is dangerous."
           },
           "color": "#34d399"
         },
@@ -677,7 +677,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Mantén tu mente alerta y lista para aprender.",
-            "en": "Take a deep breath. Keep your mind alert and ready to learn."
+            "en": "Breathe deeply. Keep your mind alert and ready to learn."
           },
           "color": "#2563eb"
         },
@@ -686,7 +686,7 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Respiración del Niño",
-            "en": "Child's Breath"
+            "en": "The Child's Breathing"
           },
           "texto": {
             "es": "Inhala curiosidad, exhala dudas. Siente tu capacidad de observar y decidir.",
@@ -706,7 +706,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 7 segundos. Procesa la información en silencio.",
+            "es": "Retiene: 7 segundos. Procesa la información en silencio.",
             "en": "Hold: 7 seconds. Process information in silence."
           },
           "duracion": 5,
@@ -716,7 +716,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Exhala: 17 segundos. Limpia la confusión.",
-            "en": "Exhale: 17 seconds. Clear away confusion."
+            "en": "Exhale: 17 seconds. Clear confusion."
           },
           "duracion": 7,
           "color": "#60a5fa"
@@ -725,7 +725,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: La retención controlada de oxígeno favorece la lucidez y la oxigenación de las áreas cerebrales superiores, optimizando la facultad de análisis en la toma de decisiones complejas.",
-            "en": "Objective: Controlled oxygen retention promotes lucidity and oxygenation of the upper brain areas, optimizing the faculty of analysis in complex decision-making."
+            "en": "Objective: Controlled oxygen retention promotes lucidity and oxygenation of superior brain areas, optimizing the faculty of analysis in complex decision-making."
           },
           "color": "#2563eb"
         },
@@ -752,7 +752,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La práctica refuerza la sabiduría y la toma de decisiones.",
-            "en": "Practice strengthens wisdom and decision-making."
+            "en": "Practice reinforces wisdom and decision-making."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -761,7 +761,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza elegir la mejor acción en cada momento presente. Siente claridad y certeza.",
-            "en": "Visualize choosing the best action in each present moment. Feel clarity and certainty."
+            "en": "Visualize choosing the best action in every present moment. Feel clarity and certainty."
           },
           "color": "#a78bfa"
         },
@@ -769,7 +769,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Sabiduría reforzada.",
-            "en": "Wisdom strengthened."
+            "en": "Wisdom reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -779,13 +779,13 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Niño",
-            "en": "Deep Exercise of the Child's Technique"
+            "en": "Deep Exercise of The Child's Technique"
           },
           "duracion": 20,
           "textos": [
             {
               "es": "Ancla tu cuerpo al presente. Respira profundo por 5 segundos. Hoy observas, aprendes y actúas con sabiduría.",
-              "en": "Anchor your body to the present. Breathe deeply for 5 seconds. Today you observe, learn, and act with wisdom."
+              "en": "Anchor your body to the present. Breathe deeply for 5 seconds. Today, you observe, learn, and act with wisdom."
             },
             {
               "es": "Piensa en una decisión reciente. Analiza opciones sin juzgar y observa las posibles consecuencias.",
@@ -801,7 +801,7 @@
             },
             {
               "es": "Mueve brazos y hombros para liberar tensión. Inhala 2 segundos. Exhala 2. Siente cuerpo y mente conectados.",
-              "en": "Move arms and shoulders to release tension. Inhale 2 seconds. Exhale 2. Feel body and mind connected."
+              "en": "Move arms and shoulders to release tension. Inhale for 2 seconds. Exhale for 2. Feel body and mind connected."
             },
             {
               "es": "Observa tu entorno con curiosidad. Cada detalle es enseñanza. Aprende haciendo.",
@@ -813,7 +813,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de decidir con claridad, aprender de cada experiencia y actuar con presencia.",
-              "en": "Conclude by recognizing your ability to decide with clarity, learn from every experience, and act with presence."
+              "en": "Finish by recognizing your ability to decide with clarity, learn from every experience, and act with presence."
             }
           ],
           "color": "#06b6d4"
@@ -821,7 +821,7 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La sabiduría te guía hacia decisiones acertadas y éxito en cada acción. Eres la suma de tu constancia. Actúa con equilibrio y fuego interior. Mañana te espero en la puerta de tu éxito; mantén tu palabra.",
+            "es": "La sabiduría te guía hacia decisiones acertadas y éxito en cada acción. Eres la suma de tu constancia. Actúa con equilibrio y fuego interior. Mañana te espero en el umbral del éxito; mantén tu palabra.",
             "en": "Wisdom guides you towards wise decisions and success in every action. You are the sum of your constancy. Act with balance and inner fire. Tomorrow I await you at the threshold of success; keep your word."
           },
           "color": "#f87171"
@@ -838,8 +838,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Protocolo iniciado. Tu presencia es tu poder. Aísla el caos. Hoy entrenas amor propio. Reconoce tu valor y cuida de ti mismo.",
-            "en": "Protocol initiated. Your presence is your power. Isolate the chaos. Today you train self-love. Recognize your worth and take care of yourself."
+            "es": "Inicio de tu jornada. Tu presencia es tu poder. Aísla el caos. Hoy entrenas amor propio. Reconoce tu valor y cuida de ti mismo.",
+            "en": "Journey initiated. Your presence is your power. Isolate any chaos. Today, you train self-love. Recognize your worth and take care of yourself."
           },
           "color": "#2563eb"
         },
@@ -860,7 +860,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "Al cuidar de ti, también fortaleces tus relaciones. Hoy elige acción consciente.",
-            "en": "By taking care of yourself, you also strengthen your relationships. Today choose conscious action."
+            "en": "By taking care of yourself, you also strengthen your relationships. Today, choose conscious action."
           },
           "color": "#0ea5e9"
         },
@@ -876,7 +876,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Daniel no buscaba validación externa. Revisaba sus logros 10 minutos al día. Esa disciplina invisible lo fortaleció. Hoy confía en sí mismo y lidera. Moraleja: La confianza se construye diariamente.",
-            "en": "Daniel didn't seek external validation. He reviewed his achievements 10 minutes a day. That invisible discipline strengthened him. Today he trusts himself and leads. Moral: Confidence is built daily."
+            "en": "Daniel didn't seek external validation. He reviewed his achievements 10 minutes a day. This invisible discipline strengthened him. Today he trusts himself and leads. Moral: Confidence is built daily."
           },
           "color": "#34d399"
         },
@@ -884,7 +884,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu valor y fuerza interior.",
-            "en": "Take a deep breath. Feel your worth and inner strength."
+            "en": "Breathe deeply. Feel your worth and inner strength."
           },
           "color": "#2563eb"
         },
@@ -893,11 +893,11 @@
           "tecnica": "TDP",
           "titulo": {
             "es": "Respiración del Padre",
-            "en": "Father's Breath"
+            "en": "The Father's Breathing"
           },
           "texto": {
             "es": "Inhala confianza, exhala dudas. Siente seguridad y protección hacia ti mismo.",
-            "en": "Inhale confidence, exhale doubts. Feel security and protection towards yourself."
+            "en": "Inhale confidence, exhale doubts. Feel security and self-protection."
           },
           "color": "#06b6d4"
         },
@@ -913,7 +913,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 8 segundos. Siente tu valor interno.",
+            "es": "Retiene: 8 segundos. Siente tu valor interno.",
             "en": "Hold: 8 seconds. Feel your inner worth."
           },
           "duracion": 5,
@@ -976,7 +976,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Amor propio reforzado.",
-            "en": "Self-love strengthened."
+            "en": "Self-love reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -986,13 +986,13 @@
           "tecnica": "TDP",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Padre",
-            "en": "Deep Exercise of the Father's Technique"
+            "en": "Deep Exercise of The Father's Technique"
           },
           "duracion": 20,
           "textos": [
             {
               "es": "Siéntate derecho. Respira 3 veces. Hoy entrenas amor y autocuidado.",
-              "en": "Sit upright. Breathe 3 times. Today you train love and self-care."
+              "en": "Sit upright. Breathe 3 times. Today, you train love and self-care."
             },
             {
               "es": "Piensa en una decisión reciente que tomaste por ti. Inhala. Siente cómo te fortaleció.",
@@ -1000,7 +1000,7 @@
             },
             {
               "es": "Recuerda un momento donde dudaste de ti mismo. Exhala. Reconoce tu esfuerzo y capacidad.",
-              "en": "Recall a moment where you doubted yourself. Exhale. Recognize your effort and capacity."
+              "en": "Recall a moment where you doubted yourself. Exhale. Acknowledge your effort and capability."
             },
             {
               "es": "Visualiza tus hábitos positivos y cómo te generan orgullo. Retén aire positivo por 3 segundos.",
@@ -1008,7 +1008,7 @@
             },
             {
               "es": "Mueve suavemente brazos y hombros. Siente tu cuerpo apoyando tu mente.",
-              "en": "Gently move your arms and shoulders. Feel your body supporting your mind."
+              "en": "Gently move arms and shoulders. Feel your body supporting your mind."
             },
             {
               "es": "Respira profundo 5 segundos y repite: 'Me cuido, me respeto, actúo con amor propio'.",
@@ -1016,11 +1016,11 @@
             },
             {
               "es": "Piensa en alguien que te inspira amor y respeto. Retén por 4 segundos el aire y suelta lentamente. Ahora. Imita su presencia en tu actitud.",
-              "en": "Think of someone who inspires you with love and respect. Hold your breath for 4 seconds and slowly release it. Now. Emulate their presence in your attitude."
+              "en": "Think of someone who inspires love and respect in you. Hold your breath for 4 seconds and release slowly. Now. Imitate their presence in your attitude."
             },
             {
               "es": "Finaliza reconociendo tu valor y tu capacidad de acción consciente y amorosa.",
-              "en": "Conclude by recognizing your worth and your capacity for conscious and loving action."
+              "en": "Finish by recognizing your worth and your capacity for conscious and loving action."
             }
           ],
           "color": "#06b6d4"
@@ -1028,8 +1028,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "El amor propio te fortalece y te permite actuar con claridad y seguridad. Tu mejora es un arte cotidiano. Haz 3 respiraciones. Mañana, renueva tu compromiso contigo; honra tu palabra.",
-            "en": "Self-love strengthens you and allows you to act with clarity and security. Your improvement is a daily art. Take 3 breaths. Tomorrow, renew your commitment to yourself; honor your word."
+            "es": "El amor propio te fortalece y te permite actuar con claridad y seguridad. Tu mejora es un arte cotidiano. Haz 3 respiraciones. Mañana, renueva tu compromiso; no falles a tu honor.",
+            "en": "Self-love strengthens you and allows you to act with clarity and security. Your improvement is an everyday art. Take 3 breaths. Tomorrow, renew your commitment; do not fail your honor."
           },
           "color": "#f87171"
         }
@@ -1045,8 +1045,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Sincronizando... El éxito florece en la quietud. Eres un tesoro valioso. Hoy entrenas empatía. Observa a los demás y actúa con comprensión.",
-            "en": "Synchronizing... Success flourishes in stillness. You are a valuable asset. Today you train empathy. Observe others and act with understanding."
+            "es": "Sincronizando. El éxito requiere silencio. Eres tu activo más valioso. Hoy entrenas empatía. Observa a los demás y actúa con comprensión.",
+            "en": "Synchronizing. Success requires silence. You are your most valuable asset. Today, you train empathy. Observe others and act with understanding."
           },
           "color": "#2563eb"
         },
@@ -1059,7 +1059,7 @@
           },
           "texto": {
             "es": "Siente amor y guía hacia otros. Hazlo presente en tu acción y palabra.",
-            "en": "Feel love and guidance towards others. Make it present in your actions and words."
+            "en": "Feel love and guidance towards others. Make it present in your action and word."
           },
           "color": "#06b6d4"
         },
@@ -1067,7 +1067,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La empatía fortalece relaciones y comunicación. Hoy elige entender antes de juzgar.",
-            "en": "Empathy strengthens relationships and communication. Today choose to understand before judging."
+            "en": "Empathy strengthens relationships and communication. Today, choose to understand before judging."
           },
           "color": "#0ea5e9"
         },
@@ -1075,7 +1075,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Piensa en alguien con quien tengas conflicto. Observa su perspectiva sin reaccionar. Hazlo ahora.",
-            "en": "Think of someone with whom you have a conflict. Observe their perspective without reacting. Do it now."
+            "en": "Think of someone with whom you have conflict. Observe their perspective without reacting. Do it now."
           },
           "color": "#14b8a6"
         },
@@ -1083,7 +1083,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Ana dejó de interrumpir y empezó a ganar. Entendió que quien habla mucho, entrega sus cartas; quien escucha, mapea el terreno ajeno. Al detectar las necesidades no dichas de su oponente, cerró el trato en sus propios términos. Moraleja: La empatía no es debilidad, es el radar que te permite leer la frecuencia del otro para dominar la negociación.",
-            "en": "Ana stopped interrupting and started winning. She understood that he who speaks much reveals his hand; he who listens maps the opponent's terrain. By detecting her opponent's unspoken needs, she closed the deal on her own terms. Moral: Empathy is not weakness; it is the radar that allows you to read the other's frequency to dominate the negotiation."
+            "en": "Ana stopped interrupting and started winning. She understood that whoever talks too much reveals their hand; whoever listens maps the other's terrain. By detecting her opponent's unspoken needs, she closed the deal on her own terms. Moral: Empathy is not weakness, it's the radar that allows you to read the other's frequency to dominate negotiation."
           },
           "color": "#34d399"
         },
@@ -1100,7 +1100,7 @@
           "tecnica": "TDMM",
           "titulo": {
             "es": "Respiración de la Madre",
-            "en": "Mother's Breath"
+            "en": "The Mother's Breathing"
           },
           "texto": {
             "es": "Inhala comprensión, exhala juicio. Siente cercanía y atención.",
@@ -1120,7 +1120,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Siente la frecuencia de los demás.",
+            "es": "Retiene: 5 segundos. Siente la frecuencia de los demás.",
             "en": "Hold: 5 seconds. Feel the frequency of others."
           },
           "duracion": 5,
@@ -1139,7 +1139,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Reducir la velocidad permite captar lo que otros callan, dándote ventaja en la comunicación y negociación.",
-            "en": "Objective: Slowing down allows you to grasp what others keep silent, giving you an advantage in communication and negotiation."
+            "en": "Objective: Reducing speed allows you to grasp what others keep silent, giving you an advantage in communication and negotiation."
           },
           "color": "#2563eb"
         },
@@ -1166,7 +1166,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La empatía se refuerza con práctica consciente y observación.",
-            "en": "Empathy is strengthened with conscious practice and observation."
+            "en": "Empathy is reinforced with conscious practice and observation."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -1183,7 +1183,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Empatía reforzada.",
-            "en": "Empathy strengthened."
+            "en": "Empathy reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -1193,21 +1193,21 @@
           "tecnica": "TDMM",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica de la Madre. Sintonía de Frecuencia Externa",
-            "en": "Deep Exercise of the Mother's Technique. External Frequency Tuning"
+            "en": "Deep Exercise of The Mother's Technique. External Frequency Tuning"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Cuerpo en reposo, mente en escaneo. Eres un receptor de datos. Respira profundo.",
-              "en": "Body at rest, mind scanning. You are a data receiver. Breathe deeply."
+              "es": "Cuerpo en reposo, mente atenta. Eres un atento oyente. Respira profundo.",
+              "en": "Body at rest, mind attentive. You are an attentive listener. Breathe deeply."
             },
             {
               "es": "Visualiza a esa persona con la que hay fricción. No juzgues su acto, observa su carencia.",
-              "en": "Visualize that person with whom there is friction. Do not judge their action, observe their lack."
+              "en": "Visualize that person with whom there is friction. Do not judge their action, observe their need."
             },
             {
               "es": "Inhala por 6 segundos. Siente cómo tu ego se retira para dejar espacio a la observación pura.",
-              "en": "Inhale for 6 seconds. Feel how your ego withdraws to make space for pure observation."
+              "en": "Inhale for 6 seconds. Feel how your ego withdraws to make room for pure observation."
             },
             {
               "es": "Ponte en el lugar físico del otro. ¿Qué ve él? ¿Qué teme ella? Recopila la información.",
@@ -1215,19 +1215,19 @@
             },
             {
               "es": "Mueve los hombros suavemente. Libera tu propia resistencia. La comprensión es una llave maestra.",
-              "en": "Gently move your shoulders. Release your own resistance. Understanding is a master key."
+              "en": "Move your shoulders gently. Release your own resistance. Understanding is a master key."
             },
             {
-              "es": "Repite mentalmente: 'Escucho lo que no se dice, entiendo la causa, actúo con ventaja estratégica'.",
-              "en": "Mentally repeat: 'I listen to what is not said, I understand the cause, I act with strategic advantage'."
+              "es": "Repite mentalmente: 'Escucho lo que no se dice, entiendo la causa, actúo con sabiduría estratégica'.",
+              "en": "Mentally repeat: 'I listen to what is not said, I understand the cause, I act with strategic wisdom'."
             },
             {
-              "es": "Siente cómo la tensión se disuelve al entender el mapa mental del prójimo. Tú ahora tienes el control.",
-              "en": "Feel how tension dissolves as you understand your neighbor's mental map. You are now in control."
+              "es": "Siente cómo la tensión se disuelve al entender el mapa mental del prójimo. Ahora tienes el control.",
+              "en": "Feel how tension dissolves when you understand your neighbor's mental map. You are now in control."
             },
             {
-              "es": "Finaliza reconociendo que entender a los demás es la base del liderazgo indiscutible. Respira y conecta.",
-              "en": "Conclude by recognizing that understanding others is the foundation of undisputed leadership. Breathe and connect."
+              "es": "Finaliza reconociendo que entender a los demás es la base del liderazgo genuino. Respira y conecta.",
+              "en": "Finish by recognizing that understanding others is the basis of genuine leadership. Breathe and connect."
             }
           ],
           "color": "#06b6d4"
@@ -1235,8 +1235,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La empatía te conecta y te hace un líder consciente y respetado. Ordena tu mundo, reclama tu trono. Mañana regresaremos por más grandeza; cumple con tu promesa.",
-            "en": "Empathy connects you and makes you a conscious and respected leader. Order your world, claim your throne. Tomorrow we will return for more greatness; fulfill your promise."
+            "es": "La empatía te conecta y te hace un líder consciente y respetado. Ordena tu mundo, reclama tu trono. Mañana regresaremos por más grandeza; cumple tu palabra.",
+            "en": "Empathy connects you and makes you a conscious and respected leader. Order your world, claim your throne. Tomorrow we will return for more greatness; keep your word."
           },
           "color": "#f87171"
         }
@@ -1252,8 +1252,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Tu centro personal de poder está listo. Deja de lado lo trivial. Hoy entrenas creatividad. Explora ideas nuevas sin miedo.",
-            "en": "Your personal command center is ready. Set aside the trivial. Today you train creativity. Explore new ideas without fear."
+            "es": "Tu centro de mando está listo. Silencia lo trivial. Hoy entrenas creatividad. Explora ideas nuevas sin miedo.",
+            "en": "Your command center is ready. Silence the trivial. Today, you train creativity. Explore new ideas without fear."
           },
           "color": "#2563eb"
         },
@@ -1274,7 +1274,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La creatividad fortalece soluciones y comunicación. Hoy actúa con imaginación.",
-            "en": "Creativity strengthens solutions and communication. Today act with imagination."
+            "en": "Creativity strengthens solutions and communication. Today, act with imagination."
           },
           "color": "#0ea5e9"
         },
@@ -1290,15 +1290,15 @@
           "tipo": "historia",
           "texto": {
             "es": "Lucas no esperaba la musa; operaba bajo una disciplina de hierro. Sabía que para hallar una veta de oro debía remover toneladas de tierra. Produjo mil errores para hallar una sola joya disruptiva que cambió la industria. Moraleja: La creatividad no es magia, es una operación de minería mental. El error es solo el residuo del éxito inminente.",
-            "en": "Lucas didn't wait for inspiration; he operated under an iron discipline. He knew that to find a vein of gold, he had to remove tons of earth. He made a thousand mistakes to find a single disruptive gem that changed the industry. Moral: Creativity is not magic; it's a mental mining operation. Error is just the residue of imminent success."
+            "en": "Lucas didn't wait for the muse; he operated under an iron discipline. He knew that to find a vein of gold, he had to move tons of dirt. He made a thousand errors to find a single disruptive jewel that changed the industry. Moral: Creativity is not magic, it's a mental mining operation. Error is just the residue of imminent success."
           },
           "color": "#34d399"
         },
         {
           "tipo": "voz",
           "texto": {
-            "es": "Respira. Adentro. Retén. Afuera. Siente tu mente abierta y lista para crear.",
-            "en": "Breathe in. Hold. Breathe out. Feel your mind open and ready to create."
+            "es": "Respira. Adentro. Retienes. Afuera. Siente tu mente abierta y lista para crear.",
+            "en": "Breathe. In. Hold. Out. Feel your mind open and ready to create."
           },
           "color": "#2563eb"
         },
@@ -1307,7 +1307,7 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Respiración del Niño",
-            "en": "Child's Breath"
+            "en": "The Child's Breathing"
           },
           "texto": {
             "es": "Inhala curiosidad, exhala limitaciones. Expande tu mente.",
@@ -1327,7 +1327,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 4 segundos. Deja que las ideas choquen.",
+            "es": "Retiene: 4 segundos. Deja que las ideas choquen.",
             "en": "Hold: 4 seconds. Let ideas collide."
           },
           "duracion": 5,
@@ -1373,7 +1373,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La creatividad se refuerza al experimentar y actuar.",
-            "en": "Creativity is strengthened by experimenting and acting."
+            "en": "Creativity is reinforced by experimenting and acting."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -1382,7 +1382,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza tus ideas tomando forma y teniendo impacto. Siente orgullo y satisfacción.",
-            "en": "Visualize your ideas taking shape and having impact. Feel pride and satisfaction."
+            "en": "Visualize your ideas taking shape and making an impact. Feel pride and satisfaction."
           },
           "color": "#a78bfa"
         },
@@ -1390,7 +1390,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Creatividad reforzada.",
-            "en": "Creativity strengthened."
+            "en": "Creativity reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -1400,21 +1400,21 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Niño. Arquitectura de Ideas Disruptivas",
-            "en": "Deep Exercise of the Child's Technique. Disruptive Ideas Architecture"
+            "en": "Deep Exercise of The Child's Technique. Architecture of Disruptive Ideas"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Alinea tu sistema. Respira profundo. Vas a romper las leyes de lo convencional ahora mismo.",
-              "en": "Align your system. Breathe deeply. You are going to break the laws of conventionality right now."
+              "es": "Alinea tu ser. Respira profundo. Estás a punto de romper los límites de lo convencional ahora mismo.",
+              "en": "Align your being. Breathe deeply. You are about to break the limits of convention right now."
             },
             {
               "es": "Toma un problema actual. Desmóntalo en piezas pequeñas. ¿Cómo lo armaría un niño sin miedo al ridículo?",
-              "en": "Take a current problem. Disassemble it into small pieces. How would a child, unafraid of ridicule, put it together?"
+              "en": "Take a current problem. Dismantle it into small pieces. How would a child put it together without fear of ridicule?"
             },
             {
               "es": "Visualiza soluciones absurdas. No las descartes. En lo absurdo reside la innovación que nadie más ve.",
-              "en": "Visualize absurd solutions. Do not discard them. In absurdity lies the innovation no one else sees."
+              "en": "Visualize absurd solutions. Don't discard them. In the absurd lies the innovation no one else sees."
             },
             {
               "es": "Inhala por 8 segundos. Siente la expansión de tus hemisferios cerebrales. La lógica es solo una herramienta, no una cárcel.",
@@ -1425,16 +1425,16 @@
               "en": "Move your arms. Feel the fluidity. You are a channel for solutions, not a warehouse for problems."
             },
             {
-              "es": "Repite mentalmente: 'Exploro sin límites, creo sin censura, innovo por diseño. Mi mente es una fuente'.",
-              "en": "Mentally repeat: 'I explore without limits, I create without censorship, I innovate by design. My mind is a source'."
+              "es": "Repite mentalmente: 'Exploro sin límites, creo sin censura, innovo con propósito. Mi mente es una fuente'.",
+              "en": "Mentally repeat: 'I explore without limits, I create without censorship, I innovate with purpose. My mind is a source'."
             },
             {
               "es": "Visualiza tu idea más audaz tomando forma física y generando impacto real. Siente el poder de lo nuevo.",
               "en": "Visualize your boldest idea taking physical form and generating real impact. Feel the power of the new."
             },
             {
-              "es": "Finaliza con una respiración de 10 segundos. El plano está listo. Mañana ejecutaremos. Sal y crea.",
-              "en": "Conclude with a 10-second breath. The plan is ready. Tomorrow we will execute. Go out and create."
+              "es": "Finaliza con una respiración de 10 segundos. La visión está lista. Mañana la haremos realidad. Sal y crea.",
+              "en": "Finish with a 10-second breath. The vision is ready. Tomorrow we will make it real. Go out and create."
             }
           ],
           "color": "#06b6d4"
@@ -1442,8 +1442,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La creatividad te permite generar soluciones y oportunidades constantemente. Tu evolución es el pulso de tu vida. Mañana el éxito te llamará; asegúrate de estar presente.",
-            "en": "Creativity allows you to constantly generate solutions and opportunities. Your evolution is the pulse of your life. Tomorrow success will call; make sure you are present."
+            "es": "La creatividad te permite generar soluciones y oportunidades constantemente. Tu evolución es el pulso de tu vida. Mañana a esta hora, el éxito pasará lista; asegúrate de estar.",
+            "en": "Creativity allows you to constantly generate solutions and opportunities. Your evolution is the pulse of your life. Tomorrow at this time, success will call roll; make sure you are there."
           },
           "color": "#f87171"
         }
@@ -1459,8 +1459,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Tu energía está lista. Tu tiempo es valioso. Elimina cualquier distracción. Hoy entrenas resiliencia. Haz frente a desafíos y sigue avanzando.",
-            "en": "Your energy is ready. Your time is valuable. Eliminate any distractions. Today you train resilience. Face challenges and keep moving forward."
+            "es": "Tu fuerza interior está detectada. Tu tiempo es oro. Elimina distracciones. Hoy entrenas resiliencia. Haz frente a desafíos y sigue avanzando.",
+            "en": "Your inner strength is detected. Your time is precious. Eliminate distractions. Today, you train resilience. Face challenges and keep moving forward."
           },
           "color": "#2563eb"
         },
@@ -1469,7 +1469,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Técnica de la Guerra",
-            "en": "The Warrior's Technique"
+            "en": "The War Technique"
           },
           "texto": {
             "es": "Transforma obstáculos en fuerza y aprendizaje. Hazlo ahora.",
@@ -1481,7 +1481,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La resiliencia fortalece mente y relaciones. Hoy actúa con constancia y coraje. Resiliencia es aprender a ser feliz de nuevo después de que algo triste o difícil nos haya pasado.",
-            "en": "Resilience strengthens mind and relationships. Today act with constancy and courage. Resilience is learning to be happy again after something sad or difficult has happened to us."
+            "en": "Resilience strengthens mind and relationships. Today, act with constancy and courage. Resilience is learning to be happy again after something sad or difficult has happened to us."
           },
           "color": "#0ea5e9"
         },
@@ -1497,7 +1497,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Marcos perdió el contrato y a su equipo en una tarde. No buscó culpables ni consuelo; buscó los datos del fallo. Usó los escombros de su derrota para cimentar una maniobra tres veces más agresiva y eficiente. Hoy domina el mercado porque su competencia se rinde donde él apenas calienta. Moraleja: El impacto no te destruye, te forja si sabes usar el fuego.",
-            "en": "Marcos lost the contract and his team in one afternoon. He didn't look for culprits or comfort; he looked for the failure data. He used the debris of his defeat to cement a maneuver three times more aggressive and efficient. Today he dominates the market because his competition surrenders where he barely warms up. Moral: The impact doesn't destroy you, it forges you if you know how to use the fire."
+            "en": "Marcos lost the contract and his team in an afternoon. He didn't seek blame or comfort; he looked for the failure data. He used the rubble of his defeat to cement a maneuver three times more aggressive and efficient. Today he dominates the market because his competition gives up where he is just warming up. Moral: Impact doesn't destroy you, it forges you if you know how to use the fire."
           },
           "color": "#34d399"
         },
@@ -1505,7 +1505,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente fuerza interior y decisión para seguir.",
-            "en": "Take a deep breath. Feel inner strength and determination to continue."
+            "en": "Breathe deeply. Feel inner strength and determination to continue."
           },
           "color": "#2563eb"
         },
@@ -1514,7 +1514,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Respiración de la Guerra",
-            "en": "Warrior's Breath"
+            "en": "The War Breathing"
           },
           "texto": {
             "es": "Inhala fuerza, exhala miedo. Siente estabilidad y poder.",
@@ -1526,7 +1526,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Inhala: 19 segundos. Inhala fuerza de acero.",
-            "en": "Inhale: 19 seconds. Inhale steel-like strength."
+            "en": "Inhale: 19 seconds. Inhale steel strength."
           },
           "duracion": 9,
           "color": "#60a5fa"
@@ -1534,8 +1534,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sostén la presión con calma.",
-            "en": "Hold: 5 seconds. Sustain the pressure with calm."
+            "es": "Retiene: 5 segundos. Sostén la presión con calma.",
+            "en": "Hold: 5 seconds. Sustain the pressure calmly."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -1580,7 +1580,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La resiliencia se fortalece enfrentando y aprendiendo de cada obstáculo.",
-            "en": "Resilience is strengthened by facing and learning from every obstacle."
+            "en": "Resilience is strengthened by facing and learning from each obstacle."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -1597,7 +1597,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Resiliencia reforzada.",
-            "en": "Resilience strengthened."
+            "en": "Resilience reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -1607,24 +1607,24 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica de la Guerra. Protocolo de Blindaje y Recuperación",
-            "en": "Deep Exercise of the Warrior's Technique. Shielding and Recovery Protocol"
+            "en": "Deep Exercise of The War Technique. Shielding and Recovery Protocol"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Posición de mando. Eres una fortaleza. Respira con la fuerza de quien no puede ser movido.",
-              "en": "Command position. You are a fortress. Breathe with the strength of one who cannot be moved."
+              "es": "Enfócate. Eres una fortaleza. Respira con la fuerza inquebrantable que hay en ti.",
+              "en": "Focus. You are a fortress. Breathe with the unyielding strength within you."
             },
             {
               "es": "Trae al frente tu mayor obstáculo actual. Míralo como un objetivo militar, no como una tragedia.",
-              "en": "Bring your biggest current obstacle to the forefront. Look at it as a military objective, not a tragedy."
+              "en": "Bring your greatest current obstacle to the forefront. View it as a military objective, not a tragedy."
             },
             {
               "es": "Inhala en 4 tiempos, retén en 4. Siente tu centro de gravedad bajar. Eres pesado, estable, real.",
               "en": "Inhale in 4 counts, hold in 4. Feel your center of gravity lower. You are heavy, stable, real."
             },
             {
-              "es": "Analiza el impacto recibido. Identifica el aprendizaje. Ahora, visualiza cómo ese golpe lo hace más sabio.",
+              "es": "Analiza el impacto recibido. Identifica el aprendizaje. Ahora, visualiza cómo ese golpe te hace más sabio.",
               "en": "Analyze the impact received. Identify the learning. Now, visualize how that blow makes you wiser."
             },
             {
@@ -1632,16 +1632,16 @@
               "en": "Move your shoulders. Release the pain, keep the lesson. Fatigue is a signal, not a destiny."
             },
             {
-              "es": "Repite con voz interna de mando: 'Absorbo el golpe, proceso el dato, me levanto con más potencia'.",
-              "en": "Repeat with an inner command voice: 'I absorb the blow, process the data, I rise with more power'."
+              "es": "Repite con voz interna y firme: 'Absorbo el desafío, proceso el aprendizaje, me levanto con más potencia'.",
+              "en": "Mentally repeat with a firm voice: 'I absorb the challenge, I process the learning, I rise with more power'."
             },
             {
               "es": "Visualiza tu victoria final sobre la dificultad. Siente la dureza de tu resolución en el pecho.",
-              "en": "Visualize your final victory over difficulty. Feel the toughness of your resolution in your chest."
+              "en": "Visualize your final victory over difficulty. Feel the firmness of your resolution in your chest."
             },
             {
-              "es": "Finaliza con una exhalación de fuego. El obstáculo ya es parte de tu pedestal. Avanza sin mirar atrás.",
-              "en": "Conclude with an exhalation of fire. The obstacle is already part of your pedestal. Move forward without looking back."
+              "es": "Finaliza con una exhalación de determinación. El obstáculo ya es parte de tu camino. Avanza sin mirar atrás.",
+              "en": "Finish with an exhalation of determination. The obstacle is already part of your path. Move forward without looking back."
             }
           ],
           "color": "#06b6d4"
@@ -1649,8 +1649,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La resiliencia te hace fuerte y capaz de avanzar ante cualquier desafío. Camina con rectitud y resplandor. Mañana seguiremos puliendo tu diamante; mantén este valioso ciclo.",
-            "en": "Resilience makes you strong and capable of advancing through any challenge. Walk with integrity and radiance. Tomorrow we will continue polishing your diamond; maintain this valuable cycle."
+            "es": "La resiliencia te hace fuerte y capaz de avanzar ante cualquier desafío. Camina con rectitud y resplandor. Mañana seguiremos puliendo tu diamante; no rompas el ciclo.",
+            "en": "Resilience makes you strong and able to advance in the face of any challenge. Walk with rectitude and radiance. Tomorrow we will continue polishing your diamond; do not break the cycle."
           },
           "color": "#f87171"
         }
@@ -1666,8 +1666,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Comenzando tu sesión de fuerza. Tu compromiso está confirmado. Aísla las distracciones de fuera. Tu crecimiento es lo más importante. Hoy entrenas autodisciplina. Haz lo que debes hacer, aunque sea difícil.",
-            "en": "Starting your power session. Your commitment is validated. Isolate external distractions. Your growth is the priority. Today you train self-discipline. Do what you must do, even if it's difficult."
+            "es": "Iniciando tu sesión de poder. Compromiso validado. Por favor, aísla las distracciones externas. Tu evolución es la prioridad. Hoy entrenas autodisciplina. Haz lo que debes hacer, aunque sea difícil.",
+            "en": "Starting your power session. Commitment validated. Please isolate external distractions. Your evolution is the priority. Today, you train self-discipline. Do what you must, even if it's difficult."
           },
           "color": "#2563eb"
         },
@@ -1676,7 +1676,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Técnica del Bien",
-            "en": "The Well-being Technique"
+            "en": "The Good Technique"
           },
           "texto": {
             "es": "Entrena tu mente para ejecutar acciones correctas que impulsen tu crecimiento. Hazlo ahora.",
@@ -1688,7 +1688,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La autodisciplina fortalece tu confianza y respeto propio. Hoy elige mantener acción constante.",
-            "en": "Self-discipline strengthens your confidence and self-respect. Today choose to maintain constant action."
+            "en": "Self-discipline strengthens your self-confidence and self-respect. Today, choose to maintain constant action."
           },
           "color": "#0ea5e9"
         },
@@ -1704,7 +1704,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Sofía sacrificó el placer inmediato por la ventaja estratégica a largo plazo. Entendió que la autodisciplina no es un castigo, es la forma más alta de amor propio: darle a su 'Yo Futuro' la libertad que se merece. Su constancia fue su única ventaja sobre rivales más talentosos. Moraleja: La disciplina es el peaje que se paga para transitar por la ruta del éxito.",
-            "en": "Sofía sacrificed immediate pleasure for long-term strategic advantage. She understood that self-discipline is not a punishment; it is the highest form of self-love: giving her 'Future Self' the freedom she deserves. Her constancy was her only advantage over more talented rivals. Moral: Discipline is the toll paid to travel the path of success."
+            "en": "Sofia sacrificed immediate pleasure for long-term strategic advantage. She understood that self-discipline is not a punishment, it is the highest form of self-love: giving her 'Future Self' the freedom she deserves. Her consistency was her only advantage over more talented rivals. Moral: Discipline is the toll paid to travel the path of success."
           },
           "color": "#34d399"
         },
@@ -1721,7 +1721,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Respiración del Bien",
-            "en": "Breath of Well-being"
+            "en": "The Good Breathing"
           },
           "texto": {
             "es": "Inhala motivación, exhala dudas. Hazlo sintiendo impulso y claridad interna.",
@@ -1741,7 +1741,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sella tu compromiso interno.",
+            "es": "Retiene: 5 segundos. Sella tu compromiso interno.",
             "en": "Hold: 5 seconds. Seal your inner commitment."
           },
           "duracion": 5,
@@ -1760,7 +1760,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Sincroniza tu intención con tu energía física, asegurando que tus planes se cumplan hoy sin fallas.",
-            "en": "Objective: Synchronize your intention with your physical energy, ensuring your plans are fulfilled today without fail."
+            "en": "Objective: Synchronize your intention with your physical energy, ensuring your plans are met today without fail."
           },
           "color": "#2563eb"
         },
@@ -1804,7 +1804,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Autodisciplina reforzada.",
-            "en": "Self-discipline strengthened."
+            "en": "Self-discipline reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -1814,25 +1814,25 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Bien. Sincronización de Voluntad Inquebrantable",
-            "en": "Deep Exercise of the Well-being Technique. Synchronization of Unbreakable Will"
+            "en": "Deep Exercise of The Good Technique. Synchronization of Unbreakable Will"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Siéntate derecho. Eres el comandante de tu propia biología. Respira con orden.",
-              "en": "Sit upright. You are the commander of your own biology. Breathe with order."
+              "es": "Siéntate derecho. Eres el comandante de tu propio ser. Respira con orden.",
+              "en": "Sit upright. You are the commander of your own being. Breathe with order."
             },
             {
               "es": "Identifica esa tarea que has estado postergando. Ponla en el centro de tu pantalla mental.",
-              "en": "Identify that task you've been postponing. Place it at the center of your mental screen."
+              "en": "Identify that task you've been postponing. Place it in the center of your mental screen."
             },
             {
               "es": "Visualiza las consecuencias de no actuar. Siente el peso de la mediocridad. Ahora, recházalo.",
               "en": "Visualize the consequences of not acting. Feel the weight of mediocrity. Now, reject it."
             },
             {
-              "es": "Inhala por 9 segundos. Siente cómo tu compromiso se sella en tu columna vertebral. No negocias con excusas.",
-              "en": "Inhale for 9 seconds. Feel how your commitment seals into your spine. You do not negotiate with excuses."
+              "es": "Inhala por 9 segundos. Siente cómo tu compromiso se sella en tu columna vertebral. Tú no negocias con excusas.",
+              "en": "Inhale for 9 seconds. Feel how your commitment is sealed in your spine. You do not negotiate with excuses."
             },
             {
               "es": "Mueve tus hombros. Activa tu energía de ejecución. Lo difícil es solo un trámite para el disciplinado.",
@@ -1847,8 +1847,8 @@
               "en": "Visualize the satisfaction of duty fulfilled at the end of the day. That peace is priceless."
             },
             {
-              "es": "Finaliza reconociendo que tu fuerza de voluntad es un músculo de élite. Respira y cumple tu misión.",
-              "en": "Conclude by recognizing that your willpower is an elite muscle. Breathe and fulfill your mission."
+              "es": "Finaliza reconociendo que tu fuerza de voluntad es un músculo poderoso. Respira y cumple tu misión.",
+              "en": "Finish by recognizing that your willpower is a powerful muscle. Breathe and fulfill your mission."
             }
           ],
           "color": "#06b6d4"
@@ -1856,8 +1856,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La autodisciplina fortalece tu mente y te impulsa hacia tus metas. Tu desarrollo es una fuerza imparable. Fluye con estructura y liderazgo. Mañana tu centro de mando te espera; sé leal a tu camino.",
-            "en": "Self-discipline strengthens your mind and propels you towards your goals. Your development is an unstoppable force. Flow with structure and leadership. Tomorrow your command center awaits you; be loyal to your path."
+            "es": "La autodisciplina fortalece tu mente y te impulsa hacia tus metas. Tu desarrollo es una fuerza imparable. Fluye con estructura y liderazgo. Mañana tu centro de mando te espera; sé leal.",
+            "en": "Self-discipline strengthens your mind and propels you towards your goals. Your development is an unstoppable force. Flow with structure and leadership. Tomorrow your command center awaits you; be loyal."
           },
           "color": "#f87171"
         }
@@ -1873,8 +1873,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Sistema en línea. Bienvenido a tu camino de crecimiento. Detén el ruido externo. Tú eres la fuerza impulsora de este cambio. Hoy entrenas gestión emocional. Reconoce y transforma tus emociones.",
-            "en": "System online. Welcome to your journey of improvement. Stop external noise. You are the driving force of this change. Today you train emotional management. Recognize and transform your emotions."
+            "es": "Tu sistema interno está en línea. Bienvenido a tu mejora. Por favor, detén el ruido externo. Tú eres el motor de este cambio. Hoy entrenas gestión emocional. Reconoce y transforma tus emociones.",
+            "en": "Your internal system is online. Welcome to your improvement. Please stop external noise. You are the engine of this change. Today, you train emotional management. Recognize and transform your emotions."
           },
           "color": "#2563eb"
         },
@@ -1883,7 +1883,7 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Técnica del Mal",
-            "en": "The Control Technique"
+            "en": "The Bad Technique"
           },
           "texto": {
             "es": "Observa lo negativo y conviértelo en aprendizaje. Hazlo ahora.",
@@ -1895,7 +1895,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "Gestionar emociones fortalece relaciones y decisiones. Hoy actúa consciente de tus sentimientos.",
-            "en": "Managing emotions strengthens relationships and decisions. Today act aware of your feelings."
+            "en": "Managing emotions strengthens relationships and decisions. Today, act aware of your feelings."
           },
           "color": "#0ea5e9"
         },
@@ -1911,7 +1911,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Carla recibió un informe desastroso. Sintió la presión en el pecho, pero no permitió que llegara a su lengua. Usó ese calor interno para trabajar tres horas extra con una precisión quirúrgica. Corrigió el error y blindó el proceso. Moraleja: La emoción es solo energía cruda; el líder es quien decide si esa energía construye un puente o quema la casa.",
-            "en": "Carla received a disastrous report. She felt the pressure in her chest, but she didn't let it reach her tongue. She used that internal heat to work three extra hours with surgical precision. She corrected the error and fortified the process. Moral: Emotion is just raw energy; the leader is the one who decides if that energy builds a bridge or burns the house."
+            "en": "Carla received a disastrous report. She felt the pressure in her chest, but she didn't let it reach her tongue. She used that internal heat to work three extra hours with surgical precision. She corrected the error and shielded the process. Moral: Emotion is just raw energy; the leader is the one who decides whether that energy builds a bridge or burns the house."
           },
           "color": "#34d399"
         },
@@ -1919,7 +1919,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Observa tus emociones sin juzgar, con aceptación plena.",
-            "en": "Take a deep breath. Observe your emotions without judgment, with full acceptance."
+            "en": "Breathe deeply. Observe your emotions without judgment, with full acceptance."
           },
           "color": "#2563eb"
         },
@@ -1928,7 +1928,7 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Respiración del Mal",
-            "en": "Breath of Control"
+            "en": "The Bad Breathing"
           },
           "texto": {
             "es": "Inhala aceptación, exhala tensión. Hazlo mientras transformas emociones difíciles en claridad.",
@@ -1948,7 +1948,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sostén el control sobre la emoción.",
+            "es": "Retiene: 5 segundos. Sostén el control sobre la emoción.",
             "en": "Hold: 5 seconds. Maintain control over the emotion."
           },
           "duracion": 5,
@@ -1967,7 +1967,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Controlar la respiración reduce la frecuencia cardíaca y permite que la mente lógica recupere el mando sobre la emoción.",
-            "en": "Objective: Controlling breathing reduces heart rate and allows the logical mind to regain control over emotion."
+            "en": "Objective: Controlling breathing reduces heart rate and allows the logical mind to regain command over emotion."
           },
           "color": "#2563eb"
         },
@@ -1994,7 +1994,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La gestión emocional requiere reconocer y actuar conscientemente sobre tus sentimientos.",
-            "en": "Emotional management requires recognizing and consciously acting on your feelings."
+            "en": "Emotional management requires recognizing and acting consciously on your feelings."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -2011,7 +2011,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Gestión emocional reforzada.",
-            "en": "Emotional management strengthened."
+            "en": "Emotional management reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -2021,12 +2021,12 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Mal. Transmutación de Frecuencia Emocional",
-            "en": "Deep Exercise of the Control Technique. Emotional Frequency Transmutation"
+            "en": "Deep Exercise of The Bad Technique. Emotional Frequency Transmutation"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Postura de control. Silencio absoluto. Eres el procesador central de tu propia realidad.",
+              "es": "Postura de control. Silencio absoluto. Eres el centro de tu propia realidad.",
               "en": "Control posture. Absolute silence. You are the central processor of your own reality."
             },
             {
@@ -2046,16 +2046,16 @@
               "en": "Move your shoulders. Release the burden. You are not what you feel, you are who decides what to do with what you feel."
             },
             {
-              "es": "Repite mentalmente: 'Reconozco el dato, domino el impulso, ejecuto la solución'.",
-              "en": "Mentally repeat: 'I recognize the data, I master the impulse, I execute the solution'."
+              "es": "Repite mentalmente: 'Reconozco lo que siento, domino el impulso, ejecuto la solución'.",
+              "en": "Mentally repeat: 'I recognize what I feel, I master the impulse, I execute the solution'."
             },
             {
               "es": "Siente cómo la agitación se convierte en una calma fría y analítica. El sistema está estable.",
               "en": "Feel how agitation turns into a cold, analytical calm. The system is stable."
             },
             {
-              "es": "Finaliza con una exhalación de 8 segundos. La emoción ha sido domada. El mando es tuyo.",
-              "en": "Conclude with an 8-second exhalation. The emotion has been tamed. Command is yours."
+              "es": "Finaliza con una exhalación de 8 segundos. La emoción ha sido comprendida. El mando es tuyo.",
+              "en": "Finish with an 8-second exhalation. The emotion has been understood. The command is yours."
             }
           ],
           "color": "#06b6d4"
@@ -2063,8 +2063,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La gestión emocional te permite actuar con calma, claridad y efectividad. Construye tu vida con método y dominio. Mañana volveremos a encender tu motor; mantente firme.",
-            "en": "Emotional management allows you to act with calm, clarity, and effectiveness. Build your life with method and mastery. Tomorrow we will activate your engine again; stand firm."
+            "es": "La gestión emocional te permite actuar con calma, claridad y efectividad. Construye tu vida con método y dominio. Mañana volveremos a activar tu motor; mantente firme.",
+            "en": "Emotional management allows you to act with calm, clarity, and effectiveness. Build your life with method and mastery. Tomorrow we will reactivate your engine; stay firm."
           },
           "color": "#f87171"
         }
@@ -2080,8 +2080,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Escaneo completo. Tu enfoque es palpable. Aísla tu mente. Tu éxito es nuestra prioridad. Hoy entrenas motivación. Deja que tu energía y enfoque te impulsen a tus metas.",
-            "en": "Scan completed. Focus detected. Isolate your mind. Your success is the priority. Today you train motivation. Let your energy and focus propel you towards your goals."
+            "es": "Escaneo completado. Enfoque detectado. Por favor, aísla tu mente. Tu éxito es la prioridad. Hoy entrenas motivación. Deja que tu energía y enfoque te impulsen a tus metas.",
+            "en": "Scan complete. Focus detected. Please isolate your mind. Your success is the priority. Today, you train motivation. Let your energy and focus drive you towards your goals."
           },
           "color": "#2563eb"
         },
@@ -2090,7 +2090,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Técnica del Bien",
-            "en": "The Well-being Technique"
+            "en": "The Good Technique"
           },
           "texto": {
             "es": "Entrena tu mente a generar impulso positivo. Hazlo ahora.",
@@ -2102,7 +2102,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La motivación fortalece acción y liderazgo. Hoy actúa con entusiasmo y claridad.",
-            "en": "Motivation strengthens action and leadership. Today act with enthusiasm and clarity."
+            "en": "Motivation strengthens action and leadership. Today, act with enthusiasm and clarity."
           },
           "color": "#0ea5e9"
         },
@@ -2118,7 +2118,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Raúl no esperaba a 'tener ganas'. El despertador era una orden de combate. Entendió que la motivación es un lujo para los que tienen tiempo de soñar, mientras que la disciplina es el estándar para los que tienen que ganar. Corrió bajo la lluvia porque su objetivo no dependía del clima. Moraleja: Si esperas a sentirte listo, ya perdiste. El movimiento genera el impulso, no al revés.",
-            "en": "Raúl didn't wait to 'feel like it'. The alarm clock was a command for battle. He understood that motivation is a luxury for those who have time to dream, while discipline is the standard for those who have to win. He ran in the rain because his goal didn't depend on the weather. Moral: If you wait to feel ready, you've already lost. Movement generates momentum, not the other way around."
+            "en": "Raul didn't wait to 'feel like it'. The alarm clock was a command for battle. He understood that motivation is a luxury for those who have time to dream, while discipline is the standard for those who have to win. He ran in the rain because his goal didn't depend on the weather. Moral: If you wait to feel ready, you've already lost. Movement generates momentum, not the other way around."
           },
           "color": "#34d399"
         },
@@ -2126,7 +2126,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu energía y enfoque interno.",
-            "en": "Take a deep breath. Feel your energy and inner focus."
+            "en": "Breathe deeply. Feel your inner energy and focus."
           },
           "color": "#2563eb"
         },
@@ -2135,11 +2135,11 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Respiración del Bien",
-            "en": "Breath of Well-being"
+            "en": "The Good Breathing"
           },
           "texto": {
-            "es": "Inhala energía, exhala dudas. Hazlo mientras sientes impulso y claridad interna.",
-            "en": "Inhale energy, exhale doubts. Do it while feeling impulse and inner clarity."
+            "es": "Inhala energía, exhala dudas. Hazlo mientras sientes impulso y claridad.",
+            "en": "Inhale energy, exhale doubts. Do it while feeling momentum and clarity."
           },
           "color": "#06b6d4"
         },
@@ -2155,7 +2155,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Siente el impulso acumulado.",
+            "es": "Retiene: 5 segundos. Siente el impulso acumulado.",
             "en": "Hold: 5 seconds. Feel the accumulated momentum."
           },
           "duracion": 5,
@@ -2201,7 +2201,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La motivación se fortalece con acción y enfoque consciente.",
-            "en": "Motivation is strengthened with action and conscious focus."
+            "en": "Motivation is strengthened with conscious action and focus."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -2218,7 +2218,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Motivación reforzada.",
-            "en": "Motivation strengthened."
+            "en": "Motivation reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -2228,17 +2228,17 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Bien. Ignición de Motor de Alto Rendimiento",
-            "en": "Deep Exercise of the Well-being Technique. High-Performance Engine Ignition"
+            "en": "Deep Exercise of The Good Technique. High-Performance Engine Ignition"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Siéntate derecho. Eres el activo más valioso de tu organización. Respira con potencia.",
-              "en": "Sit upright. You are the most valuable asset of your organization. Breathe with power."
+              "es": "Siéntate derecho. Eres el activo más valioso de tu ser. Respira con potencia.",
+              "en": "Sit upright. You are the most valuable asset of your being. Breathe with power."
             },
             {
               "es": "Pon tu meta principal frente a tus ojos. Mírala con el hambre de quien sabe que le pertenece.",
-              "en": "Place your main goal before your eyes. Look at it with the hunger of one who knows it belongs to them."
+              "en": "Place your main goal before your eyes. Look at it with the hunger of someone who knows it belongs to them."
             },
             {
               "es": "Recuerda tu victoria más difícil. Siente ese orgullo en la boca del estómago. Ese es tu verdadero estado.",
@@ -2246,23 +2246,23 @@
             },
             {
               "es": "Inhala por 7 segundos. Sostén. Deja que el oxígeno active cada fibra de tu resolución.",
-              "en": "Inhale for 7 seconds. Hold. Let oxygen activate every fiber of your resolution."
+              "en": "Inhale for 7 seconds. Hold. Let oxygen activate every fiber of your resolve."
             },
             {
-              "es": "Mueve los brazos como si estuvieras apartando obstáculos. El camino está despejado si avanzas.",
-              "en": "Move your arms as if you were pushing aside obstacles. The path is clear if you move forward."
+              "es": "Mueve los brazos como si estuvieras apartando obstáculos. El camino está despejado si tú avanzas.",
+              "en": "Move your arms as if pushing obstacles aside. The path is clear if you advance."
             },
             {
               "es": "Repite con voz interna firme: 'Sin excusas, sin demoras, solo resultados. Mi voluntad es ley'.",
-              "en": "Repeat with a firm inner voice: 'No excuses, no delays, only results. My will is law'."
+              "en": "Mentally repeat with a firm inner voice: 'No excuses, no delays, only results. My will is law'."
             },
             {
               "es": "Visualiza el momento del éxito. No lo sueñes, vívelo como una memoria futura que ya ocurrió.",
               "en": "Visualize the moment of success. Don't dream it, live it as a future memory that has already happened."
             },
             {
-              "es": "Finaliza reconociendo que tu energía es inagotable cuando tienes un norte claro. Sal a conquistar.",
-              "en": "Conclude by recognizing that your energy is inexhaustible when you have a clear direction. Go out and conquer."
+              "es": "Finaliza reconociendo que tu energía es inagotable cuando tienes un propósito claro. Sal a conquistar.",
+              "en": "Finish by recognizing that your energy is inexhaustible when you have a clear purpose. Go out and conquer."
             }
           ],
           "color": "#06b6d4"
@@ -2270,8 +2270,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La motivación te impulsa a actuar con energía, enfoque y satisfacción. Tu avance es la melodía del éxito. Ejecuta con orden y precisión. Mañana, tu potencial te esperará; asiste con orgullo.",
-            "en": "Motivation propels you to act with energy, focus, and satisfaction. Your progress is the melody of success. Execute with order and precision. Tomorrow, your potential will be waiting; attend with pride."
+            "es": "La motivación te impulsa a actuar con energía, enfoque y satisfacción. Tu avance es la melodía del éxito. Ejecuta con orden y precisión. Mañana, tu potencial volverá a pasar lista; asiste con orgullo.",
+            "en": "Motivation drives you to act with energy, focus, and satisfaction. Your progress is the melody of success. Execute with order and precision. Tomorrow, your potential will be called upon again; attend with pride."
           },
           "color": "#f87171"
         }
@@ -2287,8 +2287,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Bienvenido al control. Silencia tu alrededor. Eres un recurso estratégico. Comienza tu protocolo. Hoy entrenas confianza. Que tu presencia y acción reflejen seguridad.",
-            "en": "Welcome to command. Silence your surroundings. You are a strategic asset. Initiate protocol. Today you train confidence. Let your presence and action reflect security."
+            "es": "Bienvenido a tu puesto de mando. Por favor, silencia tu entorno. Tú eres un activo estratégico. Inicia tu jornada. Hoy entrenas confianza. Que tu presencia y acción reflejen seguridad.",
+            "en": "Welcome to your command. Please silence your surroundings. You are a strategic asset. Initiate your journey. Today, you train confidence. Let your presence and actions reflect security."
           },
           "color": "#2563eb"
         },
@@ -2309,7 +2309,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La confianza fortalece relaciones y decisiones. Hoy actúa seguro y presente.",
-            "en": "Confidence strengthens relationships and decisions. Today act confident and present."
+            "en": "Confidence strengthens relationships and decisions. Today, act with certainty and presence."
           },
           "color": "#0ea5e9"
         },
@@ -2325,7 +2325,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Valeria entró a la junta sabiendo que no tenía todas las respuestas, pero caminó con la certeza de que las encontraría. No bajó la mirada, no cruzó los brazos. Su silencio comunicaba más poder que las palabras de los demás. Moraleja: La confianza no es saber que ganarás; es saber que estarás bien incluso si pierdes, y esa paz te hace invencible.",
-            "en": "Valeria entered the meeting knowing she didn't have all the answers, but she walked with the certainty that she would find them. She didn't lower her gaze, she didn't cross her arms. Her silence communicated more power than the words of others. Moral: Confidence is not knowing you will win; it is knowing that you will be well even if you lose, and that peace makes you invincible."
+            "en": "Valeria entered the meeting knowing she didn't have all the answers, but she walked with the certainty that she would find them. She didn't lower her gaze, she didn't cross her arms. Her silence communicated more power than the words of others. Moral: Confidence is not knowing you will win; it is knowing that you will be fine even if you lose, and that peace makes you invincible."
           },
           "color": "#34d399"
         },
@@ -2333,7 +2333,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu presencia y seguridad interna.",
-            "en": "Take a deep breath. Feel your presence and inner security."
+            "en": "Breathe deeply. Feel your presence and inner security."
           },
           "color": "#2563eb"
         },
@@ -2342,7 +2342,7 @@
           "tecnica": "TDP",
           "titulo": {
             "es": "Respiración del Padre",
-            "en": "Father's Breath"
+            "en": "The Father's Breathing"
           },
           "texto": {
             "es": "Inhala seguridad, exhala dudas. Hazlo mientras sientes firmeza y claridad.",
@@ -2362,7 +2362,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sella tu firmeza interior.",
+            "es": "Retiene: 5 segundos. Sella tu firmeza interior.",
             "en": "Hold: 5 seconds. Seal your inner firmness."
           },
           "duracion": 5,
@@ -2381,7 +2381,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Llenar los pulmones al máximo genera postura de poder natural, enviando señales de seguridad al cerebro.",
-            "en": "Objective: Filling the lungs to their maximum capacity creates a natural power posture, sending signals of security to the brain."
+            "en": "Objective: Filling the lungs to maximum capacity generates a natural power posture, sending signals of security to the brain."
           },
           "color": "#2563eb"
         },
@@ -2408,7 +2408,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La confianza se refuerza con práctica consciente y acción repetida.",
-            "en": "Confidence is strengthened with conscious practice and repeated action."
+            "en": "Confidence is reinforced with conscious practice and repeated action."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -2417,7 +2417,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza tus acciones confiadas y el reconocimiento que generan. Siente seguridad y orgullo interior.",
-            "en": "Visualize your confident actions and the recognition they generate. Feel inner security and pride."
+            "en": "Visualize your confident actions and the recognition they generate. Feel security and inner pride."
           },
           "color": "#a78bfa"
         },
@@ -2425,7 +2425,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Confianza reforzada.",
-            "en": "Confidence strengthened."
+            "en": "Confidence reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -2435,12 +2435,12 @@
           "tecnica": "TDP",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Padre. Anclaje de Presencia de Mando",
-            "en": "Deep Exercise of the Father's Technique. Command Presence Anchoring"
+            "en": "Deep Exercise of The Father's Technique. Command Presence Anchoring"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Toma posesión de tu asiento. Columna erguida. Eres el centro de gravedad de este espacio.",
+              "es": "Toma posesión de tu asiento. Columna erguida. Eres el centro de tu propio espacio.",
               "en": "Take possession of your seat. Spine erect. You are the center of gravity of this space."
             },
             {
@@ -2457,11 +2457,11 @@
             },
             {
               "es": "Mueve tus manos con movimientos lentos y precisos. El control nace de la calma, no de la prisa.",
-              "en": "Move your hands with slow and precise movements. Control is born from calm, not haste."
+              "en": "Move your hands with slow and precise movements. Control comes from calmness, not haste."
             },
             {
-              "es": "Repite mentalmente: 'Mi presencia impone respeto, mi voz transmite orden, mi seguridad es total'.",
-              "en": "Mentally repeat: 'My presence commands respect, my voice transmits order, my security is total'."
+              "es": "Repite mentalmente: 'Mi presencia irradia respeto, mi voz transmite claridad, mi seguridad es total'.",
+              "en": "Mentally repeat: 'My presence radiates respect, my voice transmits clarity, my security is total'."
             },
             {
               "es": "Siente cómo el miedo al juicio externo se disuelve. Tú eres tu propio juez y tu propio aliado.",
@@ -2469,7 +2469,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de actuar con confianza y claridad en cualquier situación.",
-              "en": "Conclude by recognizing your ability to act with confidence and clarity in any situation."
+              "en": "Finish by recognizing your ability to act with confidence and clarity in any situation."
             }
           ],
           "color": "#06b6d4"
@@ -2477,8 +2477,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La confianza te permite actuar con seguridad, claridad y liderazgo. Tu transformación es evidente. Actúa con precisión y coraje. Respira hondo. Mañana seguiremos construyendo la arquitectura de tu paz; te espero aquí.",
-            "en": "Confidence allows you to act with security, clarity, and leadership. Your transformation is evident. Act with precision and courage. Take a deep breath. Tomorrow we will continue building the architecture of your peace; I await you here."
+            "es": "La confianza te permite actuar con seguridad, claridad y liderazgo. Tu transformación es evidente. Actúa con precisión y coraje. Respira hondo. Mañana continuaremos la arquitectura de tu paz; te espero aquí.",
+            "en": "Confidence allows you to act with security, clarity, and leadership. Your transformation is evident. Act with precision and courage. Breathe deeply. Tomorrow we will continue the architecture of your peace; I await you here."
           },
           "color": "#f87171"
         }
@@ -2494,8 +2494,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Acceso de autoridad. Tus palabras tienen poder. Detén el caos. Tú eres el arquitecto de tu realidad ahora. Hoy entrenas resiliencia. Haz frente a desafíos y fortalece tu mente.",
-            "en": "Authority access. Your words are law. Stop the chaos. You are the architect now. Today you train resilience. Face challenges and strengthen your mind."
+            "es": "Acceso de autoridad. Tu palabra es ley. Por favor, detén el caos. Tú eres el arquitecto ahora. Hoy entrenas resiliencia. Haz frente a desafíos y fortalece tu mente.",
+            "en": "Authority access granted. Your word is law. Please stop the chaos. You are the architect now. Today, you train resilience. Face challenges and strengthen your mind."
           },
           "color": "#2563eb"
         },
@@ -2504,7 +2504,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Técnica de la Guerra",
-            "en": "The Warrior's Technique"
+            "en": "The War Technique"
           },
           "texto": {
             "es": "Observa dificultades y actúa con estrategia y fuerza positiva. Hazlo ahora.",
@@ -2516,7 +2516,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La resiliencia permite superar obstáculos y mantener relaciones equilibradas. Hoy actúa con firmeza y claridad.",
-            "en": "Resilience allows you to overcome obstacles and maintain balanced relationships. Today act with firmness and clarity."
+            "en": "Resilience allows you to overcome obstacles and maintain balanced relationships. Today, act with firmness and clarity."
           },
           "color": "#0ea5e9"
         },
@@ -2532,7 +2532,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Jorge vio colapsar su infraestructura en un día. No buscó consuelo, buscó el plano original. Identificó los puntos de fallo, eliminó lo que no servía y reconstruyó una versión tres veces más fuerte. El desastre fue su mejor consultor. Moraleja: El golpe no te detiene, te revela dónde necesitas más blindaje. Caer es opcional, levantarse es obligatorio.",
-            "en": "Jorge saw his infrastructure collapse in one day. He didn't seek comfort; he sought the original blueprint. He identified the points of failure, eliminated what wasn't working, and rebuilt a version three times stronger. The disaster was his best consultant. Moral: The blow doesn't stop you, it reveals where you need more shielding. Falling is optional, getting up is mandatory."
+            "en": "Jorge saw his infrastructure collapse in a day. He didn't seek comfort, he looked for the original plan. He identified the points of failure, eliminated what was not useful, and rebuilt a version three times stronger. The disaster was his best consultant. Moral: The blow doesn't stop you, it reveals where you need more shielding. Falling is optional, getting up is mandatory."
           },
           "color": "#34d399"
         },
@@ -2540,7 +2540,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu fuerza interna y determinación.",
-            "en": "Take a deep breath. Feel your inner strength and determination."
+            "en": "Breathe deeply. Feel your inner strength and determination."
           },
           "color": "#2563eb"
         },
@@ -2549,7 +2549,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Respiración de la Guerra",
-            "en": "Warrior's Breath"
+            "en": "The War Breathing"
           },
           "texto": {
             "es": "Inhala fuerza, exhala miedo. Hazlo mientras visualizas superar obstáculos.",
@@ -2561,7 +2561,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Inhala: 19 segundos. Inhala fuerza de impacto.",
-            "en": "Inhale: 19 seconds. Inhale impact strength."
+            "en": "Inhale: 19 seconds. Inhale impact force."
           },
           "duracion": 9,
           "color": "#60a5fa"
@@ -2569,7 +2569,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Mantén la determinación bajo presión.",
+            "es": "Retiene: 5 segundos. Mantén la determinación bajo presión.",
             "en": "Hold: 5 seconds. Maintain determination under pressure."
           },
           "duracion": 5,
@@ -2588,7 +2588,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Mantener el aire bajo presión entrena al cuerpo a no entrar en pánico frente al estrés.",
-            "en": "Objective: Holding your breath under pressure trains the body not to panic when facing stress."
+            "en": "Objective: Maintaining air under pressure trains the body not to panic when faced with stress."
           },
           "color": "#2563eb"
         },
@@ -2632,7 +2632,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Resiliencia reforzada.",
-            "en": "Resilience strengthened."
+            "en": "Resilience reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -2642,17 +2642,17 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica de la Guerra",
-            "en": "Deep Exercise of the Warrior's Technique"
+            "en": "Deep Exercise of The War Technique"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Posición de combate. Mente fría. Respira hondo. Eres inquebrantable por entrenamiento.",
-              "en": "Combat position. Cold mind. Breathe deeply. You are unbreakable by training."
+              "es": "Posición de combate. Mente fría. Respira hondo. Eres inquebrantable por tu entrenamiento.",
+              "en": "Combat stance. Clear mind. Breathe deeply. You are unbreakable by training."
             },
             {
               "es": "Trae a tu mente el obstáculo más pesado que enfrentas hoy. Míralo como un simple dato a procesar.",
-              "en": "Bring to mind the heaviest obstacle you face today. See it as a simple piece of data to process."
+              "en": "Bring to mind the heaviest obstacle you face today. Look at it as a simple data point to process."
             },
             {
               "es": "Inhala fuerza. Siente cómo tu mente se endurece como el diamante ante la presión.",
@@ -2667,16 +2667,16 @@
               "en": "Move your shoulders and neck. Release the tension of the past. The present requires all your strength."
             },
             {
-              "es": "Repite con determinación: 'No retrocedo, no me quiebro, aprendo del impacto y ataco de nuevo'.",
-              "en": "Repeat with determination: 'I do not retreat, I do not break, I learn from the impact and attack again'."
+              "es": "Repite con determinación: 'No retrocedo, no me quiebro, aprendo del impacto y avanzo de nuevo'.",
+              "en": "Repeat with determination: 'I do not retreat, I do not break, I learn from the impact and I advance again'."
             },
             {
-              "es": "Visualiza el obstáculo desmoronándose ante tu persistencia. Eres el agua que rompe la roca.",
+              "es": "Visualiza el obstáculo desmoronándose ante tu persistencia. Tú eres el agua que rompe la roca.",
               "en": "Visualize the obstacle crumbling before your persistence. You are the water that breaks the rock."
             },
             {
               "es": "Finaliza reconociendo tu invulnerabilidad interna. El caos no puede con quien tiene un método.",
-              "en": "Conclude by recognizing your inner invulnerability. Chaos cannot defeat one who has a method."
+              "en": "Finish by recognizing your inner invulnerability. Chaos cannot defeat one who has a method."
             }
           ],
           "color": "#06b6d4"
@@ -2684,8 +2684,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La resiliencia te permite actuar con fuerza, claridad y confianza en cualquier situación. Eleva tu ser. Habita el orden, ejerce el poder. Mañana a esta hora, tu silla de mando te espera; no te falles a ti mismo.",
-            "en": "Resilience allows you to act with strength, clarity, and confidence in any situation. Elevate your being. Dwell in order, wield power. Tomorrow at this time, your command chair awaits you; do not fail yourself."
+            "es": "La resiliencia te permite actuar con fuerza, claridad y confianza en cualquier situación. Eleva tu ser. Habita el orden, ejerce el poder. Mañana a esta hora, tu silla de mando te espera; no me falles.",
+            "en": "Resilience allows you to act with strength, clarity, and confidence in any situation. Elevate your being. Inhabit order, exercise power. Tomorrow at this time, your command chair awaits you; do not fail me."
           },
           "color": "#f87171"
         }
@@ -2701,8 +2701,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Conectando... Tu éxito es la meta. Silencio absoluto. Tú eres tu mayor inversión. Hoy entrenas creatividad. Haz fluir tu mente e ideas con libertad.",
-            "en": "Identifying system... Your success is the order. Absolute silence. You are your greatest investment. Today you train creativity. Let your mind and ideas flow freely."
+            "es": "Bienvenido. Tu éxito es la orden. Silencio absoluto. Tú eres tu mayor inversión. Hoy entrenas creatividad. Haz fluir tu mente e ideas con libertad.",
+            "en": "Welcome. Your success is the command. Absolute silence. You are your greatest investment. Today, you train creativity. Let your mind and ideas flow freely."
           },
           "color": "#2563eb"
         },
@@ -2723,7 +2723,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La creatividad fortalece la innovación y la resolución de problemas. Hoy actúa libre y creativo.",
-            "en": "Creativity strengthens innovation and problem-solving. Today act freely and creatively."
+            "en": "Creativity strengthens innovation and problem-solving. Today, act freely and creatively."
           },
           "color": "#0ea5e9"
         },
@@ -2731,7 +2731,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Piensa en un reto reciente y busca 3 formas distintas de abordarlo. Evalúa cada idea.",
-            "en": "Think of a recent challenge and look for 3 different ways to approach it. Evaluate each idea."
+            "en": "Think of a recent challenge and find 3 different ways to approach it. Evaluate each idea."
           },
           "color": "#14b8a6"
         },
@@ -2739,7 +2739,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Lucía rompió las reglas del pensamiento rígido. Volvió a la mente del niño: ¿y si lo hacemos al revés? Su equipo se quedó atrás; ella innovó. Moraleja: No sigas el camino, abre una brecha nueva.",
-            "en": "Lucía broke the rules of rigid thinking. She returned to a child's mind: what if we do it in reverse? Her team fell behind; she innovated. Moral: Don't follow the path, forge a new one."
+            "en": "Lucia broke the rules of rigid thinking. She returned to the child's mind: what if we do it in reverse? Her team stayed behind; she innovated. Moral: Don't follow the path, break new ground."
           },
           "color": "#34d399"
         },
@@ -2747,7 +2747,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu curiosidad y apertura mental.",
-            "en": "Take a deep breath. Feel your curiosity and mental openness."
+            "en": "Breathe deeply. Feel your curiosity and mental openness."
           },
           "color": "#2563eb"
         },
@@ -2756,7 +2756,7 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Respiración del Niño",
-            "en": "Child's Breath"
+            "en": "The Child's Breathing"
           },
           "texto": {
             "es": "Inhala curiosidad, exhala límites. Hazlo mientras tu mente genera ideas nuevas.",
@@ -2776,7 +2776,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Deja que las ideas fluyan en el vacío.",
+            "es": "Retiene: 5 segundos. Deja que las ideas fluyan en el vacío.",
             "en": "Hold: 5 seconds. Let ideas flow in the void."
           },
           "duracion": 5,
@@ -2839,7 +2839,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Creatividad reforzada.",
-            "en": "Creativity strengthened."
+            "en": "Creativity reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -2849,7 +2849,7 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Niño. Desbloqueo de Pensamiento Lateral",
-            "en": "Deep Exercise of the Child's Technique. Lateral Thinking Unlocking"
+            "en": "Deep Exercise of The Child's Technique. Lateral Thinking Unlocking"
           },
           "duracion": 20,
           "textos": [
@@ -2859,11 +2859,11 @@
             },
             {
               "es": "Toma tu reto actual y gíralo mentalmente. ¿Qué pasaría si el problema fuera la solución?",
-              "en": "Take your current challenge and mentally rotate it. What if the problem was the solution?"
+              "en": "Take your current challenge and mentally rotate it. What if the problem were the solution?"
             },
             {
               "es": "Visualiza tu mente como un lienzo en blanco. Deja que los colores de las ideas choquen sin juzgar.",
-              "en": "Visualize your mind as a blank canvas. Let the colors of ideas collide without judging."
+              "en": "Visualize your mind as a blank canvas. Let the colors of ideas clash without judgment."
             },
             {
               "es": "Inhala por 6 segundos. Siente cómo el oxígeno llega a las áreas creativas. Eres un arquitecto de lo nuevo.",
@@ -2879,11 +2879,11 @@
             },
             {
               "es": "Siente la ligereza en tu pecho. La creatividad es juego bajo control. Disfruta el proceso.",
-              "en": "Feel the lightness in your chest. Creativity is play under control. Enjoy the process."
+              "en": "Feel the lightness in your chest. Creativity is controlled play. Enjoy the process."
             },
             {
-              "es": "Finaliza con una respiración profunda. El genio ha despertado. Abre los ojos y crea.",
-              "en": "Conclude with a deep breath. The genius has awakened. Open your eyes and create."
+              "es": "Finaliza con una respiración profunda. Tu genio ha despertado. Abre los ojos y crea.",
+              "en": "Finish with a deep breath. Your genius has awakened. Open your eyes and create."
             }
           ],
           "color": "#06b6d4"
@@ -2891,7 +2891,7 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La creatividad te permite resolver, innovar y actuar con libertad y confianza. Tu progreso es un cauce constante. Navega con estrategia y voluntad. Mañana desbloquearemos un nuevo nivel; sigue honrando tu camino.",
+            "es": "La creatividad te permite resolver, innovar y actuar con libertad y confianza. Tu progreso es un cauce constante. Navega con estrategia y voluntad. Mañana desbloquearemos un nuevo nivel; honra tu camino.",
             "en": "Creativity allows you to solve, innovate, and act with freedom and confidence. Your progress is a constant flow. Navigate with strategy and will. Tomorrow we will unlock a new level; honor your path."
           },
           "color": "#f87171"
@@ -2908,8 +2908,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Tu protocolo de mando está activo. Sin distracciones. Sin ruido. Tú eres el dueño de cada instante. Hoy entrenas gestión del tiempo. Haz que cada acción cuente y fluya organizada.",
-            "en": "Command protocol active. No distractions. No noise. You are the owner of this moment. Today you train time management. Make every action count and flow organized."
+            "es": "Tu protocolo de mando está activo. Sin distracciones. Sin ruido. Tú eres el dueño de este momento. Hoy entrenas gestión del tiempo. Haz que cada acción cuente y fluya organizada.",
+            "en": "Your command protocol is active. No distractions. No noise. You are the master of this moment. Today, you train time management. Make every action count and flow in an organized way."
           },
           "color": "#2563eb"
         },
@@ -2918,7 +2918,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Técnica del Bien",
-            "en": "The Well-being Technique"
+            "en": "The Good Technique"
           },
           "texto": {
             "es": "Planifica y ejecuta acciones con eficiencia y enfoque. Hazlo ahora.",
@@ -2930,7 +2930,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La gestión del tiempo fortalece tu productividad y claridad. Hoy actúa con estructura y presencia.",
-            "en": "Time management strengthens your productivity and clarity. Today act with structure and presence."
+            "en": "Time management strengthens your productivity and clarity. Today, act with structure and presence."
           },
           "color": "#0ea5e9"
         },
@@ -2938,7 +2938,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Identifica la tarea más importante de hoy. Haz un paso ahora y siente progreso.",
-            "en": "Identify today's most important task. Take a step now and feel progress."
+            "en": "Identify the most important task of today. Take a step now and feel progress."
           },
           "color": "#14b8a6"
         },
@@ -2946,7 +2946,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Andrés tenía cien pendientes. Tiró la lista. Eligió la única tarea que, al completarse, hacía que las otras noventa y nueve fueran irrelevantes. Trabajó en silencio, sin mirar el reloj, solo la meta. Terminó en dos horas lo que otros tardan una semana. Moraleja: El tiempo no se gestiona, se conquista eliminando lo mediocre.",
-            "en": "Andrés had a hundred pending tasks. He threw away the list. He chose the one task that, once completed, made the other ninety-nine irrelevant. He worked in silence, without looking at the clock, only the goal. He finished in two hours what others take a week. Moral: Time is not managed, it is conquered by eliminating the mediocre."
+            "en": "Andres had a hundred pending tasks. He threw away the list. He chose the single task that, when completed, made the other ninety-nine irrelevant. He worked in silence, without watching the clock, only the goal. He finished in two hours what others take a week. Moral: Time is not managed, it is conquered by eliminating the mediocre."
           },
           "color": "#34d399"
         },
@@ -2954,7 +2954,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira 4 veces. Siente tu capacidad de organizar y ejecutar acciones.",
-            "en": "Take 4 breaths. Feel your capacity to organize and execute actions."
+            "en": "Breathe 4 times. Feel your ability to organize and execute actions."
           },
           "color": "#2563eb"
         },
@@ -2963,7 +2963,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Respiración del Bien",
-            "en": "Breath of Well-being"
+            "en": "The Good Breathing"
           },
           "texto": {
             "es": "Inhala claridad, exhala desorden. Hazlo mientras ejecutas tus tareas.",
@@ -2983,8 +2983,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Fija tu prioridad absoluta.",
-            "en": "Hold: 5 seconds. Set your absolute priority."
+            "es": "Retiene: 5 segundos. Fija tu prioridad absoluta.",
+            "en": "Hold: 5 seconds. Fix your absolute priority."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -3002,7 +3002,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: Nivela la presión arterial para que la mente priorice lo importante sin ansiedad.",
-            "en": "Objective: Balances blood pressure so the mind prioritizes what is important without anxiety."
+            "en": "Objective: Level blood pressure so the mind prioritizes what's important without anxiety."
           },
           "color": "#2563eb"
         },
@@ -3029,7 +3029,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La gestión del tiempo se refuerza con acción y enfoque consciente.",
-            "en": "Time management is strengthened with conscious action and focus."
+            "en": "Time management is reinforced with conscious action and focus."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -3038,7 +3038,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza completar tus tareas con éxito y tranquilidad. Siente control y logro.",
-            "en": "Visualize completing your tasks successfully and peacefully. Feel control and accomplishment."
+            "en": "Visualize completing your tasks with success and tranquility. Feel control and accomplishment."
           },
           "color": "#a78bfa"
         },
@@ -3046,7 +3046,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Gestión del tiempo reforzada.",
-            "en": "Time management strengthened."
+            "en": "Time management reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -3056,16 +3056,16 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Bien. Sincronización de Ejecución Maestra",
-            "en": "Deep Exercise of the Well-being Technique. Master Execution Synchronization"
+            "en": "Deep Exercise of The Good Technique. Master Execution Synchronization"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Asume tu postura de mando. Espalda recta. Eres el cronómetro de tu propio destino.",
+              "es": "Asume tu postura de mando. Espalda recta. Tú eres el cronómetro de tu propio destino.",
               "en": "Assume your command posture. Straight back. You are the stopwatch of your own destiny."
             },
             {
-              "es": "Visualiza tu día como una serie de bloques de mármol. Vas a esculpir solo los necesarios.",
+              "es": "Visualiza tu día como una serie de bloques de mármol. Tú vas a esculpir solo los necesarios.",
               "en": "Visualize your day as a series of marble blocks. You will sculpt only the necessary ones."
             },
             {
@@ -3081,16 +3081,16 @@
               "en": "Move your shoulders. Feel the energy ready to be invested, not spent. Time is your capital."
             },
             {
-              "es": "Repite internamente: 'Priorizo con frialdad, ejecuto con fuego, termino con precisión'.",
-              "en": "Repeat internally: 'I prioritize with coldness, I execute with fire, I finish with precision'."
+              "es": "Repite internamente: 'Priorizo con claridad, ejecuto con fuego, termino con precisión'.",
+              "en": "Internally repeat: 'I prioritize with clarity, I execute with fire, I finish with precision'."
             },
             {
               "es": "Visualiza el cierre de tu jornada. Siente la paz de haber sido productivo, no simplemente ocupado.",
-              "en": "Visualize the close of your day. Feel the peace of having been productive, not just busy."
+              "en": "Visualize the end of your day. Feel the peace of having been productive, not just busy."
             },
             {
               "es": "Finaliza reconociendo que un minuto bien invertido vale más que una hora de dudas. Actúa.",
-              "en": "Conclude by recognizing that a minute well invested is worth more than an hour of doubts. Act."
+              "en": "Finish by recognizing that one minute well invested is worth more than an hour of doubt. Act."
             }
           ],
           "color": "#06b6d4"
@@ -3098,8 +3098,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La gestión del tiempo te permite actuar con eficiencia, claridad y resultados positivos. Estás floreciendo con disciplina. Viste tu día de orden y potencia. Mañana tu evolución te espera; llega puntual.",
-            "en": "Time management allows you to act with efficiency, clarity, and positive results. You are flourishing with discipline. Clothe your day in order and power. Tomorrow your evolution awaits you; be punctual."
+            "es": "La gestión del tiempo te permite actuar con eficiencia, claridad y resultados positivos. Estás floreciendo con disciplina. Viste tu día de orden y potencia. Mañana tu evolución reclama tu presencia; llega puntual.",
+            "en": "Time management allows you to act with efficiency, clarity, and positive results. You are flourishing with discipline. Dress your day with order and power. Tomorrow your evolution demands your presence; be punctual."
           },
           "color": "#f87171"
         }
@@ -3115,8 +3115,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Sistema optimizado. Tu presencia irradia poder. Desconéctate del mundo exterior. Tu victoria empieza ahora. Hoy entrenas autoconocimiento. Haz consciente tu mente y emociones.",
-            "en": "System optimized. Your presence is power. Close the world. Your victory begins now. Today you train self-knowledge. Make your mind and emotions conscious."
+            "es": "Tu sistema interno está optimizado. Tu presencia es poder. Por favor, cierra el mundo exterior. Tu victoria empieza ahora. Hoy entrenas autoconocimiento. Haz consciente tu mente y emociones.",
+            "en": "Your internal system is optimized. Your presence is power. Please close off the external world. Your victory begins now. Today, you train self-knowledge. Bring awareness to your mind and emotions."
           },
           "color": "#2563eb"
         },
@@ -3137,7 +3137,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "El autoconocimiento fortalece decisiones y relaciones. Hoy actúa observando tu interior.",
-            "en": "Self-knowledge strengthens decisions and relationships. Today act observing your interior."
+            "en": "Self-knowledge strengthens decisions and relationships. Today, act by observing your inner self."
           },
           "color": "#0ea5e9"
         },
@@ -3145,7 +3145,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Piensa en una emoción o pensamiento que repites con frecuencia. Obsérvalo y actúa consciente.",
-            "en": "Think of an emotion or thought you frequently repeat. Observe it and act consciously."
+            "en": "Think of an emotion or thought you repeat frequently. Observe it and act consciously."
           },
           "color": "#14b8a6"
         },
@@ -3153,7 +3153,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Marta vivía en un futuro que no existía y su cuerpo pagaba el precio con ansiedad. Cortó el cable: se ancló al presente. Observó su miedo como un dato irrelevante y recuperó el mando. Moraleja: La claridad no es un regalo, es el premio de quien domina su atención aquí y ahora.",
-            "en": "Marta lived in a future that didn't exist and her body paid the price with anxiety. She cut the cord: she anchored herself to the present. She observed her fear as irrelevant data and regained command. Moral: Clarity is not a gift; it is the prize for those who master their attention here and now."
+            "en": "Marta lived in a future that didn't exist and her body paid the price with anxiety. She cut the cord: she anchored herself to the present. She observed her fear as irrelevant data and regained control. Moral: Clarity is not a gift, it is the reward for those who master their attention here and now."
           },
           "color": "#34d399"
         },
@@ -3161,7 +3161,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu interior, sin juicio y con curiosidad.",
-            "en": "Take a deep breath. Feel your inner self, without judgment and with curiosity."
+            "en": "Breathe deeply. Feel your interior, without judgment and with curiosity."
           },
           "color": "#2563eb"
         },
@@ -3170,11 +3170,11 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Respiración del Niño",
-            "en": "Child's Breath"
+            "en": "The Child's Breathing"
           },
           "texto": {
             "es": "Inhala conciencia, exhala confusión. Hazlo mientras exploras tu interior.",
-            "en": "Inhale awareness, exhale confusion. Do it while exploring your interior."
+            "en": "Inhale awareness, exhale confusion. Do it while exploring your inner self."
           },
           "color": "#06b6d4"
         },
@@ -3190,8 +3190,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Observa tu interior en silencio.",
-            "en": "Hold: 5 seconds. Observe your interior in silence."
+            "es": "Retiene: 5 segundos. Observa tu interior en silencio.",
+            "en": "Hold: 5 seconds. Observe your inner self in silence."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -3236,7 +3236,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "El autoconocimiento se refuerza con atención consciente y reflexión sobre uno mismo.",
-            "en": "Self-knowledge is strengthened with conscious attention and self-reflection."
+            "en": "Self-knowledge is reinforced with conscious attention and self-reflection."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -3253,7 +3253,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Autoconocimiento reforzado.",
-            "en": "Self-knowledge strengthened."
+            "en": "Self-knowledge reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -3263,13 +3263,13 @@
           "tecnica": "TDN",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Niño. Escaneo de Sistema Interior",
-            "en": "Deep Exercise of the Child's Technique. Inner System Scan"
+            "en": "Deep Exercise of The Child's Technique. Inner System Scan"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Pies firmes. Eres el observador y lo observado. Inicia respiración rítmica.",
-              "en": "Feet firm. You are the observer and the observed. Begin rhythmic breathing."
+              "es": "Pies firmes. Tú eres el observador y lo observado. Inicia una respiración rítmica.",
+              "en": "Feet firm. You are the observer and the observed. Initiate rhythmic breathing."
             },
             {
               "es": "Escanea tu cuerpo desde los pies a la cabeza. ¿Dónde guardas la tensión? Identifica el dato.",
@@ -3277,7 +3277,7 @@
             },
             {
               "es": "Ahora observa tus pensamientos como si fueran extraños pasando por una calle. No los detengas.",
-              "en": "Now observe your thoughts as if they were strangers passing by on a street. Do not stop them."
+              "en": "Now observe your thoughts as if they were strangers passing by on a street. Don't stop them."
             },
             {
               "es": "Pregúntate: '¿Quién está mirando?'. Siente la profundidad de tu propia conciencia.",
@@ -3297,7 +3297,7 @@
             },
             {
               "es": "Finaliza integrando esta claridad. Ya no caminas a ciegas. Conócete y vencerás.",
-              "en": "Conclude by integrating this clarity. You no longer walk blindly. Know yourself and you will conquer."
+              "en": "Finish by integrating this clarity. You no longer walk blindly. Know yourself and you will conquer."
             }
           ],
           "color": "#06b6d4"
@@ -3305,7 +3305,7 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "El autoconocimiento te permite actuar con claridad, equilibrio y decisión consciente. Tu evolución brilla con luz propia. Conduce tu vida con grandeza. Mañana a esta hora, el compromiso es contigo; cúmplelo.",
+            "es": "El autoconocimiento te permite actuar con claridad, equilibrio y decisión consciente. Tu evolución brilla con luz propia. Conduce tu vida con grandeza. Mañana a esta hora, el compromiso es contigo; cumple.",
             "en": "Self-knowledge allows you to act with clarity, balance, and conscious decision. Your evolution shines with its own light. Lead your life with greatness. Tomorrow at this time, the commitment is with you; fulfill it."
           },
           "color": "#f87171"
@@ -3322,8 +3322,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Tu fuerza de éxito está detectada. Deja de lado lo externo. Eres el activo prioritario. ¡Actúa! Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.",
-            "en": "Success unit detected. Stop external distractions. You are the priority asset. Execute! Today you train motivation. Make every action bring you closer to your goals."
+            "es": "Tu impulso de éxito está detectado. Por favor, detén lo externo. Tú eres el activo prioritario. Ejecuta. Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.",
+            "en": "Your drive for success is detected. Please stop external factors. You are the priority asset. Execute. Today, you train motivation. Make every action bring you closer to your goals."
           },
           "color": "#2563eb"
         },
@@ -3332,7 +3332,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Técnica del Bien",
-            "en": "The Well-being Technique"
+            "en": "The Good Technique"
           },
           "texto": {
             "es": "Identifica tus metas y actúa ahora con determinación.",
@@ -3344,7 +3344,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La motivación fortalece tu constancia y actitud positiva. Hoy hazlo con energía y claridad.",
-            "en": "Motivation strengthens your consistency and positive attitude. Today do it with energy and clarity."
+            "en": "Motivation strengthens your constancy and positive attitude. Today, do it with energy and clarity."
           },
           "color": "#0ea5e9"
         },
@@ -3360,7 +3360,7 @@
           "tipo": "historia",
           "texto": {
             "es": "El equipo esperaba una charla inspiradora. El líder llegó, puso el plano sobre la mesa y dijo: 'Si no lo hacemos hoy, mañana seremos olvidados'. No hubo aplausos, hubo acción inmediata. La motivación real no es un grito, es un plano claro y un paso firme. Moraleja: No busques sentir ganas, busca tener resultados.",
-            "en": "The team expected an inspiring talk. The leader arrived, put the plan on the table and said: 'If we don't do it today, tomorrow we will be forgotten'. There were no applause, there was immediate action. Real motivation is not a shout, it is a clear plan and a firm step. Moral: Don't seek to feel like it, seek to get results."
+            "en": "The team expected an inspiring talk. The leader arrived, placed the plan on the table and said: 'If we don't do it today, tomorrow we will be forgotten'. There were no applause, there was immediate action. Real motivation is not a shout, it's a clear plan and a firm step. Moral: Don't seek to feel like it, seek to get results."
           },
           "color": "#34d399"
         },
@@ -3368,7 +3368,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu impulso y determinación interior.",
-            "en": "Take a deep breath. Feel your inner drive and determination."
+            "en": "Breathe deeply. Feel your inner drive and determination."
           },
           "color": "#2563eb"
         },
@@ -3377,7 +3377,7 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Respiración del Bien",
-            "en": "Breath of Well-being"
+            "en": "The Good Breathing"
           },
           "texto": {
             "es": "Inhala fuerza, exhala dudas. Hazlo mientras visualizas tu meta alcanzada.",
@@ -3397,7 +3397,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Mantén el compromiso sobre la emoción.",
+            "es": "Retiene: 5 segundos. Mantén el compromiso sobre la emoción.",
             "en": "Hold: 5 seconds. Maintain commitment over emotion."
           },
           "duracion": 5,
@@ -3407,7 +3407,7 @@
           "tipo": "respiracion",
           "texto": {
             "es": "Exhala: 18 segundos. Expulsa la duda y la excusa.",
-            "en": "Exhale: 18 seconds. Expel doubt and excuses."
+            "en": "Exhale: 18 seconds. Expel doubt and excuse."
           },
           "duracion": 8,
           "color": "#60a5fa"
@@ -3443,7 +3443,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La motivación se refuerza actuando con intención y constancia.",
-            "en": "Motivation is strengthened by acting with intention and constancy."
+            "en": "Motivation is reinforced by acting with intention and consistency."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -3452,7 +3452,7 @@
           "tipo": "visualizacion",
           "texto": {
             "es": "Visualiza tu objetivo alcanzado y siente orgullo y satisfacción por tu esfuerzo.",
-            "en": "Visualize your goal achieved and feel pride and satisfaction for your effort."
+            "en": "Visualize your objective achieved and feel pride and satisfaction for your effort."
           },
           "color": "#a78bfa"
         },
@@ -3460,7 +3460,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Motivación reforzada.",
-            "en": "Motivation strengthened."
+            "en": "Motivation reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -3470,21 +3470,21 @@
           "tecnica": "TDB",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica del Bien. Ignición de Propósito Operativo",
-            "en": "Deep Exercise of the Well-being Technique. Operational Purpose Ignition"
+            "en": "Deep Exercise of The Good Technique. Operational Purpose Ignition"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Cuerpo alerta. Mente enfocada. Respira profundo por 5 segundos. Siente el motor encenderse.",
-              "en": "Body alert. Mind focused. Breathe deeply for 5 seconds. Feel the engine ignite."
+              "es": "Cuerpo alerta. Mente enfocada. Respira profundo por 5 segundos. Siente tu motor encenderse.",
+              "en": "Body alert. Mind focused. Breathe deeply for 5 seconds. Feel your engine starting."
             },
             {
               "es": "Trae a tu mente el 'Por Qué' más profundo de tu lucha diaria. Míralo fijamente.",
-              "en": "Bring to your mind the deepest 'Why' of your daily struggle. Look at it fixedly."
+              "en": "Bring to your mind the deepest 'Why' of your daily struggle. Look at it intently."
             },
             {
               "es": "Visualiza la meta no como un sueño, sino como un destino inevitable si no te detienes.",
-              "en": "Visualize the goal not as a dream, but as an inevitable destiny if you do not stop."
+              "en": "Visualize the goal not as a dream, but as an inevitable destiny if you don't stop."
             },
             {
               "es": "Siente el calor en tu plexo solar. Es tu voluntad transformándose en energía física.",
@@ -3492,19 +3492,19 @@
             },
             {
               "es": "Mueve los brazos con fuerza controlada. Activa tu sistema para la conquista.",
-              "en": "Move your arms with controlled strength. Activate your system for conquest."
+              "en": "Move your arms with controlled force. Activate your system for conquest."
             },
             {
-              "es": "Inhala por 10 segundos. Retén la visión de tu éxito. Eres imparable por diseño.",
+              "es": "Inhala por 10 segundos. Retén la visión de tu éxito. Eres imparable por naturaleza.",
               "en": "Inhale for 10 seconds. Hold the vision of your success. You are unstoppable by design."
             },
             {
               "es": "Exhala toda debilidad. El cansancio es solo información, tu compromiso es la ley.",
-              "en": "Exhale all weakness. Tiredness is just information; your commitment is the law."
+              "en": "Exhale all weakness. Tiredness is just information, your commitment is the law."
             },
             {
               "es": "Finaliza con un compromiso de honor: Hoy harás lo necesario. Respira y domina.",
-              "en": "Conclude with a commitment of honor: Today you will do what is necessary. Breathe and dominate."
+              "en": "Finish with a commitment of honor: Today you will do what is necessary. Breathe and dominate."
             }
           ],
           "color": "#06b6d4"
@@ -3512,8 +3512,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La motivación te impulsa a actuar con energía, enfoque y constancia. Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a tu cita contigo mismo.",
-            "en": "Motivation propels you to act with energy, focus, and constancy. You transform with every breath. Walk with a firm step and noble spirit. Tomorrow we will continue forging your success; do not miss your appointment with yourself."
+            "es": "La motivación te impulsa a actuar con energía, enfoque y constancia. Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a nuestra cita.",
+            "en": "Motivation drives you to act with energy, focus, and consistency. You transform with every breath. Walk with a firm step and noble spirit. Tomorrow we will continue forging your success; do not miss our appointment."
           },
           "color": "#f87171"
         }
@@ -3529,8 +3529,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Sincronización de mando. Silencia lo que no importa. Tú eres el corazón de este proceso. ¡Avanza! Hoy entrenas concentración. Haz que tu mente se enfoque y permanezca atenta.",
-            "en": "Command synchronization. Silence the unnecessary. You are the center of this process. Advance. Today you train concentration. Make your mind focus and remain attentive."
+            "es": "Sincronización de mando. Por favor, silencia lo innecesario. Tú eres el centro de este proceso. Avanza. Hoy entrenas concentración. Haz que tu mente se enfoque y permanezca atenta.",
+            "en": "Command synchronization. Please silence the unnecessary. You are the center of this process. Advance. Today, you train concentration. Make your mind focus and stay attentive."
           },
           "color": "#2563eb"
         },
@@ -3539,11 +3539,11 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Técnica de la Guerra",
-            "en": "The Warrior's Technique"
+            "en": "The War Technique"
           },
           "texto": {
             "es": "Enfócate en un objetivo específico y actúa sin distracciones.",
-            "en": "Focus on a specific objective and act without distractions."
+            "en": "Focus on a specific goal and act without distractions."
           },
           "color": "#06b6d4"
         },
@@ -3551,7 +3551,7 @@
           "tipo": "inteligencia_social",
           "texto": {
             "es": "La concentración fortalece decisiones, aprendizaje y rendimiento. Hoy actúa con claridad y presencia.",
-            "en": "Concentration strengthens decisions, learning, and performance. Today act with clarity and presence."
+            "en": "Concentration strengthens decisions, learning, and performance. Today, act with clarity and presence."
           },
           "color": "#0ea5e9"
         },
@@ -3567,7 +3567,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Carlos perdía su día en interrupciones. Decidió sitiar su atención: quince minutos de guerra total contra la distracción. No buscó el final, buscó el bloque. El éxito no es una meta lejana, es el dominio de tus próximos quince minutos. Moraleja: Si no controlas tu cuarto de hora, no controlas tu vida.",
-            "en": "Carlos lost his day to interruptions. He decided to besiege his attention: fifteen minutes of total war against distraction. He didn't seek the end; he sought the block. Success is not a distant goal; it is the mastery of your next fifteen minutes. Moral: If you don't control your quarter of an hour, you don't control your life."
+            "en": "Carlos lost his day to interruptions. He decided to besiege his attention: fifteen minutes of total war against distraction. He didn't seek the end, he sought the block. Success is not a distant goal, it is the mastery of your next fifteen minutes. Moral: If you don't control your quarter of an hour, you don't control your life."
           },
           "color": "#34d399"
         },
@@ -3575,7 +3575,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Siente tu mente clara y presente.",
-            "en": "Take a deep breath. Feel your mind clear and present."
+            "en": "Breathe deeply. Feel your mind clear and present."
           },
           "color": "#2563eb"
         },
@@ -3584,7 +3584,7 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Respiración de la Guerra",
-            "en": "Warrior's Breath"
+            "en": "The War Breathing"
           },
           "texto": {
             "es": "Inhala enfoque, exhala dispersión. Hazlo mientras actúas en tu tarea.",
@@ -3604,7 +3604,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Fija tu atención en un solo punto.",
+            "es": "Retiene: 5 segundos. Fija tu atención en un solo punto.",
             "en": "Hold: 5 seconds. Fix your attention on a single point."
           },
           "duracion": 5,
@@ -3650,7 +3650,7 @@
           "correcta": 0,
           "explicacion": {
             "es": "La concentración se fortalece actuando con atención plena.",
-            "en": "Concentration is strengthened by acting with full attention."
+            "en": "Concentration is strengthened by acting with mindfulness."
           },
           "recompensa": 10,
           "color": "#22c55e"
@@ -3667,7 +3667,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Concentración reforzada.",
-            "en": "Concentration strengthened."
+            "en": "Concentration reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -3677,17 +3677,17 @@
           "tecnica": "TDG",
           "titulo": {
             "es": "Ejercicio profundo de la Técnica de la Guerra. Asedio de Atención Profunda",
-            "en": "Deep Exercise of the Warrior's Technique. Deep Attention Siege"
+            "en": "Deep Exercise of The War Technique. Deep Attention Siege"
           },
           "duracion": 20,
           "textos": [
             {
-              "es": "Corta toda comunicación externa. Eres un radar buscando una sola señal. Respira en 4 tiempos.",
-              "en": "Cut all external communication. You are a radar seeking a single signal. Breathe in 4 counts."
+              "es": "Corta toda comunicación externa. Tú eres un radar buscando una sola señal. Respira en 4 tiempos.",
+              "en": "Cut off all external communication. You are a radar looking for a single signal. Breathe in 4 counts."
             },
             {
               "es": "Fija tu vista en un punto u objeto de tu tarea. No parpadees en exceso. Mantén el centro.",
-              "en": "Fix your gaze on a point or object of your task. Do not blink excessively. Maintain the center."
+              "en": "Fix your gaze on a point or object of your task. Don't blink excessively. Maintain your center."
             },
             {
               "es": "Si un pensamiento ajeno aparece, visualízalo como ruido estático y baja el volumen mentalmente.",
@@ -3698,7 +3698,7 @@
               "en": "Feel the pressure on your forehead. It is your prefrontal cortex activating. Breathe deeply now."
             },
             {
-              "es": "Inhala por 6 segundos. Sostén. Eres el dueño de este momento. Nada existe fuera de tu objetivo.",
+              "es": "Inhala por 6 segundos. Sostén. Tú eres el dueño de este momento. Nada existe fuera de tu objetivo.",
               "en": "Inhale for 6 seconds. Hold. You are the owner of this moment. Nothing exists outside your objective."
             },
             {
@@ -3711,7 +3711,7 @@
             },
             {
               "es": "Finaliza reconociendo que el dominio de tu atención es el dominio de tu destino. Respira y actúa.",
-              "en": "Conclude by recognizing that mastery of your attention is mastery of your destiny. Breathe and act."
+              "en": "Finish by recognizing that the mastery of your attention is the mastery of your destiny. Breathe and act."
             }
           ],
           "color": "#06b6d4"
@@ -3719,8 +3719,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "La concentración te permite actuar con atención y control. La excelencia ya habita en ti. Mañana continuamos nuestro camino.",
-            "en": "Concentration allows you to act with attention and control. Excellence already resides within you. Tomorrow we continue our journey."
+            "es": "La concentración te permite actuar con atención y control. La excelencia ya habita en ti. Mañana continuamos. Te esperamos.",
+            "en": "Concentration allows you to act with attention and control. Excellence already dwells within you. We continue tomorrow. We await you."
           },
           "color": "#f87171"
         }
@@ -3736,8 +3736,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Bienvenido a tu versión líder. Apaga el ruido. Tú eres la pieza clave. Inicia tu entrenamiento. Hoy entrenas gestión emocional.",
-            "en": "Welcome to your leader version. Turn off the noise. You are the key piece. Begin your training. Today you train emotional management."
+            "es": "Bienvenido a tu versión líder. Por favor, apaga el ruido. Tú eres la pieza clave. Inicia tu entrenamiento. Hoy entrenas gestión emocional.",
+            "en": "Welcome to your leader version. Please turn off the noise. You are the key piece. Start your training. Today, you train emotional management."
           },
           "color": "#2563eb"
         },
@@ -3746,7 +3746,7 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Técnica del Mal",
-            "en": "The Control Technique"
+            "en": "The Bad Technique"
           },
           "texto": {
             "es": "Observa emociones negativas y transfórmalas en aprendizaje positivo.",
@@ -3774,7 +3774,7 @@
           "tipo": "historia",
           "texto": {
             "es": "El General Marco recibió la noticia de la traición en pleno combate. Su pulso no subió. No buscó culpables en el fragor, buscó la salida táctica. Usó la furia del momento para ordenar una carga definitiva. Moraleja: La emoción es combustible; si la dejas libre te quema, si la canalizas te impulsa al trono.",
-            "en": "General Marco received news of betrayal in the midst of combat. His pulse did not rise. He did not look for culprits in the heat of battle, he looked for the tactical way out. He used the fury of the moment to order a definitive charge. Moral: Emotion is fuel; if you let it run wild it burns you, if you channel it, it propels you to the throne."
+            "en": "General Marco received news of betrayal in the midst of combat. His pulse did not rise. He didn't look for culprits in the heat of battle, he looked for the tactical exit. He used the fury of the moment to order a definitive charge. Moral: Emotion is fuel; if you let it run free, it burns you, if you channel it, it propels you to the throne."
           },
           "color": "#34d399"
         },
@@ -3782,7 +3782,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo. Observa sin juicio.",
-            "en": "Take a deep breath. Observe without judgment."
+            "en": "Breathe deeply. Observe without judgment."
           },
           "color": "#2563eb"
         },
@@ -3791,7 +3791,7 @@
           "tecnica": "TDM",
           "titulo": {
             "es": "Respiración del Mal",
-            "en": "Breath of Control"
+            "en": "The Bad Breathing"
           },
           "texto": {
             "es": "Inhala conciencia, exhala tensión.",
@@ -3811,7 +3811,7 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Mantén el equilibrio interno.",
+            "es": "Retiene: 5 segundos. Mantén el equilibrio interno.",
             "en": "Hold: 5 seconds. Maintain inner balance."
           },
           "duracion": 5,
@@ -3865,8 +3865,8 @@
         {
           "tipo": "visualizacion",
           "texto": {
-            "es": "Visualiza calma.",
-            "en": "Visualize calm."
+            "es": "Visualiza calma y claridad.",
+            "en": "Visualize calm and clarity."
           },
           "color": "#a78bfa"
         },
@@ -3874,7 +3874,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Gestión emocional reforzada.",
-            "en": "Emotional management strengthened."
+            "en": "Emotional management reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -3902,7 +3902,7 @@
             },
             {
               "es": "Actúa con decisión guiado por tu conciencia. Respira.",
-              "en": "Act with decision guided by your consciousness. Breathe."
+              "en": "Act decisively guided by your consciousness. Breathe."
             },
             {
               "es": "Libera tensiones físicas y emocionales acumuladas. Exhala.",
@@ -3918,7 +3918,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de mantener calma y control.",
-              "en": "Conclude by recognizing your ability to maintain calm and control."
+              "en": "Finish by recognizing your ability to maintain calm and control."
             }
           ],
           "color": "#06b6d4"
@@ -3926,8 +3926,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "Equilibrio de mando logrado. La gestión emocional no es suprimir, es dominar el fuego. Has recuperado el timón. Mañana, revisaremos tu estabilidad; te esperamos con entusiasmo.",
-            "en": "Command balance achieved. Emotional management is not suppression, it is mastering the fire. You have regained the helm. Tomorrow, we will assess your stability; we await you with enthusiasm."
+            "es": "Equilibrio interior logrado. La gestión emocional no es suprimir, es dominar el fuego. Has recuperado el timón. Mañana, tu fuerza interior se evaluará; no faltes.",
+            "en": "Inner balance achieved. Emotional management is not suppression, it is mastering the fire. You have regained the helm. Tomorrow, your inner strength will be evaluated; do not fail."
           },
           "color": "#f87171"
         }
@@ -3943,8 +3943,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Tu centro está listo. Tú tienes el control. Hoy entrenas confianza.",
-            "en": "Center ready. You are in command. Today you train confidence."
+            "es": "Tu centro está listo. Tú mandas. Hoy entrenas confianza.",
+            "en": "Your center is ready. You command. Today, you train confidence."
           },
           "color": "#2563eb"
         },
@@ -3973,7 +3973,7 @@
           "tipo": "estrategia",
           "texto": {
             "es": "Haz una acción con seguridad.",
-            "en": "Take an action with confidence."
+            "en": "Perform an action with confidence."
           },
           "color": "#14b8a6"
         },
@@ -3981,7 +3981,7 @@
           "tipo": "historia",
           "texto": {
             "es": "Un joven pidió audiencia con el Rey. No llevaba corona, pero caminaba como si la tierra le perteneciera. El Rey le preguntó: '¿Quién te dio permiso para entrar así?'. Él respondió: 'Mi propia espalda recta'. Moraleja: La confianza no se pide, se impone con la presencia antes de abrir la boca.",
-            "en": "A young man requested an audience with the King. He wore no crown, but he walked as if the earth belonged to him. The King asked him: 'Who gave you permission to enter like this?'. He replied: 'My own straight back'. Moral: Confidence is not requested, it is imposed with presence before opening your mouth."
+            "en": "A young man requested an audience with the King. He wore no crown, but walked as if the earth belonged to him. The King asked him: 'Who gave you permission to enter like this?'. He replied: 'My own straight back'. Moral: Confidence is not requested, it is imposed with presence before opening your mouth."
           },
           "color": "#34d399"
         },
@@ -3989,7 +3989,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira profundo.",
-            "en": "Take a deep breath."
+            "en": "Breathe deeply."
           },
           "color": "#2563eb"
         },
@@ -3998,7 +3998,7 @@
           "tecnica": "TDP",
           "titulo": {
             "es": "Respiración del Padre",
-            "en": "Father's Breath"
+            "en": "The Father's Breathing"
           },
           "texto": {
             "es": "Inhala seguridad.",
@@ -4018,8 +4018,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sostén tu peso y confianza.",
-            "en": "Hold: 5 seconds. Bear your weight and confidence."
+            "es": "Retiene: 5 segundos. Sostén tu peso y confianza.",
+            "en": "Hold: 5 seconds. Sustain your weight and confidence."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -4037,7 +4037,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Objetivo: La retención con tórax expandido reduce cortisol y proyecta autoridad de manera natural.",
-            "en": "Objective: Holding with an expanded chest reduces cortisol and naturally projects authority."
+            "en": "Objective: Retention with an expanded chest reduces cortisol and naturally projects authority."
           },
           "color": "#2563eb"
         },
@@ -4072,8 +4072,8 @@
         {
           "tipo": "visualizacion",
           "texto": {
-            "es": "Visualiza éxito.",
-            "en": "Visualize success."
+            "es": "Visualiza el éxito y tu capacidad de lograrlo.",
+            "en": "Visualize success and your ability to achieve it."
           },
           "color": "#a78bfa"
         },
@@ -4081,7 +4081,7 @@
           "tipo": "recompensa",
           "texto": {
             "es": "Confianza reforzada.",
-            "en": "Confidence strengthened."
+            "en": "Confidence reinforced."
           },
           "puntos": 20,
           "color": "#10b981"
@@ -4090,8 +4090,8 @@
           "tipo": "tvid_ejercicio_largo",
           "tecnica": "TDP",
           "titulo": {
-            "es": "Expansión de Autoridad TVid",
-            "en": "TVid Authority Expansion"
+            "es": "Expansión de Autoridad Tvid",
+            "en": "Tvid Authority Expansion"
           },
           "duracion": 20,
           "textos": [
@@ -4109,23 +4109,23 @@
             },
             {
               "es": "Inhala seguridad absoluta. Retén el aire y siente cómo tu presencia se expande por toda la habitación.",
-              "en": "Inhale absolute security. Hold your breath and feel your presence expanding throughout the room."
+              "en": "Inhale absolute security. Hold your breath and feel your presence expand throughout the room."
             },
             {
-              "es": "Piensa en tu mayor reto actual. Míralo desde arriba. Eres más grande que cualquier obstáculo.",
-              "en": "Think of your greatest current challenge. Look at it from above. You are greater than any obstacle."
+              "es": "Piensa en tu mayor reto actual. Míralo desde arriba. Tú eres más grande que cualquier obstáculo.",
+              "en": "Think of your biggest current challenge. Look at it from above. You are greater than any obstacle."
             },
             {
               "es": "Repite con voz interna profunda: 'Yo soy la autoridad en mi vida. Yo decido. Yo ejecuto'.",
-              "en": "Repeat with a deep inner voice: 'I am the authority in my life. I decide. I execute'."
+              "en": "Mentally repeat with a deep inner voice: 'I am the authority in my life. I decide. I execute'."
             },
             {
               "es": "Siente la vibración de tu propia confianza en tus manos. Estás listo para mandar.",
               "en": "Feel the vibration of your own confidence in your hands. You are ready to command."
             },
             {
-              "es": "Finaliza con una respiración de 10 segundos. La duda ha muerto. El líder ha despertado.",
-              "en": "Conclude with a 10-second breath. Doubt is dead. The leader has awakened."
+              "es": "Finaliza reconociendo tu capacidad de actuar con confianza y claridad en cualquier situación.",
+              "en": "Finish by recognizing your ability to act with confidence and clarity in any situation."
             }
           ],
           "color": "#06b6d4"
@@ -4133,8 +4133,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "Confianza activa. Cada acción refuerza tu liderazgo y seguridad interior. Sigue adelante con tu grandeza.",
-            "en": "Confidence active. Each action reinforces your leadership and inner security. Keep moving forward with your greatness."
+            "es": "Confianza activa. Cada acción refuerza tu liderazgo y seguridad interior. Mañana continuamos con tu crecimiento.",
+            "en": "Confidence active. Every action reinforces your leadership and inner security. Tomorrow we continue with your growth."
           },
           "color": "#f87171"
         }
@@ -4150,8 +4150,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Protocolo iniciado. Hoy potenciamos tu energía.",
-            "en": "Protocol initiated. Today we train energy."
+            "es": "Tu jornada de energía ha iniciado. Hoy entrenas energía.",
+            "en": "Your energy journey has begun. Today, you train energy."
           },
           "color": "#2563eb"
         },
@@ -4159,19 +4159,19 @@
           "tipo": "tvid",
           "tecnica": "TDK",
           "titulo": {
-            "es": "Técnica de la Vitalidad",
-            "en": "The Vitality Technique"
+            "es": "Técnica del Beso",
+            "en": "The Kiss Technique"
           },
           "texto": {
-            "es": "Activa tu cuerpo.",
-            "en": "Activate your body."
+            "es": "Activa tu cuerpo. Siente la vitalidad fluir.",
+            "en": "Activate your body. Feel vitality flowing."
           },
           "color": "#06b6d4"
         },
         {
           "tipo": "inteligencia_social",
           "texto": {
-            "es": "La energía mejora rendimiento.",
+            "es": "La energía mejora el rendimiento.",
             "en": "Energy improves performance."
           },
           "color": "#0ea5e9"
@@ -4187,8 +4187,8 @@
         {
           "tipo": "historia",
           "texto": {
-            "es": "Valeria se movió y activó su energía, sintiendo cada músculo cobrar vida. Su enfoque se agudizó, y con cada paso, se sentía más conectada y poderosa. La quietud se transformó en un flujo constante de vitalidad que la impulsaba hacia sus objetivos, sin importar cuán grandes fueran.",
-            "en": "Valeria moved and activated her energy, feeling every muscle come alive. Her focus sharpened, and with each step, she felt more connected and powerful. Stillness transformed into a constant flow of vitality that propelled her towards her goals, no matter how great they were."
+            "es": "Valeria se movió y activó su energía.",
+            "en": "Valeria moved and activated her energy."
           },
           "color": "#34d399"
         },
@@ -4196,7 +4196,7 @@
           "tipo": "voz",
           "texto": {
             "es": "Respira 4 veces. Retén el aire por 3 segundos. Suelta suave.",
-            "en": "Take 4 breaths. Hold your breath for 3 seconds. Release gently."
+            "en": "Breathe 4 times. Hold your breath for 3 seconds. Release gently."
           },
           "color": "#2563eb"
         },
@@ -4204,8 +4204,8 @@
           "tipo": "tvid",
           "tecnica": "TDK",
           "titulo": {
-            "es": "Respiración de la Vitalidad",
-            "en": "Breath of Vitality"
+            "es": "Respiración de la Energía",
+            "en": "Energy Breathing"
           },
           "texto": {
             "es": "Inhala vitalidad.",
@@ -4216,8 +4216,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Respira: 19 segundos. Inhala energía y potencia.",
-            "en": "Breathe: 19 seconds. Inhale energy and power."
+            "es": "Inhala: 19 segundos. Inhala energía y potencia.",
+            "en": "Inhale: 19 seconds. Inhale energy and power."
           },
           "duracion": 9,
           "color": "#60a5fa"
@@ -4225,8 +4225,8 @@
         {
           "tipo": "respiracion",
           "texto": {
-            "es": "Retén: 5 segundos. Sostén la energía en tu cuerpo.",
-            "en": "Hold: 5 seconds. Hold the energy in your body."
+            "es": "Retiene: 5 segundos. Sostén la energía en tu cuerpo.",
+            "en": "Hold: 5 seconds. Sustain the energy in your body."
           },
           "duracion": 5,
           "color": "#60a5fa"
@@ -4243,8 +4243,8 @@
         {
           "tipo": "voz",
           "texto": {
-            "es": "Objetivo: Activa metabolismo.",
-            "en": "Objective: Activates metabolism."
+            "es": "Objetivo: Activa tu metabolismo.",
+            "en": "Objective: Activate your metabolism."
           },
           "color": "#2563eb"
         },
@@ -4279,26 +4279,25 @@
         {
           "tipo": "visualizacion",
           "texto": {
-            "es": "Visualiza energía.",
-            "en": "Visualize energy."
+            "es": "Visualiza tu energía fluyendo y llenándote por completo.",
+            "en": "Visualize your energy flowing and completely filling you."
           },
           "color": "#a78bfa"
         },
         {
           "tipo": "recompensa",
           "texto": {
-            "es": "Metabolismo activado. Tu sistema está en modo de alto rendimiento.",
+            "es": "Metabolismo activado. Tu cuerpo está en modo de alto rendimiento.",
             "en": "Metabolism activated. Your system is in high-performance mode."
           },
-          "puntos": 20,
           "color": "#10b981"
         },
         {
           "tipo": "tvid_ejercicio_largo",
           "tecnica": "TDK",
           "titulo": {
-            "es": "Ejercicio profundo de Vitalidad",
-            "en": "Deep Vitality Exercise"
+            "es": "Ejercicio profundo de Energía",
+            "en": "Deep Energy Exercise"
           },
           "duracion": 20,
           "textos": [
@@ -4332,7 +4331,7 @@
             },
             {
               "es": "Finaliza reconociendo tu capacidad de actuar con fuerza y entusiasmo cada día.",
-              "en": "Conclude by recognizing your ability to act with strength and enthusiasm every day."
+              "en": "Finish by recognizing your ability to act with strength and enthusiasm every day."
             }
           ],
           "color": "#06b6d4"
@@ -4340,8 +4339,8 @@
         {
           "tipo": "cierre",
           "texto": {
-            "es": "Tu protocolo de vitalidad está completo. Recuerda: el cansancio es solo una percepción, la energía es una decisión de tu voluntad. Sal y conquista tus metas. El éxito requiere pasión; tú eres esa llama imparable.",
-            "en": "Vitality protocol complete. Remember: tiredness is just a perception, energy is a decision of your will. Go out and conquer your goals. Success requires fire; you are that unstoppable blaze."
+            "es": "Tu protocolo de vitalidad está completo. El cansancio es una opinión, la energía es una decisión de tu voluntad. Sal y arrasa con tus metas. El éxito requiere fuego; tú eres el incendio.",
+            "en": "Your vitality protocol is complete. Tiredness is an opinion, energy is a decision of your will. Go out and conquer your goals. Success requires fire; you are the blaze."
           },
           "color": "#f87171"
         }
