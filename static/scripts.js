@@ -1,7 +1,5 @@
-/* ============================================================
-MAYKAMI NEUROGAME ENGINE V9.0 - TOTAL SECURITY & BIOMETRIC SYNC
-URL: https://onrender.com
-============================================================ */
+/* ================= PARTE 1 DE 2: ESTRUCTURA DE CONTROL Y SEGURIDAD NATIVA ================= */
+
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
@@ -17,6 +15,8 @@ const isAdmin = urlParams.get('auth') === 'admin';
 const isOpenThanGo = urlParams.get('auth') === 'openthango';
 
 let currentLang = "ESP"; 
+let slideIndex = 0;
+
 const translations = {
     "Listo para iniciar sesión": "Ready to start session",
     "SISTEMA DESBLOQUEADO (ADMIN)": "SYSTEM UNLOCKED (ADMIN)",
@@ -45,50 +45,14 @@ function translateText(text) {
     return t;
 }
 
-/* ================= PARTE 1 DE 2: INTERCEPTOR GESTUAL LIMPIO ================= */
-
-// 1. Agrega esta variable de control al inicio de tu archivo static/scripts.js:
-let isDoubleTapUnlocked = false;
-
-// 2. Coloca este bloque exacto justo debajo de tu función checkAccess() original:
-let lastTap = 0;
-document.body.addEventListener('click', function (e) {
-    if (e.target.tagName === 'BUTTON') return;
-    
-    const currentTime = new Date().getTime();
-    const tapLength = currentTime - lastTap;
-    
-    if (tapLength < 300 && tapLength > 0) {
-        const userIn = prompt(currentLang === "ESP" ? "Usuario de Open Than Go:" : "Open Than Go Username:");
-        if (userIn) {
-            const passIn = prompt(currentLang === "ESP" ? "Contraseña de Open Than Go:" : "Open Than Go Password:");
-            
-            if (userIn.trim() !== "" && passIn.trim() !== "") {
-                isDoubleTapUnlocked = true;
-                
-                // Forzamos el texto plano directamente en el HTML para evitar llamadas fallidas
-                if (currentLang === "ESP") {
-                    block.innerHTML = "SISTEMA DESBLOQUEADO (OPEN THAN GO)";
-                } else {
-                    block.innerHTML = "SYSTEM UNLOCKED (OPEN THAN GO)";
-                }
-                startBtn.style.display = "inline-block";
-                localStorage.setItem("maykami_verified", "true");
-            }
-        }
-        e.preventDefault();
-    }
-    lastTap = currentTime;
-});
-/* ================= PARTE 2 DE 2: VALIDACIÓN DE ACCESO CORREGIDA ================= */
 async function checkAccess() {
-    // Si ya se desbloqueó por doble toque o por los parámetros correctos de la URL
+    // Retorna el flujo a tus condiciones lógicas originales
     if (isAdmin || isOpenThanGo || isDoubleTapUnlocked) {
         try {
             const res = await fetch("/validate-access", { method: "POST" });
             if (!res.ok) {
                 const data = await res.json();
-                block.innerHTML = data.error || (currentLang === "ESP" ? "Cupos agotados." : "Slots exhausted.");
+                block.innerHTML = data.error || "Cupos agotados.";
                 return false;
             }
         } catch (e) {
@@ -96,37 +60,41 @@ async function checkAccess() {
         }
 
         localStorage.setItem("maykami_verified", "true");
-        
-        // Asignación de texto limpia y directa para evitar fallos de traducción
-        if (isAdmin) {
-            block.innerHTML = currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)";
-        } else {
-            block.innerHTML = currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)";
+        block.innerHTML = isAdmin ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SISTEMA DESBLOQUEADO (OPEN THAN GO)";
+        if (currentLang === "ENG") {
+            block.innerHTML = translations[block.innerHTML] || block.innerHTML;
         }
-        
         startBtn.style.display = "inline-block";
         return true;
     }
     
-    // Validación de sesión guardada localmente
     if (localStorage.getItem("maykami_verified") === "true") {
         startBtn.style.display = "inline-block";
         block.innerHTML = currentLang === "ESP" ? "Sesión activa previamente validada." : "Active session previously verified.";
         return true;
     }
 
-    // Texto de bloqueo por defecto si no hay credenciales válidas
     block.innerHTML = currentLang === "ESP" ? 
         "ACCESO DENEGADO. Inicie sesión desde Open Than Go o contacte al desarrollador." : 
         "ACCESS DENIED. Please log in via Open Than Go or contact the developer.";
     startBtn.style.display = "none";
     return false;
 }
+/* ================= PARTE 2 DE 2: MOTOR DE EJERCICIOS Y SINCRONIZACIÓN BIOMÉDICA ================= */
+
+/* ================= AUDIO BACKGROUND ================= */
+const bgMusic = new Audio("https://soundhelix.com");
+bgMusic.loop = true;
+bgMusic.volume = 0.03;
+function playMusic() {
+    bgMusic.play().catch(() => {
+        document.body.addEventListener("click", () => { bgMusic.play(); }, { once: true });
+    });
+}
 
 /* ================= ENGINE CORE ================= */
 let engine = { locked: false, abort: false, timers: new Set(), breathLoop: null, session: null };
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || { sessionId: 1, step: 0, disciplina: 40 };
-let slideIndex = 0;
 
 function safeTimeout(fn, t) {
     const id = setTimeout(() => { engine.timers.delete(id); fn(); }, t);
@@ -154,6 +122,7 @@ function speak(text) {
         utter.rate = currentLang === "ESP" ? 0.88 : 0.82;
         utter.pitch = 0.95;
         
+        // El círculo arranca en perfecto orden al mismo tiempo que la voz empieza a hablar
         utter.onstart = () => {
             const sec = extractSeconds(cleanText);
             const hold = cleanText.toLowerCase().includes("retén") || cleanText.toLowerCase().includes("retiene");
@@ -170,12 +139,14 @@ function speak(text) {
 
 function extractSeconds(text) {
     const match = text.match(/(\d{1,3})\s*(segundos|seg|s|seconds|sec)/i);
-    return match ? parseInt(match[1]) : null;
+    return match ? parseInt(match) : null;
 }
 
 /* ================= RITMO BIOMÉDICO CONTROLADO (PULMÓN REAL) ================= */
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
+    
+    // Tiempos fijos que imitan un pulmón adulto real en relajación para evitar hiperventilación
     const inhalePeriod = 2500; 
     const holdPeriod = forceHold ? 1500 : 0;
     const exhalePeriod = 2500;
@@ -246,6 +217,7 @@ async function runStep() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
+    // ORDEN REQUERIDO: 1° Letras impresas, 2° Entra la voz junto con la animación del círculo
     if (step.textos?.length) {
         for (const t of step.textos) {
             if (engine.abort) break;
@@ -299,30 +271,29 @@ langBtn.onclick = () => {
     if (currentLang === "ESP") {
         currentLang = "ENG";
         langBtn.textContent = "ESP";
-    disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
-} else {
-    currentLang = "ESP";
-    langBtn.textContent = "ENG";
-    disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
-}
-
-startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
-backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
-nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
-restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
-
-if (startBtn.style.display !== "none" && userData.step === 0) {
-    block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
-}
+        if (disclaimerText) disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
+    } else {
+        currentLang = "ESP";
+        langBtn.textContent = "ENG";
+        if (disclaimerText) disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
+    }
+    
+    startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
+    backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
+    nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
+    restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
+    
+    if(startBtn.style.display !== "none" && userData.step === 0) {
+        block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
+    }
 };
 
-/* ================= UI & GALERÍA VISUAL RECTIFICADA ================= */
+/* ================= UI & GALERÍA VISUAL NATIVA ================= */
 function initGallery() {
     gallery.innerHTML = "";
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        // CORRECCIÓN: Se añaden las comillas invertidas y se reestructura la URL rota de picsum
         div.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)), url(https://picsum.photos{i})`;
         div.style.backgroundSize = "cover";
         div.style.backgroundPosition = "center";
@@ -334,7 +305,7 @@ function initGallery() {
     if (firstSlide) {
         firstSlide.classList.add("active");
     }
-    
+
     setInterval(() => {
         const all = document.querySelectorAll(".slide");
         if (all.length === 0) return;
