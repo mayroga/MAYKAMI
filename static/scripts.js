@@ -21,6 +21,7 @@ const motherAppBtn = document.getElementById("mother-app-btn");
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
 const isPagoOk = urlParams.get('pago') === 'exitoso';
+const isMotherApp = urlParams.get('token') !== null; // <--- NUEVO: Detecta si viene de Open Than Go              
 
 // Idioma por defecto en Español
 let currentLang = localStorage.getItem("maykamiLang") || "es";
@@ -31,6 +32,7 @@ const translations = {
         ready: "Listo para iniciar sesión",
         admin_access: "¿Ingresar como Administrador?",
         unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
+        mother_authorized: "SISTEMA AUTORIZADO DESDE OPEN THAN GO",
         closed: "SISTEMA CERRADO.<br><small>Apertura: 9:00 AM/PM (Cobro 10 min antes).</small>",
         taquilla: "TAQUILLA ABIERTA.<br><small>Adquiera su acceso para comenzar.</small>",
         connecting: "Conectando con la pasarela de pago segura...",
@@ -52,6 +54,7 @@ const translations = {
         ready: "Ready to start session",
         admin_access: "Login as Administrator?",
         unlocked: "SYSTEM UNLOCKED (ADMIN)",
+        mother_authorized: "SYSTEM AUTHORIZED FROM OPEN THAN GO",
         closed: "SYSTEM CLOSED.<br><small>Opening: 9:00 AM/PM (Checkout 10 min prior).</small>",
         taquilla: "BOX OFFICE OPEN.<br><small>Acquire your access to begin.</small>",
         connecting: "Connecting to secure payment gateway...",
@@ -108,8 +111,9 @@ function irAppMadre() {
 }
 
 function checkAccess() {
-    if (isAdmin || isPagoOk) {
+    if (isAdmin || isPagoOk || isMotherApp) { // <--- AÑADIDO isMotherApp
         if (isAdmin) block.innerHTML = t("unlocked");
+        if (isMotherApp) block.innerHTML = t("mother_authorized");
         startBtn.style.display = "inline-block";
         if (payBtn) payBtn.style.display = "none";
         return true;
