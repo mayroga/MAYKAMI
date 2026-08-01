@@ -1,4 +1,3 @@
-# app.py
 import os
 import json
 import stripe
@@ -34,6 +33,7 @@ registro_sesion = {"id_actual": "", "contador": 0}
 def obtener_info_tiempo():
     ahora = datetime.now(TIMEZONE)
     h, m = ahora.hour, ahora.minute
+    # Ventana de cobro: 10 min antes (8:50-9:15 y 20:50-21:15)
     es_ventana_am = (h == 8 and m >= 50) or (h == 9 and m <= 15)
     es_ventana_pm = (h == 20 and m >= 50) or (h == 21 and m <= 15)
    
@@ -41,6 +41,7 @@ def obtener_info_tiempo():
     id_unico_turno = f"{ahora.strftime('%Y-%m-%d')}_{turno}"
     return turno, id_unico_turno
 
+# --- SEGURIDAD: ENTRADA GRATIS ADMIN ---
 def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
     if credentials.username != ADMIN_USER or credentials.password != ADMIN_PASS:
         raise HTTPException(
@@ -50,6 +51,7 @@ def autenticar_admin(credentials: HTTPBasicCredentials = Depends(security)):
         )
     return True
 
+# --- RUTAS ---
 @app.get("/", response_class=HTMLResponse)
 async def home():
     with open(STATIC_DIR / "session.html", "r", encoding="utf-8") as f:
@@ -57,6 +59,7 @@ async def home():
 
 @app.get("/admin")
 async def login_gratis(user: str = Depends(autenticar_admin)):
+    """Redirección directa del servidor: al autenticar, manda a la app con el bypass"""
     return RedirectResponse(url="/static/session.html?auth=admin")
 
 @app.post("/checkout")
