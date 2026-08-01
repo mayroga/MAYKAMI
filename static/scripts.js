@@ -1,11 +1,4 @@
-/* ============================================================
-   FRONTEND LOGIC (static/scripts.js) ACTUALIZADO
-   - Traducción total de texto y voz desde el inicio mediante botón.
-   - Movimiento circular de respiración natural restaurado.
-   - Sincronización estricta: la voz se emite estrictamente DESPUÉS de completarse el tipeo en pantalla.
-   - Integración con Open Than Go como aplicación madre.
-============================================================ */
-
+/* static/scripts.js */
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
@@ -16,23 +9,16 @@ const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
 const payBtn = document.getElementById("pay-btn");
 const langBtn = document.getElementById("lang-btn");
-const motherAppBtn = document.getElementById("mother-app-btn");
 
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
 const isPagoOk = urlParams.get('pago') === 'exitoso';
-const isMotherApp = urlParams.get('token') !== null; // <--- NUEVO: Detecta si viene de Open Than Go              
 
-// Idioma por defecto en Español
 let currentLang = localStorage.getItem("maykamiLang") || "es";
 
 const translations = {
     es: {
-        circle_title: "MAYKAMI",
         ready: "Listo para iniciar sesión",
-        admin_access: "¿Ingresar como Administrador?",
-        unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
-        mother_authorized: "SISTEMA AUTORIZADO DESDE OPEN THAN GO",
         closed: "SISTEMA CERRADO.<br><small>Apertura: 9:00 AM/PM (Cobro 10 min antes).</small>",
         taquilla: "TAQUILLA ABIERTA.<br><small>Adquiera su acceso para comenzar.</small>",
         connecting: "Conectando con la pasarela de pago segura...",
@@ -45,16 +31,14 @@ const translations = {
         back: "Atrás",
         next: "Siguiente",
         restart: "Reiniciar",
-        stripe_btn: "Stripe ($5.99)",
-        lang_label: "Idioma: ES / EN",
+        pay: "Acceso Premium",
+        lang: "English",
+        admin_prompt: "¿Ingresar como Administrador?",
+        unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
         lang_changed: "Idioma cambiado a español"
     },
     en: {
-        circle_title: "MAYKAMI",
         ready: "Ready to start session",
-        admin_access: "Login as Administrator?",
-        unlocked: "SYSTEM UNLOCKED (ADMIN)",
-        mother_authorized: "SYSTEM AUTHORIZED FROM OPEN THAN GO",
         closed: "SYSTEM CLOSED.<br><small>Opening: 9:00 AM/PM (Checkout 10 min prior).</small>",
         taquilla: "BOX OFFICE OPEN.<br><small>Acquire your access to begin.</small>",
         connecting: "Connecting to secure payment gateway...",
@@ -67,8 +51,10 @@ const translations = {
         back: "Back",
         next: "Next",
         restart: "Restart",
-        stripe_btn: "Stripe ($5.99)",
-        lang_label: "Language: EN / ES",
+        pay: "Premium Access",
+        lang: "Español",
+        admin_prompt: "Login as Administrator?",
+        unlocked: "SYSTEM UNLOCKED (ADMIN)",
         lang_changed: "Language changed to English"
     }
 };
@@ -82,10 +68,11 @@ function updateUItexts() {
     if (backBtn) backBtn.textContent = t("back");
     if (nextBtn) nextBtn.textContent = t("next");
     if (restartBtn) restartBtn.textContent = t("restart");
-    if (payBtn) payBtn.textContent = t("stripe_btn");
-    if (langBtn) langBtn.textContent = t("lang_label");
-    if (circle) circle.textContent = t("circle_title");
-    
+    if (payBtn) payBtn.textContent = t("pay");
+    if (langBtn) langBtn.textContent = t("lang");
+    if (circle.textContent === "MAYKAMI" || circle.textContent === "Inhala" || circle.textContent === "Exhala" || circle.textContent === "Retén" || circle.textContent === "Inhale" || circle.textContent === "Exhale" || circle.textContent === "Hold") {
+        // Keep circle title or dynamic state
+    }
     if (block.textContent.includes("Listo") || block.textContent.includes("Ready")) {
         block.innerHTML = t("ready");
     }
@@ -98,22 +85,15 @@ function toggleLanguage() {
     speak(t("lang_changed"));
 }
 
-/* ================= CONTROL DE ACCESO & APP MADRE ================= */
-
 circle.onclick = () => {
-    if (confirm(t("admin_access"))) {
+    if (confirm(t("admin_prompt"))) {
         window.location.href = "/admin";
     }
 };
 
-function irAppMadre() {
-    window.location.href = "https://openthango.com";
-}
-
 function checkAccess() {
-    if (isAdmin || isPagoOk || isMotherApp) { // <--- AÑADIDO isMotherApp
+    if (isAdmin || isPagoOk) {
         if (isAdmin) block.innerHTML = t("unlocked");
-        if (isMotherApp) block.innerHTML = t("mother_authorized");
         startBtn.style.display = "inline-block";
         if (payBtn) payBtn.style.display = "none";
         return true;
@@ -149,8 +129,6 @@ async function iniciarPago() {
         }
     } catch (err) { console.error("Error Stripe:", err); }
 }
-
-/* ================= AUDIO & ENGINE CORE ================= */
 
 const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
@@ -196,12 +174,10 @@ function resetEngine() {
     startBreathing(null, false);
 }
 
-/* 🔊 VOZ EJECUTADA ESTRICTAMENTE DESPUÉS DE LAS LETRAS */
 function speak(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
-        const cleanText = text.replace(/<[^>]*>/g, "");
-        const utter = new SpeechSynthesisUtterance(cleanText);
+        const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
         utter.lang = currentLang === "es" ? "es-ES" : "en-US";
         utter.rate = 0.88;
         utter.pitch = 0.95;
@@ -216,7 +192,6 @@ function extractSeconds(text) {
     return match ? parseInt(match[1]) : null;
 }
 
-/* ================= MOVIMIENTO DE RESPIRACIÓN NATURAL (CÍRCULO ORIGINAL) ================= */
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
     const cycle = 3400;
@@ -225,7 +200,6 @@ function startBreathing(seconds = null, forceHold = false) {
 
     function loop() {
         if (engine.abort || (Date.now() - start >= duration)) return;
-        
         circle.className = "inhale";
         circle.textContent = t("inhale");
 
@@ -292,22 +266,45 @@ async function runStep() {
             const sec = extractSeconds(tItem);
             const hold = tItem.toLowerCase().includes("retén") || tItem.toLowerCase().includes("hold");
 
-            // 1. PRIMERO APARECEN LAS LETRAS EN PANTALLA
-            await typeText(tItem);
-            // 2. DESPUÉS SE REPRODUCE LA VOZ
             await speak(tItem);
+            await typeText(tItem);
 
             if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(tItem)) startBreathing(sec || 8, hold);
             await new Promise(r => safeTimeout(r, 600));
         }
+    } else if (step.tipo === "decision") {
+        await speak(step.pregunta);
+        await typeText(step.pregunta);
+
+        const box = document.createElement("div");
+        box.className = "decision-box";
+
+        step.opciones.forEach((opt, i) => {
+            const btn = document.createElement("button");
+            btn.className = "opt-btn";
+            btn.textContent = opt;
+
+            btn.onclick = async () => {
+                const ok = i === step.correcta;
+                const msg = (ok ? "Correcto. " : "Incorrecto. ") + step.explicacion;
+
+                await speak(msg);
+                await typeText(msg);
+
+                if (ok) userData.disciplina += 5;
+                save();
+            };
+
+            box.appendChild(btn);
+        });
+
+        block.appendChild(box);
     } else if (textoMostrar) {
         const sec = extractSeconds(textoMostrar);
         const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("hold");
 
-        // 1. PRIMERO APARECEN LAS LETRAS
-        await typeText(textoMostrar);
-        // 2. DESPUÉS HABLA LA VOZ
         await speak(textoMostrar);
+        await typeText(textoMostrar);
 
         if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(textoMostrar)) startBreathing(sec || 8, hold);
     }
@@ -365,6 +362,7 @@ nextBtn.onclick = () => { userData.step++; save(); runStep(); };
 backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
 restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
 if (payBtn) payBtn.onclick = iniciarPago;
+if (langBtn) langBtn.onclick = toggleLanguage;
 
 updateUItexts();
 checkAccess();
