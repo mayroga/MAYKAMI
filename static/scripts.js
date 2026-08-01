@@ -1,103 +1,178 @@
-/* ================= PARTE 1 DE 2: ESTRUCTURA DE CONTROL Y SEGURIDAD NATIVA ================= */
+/* ============================================================
+   MAYKAMI NEUROGAME ENGINE V9.0 - OPEN THAN GO INTEGRATED
+   URL: https://maykami.onrender.com
+============================================================ */
 
 const gallery = document.getElementById("visual-gallery");
 const circle = document.getElementById("visual-circle");
 const block = document.getElementById("block");
+
 const startBtn = document.getElementById("start-btn");
 const nextBtn = document.getElementById("next-btn");
 const backBtn = document.getElementById("back-btn");
 const restartBtn = document.getElementById("restart-btn");
+const payBtn = document.getElementById("pay-btn");
+const openThanGoBtn = document.getElementById("open-than-go-btn");
 const langBtn = document.getElementById("lang-btn");
-const disclaimerText = document.getElementById("disclaimer-text");
 
 const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
-const isOpenThanGo = urlParams.get('auth') === 'openthango';
+const isPagoOk = urlParams.get('pago') === 'exitoso';
 
-let currentLang = "ESP"; 
-let slideIndex = 0;
+// Estado de Idioma (Por defecto Español, soporte Inglés)
+let currentLang = localStorage.getItem("maykamiLang") || "es";
 
 const translations = {
-    "Listo para iniciar sesión": "Ready to start session",
-    "SISTEMA DESBLOQUEADO (ADMIN)": "SYSTEM UNLOCKED (ADMIN)",
-    "SISTEMA DESBLOQUEADO (OPEN THAN GO)": "SYSTEM UNLOCKED (OPEN THAN GO)",
-    "ACCESO DENEGADO. Inicie sesión desde Open Than Go o contacte al desarrollador.": "ACCESS DENIED. Please log in via Open Than Go or contact the developer.",
-    "Sesión completada exitosamente. Hasta mañana.": "Session successfully completed. See you tomorrow.",
-    "Correcto. ": "Correct. ",
-    "Incorrecto. ": "Incorrect. ",
-    "Inhala": "Inhale",
-    "Retén": "Hold",
-    "Exhala": "Exhale",
-    "Iniciar": "Start",
-    "Atrás": "Back",
-    "Siguiente": "Next",
-    "Reiniciar": "Restart"
+    es: {
+        ready: "Listo para iniciar sesión",
+        admin_access: "¿Ingresar como Administrador?",
+        unlocked: "SISTEMA DESBLOQUEADO (ADMIN)",
+        closed: "SISTEMA CERRADO.<br><small>Apertura: 9:00 AM/PM (Cobro 10 min antes).</small>",
+        taquilla: "TAQUILLA ABIERTA.<br><small>Adquiera su acceso para comenzar.</small>",
+        connecting: "Conectando con la pasarela de pago segura...",
+        error_payment: "Error en el pago.",
+        completed: "Sesión completada exitosamente. Hasta mañana.",
+        inhale: "Inhala",
+        exhale: "Exhala",
+        hold: "Retén",
+        start: "Iniciar",
+        back: "Atrás",
+        next: "Siguiente",
+        restart: "Reiniciar",
+        stripe_btn: "Stripe ($5.99)"
+    },
+    en: {
+        ready: "Ready to start session",
+        admin_access: "Login as Administrator?",
+        unlocked: "SYSTEM UNLOCKED (ADMIN)",
+        closed: "SYSTEM CLOSED.<br><small>Opening: 9:00 AM/PM (Checkout 10 min prior).</small>",
+        taquilla: "BOX OFFICE OPEN.<br><small>Acquire your access to begin.</small>",
+        connecting: "Connecting to secure payment gateway...",
+        error_payment: "Payment error.",
+        completed: "Session completed successfully. See you tomorrow.",
+        inhale: "Inhale",
+        exhale: "Exhale",
+        hold: "Hold",
+        start: "Start",
+        back: "Back",
+        next: "Next",
+        restart: "Restart",
+        stripe_btn: "Stripe ($5.99)"
+    }
 };
 
-function translateText(text) {
-    if (currentLang === "ESP") return text;
-    let t = text;
-    t = t.replace(/inhala|respira de forma profunda/ig, "inhale deeply");
-    t = t.replace(/retén el aire|retiene|mantén/ig, "hold your breath");
-    t = t.replace(/exhala|suelta el aire lentamente/ig, "exhale slowly");
-    t = t.replace(/segundos|seg|s/ig, "seconds");
-    t = t.replace(/bloque de decisión|selecciona una opción/ig, "decision block, choose an option");
-    return t;
+function t(key) {
+    return translations[currentLang][key] || key;
 }
 
-async function checkAccess() {
-    // Retorna el flujo a tus condiciones lógicas originales
-    if (isAdmin || isOpenThanGo || isDoubleTapUnlocked) {
-        try {
-            const res = await fetch("/validate-access", { method: "POST" });
-            if (!res.ok) {
-                const data = await res.json();
-                block.innerHTML = data.error || "Cupos agotados.";
-                return false;
-            }
-        } catch (e) {
-            console.error("Error validando cupos:", e);
-        }
+function updateUItexts() {
+    if (startBtn) startBtn.textContent = t("start");
+    if (backBtn) backBtn.textContent = t("back");
+    if (nextBtn) nextBtn.textContent = t("next");
+    if (restartBtn) restartBtn.textContent = t("restart");
+    if (payBtn) payBtn.textContent = t("stripe_btn");
+    if (block.textContent.includes("Listo") || block.textContent.includes("Ready")) {
+        block.innerHTML = t("ready");
+    }
+}
 
-        localStorage.setItem("maykami_verified", "true");
-        block.innerHTML = isAdmin ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SISTEMA DESBLOQUEADO (OPEN THAN GO)";
-        if (currentLang === "ENG") {
-            block.innerHTML = translations[block.innerHTML] || block.innerHTML;
-        }
+function toggleLanguage() {
+    currentLang = currentLang === "es" ? "en" : "es";
+    localStorage.setItem("maykamiLang", currentLang);
+    updateUItexts();
+    speak(currentLang === "es" ? "Idioma cambiado a español" : "Language changed to English");
+}
+
+/* ================= ACCESO Y SEGURIDAD ================= */
+
+circle.onclick = () => {
+    if (confirm(t("admin_access"))) {
+        window.location.href = "/admin";
+    }
+};
+
+function irOpenThanGo() {
+    window.location.href = "/open-than-go-access";
+}
+
+function checkAccess() {
+    if (isAdmin || isPagoOk) {
+        if (isAdmin) block.innerHTML = t("unlocked");
         startBtn.style.display = "inline-block";
+        if (payBtn) payBtn.style.display = "none";
         return true;
     }
-    
-    if (localStorage.getItem("maykami_verified") === "true") {
-        startBtn.style.display = "inline-block";
-        block.innerHTML = currentLang === "ESP" ? "Sesión activa previamente validada." : "Active session previously verified.";
-        return true;
+
+    const ahora = new Date();
+    const h = ahora.getHours();
+    const m = ahora.getMinutes();
+    const esVentana = (h === 8 && m >= 50) || (h === 9 && m <= 15) || (h === 20 && m >= 50) || (h === 21 && m <= 15);
+
+    if (!esVentana) {
+        block.innerHTML = t("closed");
+        startBtn.style.display = "none";
+        if (payBtn) payBtn.style.display = "none";
+        return false;
     }
 
-    block.innerHTML = currentLang === "ESP" ? 
-        "ACCESO DENEGADO. Inicie sesión desde Open Than Go o contacte al desarrollador." : 
-        "ACCESS DENIED. Please log in via Open Than Go or contact the developer.";
+    block.innerHTML = t("taquilla");
     startBtn.style.display = "none";
+    if (payBtn) payBtn.style.display = "inline-block";
     return false;
 }
-/* ================= PARTE 2 DE 2: MOTOR DE EJERCICIOS Y SINCRONIZACIÓN BIOMÉDICA ================= */
 
-/* ================= AUDIO BACKGROUND ================= */
-const bgMusic = new Audio("https://soundhelix.com");
+/* ================= SISTEMA DE PAGO (STRIPE) ================= */
+
+async function iniciarPago() {
+    block.innerHTML = t("connecting");
+    try {
+        const response = await fetch("/checkout", { method: "POST" });
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            alert(data.error || t("error_payment"));
+        }
+    } catch (err) { console.error("Error Stripe:", err); }
+}
+
+/* ================= AUDIO ANTI-STRESS ================= */
+
+const bgMusic = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3");
 bgMusic.loop = true;
-bgMusic.volume = 0.03;
+bgMusic.volume = 0.04;
+
 function playMusic() {
     bgMusic.play().catch(() => {
-        document.body.addEventListener("click", () => { bgMusic.play(); }, { once: true });
+        document.body.addEventListener("click", () => {
+            bgMusic.play();
+        }, { once: true });
     });
 }
 
 /* ================= ENGINE CORE ================= */
-let engine = { locked: false, abort: false, timers: new Set(), breathLoop: null, session: null };
-let userData = JSON.parse(localStorage.getItem("maykamiData")) || { sessionId: 1, step: 0, disciplina: 40 };
+
+let engine = {
+    locked: false,
+    abort: false,
+    timers: new Set(),
+    breathLoop: null,
+    session: null
+};
+
+let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
+    sessionId: 1,
+    step: 0,
+    disciplina: 40
+};
+
+let slideIndex = 0;
 
 function safeTimeout(fn, t) {
-    const id = setTimeout(() => { engine.timers.delete(id); fn(); }, t);
+    const id = setTimeout(() => {
+        engine.timers.delete(id);
+        fn();
+    }, t);
     engine.timers.add(id);
 }
 
@@ -106,31 +181,17 @@ function resetEngine() {
     window.speechSynthesis.cancel();
     engine.timers.forEach(t => clearTimeout(t));
     engine.timers.clear();
-    clearInterval(engine.breathLoop);
-    circle.className = "";
-    circle.textContent = "MAYKAMI";
+    startBreathing(null, false);
 }
 
 function speak(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
         const cleanText = text.replace(/<[^>]*>/g, "");
-        const translatedSpeech = translateText(cleanText);
-        const utter = new SpeechSynthesisUtterance(translatedSpeech);
-        
-        utter.lang = currentLang === "ESP" ? "es-ES" : "en-US";
-        utter.rate = currentLang === "ESP" ? 0.88 : 0.82;
+        const utter = new SpeechSynthesisUtterance(cleanText);
+        utter.lang = currentLang === "es" ? "es-ES" : "en-US";
+        utter.rate = 0.88;
         utter.pitch = 0.95;
-        
-        // El círculo arranca en perfecto orden al mismo tiempo que la voz empieza a hablar
-        utter.onstart = () => {
-            const sec = extractSeconds(cleanText);
-            const hold = cleanText.toLowerCase().includes("retén") || cleanText.toLowerCase().includes("retiene");
-            if (/respira|inhala|exhala|breath|inhale|exhale/i.test(cleanText)) {
-                startBreathing(sec || 8, hold);
-            }
-        };
-        
         utter.onend = resolve;
         utter.onerror = resolve;
         window.speechSynthesis.speak(utter);
@@ -138,70 +199,64 @@ function speak(text) {
 }
 
 function extractSeconds(text) {
-    const match = text.match(/(\d{1,3})\s*(segundos|seg|s|seconds|sec)/i);
-    return match ? parseInt(match) : null;
+    const match = text.match(/(\d{1,3})\s*(segundos|seg|s|seconds)/i);
+    return match ? parseInt(match[1]) : null;
 }
 
-/* ================= RITMO BIOMÉDICO CONTROLADO (PULMÓN REAL) ================= */
+/* ================= ANIMACIÓN PULMÓN HUMANO ================= */
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
-    
-    // Tiempos fijos que imitan un pulmón adulto real en relajación para evitar hiperventilación
-    const inhalePeriod = 2500; 
-    const holdPeriod = forceHold ? 1500 : 0;
-    const exhalePeriod = 2500;
-
+    const cycle = 3400;
     const start = Date.now();
     const duration = seconds ? seconds * 1000 : Infinity;
 
     function loop() {
-        if (engine.abort || (Date.now() - start >= duration)) {
-            circle.className = "";
-            circle.textContent = "MAYKAMI";
-            return;
-        }
-
-        circle.className = "inhale";
-        circle.textContent = currentLang === "ESP" ? "Inhala" : "Inhale";
+        if (engine.abort || (Date.now() - start >= duration)) return;
         
+        // Inhalación (Expansión natural de los pulmones)
+        circle.className = "inhale-lung";
+        circle.textContent = t("inhale");
+
         safeTimeout(() => {
-            if (engine.abort) return;
             if (forceHold) {
-                circle.className = "hold";
-                circle.textContent = currentLang === "ESP" ? "Retén" : "Hold";
+                circle.className = "hold-lung";
+                circle.textContent = t("hold");
             }
-            
+
             safeTimeout(() => {
-                if (engine.abort) return;
-                circle.className = "exhale";
-                circle.textContent = currentLang === "ESP" ? "Exhala" : "Exhale";
-                
-                safeTimeout(loop, exhalePeriod);
-            }, holdPeriod);
-        }, inhalePeriod);
+                // Exhalación (Contracción natural de los pulmones)
+                circle.className = "exhale-lung";
+                circle.textContent = t("exhale");
+                safeTimeout(loop, cycle * 0.4);
+            }, forceHold ? cycle * 0.2 : 0);
+
+        }, cycle * 0.4);
     }
+
     loop();
 }
 
 async function typeText(text) {
     block.innerHTML = "";
-    const processedText = translateText(text);
-    for (let i = 0; i < processedText.length; i++) {
+    for (let i = 0; i < text.length; i++) {
         if (engine.abort) return;
-        block.innerHTML += processedText[i];
+        block.innerHTML += text[i];
         await new Promise(r => safeTimeout(r, 12));
     }
 }
 
-/* ================= EJECUCIÓN PASO A PASO ================= */
+/* ================= DATA EXECUTION ================= */
+
 async function loadSession() {
     try {
         const res = await fetch("/tvid_ejercicio.json");
         const data = await res.json();
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
-        engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones;
-    } catch (e) { console.error("Error JSON:", e); }
+        engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
+    } catch (e) {
+        console.error("Error JSON:", e);
+    }
 }
 
 async function runStep() {
@@ -209,115 +264,85 @@ async function runStep() {
     engine.locked = true;
     resetEngine();
     engine.abort = false;
-    
+
     const step = engine.session?.bloques?.[userData.step];
     if (!step) { finish(); return; }
-    
+
     nextBtn.style.display = "inline-block";
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    // ORDEN REQUERIDO: 1° Letras impresas, 2° Entra la voz junto con la animación del círculo
+    let textoMostrar = step.texto || (step.textos ? step.textos[0] : "");
+    if (currentLang === "en" && step.texto_en) {
+        textoMostrar = step.texto_en;
+    }
+
     if (step.textos?.length) {
         for (const t of step.textos) {
             if (engine.abort) break;
-            await typeText(t);
+            const sec = extractSeconds(t);
+            const hold = t.toLowerCase().includes("retén") || t.toLowerCase().includes("retiene") || t.toLowerCase().includes("hold");
+
             await speak(t);
-            await new Promise(r => safeTimeout(r, 800));
+            await typeText(t);
+
+            if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(t)) startBreathing(sec || 8, hold);
+            await new Promise(r => safeTimeout(r, 600));
         }
-    } else if (step.tipo === "decision") {
-        const preguntaOriginal = step.pregunta;
-        await typeText(preguntaOriginal);
-        await speak(preguntaOriginal);
-        
-        const box = document.createElement("div");
-        box.className = "decision-box";
-        step.opciones.forEach((opt, i) => {
-            const btn = document.createElement("button");
-            btn.className = "opt-btn";
-            btn.textContent = translateText(opt);
-            btn.onclick = async () => {
-                const ok = i === step.correcta;
-                const msg = (ok ? translations["Correcto. "] : translations["Incorrecto. "]) + step.explicacion;
-                await typeText(msg);
-                await speak(msg);
-                if (ok) userData.disciplina += 5;
-                save();
-            };
-            box.appendChild(btn);
-        });
-        block.appendChild(box);
-    } else if (step.texto) {
-        await typeText(step.texto);
-        await speak(step.texto);
+    } else if (textoMostrar) {
+        const sec = extractSeconds(textoMostrar);
+        const hold = textoMostrar.toLowerCase().includes("retén") || textoMostrar.toLowerCase().includes("retiene") || textoMostrar.toLowerCase().includes("hold");
+
+        await speak(textoMostrar);
+        await typeText(textoMostrar);
+
+        if (/respira|inhala|exhala|breathe|inhale|exhale/i.test(textoMostrar)) startBreathing(sec || 8, hold);
     }
+
     engine.locked = false;
 }
 
 function finish() {
-    const endMsg = translations["Sesión completada exitosamente. Hasta mañana."];
-    block.innerHTML = currentLang === "ESP" ? endMsg : translations[endMsg];
+    block.innerHTML = t("completed");
     userData.step = 0;
     save();
     engine.locked = false;
 }
 
-function save() { 
-    localStorage.setItem("maykamiData", JSON.stringify(userData)); 
+function save() {
+    localStorage.setItem("maykamiData", JSON.stringify(userData));
 }
 
-/* ================= CAMBIO DE IDIOMA POR SOFTWARE ================= */
-langBtn.onclick = () => {
-    if (currentLang === "ESP") {
-        currentLang = "ENG";
-        langBtn.textContent = "ESP";
-        if (disclaimerText) disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
-    } else {
-        currentLang = "ESP";
-        langBtn.textContent = "ENG";
-        if (disclaimerText) disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
-    }
-    
-    startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
-    backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
-    nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
-    restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
-    
-    if(startBtn.style.display !== "none" && userData.step === 0) {
-        block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
-    }
-};
+/* ================= UI & GALERÍA VISUAL ================= */
 
-/* ================= UI & GALERÍA VISUAL NATIVA ================= */
 function initGallery() {
     gallery.innerHTML = "";
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        div.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)), url(https://picsum.photos{i})`;
+        div.style.backgroundImage = `
+        linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)),
+        url(https://picsum.photos/1920/1080?random=${i})
+        `;
         div.style.backgroundSize = "cover";
         div.style.backgroundPosition = "center";
         div.style.filter = "brightness(1.18) contrast(1.08) saturate(1.1)";
         gallery.appendChild(div);
     }
-    
-    const firstSlide = gallery.querySelector(".slide");
-    if (firstSlide) {
-        firstSlide.classList.add("active");
-    }
+
+    const slides = document.querySelectorAll(".slide");
+    if (slides[0]) slides[0].classList.add("active");
 
     setInterval(() => {
         const all = document.querySelectorAll(".slide");
-        if (all.length === 0) return;
         all.forEach(s => s.classList.remove("active"));
         slideIndex = (slideIndex + 1) % all.length;
-        if (all[slideIndex]) {
-            all[slideIndex].classList.add("active");
-        }
+        if (all[slideIndex]) all[slideIndex].classList.add("active");
     }, 7000);
 }
 
-/* ================= EVENTOS DE BOTONES ================= */
+/* ================= EVENTOS ================= */
+
 startBtn.onclick = async () => {
     startBtn.style.display = "none";
     playMusic();
@@ -330,6 +355,9 @@ startBtn.onclick = async () => {
 nextBtn.onclick = () => { userData.step++; save(); runStep(); };
 backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
 restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
+if (payBtn) payBtn.onclick = iniciarPago;
 
+updateUItexts();
 checkAccess();
+setInterval(checkAccess, 60000);
 save();
