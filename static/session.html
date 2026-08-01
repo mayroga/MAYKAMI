@@ -156,16 +156,6 @@ button:hover {
     background: #d97706;
 }
 
-/* Estilo especial para el botón de idioma */
-#lang-btn {
-    background: #4b5563; /* Gris */
-    color: white;
-}
-
-#lang-btn:hover {
-    background: #374151;
-}
-
 /* ================= MOBILE EXTRA ================= */
 
 @media (max-width: 600px) {
@@ -182,8 +172,8 @@ button:hover {
     }
 
     button {
-        font-size: 0.75rem;
-        padding: 6px;
+        font-size: 0.8rem; /* Un poco más pequeño para que quepan 5 botones */
+        padding: 8px;
         margin: 2px;
     }
 }
@@ -209,7 +199,7 @@ button:hover {
     <button id="back-btn">Atrás</button>
     <button id="next-btn">Siguiente</button>
     <button id="restart-btn">Reiniciar</button>
-    <button id="lang-btn" onclick="toggleLanguage()">English</button>
+    <button id="lang-btn" onclick="toggleUniversalLanguage()">English</button>
 </div>
 
 <script src="/static/scripts.js"></script>
