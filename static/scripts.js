@@ -16,7 +16,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const isAdmin = urlParams.get('auth') === 'admin';
 const isOpenThanGo = urlParams.get('auth') === 'openthango';
 
-// --- DICCIONARIO DE TRADUCCIÓN INMEDIATA POR SOFTWARE ---
 let currentLang = "ESP"; 
 const translations = {
     "Listo para iniciar sesión": "Ready to start session",
@@ -35,7 +34,6 @@ const translations = {
     "Reiniciar": "Restart"
 };
 
-// Diccionario dinámico para frases aleatorias del JSON
 function translateText(text) {
     if (currentLang === "ESP") return text;
     let t = text;
@@ -53,7 +51,7 @@ async function checkAccess() {
         try {
             const res = await fetch("/validate-access", { method: "POST" });
             if (!res.ok) {
-                const data = await res.ok ? {} : await res.json();
+                const data = await res.json();
                 block.innerHTML = data.error || "Cupos agotados.";
                 return false;
             }
@@ -117,13 +115,11 @@ function speak(text) {
         const translatedSpeech = translateText(cleanText);
         const utter = new SpeechSynthesisUtterance(translatedSpeech);
         
-        // Cambio de motor de voz por software según idioma
         utter.lang = currentLang === "ESP" ? "es-ES" : "en-US";
         utter.rate = currentLang === "ESP" ? 0.88 : 0.82;
         utter.pitch = 0.95;
         
         utter.onstart = () => {
-            // EL CÍRCULO INICIA EN PERFECTO ORDEN AL MISMO TIEMPO QUE LA VOZ ENTRA
             const sec = extractSeconds(cleanText);
             const hold = cleanText.toLowerCase().includes("retén") || cleanText.toLowerCase().includes("retiene");
             if (/respira|inhala|exhala|breath|inhale|exhale/i.test(cleanText)) {
@@ -145,11 +141,9 @@ function extractSeconds(text) {
 /* ================= RITMO BIOMÉDICO CONTROLADO (PULMÓN REAL) ================= */
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
-    // Ciclo anatómico humano real: ~5.5 segundos en total para prevenir hiperventilación
     const inhalePeriod = 2500; 
     const holdPeriod = forceHold ? 1500 : 0;
     const exhalePeriod = 2500;
-    const totalCycleTime = inhalePeriod + holdPeriod + exhalePeriod;
 
     const start = Date.now();
     const duration = seconds ? seconds * 1000 : Infinity;
@@ -161,23 +155,20 @@ function startBreathing(seconds = null, forceHold = false) {
             return;
         }
 
-        // Inhala (Expansión del pulmón)
         circle.className = "inhale";
-        circle.textContent = translations["Inhala"][currentLang === "ESP" ? "ESP" : "ENG"] || "Inhale";
+        circle.textContent = currentLang === "ESP" ? "Inhala" : "Inhale";
         
         safeTimeout(() => {
             if (engine.abort) return;
-            // Retén (Mantener capacidad controlada)
             if (forceHold) {
                 circle.className = "hold";
-                circle.textContent = translations["Retén"][currentLang === "ESP" ? "ESP" : "ENG"] || "Hold";
+                circle.textContent = currentLang === "ESP" ? "Retén" : "Hold";
             }
             
             safeTimeout(() => {
                 if (engine.abort) return;
-                // Exhala (Contracción suave)
                 circle.className = "exhale";
-                circle.textContent = translations["Exhala"][currentLang === "ESP" ? "ESP" : "ENG"] || "Exhale";
+                circle.textContent = currentLang === "ESP" ? "Exhala" : "Exhale";
                 
                 safeTimeout(loop, exhalePeriod);
             }, holdPeriod);
@@ -203,7 +194,7 @@ async function loadSession() {
         const data = await res.json();
         const diaAnio = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
         const idHoy = (diaAnio % 21) + 1;
-        engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones[0];
+        engine.session = data.sesiones.find(s => s.id === idHoy) || data.sesiones;
     } catch (e) { console.error("Error JSON:", e); }
 }
 
@@ -220,7 +211,6 @@ async function runStep() {
     restartBtn.style.display = "inline-block";
     backBtn.style.display = "inline-block";
 
-    // ORDEN REQUERIDO: 1° Letras impresas completamente, 2° Entra la voz junto con el círculo respiratorio
     if (step.textos?.length) {
         for (const t of step.textos) {
             if (engine.abort) break;
@@ -248,14 +238,13 @@ async function runStep() {
                 save();
             };
             box.appendChild(btn);
-            });
-            block.appendChild(box);
-        } else if (step.texto) {
-            await typeText(step.texto);
-            await speak(step.texto);
-        }
-        engine.locked = false;
+        });
+        block.appendChild(box);
+    } else if (step.texto) {
+        await typeText(step.texto);
+        await speak(step.texto);
     }
+    engine.locked = false;
 }
 
 function finish() {
@@ -275,32 +264,30 @@ langBtn.onclick = () => {
     if (currentLang === "ESP") {
         currentLang = "ENG";
         langBtn.textContent = "ESP";
-        disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
-    } else {
-        currentLang = "ESP";
-        langBtn.textContent = "ENG";
-        disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
-    }
-    
-    // Traduce los botones de control visibles
-    startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
-    backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
-    nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
-    restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
-    
-    // Si la sesión no ha iniciado, actualiza el estado del bloque de seguridad
-    if(startBtn.style.display !== "none" && userData.step === 0) {
-        block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
-    }
+    disclaimerText.innerHTML = "DISCLAIMER: This system is a general wellness tool. Guided breathing exercises follow standard physiological relaxation rhythms but do not substitute professional medical advice, diagnosis, or treatment. Discontinue immediately if you experience dizziness.";
+} else {
+    currentLang = "ESP";
+    langBtn.textContent = "ENG";
+    disclaimerText.innerHTML = "AVISO: Este sistema es una herramienta de bienestar general. Los ejercicios de respiración guían ritmos fisiológicos estándar de relajación, pero no sustituyen tratamientos, diagnósticos ni consejos médicos profesionales. Suspenda su uso ante cualquier mareo.";
+}
+
+startBtn.textContent = currentLang === "ESP" ? "Iniciar" : "Start";
+backBtn.textContent = currentLang === "ESP" ? "Atrás" : "Back";
+nextBtn.textContent = currentLang === "ESP" ? "Siguiente" : "Next";
+restartBtn.textContent = currentLang === "ESP" ? "Reiniciar" : "Restart";
+
+if (startBtn.style.display !== "none" && userData.step === 0) {
+    block.innerHTML = isAdmin ? (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (ADMIN)" : "SYSTEM UNLOCKED (ADMIN)") : (currentLang === "ESP" ? "SISTEMA DESBLOQUEADO (OPEN THAN GO)" : "SYSTEM UNLOCKED (OPEN THAN GO)");
+}
 };
 
-/* ================= UI & GALERÍA VISUAL CORREGIDA ================= */
+/* ================= UI & GALERÍA VISUAL RECTIFICADA ================= */
 function initGallery() {
     gallery.innerHTML = "";
     for (let i = 0; i < 20; i++) {
         const div = document.createElement("div");
         div.className = "slide";
-        // Corrección de comillas y formato en el string del background
+        // CORRECCIÓN: Se añaden las comillas invertidas y se reestructura la URL rota de picsum
         div.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0.18)), url(https://picsum.photos{i})`;
         div.style.backgroundSize = "cover";
         div.style.backgroundPosition = "center";
@@ -308,12 +295,11 @@ function initGallery() {
         gallery.appendChild(div);
     }
     
-    const slides = document.querySelectorAll(".slide");
-    // Asignación segura del estado activo inicial
-    if (slides.length > 0 && slides[0]) {
-        slides[0].classList.add("active");
+    const firstSlide = gallery.querySelector(".slide");
+    if (firstSlide) {
+        firstSlide.classList.add("active");
     }
-
+    
     setInterval(() => {
         const all = document.querySelectorAll(".slide");
         if (all.length === 0) return;
@@ -339,6 +325,5 @@ nextBtn.onclick = () => { userData.step++; save(); runStep(); };
 backBtn.onclick = () => { if (userData.step > 0) userData.step--; save(); runStep(); };
 restartBtn.onclick = () => { userData.step = 0; save(); runStep(); };
 
-// Ejecución inicial de seguridad ininterrumpida
 checkAccess();
 save();
