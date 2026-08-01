@@ -1,9 +1,12 @@
+<!-- FRONTEND (static/session.html) ACTUALIZADO -->
+<!-- Se restaura la forma circular original y se incluye el botón de idioma desde el inicio -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAYKAMI NeuroGame Engine - Open Than Go</title>
+<title>MAYKAMI NeuroGame Engine</title>
 
 <style>
 body {
@@ -47,40 +50,33 @@ body {
     justify-content: center;
 }
 
-/* ================= CÍRCULO RESPIRATORIO (PULMÓN HUMANO) ================= */
+/* ================= CÍRCULO ORIGINAL CON MOVIMIENTO RESPIRATORIO NATURAL ================= */
 #visual-circle {
-    width: 190px;
-    height: 190px;
-    border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
-    border: 4px solid #38bdf8;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 4px solid #60a5fa;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 20px;
-    transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+    transition: transform 3.5s ease-in-out, background 3.5s ease-in-out;
 }
 
-.inhale-lung {
-    transform: scale(1.35) translateY(-5px);
-    border-radius: 48% 48% 42% 42% / 55% 55% 45% 45%;
-    background: rgba(56, 189, 248, 0.22);
-    box-shadow: 0 0 45px rgba(56, 189, 248, 0.5);
+.inhale {
+    transform: scale(1.35);
+    background: rgba(96,165,250,0.25);
 }
 
-.exhale-lung {
-    transform: scale(0.75) translateY(5px);
-    border-radius: 52% 52% 48% 48% / 65% 65% 35% 35%;
-    background: rgba(239, 68, 68, 0.18);
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+.exhale {
+    transform: scale(0.75);
+    background: rgba(239,68,68,0.25);
 }
 
-.hold-lung {
-    transform: scale(1.15);
-    border-radius: 50%;
-    background: rgba(245, 158, 11, 0.22);
-    box-shadow: 0 0 35px rgba(245, 158, 11, 0.4);
+.hold {
+    transform: scale(1.1);
+    background: rgba(245,158,11,0.25);
 }
 
 #block {
@@ -110,13 +106,13 @@ body {
 
 button {
     flex: 1;
-    margin: 3px;
+    margin: 4px;
     padding: 10px;
     border: none;
     border-radius: 8px;
     background: #2563eb;
     color: white;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
 }
 
@@ -130,31 +126,31 @@ button:hover {
     font-weight: bold;
 }
 
-#open-than-go-btn {
-    background: #10b981;
-    color: #fff;
-    font-weight: bold;
-}
-
 #lang-btn {
     background: #8b5cf6;
     color: #fff;
     font-weight: bold;
 }
 
-@media (max-width: 768px) {
+#mother-app-btn {
+    background: #10b981;
+    color: #fff;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
     #visual-circle {
         width: 140px;
         height: 140px;
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
     #block {
-        height: 140px;
-        font-size: 1rem;
+        height: 150px;
+        font-size: 1.1rem;
     }
     button {
         font-size: 0.75rem;
-        padding: 8px 4px;
+        padding: 8px;
     }
 }
 </style>
@@ -164,14 +160,14 @@ button:hover {
 <div id="visual-gallery"></div>
 
 <div id="ui">
-    <div id="visual-circle">MAYKAMI</div>
+    <div id="visual-circle" data-translate="circle_title">MAYKAMI</div>
     <div id="block" data-translate="ready_text">Listo para iniciar sesión</div>
 </div>
 
 <div class="controls">
-    <button id="open-than-go-btn" onclick="irOpenThanGo()">Open Than Go</button>
+    <button id="mother-app-btn" onclick="irAppMadre()">Open Than Go</button>
+    <button id="lang-btn" onclick="toggleLanguage()">Idioma: ES / EN</button>
     <button id="pay-btn" onclick="iniciarPago()">Stripe ($5.99)</button>
-    <button id="lang-btn" onclick="toggleLanguage()">ES / EN</button>
     <button id="start-btn" data-translate="start_btn">Iniciar</button>
     <button id="back-btn" data-translate="back_btn">Atrás</button>
     <button id="next-btn" data-translate="next_btn">Siguiente</button>
