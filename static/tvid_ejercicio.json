@@ -706,100 +706,97 @@
 ]
 },
 {
-"id":17,
-"categoria":"motivacion",
-"categoria_en":"motivation",
-"bloques":[
-{"tipo":"voz","texto":"Unidad de éxito detectada. Detenga lo externo. Usted es el activo prioritario. Ejecute. Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.","texto_en":"Success unit detected. Stop external noise. You are the priority asset. Execute. Today you train motivation. Make every action bring you closer to your goals.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","titulo_en":"Technique of Good","texto":"Identifica tus metas y actúa ahora con determinación.","texto_en":"Identify your goals and act now with determination.","color":"#06b6d4"},
-{"tipo":"inteligencia_social","texto":"La motivación fortalece tu constancia y actitud positiva. Hoy hazlo con energía y claridad.","texto_en":"Motivation strengthens your consistency and positive attitude. Today do it with energy and clarity.","color":"#0ea5e9"},
-{"tipo":"estrategia","texto":"Piensa en un objetivo actual. Da un paso consciente hacia él.","texto_en":"Think about a current goal. Take a conscious step toward it.","color":"#14b8a6"},
-{"tipo":"historia","texto":"El equipo esperaba una charla inspiradora. El líder llegó, puso el plano sobre la mesa y dijo: 'Si no lo hacemos hoy, mañana seremos olvidados'. No hubo aplausos, hubo acción inmediata. La motivación real no es un grito, es un plano claro y un paso firme. Moraleja: No busque sentir ganas, busque tener resultados.","texto_en":"The team expected an inspiring speech. The leader arrived, placed the plan on the table and said: 'If we do not do it today, tomorrow we will be forgotten'. There were no applause, there was immediate action. Real motivation is not a shout, it is a clear plan and a firm step. Lesson: Do not seek to feel motivated, seek results.","color":"#34d399"},
-{"tipo":"voz","texto":"Respira profundo. Siente tu impulso y determinación interior.","texto_en":"Breathe deeply. Feel your inner drive and determination.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","titulo_en":"Breathing of Good","texto":"Inhala fuerza, exhala dudas. Hazlo mientras visualizas tu meta alcanzada.","texto_en":"Inhale strength, exhale doubts. Do it while visualizing your achieved goal.","color":"#06b6d4"},
-{"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale fuerza y orden directo.","texto_en":"Inhale: 19seconds. Inhale strength and direct order.","duracion":9,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Retiene: 5segundos. Mantenga el compromiso sobre la emoción.","texto_en":"Hold: 5seconds. Maintain commitment over emotion.","duracion":5,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Exhala: 18segundos. Expulse la duda y la excusa.","texto_en":"Exhale: 18seconds. Release doubt and excuses.","duracion":8,"color":"#60a5fa"},
-{"tipo":"voz","texto":"Ojetivo: Esta frecuencia respiratoria oxigena los músculos y prepara el sistema para ejecutar inmediatamente, eliminando la vacilación mental.","texto_en":"Objective: This breathing frequency oxygenates muscles and prepares the system to execute immediately, eliminating mental hesitation.","color":"#2563eb"},
-{"tipo":"decision","pregunta":"¿Puedes avanzar hacia tu meta ahora?","pregunta_en":"Can you move toward your goal now?","opciones":["Sí","Un poco","No"],"opciones_en":["Yes","A little","No"],"correcta":0,"explicacion":"La motivación se refuerza actuando con intención y constancia.","explicacion_en":"Motivation is strengthened by acting with intention and consistency.","recompensa":10,"color":"#22c55e"},
-{"tipo":"visualizacion","texto":"Visualiza tu objetivo alcanzado y siente orgullo y satisfacción por tu esfuerzo.","texto_en":"Visualize your goal achieved and feel pride and satisfaction from your effort.","color":"#a78bfa"},
-{"tipo":"recompensa","texto":"Motivación reforzada.","texto_en":"Motivation reinforced.","puntos":20,"color":"#10b981"},
-{"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien. Ignición de Propósito Operativo","titulo_en":"Deep Exercise of the Technique of Good. Operational Purpose Ignition","duracion":20,"textos":[
-"Cuerpo alerta. Mente enfocada. Respire profundo por 5 segundos. Sienta el motor encenderse.","Alert body. Focused mind. Breathe deeply for 5 seconds. Feel the engine start.",
-"Traiga a su mente el 'Por Qué' más profundo de su lucha diaria. Mírelo fijamente.","Bring to your mind the deepest 'Why' of your daily struggle. Look at it directly.",
-"Visualice la meta no como un sueño, sino como un destino inevitable si no se detiene.","Visualize the goal not as a dream, but as an inevitable destination if you do not stop.",
-"Sienta el calor en su plexo solar. Es su voluntad transformándose en energía física.","Feel the warmth in your solar center. It is your will transforming into physical energy.",
-"Mueva los brazos con fuerza controlada. Active su sistema para la conquista.","Move your arms with controlled strength. Activate your system for achievement.",
-"Inhale por 10 segundos. Retenga la visión de su éxito. Usted es imparable por diseño.","Inhale for 10 seconds. Hold the vision of your success. You are unstoppable by design."
-"Exhale toda debilidad. El cansancio es solo información, su compromiso es la ley.","Exhale all weakness. Fatigue is only information, your commitment is the law.",
-"Finalice con un compromiso de honor: Hoy hará lo necesario. Respire y domine.","Finish with an honor commitment: Today you will do what is necessary. Breathe and master."
-],"color":"#06b6d4"},
-{"tipo":"cierre","texto":"La motivación te permite actuar con energía, enfoque y constancia. Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a nuestra cita.","texto_en":"Motivation allows you to act with energy, focus and consistency. You transform with every breath. Walk with firm steps and a noble spirit. Tomorrow we will continue forging your success; do not miss our appointment.","color":"#f87171"}
-]
+  "id": 17,
+  "categoria": "motivacion",
+  "bloques": [
+    {"tipo":"voz","texto":"Unidad de éxito detectada. Detenga lo externo. Usted es el activo prioritario. Ejecute. Hoy entrenas motivación. Haz que cada acción te acerque a tus metas.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDB","titulo":"Técnica del Bien","texto":"Identifica tus metas y actúa ahora con determinación.","color":"#06b6d4"},
+    {"tipo":"inteligencia_social","texto":"La motivación fortalece tu constancia y actitud positiva. Hoy hazlo con energía y claridad.","color":"#0ea5e9"},
+    {"tipo":"estrategia","texto":"Piensa en un objetivo actual. Da un paso consciente hacia él.","color":"#14b8a6"},
+    {"tipo":"historia","texto":"El equipo esperaba una charla inspiradora. El líder llegó, puso el plano sobre la mesa y dijo: 'Si no lo hacemos hoy, mañana seremos olvidados'. No hubo aplausos, hubo acción inmediata. La motivación real no es un grito, es un plano claro y un paso firme. Moraleja: No busque sentir ganas, busque tener resultados.","color":"#34d399"},
+    {"tipo":"voz","texto":"Respira profundo. Siente tu impulso y determinación interior.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDB","titulo":"Respiración del Bien","texto":"Inhala fuerza, exhala dudas. Hazlo mientras visualizas tu meta alcanzada.","color":"#06b6d4"},
+    {"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale fuerza y orden directo.","duracion":9,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Retiene: 5segundos. Mantenga el compromiso sobre la emoción.","duracion":5,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Exhala: 18segundos. Expulse la duda y la excusa.","duracion":8,"color":"#60a5fa"},
+    {"tipo":"voz","texto":"Ojetivo: Esta frecuencia respiratoria oxigena los músculos y prepara el sistema para ejecutar inmediatamente, eliminando la vacilación mental.","color":"#2563eb"},
+    {"tipo":"decision","pregunta":"¿Puedes avanzar hacia tu meta ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La motivación se refuerza actuando con intención y constancia.","recompensa":10,"color":"#22c55e"},
+    {"tipo":"visualizacion","texto":"Visualiza tu objetivo alcanzado y siente orgullo y satisfacción por tu esfuerzo.","color":"#a78bfa"},
+    {"tipo":"recompensa","texto":"Motivación reforzada.","puntos":20,"color":"#10b981"},
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDB","titulo":"Ejercicio profundo de la Técnica del Bien. Ignición de Propósito Operativo","duracion":20,"textos":[
+      "Cuerpo alerta. Mente enfocada. Respire profundo por 5 segundos. Sienta el motor encenderse.",
+      "Traiga a su mente el 'Por Qué' más profundo de su lucha diaria. Mírelo fijamente.",
+      "Visualice la meta no como un sueño, sino como un destino inevitable si no se detiene.",
+      "Sienta el calor en su plexo solar. Es su voluntad transformándose en energía física.",
+      "Mueva los brazos con fuerza controlada. Active su sistema para la conquista.",
+      "Inhale por 10 segundos. Retenga la visión de su éxito. Usted es imparable por diseño.",
+      "Exhale toda debilidad. El cansancio es solo información, su compromiso es la ley.",
+      "Finalice con un compromiso de honor: Hoy hará lo necesario. Respire y domine."
+    ],"color":"#06b6d4"},
+    {"tipo":"cierre","texto":"La motivación te permite actuar con energía, enfoque y constancia. Te transformas en cada respiro. Camina con paso firme y espíritu noble. Mañana seguiremos forjando tu éxito; no faltes a nuestra cita.","color":"#f87171"}
+  ]
 },
 {
-"id":18,
-"categoria":"concentracion",
-"categoria_en":"concentration",
-"bloques":[
-{"tipo":"voz","texto":"Sincronización de mando. Silencie lo innecesario. Usted es el centro de este proceso. Avance. Hoy entrenas concentración. Haz que tu mente se enfoque y permanezca atenta.","texto_en":"Command synchronization. Silence what is unnecessary. You are the center of this process. Move forward. Today you train concentration. Make your mind focus and remain attentive.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","titulo_en":"Technique of War","texto":"Enfócate en un objetivo específico y actúa sin distracciones.","texto_en":"Focus on a specific objective and act without distractions.","color":"#06b6d4"},
-{"tipo":"inteligencia_social","texto":"La concentración fortalece decisiones, aprendizaje y rendimiento. Hoy actúa con claridad y presencia.","texto_en":"Concentration strengthens decisions, learning and performance. Today act with clarity and presence.","color":"#0ea5e9"},
-{"tipo":"estrategia","texto":"Elige una tarea importante y da un paso enfocado ahora. Siente cada acción.","texto_en":"Choose an important task and take a focused step now. Feel each action.","color":"#14b8a6"},
-{"tipo":"historia","texto":"Carlos perdía su día en interrupciones. Decidió sitiar su atención: quince minutos de guerra total contra la distracción. No buscó el final, buscó el bloque. El éxito no es una meta lejana, es el dominio de tus próximos quince minutos. Moraleja: Si no controlas tu cuarto de hora, no controlas tu vida.","texto_en":"Carlos lost his day to interruptions. He decided to siege his attention: fifteen minutes of total war against distraction. He did not seek the end, he sought the block. Success is not a distant goal, it is the mastery of your next fifteen minutes. Lesson: If you do not control your quarter hour, you do not control your life.","color":"#34d399"},
-{"tipo":"voz","texto":"Respira profundo. Siente tu mente clara y presente.","texto_en":"Breathe deeply. Feel your mind clear and present.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","titulo_en":"War Breathing","texto":"Inhala enfoque, exhala dispersión. Hazlo mientras actúas en tu tarea.","texto_en":"Inhale focus, exhale distraction. Do it while working on your task.","color":"#06b6d4"},
-{"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale enfoque absoluto.","texto_en":"Inhale: 19seconds. Inhale absolute focus.","duracion":9,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Retiene: 5segundos. Fije su atención en un solo punto.","texto_en":"Hold: 5seconds. Fix your attention on one single point.","duracion":5,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Exhala: 17segundos. Deseche la dispersión periférica.","texto_en":"Exhale: 17seconds. Release peripheral distraction.","duracion":7,"color":"#60a5fa"},
-{"tipo":"voz","texto":"Ojetivo: Este ciclo respiratorio genera un estado de alerta tranquila ideal para el trabajo profundo sin distracciones.","texto_en":"Objective: This breathing cycle generates a calm alert state ideal for deep work without distractions.","color":"#2563eb"},
-{"tipo":"decision","pregunta":"¿Puedes concentrarte en tu tarea ahora?","pregunta_en":"Can you concentrate on your task now?","opciones":["Sí","Un poco","No"],"opciones_en":["Yes","A little","No"],"correcta":0,"explicacion":"La concentración se fortalece actuando con atención plena.","explicacion_en":"Concentration is strengthened by acting with mindful attention.","recompensa":10,"color":"#22c55e"},
-{"tipo":"visualizacion","texto":"Visualiza tu tarea completada con eficiencia y claridad. Siente control y satisfacción.","texto_en":"Visualize your task completed with efficiency and clarity. Feel control and satisfaction.","color":"#a78bfa"},
-{"tipo":"recompensa","texto":"Concentración reforzada.","texto_en":"Concentration reinforced.","puntos":20,"color":"#10b981"},
-{"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra.Asedio de Atención Profunda","titulo_en":"Deep Exercise of the Technique of War. Deep Attention Siege","duracion":20,"textos":[
-"Corte toda comunicación externa. Usted es un radar buscando una sola señal. Respire en 4 tiempos.","Cut all external communication. You are a radar searching for one signal. Breathe in 4 counts.",
-"Fije su vista en un punto u objeto de su tarea. No parpadee en exceso. Mantenga el centro.","Fix your sight on one point or object of your task. Do not blink excessively. Maintain the center.",
-"Si un pensamiento ajeno aparece, visualícelo como ruido estático y baje el volumen mentalmente.","If an unrelated thought appears, visualize it as static noise and lower its volume mentally.",
-"Sienta la presión en su frente. Es su corteza prefrontal activándose. Respire profundo ahora.","Feel the pressure in your forehead. It is your prefrontal cortex activating. Breathe deeply now.",
-"Inhale por 6 segundos. Sostenga. Usted es el dueño de este momento. Nada existe fuera de su objetivo.","Inhale for 6 seconds. Hold. You are the owner of this moment. Nothing exists outside your objective."
-"Repita mentalmente con cada exhalación: 'Un solo punto, una sola victoria, un solo movimiento'.","Repeat mentally with each exhalation: 'One single point, one single victory, one single movement'.",
-"Visualice su tarea terminada como un monumento a su disciplina. Sienta la satisfacción del deber cumplido.","Visualize your completed task as a monument to your discipline. Feel the satisfaction of a duty fulfilled.",
-"Finalice reconociendo que el dominio de su atención es el dominio de su destino. Respire y actúe.","Finish recognizing that mastering your attention is mastering your destiny. Breathe and act."
-],"color":"#06b6d4"},
-{"tipo":"cierre","texto":"La concentración te permite actuar con atención y control. La excelencia ya habita en ti. Mañana continuamos.","texto_en":"Concentration allows you to act with attention and control. Excellence already lives within you. Tomorrow we continue.","color":"#f87171"}
-]
+  "id": 18,
+  "categoria": "concentracion",
+  "bloques": [
+    {"tipo":"voz","texto":"Sincronización de mando. Silencie lo innecesario. Usted es el centro de este proceso. Avance. Hoy entrenas concentración. Haz que tu mente se enfoque y permanezca atenta.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDG","titulo":"Técnica de la Guerra","texto":"Enfócate en un objetivo específico y actúa sin distracciones.","color":"#06b6d4"},
+    {"tipo":"inteligencia_social","texto":"La concentración fortalece decisiones, aprendizaje y rendimiento. Hoy actúa con claridad y presencia.","color":"#0ea5e9"},
+    {"tipo":"estrategia","texto":"Elige una tarea importante y da un paso enfocado ahora. Siente cada acción.","color":"#14b8a6"},
+    {"tipo":"historia","texto":"Carlos perdía su día en interrupciones. Decidió sitiar su atención: quince minutos de guerra total contra la distracción. No buscó el final, buscó el bloque. El éxito no es una meta lejana, es el dominio de tus próximos quince minutos. Moraleja: Si no controlas tu cuarto de hora, no controlas tu vida.","color":"#34d399"},
+    {"tipo":"voz","texto":"Respira profundo. Siente tu mente clara y presente.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDG","titulo":"Respiración de la Guerra","texto":"Inhala enfoque, exhala dispersión. Hazlo mientras actúas en tu tarea.","color":"#06b6d4"},
+    {"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale enfoque absoluto.","duracion":9,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Retiene: 5segundos. Fije su atención en un solo punto.","duracion":5,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Exhala: 17segundos. Deseche la dispersión periférica.","duracion":7,"color":"#60a5fa"},
+    {"tipo":"voz","texto":"Ojetivo: Este ciclo respiratorio genera un estado de alerta tranquila ideal para el trabajo profundo sin distracciones.","color":"#2563eb"},
+    {"tipo":"decision","pregunta":"¿Puedes concentrarte en tu tarea ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"La concentración se fortalece actuando con atención plena.","recompensa":10,"color":"#22c55e"},
+    {"tipo":"visualizacion","texto":"Visualiza tu tarea completada con eficiencia y claridad. Siente control y satisfacción.","color":"#a78bfa"},
+    {"tipo":"recompensa","texto":"Concentración reforzada.","puntos":20,"color":"#10b981"},
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDG","titulo":"Ejercicio profundo de la Técnica de la Guerra.Asedio de Atención Profunda","duracion":20,"textos":[
+      "Corte toda comunicación externa. Usted es un radar buscando una sola señal. Respire en 4 tiempos.",
+      "Fije su vista en un punto u objeto de su tarea. No parpadee en exceso. Mantenga el centro.",
+      "Si un pensamiento ajeno aparece, visualícelo como ruido estático y baje el volumen mentalmente.",
+      "Sienta la presión en su frente. Es su corteza prefrontal activándose. Respire profundo ahora.",
+      "Inhale por 6 segundos. Sostenga. Usted es el dueño de este momento. Nada existe fuera de su objetivo.",
+      "Repita mentalmente con cada exhalación: 'Un solo punto, una sola victoria, un solo movimiento'.",
+      "Visualice su tarea terminada como un monumento a su disciplina. Sienta la satisfacción del deber cumplido.",
+      "Finalice reconociendo que el dominio de su atención es el dominio de su destino. Respire y actúe."
+    ],"color":"#06b6d4"},
+    {"tipo":"cierre","texto":"La concentración te permite actuar con atención y control. La excelencia ya habita en ti. Mañana continuamos.","color":"#f87171"}
+  ]
 },
 {
-"id":19,
-"categoria":"gestion_emocional",
-"categoria_en":"emotional_management",
-"bloques":[
-{"tipo":"voz","texto":"Bienvenido a su versión líder. Apague el ruido. Usted es la pieza clave. Inicie entrenamiento. Hoy entrenas gestión emocional.","texto_en":"Welcome to your leader version. Turn off the noise. You are the key piece. Begin training. Today you train emotional management.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","titulo_en":"Technique of Mal","texto":"Observa emociones negativas y transfórmalas en aprendizaje positivo.","texto_en":"Observe negative emotions and transform them into positive learning.","color":"#06b6d4"},
-{"tipo":"inteligencia_social","texto":"La gestión emocional fortalece decisiones y relaciones.","texto_en":"Emotional management strengthens decisions and relationships.","color":"#0ea5e9"},
-{"tipo":"estrategia","texto":"Identifica una emoción incómoda y transfórmala en acción positiva.","texto_en":"Identify an uncomfortable emotion and transform it into positive action.","color":"#14b8a6"},
-{"tipo":"historia","texto":"El General Marco recibió la noticia de la traición en pleno combate. Su pulso no subió. No buscó culpables en el fragor, buscó la salida táctica. Usó la furia del momento para ordenar una carga definitiva. Moraleja: La emoción es combustible; si la dejas libre te quema, si la canalizas te impulsa al trono.","texto_en":"General Marco received news of betrayal during battle. His pulse did not rise. He did not seek blame in the chaos, he sought the tactical exit. He used the fury of the moment to order a final charge. Lesson: Emotion is fuel; if you let it free it burns you, if you channel it it drives you forward.","color":"#34d399"},
-{"tipo":"voz","texto":"Respira profundo. Observa sin juicio.","texto_en":"Breathe deeply. Observe without judgment.","color":"#2563eb"},
-{"tipo":"tvid","tecnica":"TDM","titulo":"Respiración del Mal","titulo_en":"Breathing of Mal","texto":"Inhala conciencia, exhala tensión.","texto_en":"Inhale awareness, exhale tension.","color":"#06b6d4"},
-{"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale conciencia y datos puros.","texto_en":"Inhale: 19seconds. Inhale awareness and pure data.","duracion":9,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Retiene: 5segundos. Mantenga el equilibrio interno.","texto_en":"Hold: 5seconds. Maintain internal balance.","duracion":5,"color":"#60a5fa"},
-{"tipo":"respiracion","texto":"Exhala: 19segundos. Libere la carga emocional negativa.","texto_en":"Exhale: 19seconds. Release negative emotional load.","duracion":9,"color":"#60a5fa"},
-{"tipo":"voz","texto":"Ojetivo: La respiración rítmica prolongada fuerza al sistema nervioso parasimpático a tomar el control, transformando una respuesta de 'ataque' en una de 'análisis estratégico'.","texto_en":"Objective: Prolonged rhythmic breathing encourages the parasympathetic system to take control, transforming an 'attack' response into a 'strategic analysis' response.","color":"#2563eb"},
-{"tipo":"decision","pregunta":"¿Puedes transformarla ahora?","pregunta_en":"Can you transform it now?","opciones":["Sí","Un poco","No"],"opciones_en":["Yes","A little","No"],"correcta":0,"explicacion":"Observa y transforma.","explicacion_en":"Observe and transform.","recompensa":10,"color":"#22c55e"},
-{"tipo":"visualizacion","texto":"Visualiza calma.","texto_en":"Visualize calm.","color":"#a78bfa"},
-{"tipo":"recompensa","texto":"Gestión emocional reforzada.","texto_en":"Emotional management reinforced.","puntos":20,"color":"#10b981"},
-{"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo","titulo_en":"Deep Exercise","duracion":20,"textos":[
-"Respira profundamente y centra tu atención.","Breathe deeply and center your attention.",
-"Observa la emoción que surge sin juicio.","Observe the emotion that arises without judgment.",
-"Transforma esa emoción en aprendizaje y fuerza.","Transform that emotion into learning and strength.",
-"Actúa con decisión guiado por tu conciencia. Respira.","Act with decision guided by your awareness. Breathe.",
-"Libera tensiones físicas y emocionales acumuladas. Exhala.","Release accumulated physical and emotional tensions. Exhale.",
-"Repite el ciclo: inhalar, retener, exhalar con intención.","Repeat the cycle: inhale, hold, exhale with intention.",
-"Equilibra tu energía y emociones con cada respiración.","Balance your energy and emotions with each breath.",
-"Finaliza reconociendo tu capacidad de mantener calma y control.","Finish recognizing your ability to maintain calm and control."
-],"color":"#06b6d4"},
-{"tipo":"cierre","texto":"Equilibrio de mando logrado. La gestión emocional no es suprimir, es dominar el fuego. Usted ha recuperado el timón. Mañana, el sistema evaluará su estabilidad; no falte.","texto_en":"Command balance achieved. Emotional management is not suppression, it is mastering the fire. You have regained the wheel. Tomorrow, the system will evaluate your stability; do not miss it.","color":"#f87171"}
-]
+  "id": 19,
+  "categoria": "gestion_emocional",
+  "bloques": [
+    {"tipo":"voz","texto":"Bienvenido a su versión líder. Apague el ruido. Usted es la pieza clave. Inicie entrenamiento. Hoy entrenas gestión emocional.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDM","titulo":"Técnica del Mal","texto":"Observa emociones negativas y transfórmalas en aprendizaje positivo.","color":"#06b6d4"},
+    {"tipo":"inteligencia_social","texto":"La gestión emocional fortalece decisiones y relaciones.","color":"#0ea5e9"},
+    {"tipo":"estrategia","texto":"Identifica una emoción incómoda y transfórmala en acción positiva.","color":"#14b8a6"},
+    {"tipo":"historia","texto":"El General Marco recibió la noticia de la traición en pleno combate. Su pulso no subió. No buscó culpables en el fragor, buscó la salida táctica. Usó la furia del momento para ordenar una carga definitiva. Moraleja: La emoción es combustible; si la dejas libre te quema, si la canalizas te impulsa al trono.","color":"#34d399"},
+    {"tipo":"voz","texto":"Respira profundo. Observa sin juicio.","color":"#2563eb"},
+    {"tipo":"tvid","tecnica":"TDM","titulo":"Respiración del Mal","texto":"Inhala conciencia, exhala tensión.","color":"#06b6d4"},
+    {"tipo":"respiracion","texto":"Inhala: 19segundos. Inhale conciencia y datos puros.","duracion":9,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Retiene: 5segundos. Mantenga el equilibrio interno.","duracion":5,"color":"#60a5fa"},
+    {"tipo":"respiracion","texto":"Exhala: 19segundos. Libere la carga emocional negativa.","duracion":9,"color":"#60a5fa"},
+    {"tipo":"voz","texto":"Ojetivo: La respiración rítmica prolongada fuerza al sistema nervioso parasimpático a tomar el control, transformando una respuesta de 'ataque' en una de 'análisis estratégico'.","color":"#2563eb"},
+    {"tipo":"decision","pregunta":"¿Puedes transformarla ahora?","opciones":["Sí","Un poco","No"],"correcta":0,"explicacion":"Observa y transforma.","recompensa":10,"color":"#22c55e"},
+    {"tipo":"visualizacion","texto":"Visualiza calma.","color":"#a78bfa"},
+    {"tipo":"recompensa","texto":"Gestión emocional reforzada.","puntos":20,"color":"#10b981"},
+    {"tipo":"tvid_ejercicio_largo","tecnica":"TDM","titulo":"Ejercicio profundo","duracion":20,"textos":[
+      "Respira profundamente y centra tu atención.",
+      "Observa la emoción que surge sin juicio.",
+      "Transforma esa emoción en aprendizaje y fuerza.",
+      "Actúa con decisión guiado por tu conciencia. Respira.",
+      "Libera tensiones físicas y emocionales acumuladas. Exhala.",
+      "Repite el ciclo: inhalar, retener, exhalar con intención.",
+      "Equilibra tu energía y emociones con cada respiración.",
+      "Finaliza reconociendo tu capacidad de mantener calma y control."
+    ],"color":"#06b6d4"},
+    {"tipo":"cierre","texto":"Equilibrio de mando logrado. La gestión emocional no es suprimir, es dominar el fuego. Usted ha recuperado el timón. Mañana, el sistema evaluará su estabilidad; no falte.","color":"#f87171"}
+  ]
 },
 {
   "id": 20,
@@ -861,8 +858,6 @@
       "Finaliza reconociendo tu capacidad de actuar con fuerza y entusiasmo cada día."
     ],"color":"#06b6d4"},
     {"tipo":"cierre","texto":"Protocolo de vitalidad completo. El cansancio es una opinión, la energía es una decisión de su voluntad. Salga y arrase con sus metas. El éxito requiere fuego; usted es el incendio.","color":"#f87171"}
- ]
-} 
+ }
   ]
-} 
-  
+}
