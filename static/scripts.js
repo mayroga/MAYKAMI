@@ -217,17 +217,17 @@ function startBreathing(seconds = null, forceHold = false) {
     function loop() {
         if (engine.abort || (Date.now() - start >= duration)) return;
         circle.className = "inhale";
-        circle.textContent = t("inhale");
+        circle.textContent = "";
 
         safeTimeout(() => {
             if (forceHold) {
                 circle.className = "hold";
-                circle.textContent = t("hold");
+                circle.textContent = "";
             }
 
             safeTimeout(() => {
                 circle.className = "exhale";
-                circle.textContent = t("exhale");
+                circle.textContent = "";
                 safeTimeout(loop, cycle * 0.4);
             }, forceHold ? cycle * 0.2 : 0);
 
@@ -236,7 +236,6 @@ function startBreathing(seconds = null, forceHold = false) {
 
     loop();
 }
-
 async function typeText(text) {
     block.innerHTML = "";
     for (let i = 0; i < text.length; i++) {
