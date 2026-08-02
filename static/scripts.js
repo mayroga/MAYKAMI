@@ -191,15 +191,47 @@ function resetEngine() {
     startBreathing(null, false);
 }
 
-function speak(text) {
+function speakAndTypeSync(text) {
     return new Promise(resolve => {
         window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
+        
+        const cleanText = text.replace(/<[^>]*>/g, "");
+        block.innerHTML = "";
+
+        const utter = new SpeechSynthesisUtterance(cleanText);
         utter.lang = currentLang === "es" ? "es-ES" : "en-US";
         utter.rate = 0.88;
         utter.pitch = 0.95;
-        utter.onend = resolve;
-        utter.onerror = resolve;
+
+        let charIndex = 0;
+
+        utter.onboundary = (event) => {
+            if (event.name === "word") {
+                block.innerHTML = cleanText.substring(0, event.charIndex + event.charLength);
+            }
+        };
+
+        const fallbackInterval = setInterval(() => {
+            if (charIndex < cleanText.length) {
+                block.innerHTML += cleanText[charIndex];
+                charIndex++;
+            } else {
+                clearInterval(fallbackInterval);
+            }
+        }, 35);
+
+        utter.onend = () => {
+            clearInterval(fallbackInterval);
+            block.innerHTML = cleanText;
+            resolve();
+        };
+
+        utter.onerror = () => {
+            clearInterval(fallbackInterval);
+            block.innerHTML = cleanText;
+            resolve();
+        };
+
         window.speechSynthesis.speak(utter);
     });
 }
