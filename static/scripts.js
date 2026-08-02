@@ -168,79 +168,46 @@ let engine = {
 };
 
 let userData = JSON.parse(localStorage.getItem("maykamiData")) || {
-    sessionId: 1,
-    step: 0,
-    disciplina: 40
+    sessionId: 1,
+    step: 0,
+    disciplina: 40
 };
 
 let slideIndex = 0;
 
 function safeTimeout(fn, t) {
-    const id = setTimeout(() => {
-        engine.timers.delete(id);
-        fn();
-    }, t);
-    engine.timers.add(id);
+    const id = setTimeout(() => {
+        engine.timers.delete(id);
+        fn();
+    }, t);
+    engine.timers.add(id);
 }
 
 function resetEngine() {
-    engine.abort = true;
-    window.speechSynthesis.cancel();
-    engine.timers.forEach(t => clearTimeout(t));
-    engine.timers.clear();
-    startBreathing(null, false);
+    engine.abort = true;
+    window.speechSynthesis.cancel();
+    engine.timers.forEach(t => clearTimeout(t));
+    engine.timers.clear();
+    startBreathing(null, false);
 }
 
-function speakAndTypeSync(text) {
-    return new Promise(resolve => {
-        window.speechSynthesis.cancel();
-        
-        const cleanText = text.replace(/<[^>]*>/g, "");
-        block.innerHTML = "";
-
-        const utter = new SpeechSynthesisUtterance(cleanText);
-        utter.lang = currentLang === "es" ? "es-ES" : "en-US";
-        utter.rate = 0.88;
-        utter.pitch = 0.95;
-
-        let charIndex = 0;
-
-        utter.onboundary = (event) => {
-            if (event.name === "word") {
-                block.innerHTML = cleanText.substring(0, event.charIndex + event.charLength);
-            }
-        };
-
-        const fallbackInterval = setInterval(() => {
-            if (charIndex < cleanText.length) {
-                block.innerHTML += cleanText[charIndex];
-                charIndex++;
-            } else {
-                clearInterval(fallbackInterval);
-            }
-        }, 35);
-
-        utter.onend = () => {
-            clearInterval(fallbackInterval);
-            block.innerHTML = cleanText;
-            resolve();
-        };
-
-        utter.onerror = () => {
-            clearInterval(fallbackInterval);
-            block.innerHTML = cleanText;
-            resolve();
-        };
-
-        window.speechSynthesis.speak(utter);
-    });
+function speak(text) {
+    return new Promise(resolve => {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, ""));
+        utter.lang = currentLang === "es" ? "es-ES" : "en-US";
+        utter.rate = 0.88;
+        utter.pitch = 0.95;
+        utter.onend = resolve;
+        utter.onerror = resolve;
+        window.speechSynthesis.speak(utter);
+    });
 }
 
 function extractSeconds(text) {
-    const match = text.match(/(\d{1,3})\s*(segundos|seg|s|seconds)/i);
-    return match ? parseInt(match[1]) : null;
+    const match = text.match(/(\d{1,3})\s*(segundos|seg|s|seconds)/i);
+    return match ? parseInt(match[1]) : null;
 }
-
 function startBreathing(seconds = null, forceHold = false) {
     clearInterval(engine.breathLoop);
     const cycle = 3400;
