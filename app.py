@@ -104,8 +104,3 @@ async def get_sessions():
     except:
         return {"sesiones": []}
 
-# HEALTH CHECK — NO GEMINI / NO STRIPE / NO SESIÓN
-
-@app.get("/health")
-async def health():
-    return {"status": "ok"}
